@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-
+import { SearchOutlined, ShoppingCartOutlined, BellOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Input, Space } from 'antd';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,9 +16,21 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {/* navbar */}
-      <nav className='container flex justify-between items-center my-[18px]'>
+      <nav className='container flex justify-between items-center my-[18px] xl:container xl:my-[30px]'>
         <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
-        <div className='w-6 h-6 flex justify-center items-center'>
+        <ul className='flex space-x-5'>
+          <li className='flex items-center'>
+            <input type="text" name="" id="search" className='w-[180px] h-10 rounded-[50px] border-2 border-[#D4D2E3]'/>
+              <SearchOutlined style={{ fontSize: '20px', color: '#8D8BA7' }} />
+          </li>
+          <Button type="default" shape="circle" size='large' icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
+          <Button type="default" shape="circle" size='large' icon={<BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
+          <Button type="default" shape="circle" size='large' icon={<UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
+          <Button type="default" shape="round" size='large' style={{ fontSize: '14px', color: '#8D8BA7' }}>
+            尋找諮商師
+          </Button>
+        </ul>
+        <div className='w-6 h-6 flex justify-center items-center xl:hidden'>
           <div className='border-y-[#5D5A88] border-y-2 w-[18px] h-[10px]'></div>
         </div>
       </nav>
