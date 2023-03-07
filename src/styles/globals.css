@@ -16,3 +16,9 @@
     @apply text-2xl lg:text-4xl
   }
 }
+
+@layer base {
+  html {
+    font-family: 'Noto Sans', sans-serif;
+  }
+}
