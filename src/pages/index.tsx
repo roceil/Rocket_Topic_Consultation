@@ -1,9 +1,13 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { SearchOutlined, ShoppingCartOutlined, BellOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Input, Space } from 'antd';
-
+import {
+  SearchOutlined,
+  ShoppingCartOutlined,
+  BellOutlined,
+  UserOutlined
+} from '@ant-design/icons'
+import { Button, Input, Space } from 'antd'
 
 const fakeCounselorAry = [
   '#女性議題',
@@ -14,13 +18,12 @@ const fakeCounselorAry = [
   '#PTSD'
 ]
 
-
 function CounselorCard() {
   return (
     <div className='p-[36px]'>
       <div className='max-w-[244px] lg:max-w-[280px]'>
         {/* 這是圖片 */}
-        <div className='h-[244px] w-[244px] rounded bg-secondary lg:w-[280px] lg:h-[280px]'></div>
+        <div className='h-[244px] w-[244px] rounded bg-secondary lg:h-[280px] lg:w-[280px]'></div>
 
         {/* 諮商師名稱 */}
         <div className='flex items-center justify-between px-2'>
@@ -61,35 +64,71 @@ export default function Home() {
       </Head>
 
       {/* navbar */}
-      <nav className='container flex justify-between items-center my-[18px] xl:container xl:my-[30px]'>
-        <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
+      <nav className='container my-[18px] flex items-center justify-between xl:container xl:my-[30px]'>
+        <div className='text-2xl font-bold leading-normal text-[#5D5A88]'>
+          Logo
+        </div>
         <ul className='flex space-x-5'>
           <li className='flex items-center'>
-            <input type="text" name="" id="search" className='w-[180px] h-10 rounded-[50px] border-2 border-[#D4D2E3]'/>
-              <SearchOutlined style={{ fontSize: '20px', color: '#8D8BA7' }} />
+            <input
+              type='text'
+              name=''
+              id='search'
+              className='h-10 w-[180px] rounded-[50px] border-2 border-[#D4D2E3]'
+            />
+            <SearchOutlined style={{ fontSize: '20px', color: '#8D8BA7' }} />
           </li>
-          <Button type="default" shape="circle" size='large' icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-          <Button type="default" shape="circle" size='large' icon={<BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-          <Button type="default" shape="circle" size='large' icon={<UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-          <Button type="default" shape="round" size='large' style={{ fontSize: '14px', color: '#8D8BA7' }}>
+          <Button
+            type='default'
+            shape='circle'
+            size='large'
+            icon={
+              <ShoppingCartOutlined
+                style={{ fontSize: '20px', color: '#8D8BA7' }}
+              />
+            }
+          />
+          <Button
+            type='default'
+            shape='circle'
+            size='large'
+            icon={
+              <BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }} />
+            }
+          />
+          <Button
+            type='default'
+            shape='circle'
+            size='large'
+            icon={
+              <UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }} />
+            }
+          />
+          <Button
+            type='default'
+            shape='round'
+            size='large'
+            style={{ fontSize: '14px', color: '#8D8BA7' }}
+          >
             尋找諮商師
           </Button>
         </ul>
-        <div className='w-6 h-6 flex justify-center items-center xl:hidden'>
-          <div className='border-y-[#5D5A88] border-y-2 w-[18px] h-[10px]'></div>
+        <div className='flex h-6 w-6 items-center justify-center xl:hidden'>
+          <div className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'></div>
         </div>
       </nav>
-      <main className="container  w-screen h-screen xl:container">
-        <div className='flex h-full justify-center items-center'>
+      <main className='container  h-screen w-screen xl:container'>
+        <div className='flex h-full items-center justify-center'>
           <h1 className='text-6xl font-bold'>諮商平台的環境啦～～～</h1>
         </div>
+      </main>
 
       <main>
         {/* 推薦諮商師 */}
         <section className='bg-[#FAFAFF] '>
           <div className='container flex w-screen flex-col items-center  py-20 text-center'>
             <h2 className='font-bold text-primary-heavy '>推薦諮商師</h2>
-            <p className='mt-2 mb-3 text-primary lg:mt-3 lg:max-w-[612px] lg:text-lg lg:mb-[76px]'>
+            <p className='mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg'>
               Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
               phasellus mollis sit aliquam sit nullam.
             </p>
@@ -103,11 +142,7 @@ export default function Home() {
             </ul>
           </div>
         </section>
-
-
       </main>
     </>
   )
 }
-
-
