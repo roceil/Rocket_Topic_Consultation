@@ -34,6 +34,13 @@ module.exports = {
     extend: {
       fontSize:{
         "4xl-plus":"40px"
+      },
+      colors:{
+        "primary":"#8D8BA7",
+        "primary-light":"#FAFAFF",
+        "primary-heavy":"#5D5A88",
+        "secondary":"#D4D2E3",
+        "third":"#E7E6F1"
       }
     }
   },
