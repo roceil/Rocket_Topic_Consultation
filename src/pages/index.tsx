@@ -14,14 +14,17 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
+      {/* navbar */}
+      <nav className='container flex justify-between items-center my-[18px]'>
+        <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
+        <div className='w-6 h-6 flex justify-center items-center'>
+          <div className='border-y-[#5D5A88] border-y-2 w-[18px] h-[10px]'></div>
+        </div>
+      </nav>
       <main className="container  w-screen h-screen xl:container">
-
-
         <div className='flex h-full justify-center items-center'>
           <h1 className='text-6xl font-bold'>諮商平台的環境啦～～～</h1>
         </div>
-
-
       </main>
     </>
   )

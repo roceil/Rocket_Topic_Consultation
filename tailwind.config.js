@@ -15,7 +15,10 @@ module.exports = {
         DEFAULT: '24px',
         xl: '112px',
       },
-
+      fontFamily: {
+        'sans': ['Noto Sans', 'Noto Sans TC', 'sans-serif' ],
+        'serif': ['sans-serif']
+      }
     },
     screens: {
       'sm': '428px',
