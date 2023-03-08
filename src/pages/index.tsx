@@ -64,7 +64,7 @@ export default function Home() {
       </Head>
 
       {/* navbar */}
-      {/* <nav className='container my-[18px] flex items-center justify-between xl:container xl:my-[30px]'>
+      <nav className='container my-[18px] flex items-center justify-between xl:container xl:my-[30px]'>
         <div className='text-2xl font-bold leading-normal text-[#5D5A88]'>
           Logo
         </div>
@@ -121,7 +121,7 @@ export default function Home() {
         <div className='flex h-full items-center justify-center'>
           <h1 className='text-6xl font-bold'>諮商平台的環境啦～～～</h1>
         </div>
-      </main> */}
+      </main>
 
       <main>
         {/* 推薦諮商師 */}
