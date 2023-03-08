@@ -69,7 +69,7 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {/* navbar */}
-      <header className='my-[18px] lg:py-[30px] lg:shadow-gray-300 lg:shadow-md'>
+      <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-gray-300 lg:shadow-md'>
         <div className="container flex justify-between items-center">
           <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
           <div className='flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden'>
