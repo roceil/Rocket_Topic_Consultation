@@ -6,6 +6,9 @@
   * {
     @apply hover:duration-300
   }
+  html {
+    font-family: 'Noto Sans', sans-serif;
+  }
   body {
     @apply leading-normal
   }
@@ -13,12 +16,12 @@
     @apply text-4xl-plus lg:text-5xl
   }
   h2 {
-    @apply text-2xl lg:text-4xl
+    @apply text-2xl font-bold text-primary-heavy lg:text-4xl
   }
 }
 
-@layer base {
-  html {
-    font-family: 'Noto Sans', sans-serif;
+@layer components {
+  .subTitle {
+    @apply mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg
   }
 }
