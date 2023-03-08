@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined } from '@ant-design/icons'
-import { Button, Input, ConfigProvider } from 'antd';
+import { Button, Input, ConfigProvider, Checkbox } from 'antd';
 const { Search } = Input;
 const onSearch = (value: any) => console.log(value);
 const suffix = (
