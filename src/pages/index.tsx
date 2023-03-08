@@ -1,18 +1,24 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 
-import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined } from '@ant-design/icons'
-import { Button, Input, ConfigProvider, Checkbox } from 'antd';
-const { Search } = Input;
-const onSearch = (value: any) => console.log(value);
+import {
+  ShoppingCartOutlined,
+  BellOutlined,
+  UserOutlined,
+  AudioOutlined
+} from '@ant-design/icons'
+import { Button, Input, ConfigProvider, Checkbox } from 'antd'
+const { Search } = Input
+const onSearch = (value: any) => console.log(value)
 const suffix = (
   <AudioOutlined
     style={{
       fontSize: 16,
-      color: '#1890ff',
+      color: '#1890ff'
     }}
   />
-);
+)
 
 const fakeCounselorAry = [
   '#女性議題',
@@ -23,13 +29,12 @@ const fakeCounselorAry = [
   '#PTSD'
 ]
 
-
 function CounselorCard() {
   return (
     <div className='p-[36px]'>
       <div className='max-w-[244px] lg:max-w-[280px]'>
         {/* 這是圖片 */}
-        <div className='h-[244px] w-[244px] rounded bg-secondary lg:w-[280px] lg:h-[280px]'></div>
+        <div className='h-[244px] w-[244px] rounded bg-secondary lg:h-[280px] lg:w-[280px]'></div>
 
         {/* 諮商師名稱 */}
         <div className='flex items-center justify-between px-2'>
@@ -69,51 +74,98 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {/* navbar */}
-      <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-gray-300 lg:shadow-md'>
-        <div className="container flex justify-between items-center">
-          <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
+      <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-md lg:shadow-gray-300'>
+        <div className='container flex items-center justify-between'>
+          <div className='text-2xl font-bold leading-normal text-[#5D5A88]'>
+            Logo
+          </div>
           <div className='flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden'>
             <div className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'></div>
           </div>
           {/* PC 版導覽列 */}
-          <ul className='flex space-x-5 items-center hidden lg:block'>
-            < ConfigProvider
-              theme = { {
-                token :{
-                  colorPrimary : '#D4D2E3' ,
+          <ul className='flex hidden items-center space-x-5 lg:block'>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#D4D2E3',
                   borderRadius: 100,
-                  colorBorder: '#D4D2E3',
+                  colorBorder: '#D4D2E3'
                 },
-                components : { 
-                } ,
-              } }
+                components: {}
+              }}
             >
-              <Search placeholder="input search text" onSearch={onSearch} size='large' 
-              style={{width: 180}} />
-              <Button type="default" shape="circle" size='large' icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-              <Button type="default" shape="circle" size='large' icon={<BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-              <Button type="default" shape="circle" size='large' icon={<UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-            </ ConfigProvider >
-            <input type="button" value="尋找諮商師" className='text-[14px] font-bold text-white
-          bg-primary-heavy py-3 px-6 rounded-[50px]'/>
+              <Search
+                placeholder='input search text'
+                onSearch={onSearch}
+                size='large'
+                style={{ width: 180 }}
+              />
+              <Button
+                type='default'
+                shape='circle'
+                size='large'
+                icon={
+                  <ShoppingCartOutlined
+                    style={{ fontSize: '20px', color: '#8D8BA7' }}
+                  />
+                }
+              />
+              <Button
+                type='default'
+                shape='circle'
+                size='large'
+                icon={
+                  <BellOutlined
+                    style={{ fontSize: '20px', color: '#8D8BA7' }}
+                  />
+                }
+              />
+              <Button
+                type='default'
+                shape='circle'
+                size='large'
+                icon={
+                  <UserOutlined
+                    style={{ fontSize: '20px', color: '#8D8BA7' }}
+                  />
+                }
+              />
+            </ConfigProvider>
+            <input
+              type='button'
+              value='尋找諮商師'
+              className='rounded-[50px] bg-primary-heavy py-3
+          px-6 text-[14px] font-bold text-white'
+            />
           </ul>
         </div>
       </header>
       {/* Banner */}
-      <main className="container xl:container lg:flex lg:justify-between lg:my-[128px]">
-        <section className='flex flex-col justify-center items-center mt-10 text-center lg:items-start lg:mt-0'>
+      <main className='container xl:container lg:my-[128px] lg:flex lg:justify-between'>
+        <section className='mt-10 flex flex-col items-center justify-center text-center lg:mt-0 lg:items-start'>
           <h1 className='text-5xl font-bold text-primary-heavy'>Slogan</h1>
-          <p className='mt-5 text-primary text-[14px] lg:max-w-[612px] lg:text-lg lg:mt-[84px] lg:text-left'>
-              Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
-              phasellus mollis sit aliquam sit nullam.
+          <p className='mt-5 text-[14px] text-primary lg:mt-[84px] lg:max-w-[612px] lg:text-left lg:text-lg'>
+            Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
+            phasellus mollis sit aliquam sit nullam.
           </p>
-          <ul className='space-x-6 mt-10 lg:mt-[52px]'>
-            <input type="button" value="尋找專屬諮商師" className='text-base bg-primary-heavy text-white font-bold py-5 px-9 rounded-[50px]'/>
-            <input type="button" value="立即註冊" className='text-base bg-white text-primary-heavy font-bold border-primary-heavy border-2 py-5 px-9 rounded-[50px]'/>
+          <ul className='mt-10 space-x-6 lg:mt-[52px]'>
+            <Link href="CounselorList">
+              <input
+                type='button'
+                value='尋找專屬諮商師'
+                className='rounded-[50px] bg-primary-heavy py-5 px-9 text-base font-bold text-white cursor-pointer'
+              />
+            </Link>
+
+            <input
+              type='button'
+              value='立即註冊'
+              className='rounded-[50px] border-2 border-primary-heavy bg-white py-5 px-9 text-base font-bold text-primary-heavy'
+            />
           </ul>
         </section>
         <section className='flex lg:w-[608px] lg:justify-end'>
-          <div className='mt-9 bg-primary-light w-[380px] h-[380px] rounded-[24px] text-center mb-[60px] lg:w-[556px] lg:h-[556px] lg:my-0'>
+          <div className='mt-9 mb-[60px] h-[380px] w-[380px] rounded-[24px] bg-primary-light text-center lg:my-0 lg:h-[556px] lg:w-[556px]'>
             image
           </div>
         </section>
@@ -227,7 +279,7 @@ export default function Home() {
         <section className='bg-[#FAFAFF] '>
           <div className='container flex w-screen flex-col items-center  py-20 text-center'>
             <h2 className='font-bold text-primary-heavy '>推薦諮商師</h2>
-            <p className='mt-2 mb-3 text-primary lg:mt-3 lg:max-w-[612px] lg:text-lg lg:mb-[76px]'>
+            <p className='mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg'>
               Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
               phasellus mollis sit aliquam sit nullam.
             </p>
@@ -241,8 +293,6 @@ export default function Home() {
             </ul>
           </div>
         </section>
-
-
 
         {/* 預約教學 */}
         <section className='bg-[#FAFAFF]'>
@@ -292,5 +342,3 @@ export default function Home() {
     </>
   )
 }
-
-
