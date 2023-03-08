@@ -1,9 +1,18 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { SearchOutlined, ShoppingCartOutlined, BellOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Input, Space } from 'antd';
-
+import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined } from '@ant-design/icons'
+import { Button, Input, ConfigProvider } from 'antd';
+const { Search } = Input;
+const onSearch = (value: any) => console.log(value);
+const suffix = (
+  <AudioOutlined
+    style={{
+      fontSize: 16,
+      color: '#1890ff',
+    }}
+  />
+);
 
 const fakeCounselorAry = [
   '#女性議題',
@@ -59,31 +68,56 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-
       {/* navbar */}
-      <nav className='container flex justify-between items-center my-[18px] xl:container xl:my-[30px]'>
-        <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
-        <ul className='flex space-x-5'>
-          <li className='flex items-center'>
-            <input type="text" name="" id="search" className='w-[180px] h-10 rounded-[50px] border-2 border-[#D4D2E3]'/>
-              <SearchOutlined style={{ fontSize: '20px', color: '#8D8BA7' }} />
-          </li>
-          <Button type="default" shape="circle" size='large' icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-          <Button type="default" shape="circle" size='large' icon={<BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-          <Button type="default" shape="circle" size='large' icon={<UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
-          <Button type="default" shape="round" size='large' style={{ fontSize: '14px', color: '#8D8BA7' }}>
-            尋找諮商師
-          </Button>
-        </ul>
-        <div className='w-6 h-6 flex justify-center items-center xl:hidden'>
-          <div className='border-y-[#5D5A88] border-y-2 w-[18px] h-[10px]'></div>
+      <header className='my-[18px] lg:py-[30px] lg:shadow-gray-300 lg:shadow-md'>
+        <div className="container flex justify-between items-center">
+          <div className='text-2xl text-[#5D5A88] font-bold leading-normal'>Logo</div>
+          <div className='flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden'>
+            <div className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'></div>
+          </div>
+          {/* PC 版導覽列 */}
+          <ul className='flex space-x-5 items-center hidden lg:block'>
+            < ConfigProvider
+              theme = { {
+                token :{
+                  colorPrimary : '#D4D2E3' ,
+                  borderRadius: '50px',
+                  colorBorder: '#D4D2E3',
+                },
+                components : { 
+                } ,
+              } }
+            >
+              <Search placeholder="input search text" onSearch={onSearch} size='large' 
+              style={{width: 180}} className="!rounded-none"/>
+              <Button type="default" shape="circle" size='large' icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
+              <Button type="default" shape="circle" size='large' icon={<BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
+              <Button type="default" shape="circle" size='large' icon={<UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
+            </ ConfigProvider >
+            <input type="button" value="尋找諮商師" className='text-[14px] font-bold text-white
+          bg-primary-heavy py-3 px-6 rounded-[50px]'/>
+          </ul>
         </div>
-      </nav>
-      <main className="container  w-screen h-screen xl:container">
-        <div className='flex h-full justify-center items-center'>
-          <h1 className='text-6xl font-bold'>諮商平台的環境啦～～～</h1>
-        </div>
-
+      </header>
+      {/* Banner */}
+      <main className="container xl:container lg:flex lg:justify-between lg:my-[128px]">
+        <section className='flex flex-col justify-center items-center mt-10 text-center lg:items-start lg:mt-0'>
+          <h1 className='text-5xl font-bold text-primary-heavy'>Slogan</h1>
+          <p className='mt-5 text-primary text-[14px] lg:max-w-[612px] lg:text-lg lg:mt-[84px] lg:text-left'>
+              Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
+              phasellus mollis sit aliquam sit nullam.
+          </p>
+          <ul className='space-x-6 mt-10 lg:mt-[52px]'>
+            <input type="button" value="尋找專屬諮商師" className='text-base bg-primary-heavy text-white font-bold py-5 px-9 rounded-[50px]'/>
+            <input type="button" value="立即註冊" className='text-base bg-white text-primary-heavy font-bold border-primary-heavy border-2 py-5 px-9 rounded-[50px]'/>
+          </ul>
+        </section>
+        <section className='flex lg:w-[608px] lg:justify-end'>
+          <div className='mt-9 bg-primary-light w-[380px] h-[380px] rounded-[24px] text-center mb-[60px] lg:w-[556px] lg:h-[556px] lg:my-0'>
+            image
+          </div>
+        </section>
+      </main>
       <main>
         {/* 推薦諮商師 */}
         <section className='bg-[#FAFAFF] '>
