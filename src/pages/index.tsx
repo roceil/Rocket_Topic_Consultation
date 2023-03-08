@@ -81,7 +81,7 @@ export default function Home() {
               theme = { {
                 token :{
                   colorPrimary : '#D4D2E3' ,
-                  borderRadius: '50px',
+                  borderRadius: 100,
                   colorBorder: '#D4D2E3',
                 },
                 components : { 
@@ -89,7 +89,7 @@ export default function Home() {
               } }
             >
               <Search placeholder="input search text" onSearch={onSearch} size='large' 
-              style={{width: 180}} className="!rounded-none"/>
+              style={{width: 180}} />
               <Button type="default" shape="circle" size='large' icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
               <Button type="default" shape="circle" size='large' icon={<BellOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
               <Button type="default" shape="circle" size='large' icon={<UserOutlined style={{ fontSize: '20px', color: '#8D8BA7' }}/>} />
