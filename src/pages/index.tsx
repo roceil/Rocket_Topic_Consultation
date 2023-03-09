@@ -368,7 +368,7 @@ export default function Home() {
 
             <div className='flex flex-col items-center'>
               {/* 第一條 */}
-              <ul className='lg: min-w-screen flex flex-col items-center justify-center space-y-[37px] lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-14 lg:px-8'>
+              <ul className='lg: min-w-screen flex flex-col items-center justify-center space-y-[37px] px-6 lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-14 lg:px-8'>
                 <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
                   <div className='flex items-center justify-center space-x-4'>
                     {/* 這是圖片 */}
