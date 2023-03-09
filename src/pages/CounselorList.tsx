@@ -54,7 +54,7 @@ const handleChange1 = (value: string) => {
 }
 export default function CounselorList() {
   return (
-    <main>
+    <>
       {/* navbar  => 要拔掉*/}
       <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-md lg:shadow-gray-300'>
         <div className='container flex items-center justify-between'>
@@ -510,6 +510,6 @@ export default function CounselorList() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }
