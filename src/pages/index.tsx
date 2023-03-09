@@ -188,7 +188,7 @@ export default function Home() {
       <main>
         {/* 客製化諮商主題 */}
         <section>
-          <div className='container flex w-screen flex-col items-center  py-20 text-center lg:py-[100px]'>
+          <div className='px-[12px] flex w-screen flex-col items-center jb  pt-20 pb-8 text-center lg:pt-[100px] lg:pb-[124px]'>
             <h2>客製化諮商主題</h2>
             <p className='subTitle'>
               Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
@@ -196,9 +196,8 @@ export default function Home() {
             </p>
 
             {/* 卡片 */}
-
-            <ul className='mt-[34px] flex flex-wrap items-center justify-center gap-x-5 gap-y-10 lg:gap-x-8 lg:gap-y-12'>
-              <li className='w-[180px] lg:w-[316px]'>
+            <ul className='mt-[34px] flex flex-wrap items-center w-[366px] justify-around lg:w-[1012px]'>
+              <li className='w-[180px] lg:w-[316px] mb-10'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
 
@@ -213,7 +212,7 @@ export default function Home() {
                 </div>
               </li>
 
-              <li className='w-[180px] lg:w-[316px]'>
+              <li className='w-[180px] lg:w-[316px] mb-10'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
 
@@ -228,7 +227,7 @@ export default function Home() {
                 </div>
               </li>
 
-              <li className='w-[180px] lg:w-[316px]'>
+              <li className='w-[180px] lg:w-[316px] mb-10'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
 
@@ -243,7 +242,7 @@ export default function Home() {
                 </div>
               </li>
 
-              <li className='w-[180px] lg:w-[316px]'>
+              <li className='w-[180px] lg:w-[316px] mb-10'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
 
@@ -258,7 +257,7 @@ export default function Home() {
                 </div>
               </li>
 
-              <li className='w-[180px] lg:w-[316px]'>
+              <li className='w-[180px] lg:w-[316px] mb-10'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
 
@@ -273,7 +272,7 @@ export default function Home() {
                 </div>
               </li>
 
-              <li className='w-[180px] lg:w-[316px]'>
+              <li className='w-[180px] lg:w-[316px] mb-10'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
 
@@ -356,7 +355,7 @@ export default function Home() {
         </section>
 
         {/* 用戶好評 */}
-        <section className=' bg-bg1'>
+        <section className='overflow-hidden bg-bg1'>
           <div className='py-20 text-center'>
             <div className='flex flex-col items-center'>
               <h2 className='mb-[49px] lg:mb-3'>用戶好評</h2>
@@ -608,7 +607,7 @@ export default function Home() {
                 <h2 className='mb-9 lg:mt-[68px] lg:text-left'>預約教學</h2>
               </div>
 
-              <ul className='flex flex-col items-center gap-y-8 lg:w-[704px] lg:flex-row lg:flex-wrap  lg:items-start lg:justify-between lg:gap-y-0'>
+              <ul className='flex flex-col items-center lg:w-[704px] lg:flex-row lg:flex-wrap  lg:items-start lg:justify-between'>
                 <li className='flex w-[280px] flex-col items-center lg:-mb-11 lg:w-[328px]'>
                   {/* 這裡是圖片 */}
                   <div className='h-[360px] w-[280px] rounded bg-secondary lg:block lg:h-[415px] lg:w-full'></div>
@@ -617,7 +616,7 @@ export default function Home() {
                   </p>
                 </li>
 
-                <li className='flex w-[280px] flex-col items-center lg:mt-[182px] lg:mb-11 lg:w-[328px]'>
+                <li className='flex w-[280px] flex-col items-center lg:mt-[182px] lg:mb-11 lg:w-[328px] mt-8'>
                   {/* 這裡是圖片 */}
                   <div className='h-[360px] w-[280px] rounded bg-secondary lg:block lg:h-[415px] lg:w-full'></div>
                   <p className='mt-1 w-full text-left text-xl font-bold text-primary-heavy lg:mt-3'>
@@ -625,7 +624,7 @@ export default function Home() {
                   </p>
                 </li>
 
-                <li className='flex w-[280px] flex-col items-center lg:!mt-[-182px] lg:w-[328px]'>
+                <li className='flex w-[280px] flex-col items-center lg:mt-[-182px] lg:w-[328px] mt-8'>
                   {/* 這裡是圖片 */}
                   <div className='h-[360px] w-[280px] rounded bg-secondary lg:block lg:h-[415px] lg:w-full'></div>
                   <p className='mt-1 w-full text-left text-xl font-bold text-primary-heavy lg:mt-3'>
@@ -633,7 +632,7 @@ export default function Home() {
                   </p>
                 </li>
 
-                <li className='flex w-[280px] flex-col items-center lg:w-[328px] '>
+                <li className='flex w-[280px] flex-col items-center lg:w-[328px] mt-8'>
                   {/* 這裡是圖片 */}
                   <div className='h-[360px] w-[280px] rounded bg-secondary lg:block lg:h-[415px] lg:w-full'></div>
                   <p className='mt-1 w-full text-left text-xl font-bold text-primary-heavy lg:mt-3'>
