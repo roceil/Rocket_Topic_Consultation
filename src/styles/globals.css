@@ -25,3 +25,88 @@
     @apply mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg
   }
 }
+<<<<<<< Updated upstream
+=======
+
+/* 篩選主題器膠囊 */
+.selectTopic .ant-select-selector {
+  border-radius: 24px !important;
+  border: none !important;
+  background-color: #d4d2e3 !important;
+  padding: 6px 20px !important;
+}
+
+/* 篩選主題器標籤膠囊 */
+.selectTopic .ant-select-selection-item {
+  border-radius: 24px !important;
+  background-color: white !important;
+}
+
+/* 篩選主題器標籤文字 */
+.selectTopic .ant-select-selection-item-content {
+  font-size: 12px !important;
+}
+
+/* 篩選主題器icon */
+.selectTopic .ant-select-arrow,
+.selectTopic .ant-select-clear {
+  display: none !important;
+}
+
+/* 分頁前後頁按鈕 */
+.ant-pagination-disabled .ant-pagination-item-link {
+  border: 1px solid #bcbacd !important;
+  border-radius: 100% !important;
+}
+.ant-pagination-item-link {
+  border: 1px solid #5d5a88 !important;
+  border-radius: 100% !important;
+}
+.ant-pagination-disabled .ant-pagination-item-link .anticon-left,
+.ant-pagination-disabled .ant-pagination-item-link .anticon-right {
+  color: #bcbacd !important;
+}
+.anticon-left,
+.anticon-right {
+  color: #5d5a88 !important;
+}
+
+/* 搜尋元件(輸入框) */
+.search .ant-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 搜尋元件(選單) */
+.search .ant-select {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border: 1px solid #767494;
+  border-radius: 24px;
+}
+.search .ant-select .ant-select-selector {
+  border: none;
+  padding: 0;
+}
+.search .ant-select .ant-select-arrow {
+  color: #767494;
+  padding: 0 24px 0 0;
+}
+.search .ant-select .ant-select-selector .ant-select-selection-item {
+  font-weight: bold;
+  color: #767494;
+}
+
+/* 分頁頁碼 */
+.ant-pagination-item {
+  border: none !important;
+}
+.ant-pagination-item a {
+  color: #5d5a88 !important;
+}
+.ant-pagination-item-active a {
+  text-decoration: underline !important;
+}
+>>>>>>> Stashed changes

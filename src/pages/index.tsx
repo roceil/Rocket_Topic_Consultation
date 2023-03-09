@@ -197,7 +197,7 @@ export default function Home() {
 
             {/* 卡片 */}
 
-            <ul className='mt-[34px] flex flex-wrap items-center justify-center gap-x-5 gap-y-10'>
+            <ul className='mt-[34px] flex flex-wrap items-center justify-center gap-x-5 gap-y-10 lg:gap-x-8 lg:gap-y-12'>
               <li className='w-[180px] lg:w-[316px]'>
                 {/* 這是圖片 */}
                 <div className='h-[180px] w-[180px] rounded-t-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px]'></div>
@@ -290,6 +290,7 @@ export default function Home() {
             </ul>
           </div>
         </section>
+
         {/* 推薦諮商師 */}
         <section className='bg-[#FAFAFF] '>
           <div className='container flex w-screen flex-col items-center  py-20 text-center'>
@@ -308,6 +309,7 @@ export default function Home() {
             </ul>
           </div>
         </section>
+
         {/* 平台特色 */}
         <section>
           <div className='container py-20 text-center lg:flex lg:justify-center lg:space-x-[216px] lg:py-[157px]'>
@@ -321,7 +323,7 @@ export default function Home() {
               </p>
             </div>
 
-            <ul className='flex flex-wrap'>
+            <ul className='flex flex-wrap lg:w-[546px]'>
               <li className='flex w-1/2 flex-col items-center justify-center  border-b border-secondary p-6 text-primary-heavy'>
                 <h3 className='mb-2 text-lg  font-bold lg:text-[28px]'>
                   客製化
@@ -364,237 +366,240 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 第一條 */}
-            <ul className='lg: min-w-screen flex flex-col items-center justify-center space-y-[37px] px-6 lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-14 lg:px-8'>
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+            <div className='flex flex-col items-center'>
+              {/* 第一條 */}
+              <ul className='lg: min-w-screen flex flex-col items-center justify-center space-y-[37px] px-6 lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-14 lg:px-8'>
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
 
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
-                      </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
                         </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
-                  </div>
-                </div>
-              </li>
-
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
-
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
                       </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
-                        </p>
-                      </div>
                     </div>
-
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
 
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
+                        </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
                       </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
-                        </p>
-                      </div>
                     </div>
-
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:hidden lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
 
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
+                        </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
                       </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
-                        </p>
-                      </div>
                     </div>
-
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </li>
 
-            {/* 第二條 */}
-            <ul className='lg: min-w-screen hidden flex-col items-center justify-center space-y-[37px] lg:mt-14 lg:flex lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-14 lg:pl-[120px]'>
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:hidden lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
 
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
+                        </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
                       </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
-                        </p>
-                      </div>
                     </div>
-
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
                   </div>
-                </div>
-              </li>
+                </li>
+              </ul>
 
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+              {/* 第二條 */}
+              <ul className='lg: min-w-screen hidden flex-col items-center justify-center space-y-[37px] lg:mt-14 lg:flex lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-14 lg:pl-[120px]'>
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
 
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
+                        </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
                       </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
-                        </p>
-                      </div>
                     </div>
-
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
-                <div className='flex items-center justify-center space-x-4'>
-                  {/* 這是圖片 */}
-                  <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
 
-                  {/* 用戶名稱及評價 */}
-                  <div className=''>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-xl font-bold text-primary-heavy'>
-                        家洋
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
+                        </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
                       </p>
-                      <div className='flex space-x-2'>
-                        <Image
-                          src={star}
-                          width={20}
-                          height={19}
-                          alt='rate_star'
-                        />
-                        <p className='items-center justify-center font-bold text-primary'>
-                          5.0
-                        </p>
-                      </div>
                     </div>
-
-                    {/* 評價內容 */}
-                    <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
-                      平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
-                    </p>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </li>
+
+                <li className='h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14'>
+                  <div className='flex items-center justify-center space-x-4'>
+                    {/* 這是圖片 */}
+                    <div className='h-[72px] w-[72px] rounded-full bg-secondary'></div>
+
+                    {/* 用戶名稱及評價 */}
+                    <div className=''>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-xl font-bold text-primary-heavy'>
+                          家洋
+                        </p>
+                        <div className='flex space-x-2'>
+                          <Image
+                            src={star}
+                            width={20}
+                            height={19}
+                            alt='rate_star'
+                          />
+                          <p className='items-center justify-center font-bold text-primary'>
+                            5.0
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 評價內容 */}
+                      <p className='mt-2 max-w-[210px] text-left text-sm text-[#767494]'>
+                        平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
+
         {/* 預約教學 */}
         <section className='bg-[#FAFAFF]'>
           <div className='container py-20 text-center lg:py-[180px]'>
@@ -603,7 +608,7 @@ export default function Home() {
                 <h2 className='mb-9 lg:mt-[68px] lg:text-left'>預約教學</h2>
               </div>
 
-              <ul className='flex flex-col items-center lg:w-[704px] lg:flex-row lg:flex-wrap  lg:items-start lg:justify-between'>
+              <ul className='flex flex-col items-center gap-y-8 lg:w-[704px] lg:flex-row lg:flex-wrap  lg:items-start lg:justify-between lg:gap-y-0'>
                 <li className='flex w-[280px] flex-col items-center lg:-mb-11 lg:w-[328px]'>
                   {/* 這裡是圖片 */}
                   <div className='h-[360px] w-[280px] rounded bg-secondary lg:block lg:h-[415px] lg:w-full'></div>
