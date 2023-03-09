@@ -159,7 +159,7 @@ export default function Home() {
         </div>
       </header>
       {/* Banner */}
-      <main className='container xl:container lg:my-[128px] lg:flex lg:justify-between'>
+      <main className='container lg:container lg:my-[128px] lg:flex lg:justify-between'>
         <section className='mt-10 flex flex-col items-center justify-center text-center lg:mt-0 lg:items-start'>
           <h1 className='text-5xl font-bold text-primary-heavy'>Slogan</h1>
           <p className='mt-5 text-[14px] text-primary lg:mt-[84px] lg:max-w-[612px] lg:text-left lg:text-lg'>
@@ -645,7 +645,7 @@ export default function Home() {
         </section>
       </main>
       {/* Footer */}
-      <footer className='lg:py-[72px] lg:shadow-md lg:shadow-gray-300'>
+      <footer className='lg:py-[72px] footer-shadow'>
         {/* PC Footer */}
         <div className='hidden lg:block'>
           <div className='container flex h-[217px] w-[1056px] justify-between p-0'>
@@ -720,9 +720,7 @@ export default function Home() {
             >
               <Collapse
                 bordered={false}
-                expandIconPosition='end'
-                expandIcon={() => <PlusOutlined />}
-              >
+                expandIconPosition='end'>
                 <Panel header='會員中心' key='1' style={panelStyle}>
                   {text}
                 </Panel>
