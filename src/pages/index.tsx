@@ -356,7 +356,7 @@ export default function Home() {
         </section>
 
         {/* 用戶好評 */}
-        <section className=' bg-bg1'>
+        <section className='overflow-hidden bg-bg1'>
           <div className='py-20 text-center'>
             <div className='flex flex-col items-center'>
               <h2 className='mb-[49px] lg:mb-3'>用戶好評</h2>
