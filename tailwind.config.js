@@ -40,7 +40,8 @@ module.exports = {
         "primary-light":"#FAFAFF",
         "primary-heavy":"#5D5A88",
         "secondary":"#D4D2E3",
-        "third":"#E7E6F1"
+        "third":"#E7E6F1",
+        "bg1":"#F2F1FA"
       }
     }
   },
