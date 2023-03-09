@@ -107,3 +107,8 @@
 .ant-pagination-item-active a {
   text-decoration: underline !important;
 }
+
+/* Footer */
+.footer-shadow {
+  box-shadow:  0 -1px 5px 2px rgba(0, 0, 0, 0.06);
+}
