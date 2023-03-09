@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined } from '@ant-design/icons'
-import { Button, Input, ConfigProvider, Checkbox } from 'antd';
+import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Input, ConfigProvider, Collapse } from 'antd';
+
+// Header - input 元件(PC)
 const { Search } = Input;
 const onSearch = (value: any) => console.log(value);
 const suffix = (
@@ -12,6 +14,15 @@ const suffix = (
       color: '#1890ff',
     }}
   />
+);
+
+// Footer - 折疊元件(Mobile)
+const { Panel } = Collapse;
+const text = (
+  <p style={{ paddingLeft: 24, color: '#9795B5', fontSize: '14px'}}>
+    A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found
+    as a welcome guest in many households across the world.
+  </p>
 );
 
 const fakeCounselorAry = [
@@ -60,6 +71,13 @@ function CounselorCard() {
 }
 
 export default function Home() {
+
+  const panelStyle = {
+    background: '#FFF',
+    colorPrimary: '#9795B5',
+    fontSize: '16px',
+  };
+
   return (
     <>
       <Head>
@@ -241,9 +259,6 @@ export default function Home() {
             </ul>
           </div>
         </section>
-
-
-
         {/* 預約教學 */}
         <section className='bg-[#FAFAFF]'>
           <div className='container py-20 text-center lg:py-[180px]'>
@@ -289,6 +304,90 @@ export default function Home() {
           </div>
         </section>
       </main>
+      {/* Footer */}
+      <footer className='lg:shadow-gray-300 lg:shadow-md lg:py-[72px]'>
+        {/* PC Footer */}
+        <div className='hidden lg:block'>
+          <div className='container h-[217px] w-[1056px] flex justify-between p-0'>
+            {/* Logo & copy right */}
+            <section className='flex flex-col justify-between'>
+              <h2 className='text-[24px]'>Logo</h2>
+              <div>
+                <p className='text-[14px] text-[#9795B5] leading-normal'>Copyright © 2023 xxxxxxxxxxx</p>
+                <p className='text-[14px] text-[#9795B5] leading-normal'>All Rights Reserved</p>
+              </div>
+            </section>
+            {/* Footers */}
+            <div className='flex space-x-[120px]'>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>會員中心</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>個人資料</li>
+                  <li className='text-[#9795B5] text-[14px]'>預約記錄</li>
+                  <li className='text-[#9795B5] text-[14px]'>加入會員</li>
+                  <li className='text-[#9795B5] text-[14px]'>最新活動</li>
+                </ul>
+              </section>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>常見問題</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>預約教學</li>
+                  <li className='text-[#9795B5] text-[14px]'>註冊認證</li>
+                  <li className='text-[#9795B5] text-[14px]'>付款相關</li>
+                  <li className='text-[#9795B5] text-[14px]'>退課相關</li>
+                  <li className='text-[#9795B5] text-[14px]'>條款與政策</li>
+                </ul>
+              </section>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>關於我們</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>品牌故事</li>
+                  <li className='text-[#9795B5] text-[14px]'>合作機構</li>
+                </ul>
+              </section>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>追蹤我們</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>Facebook</li>
+                  <li className='text-[#9795B5] text-[14px]'>Instagram</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </div>
+        {/* Mobile Footer */}
+        <div className='lg:hidden container py-[72px]'>
+          <div className='px-7 mb-12'>
+            < ConfigProvider
+              theme = { {
+                token : { 
+                  colorTextBase	 : '#5D5A88' ,  // 變更標題色
+                  colorBgBase	: '#5D5A88' , // 變更 border 顏色
+                } ,
+              } }
+            >
+              <Collapse bordered={false} expandIconPosition='end' expandIcon={()=><PlusOutlined />}>
+                <Panel header="會員中心" key="1" style={panelStyle}>
+                  {text}
+                </Panel>
+                <Panel header="常見問題" key="2" style={panelStyle}>
+                  {text}
+                </Panel>
+                <Panel header="關於我們" key="3" style={panelStyle}>
+                  {text}
+                </Panel>
+                <Panel header="追蹤我們" key="4" style={panelStyle}>
+                  {text}
+                </Panel>
+              </Collapse>
+            </ ConfigProvider >
+          </div>
+          <div  className='px-7'>
+            <p className='text-[14px] text-[#9795B5] leading-normal'>Copyright © 2023 xxxxxxxxxxx</p>
+            <p className='text-[14px] text-[#9795B5] leading-normal'>All Rights Reserved</p>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }
