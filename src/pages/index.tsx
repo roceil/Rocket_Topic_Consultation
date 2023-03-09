@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined } from '@ant-design/icons'
-import { Button, Input, ConfigProvider, Checkbox } from 'antd';
+import { ShoppingCartOutlined, BellOutlined, UserOutlined, AudioOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Input, ConfigProvider, Collapse } from 'antd';
+
+// Header - input 元件(PC)
 const { Search } = Input;
 const onSearch = (value: any) => console.log(value);
 const suffix = (
@@ -12,6 +14,15 @@ const suffix = (
       color: '#1890ff',
     }}
   />
+);
+
+// Footer - 折疊元件(Mobile)
+const { Panel } = Collapse;
+const text = (
+  <p style={{ paddingLeft: 24, color: '#9795B5', fontSize: '14px'}}>
+    A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found
+    as a welcome guest in many households across the world.
+  </p>
 );
 
 const fakeCounselorAry = [
@@ -60,6 +71,13 @@ function CounselorCard() {
 }
 
 export default function Home() {
+
+  const panelStyle = {
+    background: '#FFF',
+    colorPrimary: '#9795B5',
+    fontSize: '16px',
+  };
+
   return (
     <>
       <Head>
@@ -288,9 +306,9 @@ export default function Home() {
       </main>
       {/* Footer */}
       <footer className='lg:shadow-gray-300 lg:shadow-md lg:py-[72px]'>
-        <div className='lg:container lg:h-[217px] lg:w-[1056px] lg:flex lg:justify-between lg:p-0'>
-          {/* PC Footer */}
-          <div className='hidden lg:block'>
+        {/* PC Footer */}
+        <div className='hidden lg:block'>
+          <div className='container h-[217px] w-[1056px] flex justify-between p-0'>
             {/* Logo & copy right */}
             <section className='flex flex-col justify-between'>
               <h2 className='text-[24px]'>Logo</h2>
@@ -335,6 +353,38 @@ export default function Home() {
                 </ul>
               </section>
             </div>
+          </div>
+        </div>
+        {/* Mobile Footer */}
+        <div className='lg:hidden container py-[72px]'>
+          <div className='px-7 mb-12'>
+            < ConfigProvider
+              theme = { {
+                token : { 
+                  colorTextBase	 : '#5D5A88' ,  // 變更標題色
+                  colorBgBase	: '#5D5A88' , // 變更 border 顏色
+                } ,
+              } }
+            >
+              <Collapse bordered={false} expandIconPosition='end' expandIcon={()=><PlusOutlined />}>
+                <Panel header="會員中心" key="1" style={panelStyle}>
+                  {text}
+                </Panel>
+                <Panel header="常見問題" key="2" style={panelStyle}>
+                  {text}
+                </Panel>
+                <Panel header="關於我們" key="3" style={panelStyle}>
+                  {text}
+                </Panel>
+                <Panel header="追蹤我們" key="4" style={panelStyle}>
+                  {text}
+                </Panel>
+              </Collapse>
+            </ ConfigProvider >
+          </div>
+          <div  className='px-7'>
+            <p className='text-[14px] text-[#9795B5] leading-normal'>Copyright © 2023 xxxxxxxxxxx</p>
+            <p className='text-[14px] text-[#9795B5] leading-normal'>All Rights Reserved</p>
           </div>
         </div>
       </footer>
