@@ -13,7 +13,7 @@ module.exports = {
       center:true,
       padding: {
         DEFAULT: '24px',
-        xl: '112px',
+        lg: '112px',
       },
       fontFamily: {
         'sans': ['Noto Sans', 'Noto Sans TC', 'sans-serif' ],
