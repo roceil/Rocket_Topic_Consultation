@@ -289,47 +289,52 @@ export default function Home() {
       {/* Footer */}
       <footer className='lg:shadow-gray-300 lg:shadow-md lg:py-[72px]'>
         <div className='lg:container lg:h-[217px] lg:w-[1056px] lg:flex lg:justify-between lg:p-0'>
-          <section className='flex flex-col justify-between'>
-            <h2 className='text-[24px]'>Logo</h2>
-            <div>
-              <p className='text-[14px] text-[#9795B5] leading-normal'>Copyright © 2023 xxxxxxxxxxx</p>
-              <p className='text-[14px] text-[#9795B5] leading-normal'>All Rights Reserved</p>
+          {/* PC Footer */}
+          <div className='hidden lg:block'>
+            {/* Logo & copy right */}
+            <section className='flex flex-col justify-between'>
+              <h2 className='text-[24px]'>Logo</h2>
+              <div>
+                <p className='text-[14px] text-[#9795B5] leading-normal'>Copyright © 2023 xxxxxxxxxxx</p>
+                <p className='text-[14px] text-[#9795B5] leading-normal'>All Rights Reserved</p>
+              </div>
+            </section>
+            {/* Footers */}
+            <div className='flex space-x-[120px]'>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>會員中心</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>個人資料</li>
+                  <li className='text-[#9795B5] text-[14px]'>預約記錄</li>
+                  <li className='text-[#9795B5] text-[14px]'>加入會員</li>
+                  <li className='text-[#9795B5] text-[14px]'>最新活動</li>
+                </ul>
+              </section>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>常見問題</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>預約教學</li>
+                  <li className='text-[#9795B5] text-[14px]'>註冊認證</li>
+                  <li className='text-[#9795B5] text-[14px]'>付款相關</li>
+                  <li className='text-[#9795B5] text-[14px]'>退課相關</li>
+                  <li className='text-[#9795B5] text-[14px]'>條款與政策</li>
+                </ul>
+              </section>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>關於我們</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>品牌故事</li>
+                  <li className='text-[#9795B5] text-[14px]'>合作機構</li>
+                </ul>
+              </section>
+              <section>
+                <h3 className='text-base font-bold text-primary-heavy mb-6'>追蹤我們</h3>
+                <ul className='space-y-4'>
+                  <li className='text-[#9795B5] text-[14px]'>Facebook</li>
+                  <li className='text-[#9795B5] text-[14px]'>Instagram</li>
+                </ul>
+              </section>
             </div>
-          </section>
-          <div className='flex space-x-[120px]'>
-            <section>
-              <h3 className='text-base font-bold text-primary-heavy mb-6'>會員中心</h3>
-              <ul className='space-y-4'>
-                <li className='text-[#9795B5] text-[14px]'>個人資料</li>
-                <li className='text-[#9795B5] text-[14px]'>預約記錄</li>
-                <li className='text-[#9795B5] text-[14px]'>加入會員</li>
-                <li className='text-[#9795B5] text-[14px]'>最新活動</li>
-              </ul>
-            </section>
-            <section>
-              <h3 className='text-base font-bold text-primary-heavy mb-6'>常見問題</h3>
-              <ul className='space-y-4'>
-                <li className='text-[#9795B5] text-[14px]'>預約教學</li>
-                <li className='text-[#9795B5] text-[14px]'>註冊認證</li>
-                <li className='text-[#9795B5] text-[14px]'>付款相關</li>
-                <li className='text-[#9795B5] text-[14px]'>退課相關</li>
-                <li className='text-[#9795B5] text-[14px]'>條款與政策</li>
-              </ul>
-            </section>
-            <section>
-              <h3 className='text-base font-bold text-primary-heavy mb-6'>關於我們</h3>
-              <ul className='space-y-4'>
-                <li className='text-[#9795B5] text-[14px]'>品牌故事</li>
-                <li className='text-[#9795B5] text-[14px]'>合作機構</li>
-              </ul>
-            </section>
-            <section>
-              <h3 className='text-base font-bold text-primary-heavy mb-6'>追蹤我們</h3>
-              <ul className='space-y-4'>
-                <li className='text-[#9795B5] text-[14px]'>Facebook</li>
-                <li className='text-[#9795B5] text-[14px]'>Instagram</li>
-              </ul>
-            </section>
           </div>
         </div>
       </footer>
