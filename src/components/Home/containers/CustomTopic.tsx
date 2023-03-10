@@ -1,4 +1,4 @@
-import { TopicCard } from "./TopicCard"
+import { TopicCard } from "../TopicCard"
 import { topicCardAry } from "@/lib/homeFilesRoute"
 
 export function CustomTopic() {
@@ -15,10 +15,10 @@ export function CustomTopic() {
         <ul className='mt-9 flex w-full flex-col space-y-6 lg:max-w-[1012px] lg:flex-row lg:flex-wrap lg:justify-between lg:space-y-0'>
           {topicCardAry.map(({ type, text }, index) => {
             if (index <= 2) {
-              return <TopicCard key={index} type={type} text={text} />
+              return <TopicCard key={index} type={type} text={text} style={{marginBottom:'48px'}}/>
             } else {
               return (
-                <TopicCard key={index} type={type} text={text} gap='pt-12' />
+                <TopicCard key={index} type={type} text={text}  />
               )
             }
           })}

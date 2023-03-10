@@ -1,9 +1,9 @@
-import { Banner } from '../components/Home/Banner'
-import { SuggestCounselor } from '../components/Home/SuggestCounselor'
-import { CustomTopic } from '../components/Home/CustomTopic'
-import { PlatformFeature } from '../components/Home/PlatformFeature'
-import { UserComment } from '../components/Home/UserComment'
-import { ReservationTour } from '../components/Home/ReservationTour'
+import { Banner } from '../components/Home/containers/Banner'
+import { SuggestCounselor } from '../components/Home/containers/SuggestCounselor'
+import { CustomTopic } from '../components/Home/containers/CustomTopic'
+import { PlatformFeature } from '../components/Home/containers/PlatformFeature'
+import { UserComment } from '../components/Home/containers/UserComment'
+import { ReservationTour } from '../components/Home/containers/ReservationTour'
 
 export const homeComponents = {
   Banner,
@@ -14,13 +14,13 @@ export const homeComponents = {
   ReservationTour
 }
 
-export const fakeCounselorAry = [
-  '#女性議題',
-  '#親密關係',
-  '#青少年',
-  '#中老年議題',
-  '#一般成人',
-  '#PTSD'
+export const counselorRank = [
+  { name: '家洋 1 號', rankTag: '熱門諮商師 TOP 1' },
+  { name: '家洋 2 號', rankTag: '熱門諮商師 TOP 2' },
+  { name: '家洋 3 號', rankTag: '熱門諮商師 TOP 3' },
+  { name: '家洋 4 號', rankTag: '熱門諮商師 TOP 4' },
+  { name: '家洋 5 號', rankTag: '熱門諮商師 TOP 5' },
+  { name: '家洋 6 號', rankTag: '熱門諮商師 TOP 6' }
 ]
 
 export const topicCardAry = [
