@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export function Banner() {
   return (
     <section className='container lg:my-[128px] lg:flex lg:justify-between'>
@@ -13,10 +15,12 @@ export function Banner() {
               type='button'
               value='尋找專屬諮商師'
               className='rounded-[50px] bg-primary-heavy py-5 px-9 text-base font-bold text-white' />
-            <input
-              type='button'
-              value='立即註冊'
-              className='rounded-[50px] border-2 border-primary-heavy bg-white py-5 px-9 text-base font-bold text-primary-heavy' />
+            <Link href='/SignIn'>
+              <input
+                type='button'
+                value='立即註冊'
+                className='rounded-[50px] border-2 border-primary-heavy bg-white py-5 px-9 text-base font-bold text-primary-heavy' />
+            </Link>
           </ul>
         </div>
         <div className='flex lg:w-[608px] lg:justify-end'>
