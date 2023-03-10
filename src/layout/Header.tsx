@@ -3,13 +3,15 @@ import {
   BellOutlined,
   UserOutlined
 } from '@ant-design/icons';
-import { Button, ConfigProvider, Input } from 'antd';
+import {Button, ConfigProvider, Input } from 'antd';
+import { IButton, darkBtn, lightBtn } from '../components/Public/IButton';
 
 
 
 // Header - input 元件(PC)
 const { Search } = Input
 export const onSearch = (value: any) => console.log(value)
+
 
 export function Header() {
   return (
@@ -68,11 +70,7 @@ export function Header() {
                   color: '#8D8BA7'
                 }} />} />
           </ConfigProvider>
-          <input
-            type='button'
-            value='尋找諮商師'
-            className='rounded-[50px] bg-primary-heavy py-3
-          px-6 text-[14px] font-bold text-white'/>
+          <IButton text='尋找諮商師' bgColor={darkBtn} fontSize='14px' px='px-6' py='py-3'></IButton>
         </ul>
       </div>
     </header>
