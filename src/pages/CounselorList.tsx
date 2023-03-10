@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ConfigProvider, Breadcrumb, Select, Pagination } from 'antd'
 import { SearchCapsule } from '../components/Public/SearchCapsule'
 import { topicCardAry } from '@/lib/homeFilesRoute'
+import { SearchOutlined } from '@ant-design/icons'
 
 const options = topicCardAry.map(({ type }) => {
   return {
@@ -60,7 +61,6 @@ export default function CounselorList() {
                   colorBorder: '#767494',
                   colorIcon: '#767494',
                   colorTextPlaceholder: '#767494',
-                  fontSizeIcon: 10,
                   paddingSM: 16,
                   paddingXS: 12,
                   paddingXXS: 8
@@ -71,11 +71,19 @@ export default function CounselorList() {
                 mode='multiple'
                 allowClear
                 style={{ width: '100%' }}
-                defaultValue={['一般成人', 'Kris超人']}
                 onChange={handleChange}
                 options={options}
                 dropdownMatchSelectWidth={false}
                 placement={'bottomLeft'}
+                placeholder={'選擇主題'}
+                virtual={false}
+                suffixIcon={
+                  <SearchOutlined
+                    style={{
+                      color: '#767494'
+                    }}
+                  />
+                }
                 getPopupContainer={() =>
                   document.getElementById('topicPicker') || document.body
                 }
@@ -117,7 +125,7 @@ export default function CounselorList() {
                 colorPrimary={'#767494'}
                 borderRadius={10}
                 controlHeight={48}
-                colorBgContainer={'#D4D2E3'}
+                colorBgContainer={'#EEECFA'}
                 placeholder={'搜尋諮商師'}
               />
             </div>

@@ -6,11 +6,7 @@
   display: none;
 }
 
-/* 篩選主題器icon */
-.selectTopic .ant-select-arrow,
-.selectTopic .ant-select-clear {
-  display: none;
-}
+
 
 /* 搜尋元件(輸入框) */
 .search .ant-btn {
