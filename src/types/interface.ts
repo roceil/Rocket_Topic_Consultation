@@ -1,7 +1,7 @@
 export interface ITopicCardProps {
   type: string
   text: string
-  style?: any
+  gap?: string
 }
 export interface ISuggestCounselorCardProps {
   name: string
