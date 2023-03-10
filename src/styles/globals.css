@@ -29,56 +29,9 @@
   }
 }
 
-/* 篩選主題器膠囊 */
-.ant-select-selector {
-  border-radius: 24px !important;
-  border: none !important;
-  background-color: #d4d2e3 !important;
-  padding: 6px 20px !important;
+@layer utilities {
+  .flexCenterCenter{
+    @apply flex justify-center items-center
+  }
 }
 
-/* 篩選主題器標籤膠囊 */
-.ant-select-selection-item {
-  border-radius: 24px !important;
-  background-color: white !important;
-}
-
-/* 篩選主題器標籤文字 */
-.ant-select-selection-item-content {
-  font-size: 12px !important;
-}
-
-/* 篩選主題器icon */
-.ant-select-arrow,
-.ant-select-clear {
-  display: none !important;
-}
-
-/* 分頁前後頁按鈕 */
-.ant-pagination-disabled .ant-pagination-item-link {
-  border: 1px solid #bcbacd !important;
-  border-radius: 100% !important;
-}
-.ant-pagination-item-link {
-  border: 1px solid #5d5a88 !important;
-  border-radius: 100% !important;
-}
-.ant-pagination-disabled .ant-pagination-item-link .anticon-left,
-.ant-pagination-disabled .ant-pagination-item-link .anticon-right {
-  color: #bcbacd !important;
-}
-.anticon-left,
-.anticon-right {
-  color: #5d5a88 !important;
-}
-
-/* 分頁頁碼 */
-.ant-pagination-item {
-  border: none !important;
-}
-.ant-pagination-item a {
-  color: #5d5a88 !important;
-}
-.ant-pagination-item-active a {
-  text-decoration: underline !important;
-}

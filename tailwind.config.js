@@ -13,7 +13,7 @@ module.exports = {
       center:true,
       padding: {
         DEFAULT: '24px',
-        xl: '112px',
+        lg: '112px',
       },
       fontFamily: {
         'sans': ['Noto Sans', 'Noto Sans TC', 'sans-serif' ],
@@ -40,7 +40,8 @@ module.exports = {
         "primary-light":"#FAFAFF",
         "primary-heavy":"#5D5A88",
         "secondary":"#D4D2E3",
-        "third":"#E7E6F1"
+        "third":"#E7E6F1",
+        "bg1":"#F2F1FA"
       }
     }
   },

@@ -3,7 +3,9 @@ import {
   BellOutlined,
   UserOutlined,
   AudioOutlined,
-  BorderBottomOutlined
+  BorderBottomOutlined,
+  InfoCircleOutlined,
+  SearchOutlined
 } from '@ant-design/icons'
 import {
   Button,
@@ -13,7 +15,8 @@ import {
   Space,
   Select,
   Pagination,
-  type SelectProps
+  type SelectProps,
+  Tooltip
 } from 'antd'
 import Link from 'next/link'
 const { Search } = Input
@@ -54,75 +57,7 @@ const handleChange1 = (value: string) => {
 }
 export default function CounselorList() {
   return (
-    <main>
-      {/* navbar  => 要拔掉*/}
-      <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-md lg:shadow-gray-300'>
-        <div className='container flex items-center justify-between'>
-          <div className='text-2xl font-bold leading-normal text-[#5D5A88]'>
-            Logo
-          </div>
-          <div className='flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden'>
-            <div className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'></div>
-          </div>
-          {/* PC 版導覽列 */}
-          <ul className='flex hidden items-center space-x-5 lg:block'>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: '#D4D2E3',
-                  borderRadius: 100,
-                  colorBorder: '#D4D2E3'
-                },
-                components: {}
-              }}
-            >
-              <Search
-                placeholder='input search text'
-                onSearch={onSearch}
-                size='large'
-                style={{ width: 180 }}
-              />
-              <Button
-                type='default'
-                shape='circle'
-                size='large'
-                icon={
-                  <ShoppingCartOutlined
-                    style={{ fontSize: '20px', color: '#8D8BA7' }}
-                  />
-                }
-              />
-              <Button
-                type='default'
-                shape='circle'
-                size='large'
-                icon={
-                  <BellOutlined
-                    style={{ fontSize: '20px', color: '#8D8BA7' }}
-                  />
-                }
-              />
-              <Button
-                type='default'
-                shape='circle'
-                size='large'
-                icon={
-                  <UserOutlined
-                    style={{ fontSize: '20px', color: '#8D8BA7' }}
-                  />
-                }
-              />
-            </ConfigProvider>
-            <input
-              type='button'
-              value='尋找諮商師'
-              className='rounded-[50px] bg-primary-heavy py-3
-            px-6 text-[14px] font-bold text-white'
-            />
-          </ul>
-        </div>
-      </header>
-
+    <>
       {/* 分頁標題 */}
       <section className='my-14 lg:mt-[84px] '>
         <div className='container'>
@@ -147,13 +82,11 @@ export default function CounselorList() {
 
       {/* 諮商師篩選 */}
       <section className='container'>
-        <div className=' border-y border-secondary py-7'>
-          <p className='mb-1 text-sm text-primary-heavy lg:mb-2'>選擇諮商主題</p>
-          <Space
-            style={{ width: '100%' }}
-            direction='vertical'
-            className='mb-6 rounded-[24px] border-[1.5px] border-primary-heavy bg-primary-heavy lg:hidden'
-          >
+        <div className=' border-y border-secondary py-7 lg:border-y-2 lg:border-[#767494] lg:py-12'>
+          <p className='mb-1 text-sm text-primary-heavy lg:mb-2'>
+            選擇諮商主題
+          </p>
+          <div className='selectTopic mb-6 rounded-[24px] border-[1.5px] border-primary-heavy bg-primary-heavy lg:hidden'>
             <Select
               mode='multiple'
               allowClear
@@ -162,44 +95,90 @@ export default function CounselorList() {
               onChange={handleChange}
               options={options}
             />
-          </Space>
+          </div>
           <div className='hidden space-x-4 lg:mb-7 lg:flex'>
-            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold focus:bg-[#EEECFA] focus:text-primary-heavy hover:opacity-50'>
+            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # 親密關係
             </button>
 
-            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold focus:bg-[#EEECFA] focus:text-primary-heavy hover:opacity-50'>
+            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # 青少年
             </button>
 
-            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold focus:bg-[#EEECFA] focus:text-primary-heavy hover:opacity-50'>
+            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # 女性議題
             </button>
 
-            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold focus:bg-[#EEECFA] focus:text-primary-heavy hover:opacity-50'>
+            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # 中老年議題
             </button>
 
-            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold focus:bg-[#EEECFA] focus:text-primary-heavy hover:opacity-50'>
+            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # PTSD
             </button>
 
-            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold focus:bg-[#EEECFA] focus:text-primary-heavy hover:opacity-50'>
+            <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # 一般成人
             </button>
           </div>
           {/* 搜尋欄及篩選 */}
-          <div className=''>
-            <Search
-              placeholder='input search text'
-              onSearch={onSearch}
-              size='large'
-              style={{
-                width: 180,
-                border: '1px solid black',
-                borderRadius: '24px'
+          <div className='search flex justify-between lg:justify-start lg:space-x-6'>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#767494',
+                  colorTextBase: '#767494', // => 文字顏色
+                  // controlItemBgActive:"red" => 下拉選單背景色
+                  controlOutline: 'none' // => 膠囊focus
+                },
+                components: {
+                  Select: {
+                    borderRadius: 24,
+                    colorBorder: '#767494',
+                    colorIcon: '#767494',
+                    colorTextPlaceholder: '#767494',
+                    fontSizeIcon: 10,
+                    controlHeight: 48
+                  }
+                }
               }}
-            />
+            >
+              <div className='w-[180px] lg:w-[416px]'>
+                <ConfigProvider
+                  theme={{
+                    token: {},
+                    components: {
+                      Input: {
+                        borderRadius: 24,
+                        colorIcon: '#767494',
+                        colorTextPlaceholder: '#767494',
+                        colorBgContainer: '#D4D2E3',
+                        controlHeight: 48
+                      }
+                    }
+                  }}
+                >
+                  <Input
+                    placeholder='搜尋諮商師'
+                    suffix={
+                      <Tooltip title='Extra information'>
+                        <SearchOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                      </Tooltip>
+                    }
+                  />
+                </ConfigProvider>
+              </div>
+
+              <Select
+                defaultValue='依熱門程度搜尋'
+                style={{ width: 178 }}
+                options={[
+                  { value: '依熱門程度搜尋', label: '依熱門程度搜尋' },
+                  { value: '依好吃程度搜尋', label: '依好吃程度搜尋' },
+                  { value: '依好玩程度搜尋', label: '依好玩程度搜尋' }
+                ]}
+              />
+            </ConfigProvider>
           </div>
         </div>
       </section>
@@ -497,6 +476,6 @@ export default function CounselorList() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }
