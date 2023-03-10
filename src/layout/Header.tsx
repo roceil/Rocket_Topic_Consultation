@@ -12,6 +12,13 @@ import { IButton, darkBtn, lightBtn } from '../components/Public/IButton';
 const { Search } = Input
 export const onSearch = (value: any) => console.log(value)
 
+const theme = {
+  token: {
+    colorLink: '#1890ff',
+    colorBorder: '#D4D2E3',
+    colorFillAlter: 'colorFillAlter'
+  },
+};
 
 export function Header() {
   return (
@@ -24,54 +31,60 @@ export function Header() {
           <div className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'></div>
         </div>
         {/* PC 版導覽列 */}
-        <ul className='flex hidden items-center space-x-5 lg:block'>
-          <ConfigProvider
-            theme={{
-              token: {
-                colorPrimary: '#D4D2E3',
-                borderRadius: 100,
-                colorBorder: '#D4D2E3'
-              },
-              components: {}
-            }}
-          >
-            <Search
-              placeholder='input search text'
-              onSearch={onSearch}
-              size='large'
-              style={{
-                width: 180
-              }} />
-            <Button
-              type='default'
-              shape='circle'
-              size='large'
-              icon={<ShoppingCartOutlined
+        <div className='hidden lg:block'>
+          <ul className='flex items-center space-x-5'>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#D4D2E3',
+                  borderRadiusLG: 100,
+                  borderRadius: 100,
+                  colorBorder: '#D4D2E3',
+                  colorFillAlter: '#FFF',
+                },
+                components: {}
+              }}
+            >
+              <Search
+                placeholder=''
+                onSearch={onSearch}
+                size='large'
                 style={{
-                  fontSize: '20px',
-                  color: '#8D8BA7'
-                }} />} />
-            <Button
-              type='default'
-              shape='circle'
-              size='large'
-              icon={<BellOutlined
-                style={{
-                  fontSize: '20px',
-                  color: '#8D8BA7'
-                }} />} />
-            <Button
-              type='default'
-              shape='circle'
-              size='large'
-              icon={<UserOutlined
-                style={{
-                  fontSize: '20px',
-                  color: '#8D8BA7'
-                }} />} />
-          </ConfigProvider>
-          <IButton text='尋找諮商師' bgColor={darkBtn} fontSize='14px' px='px-6' py='py-3'></IButton>
-        </ul>
+                  width: 180,
+                  
+                }} />
+              <Button
+                type='default'
+                shape='circle'
+                size='large'
+                icon={<ShoppingCartOutlined
+                  style={{
+                    fontSize: '20px',
+                    color: '#8D8BA7'
+                  }} />} />
+              <Button
+                type='default'
+                shape='circle'
+                size='large'
+                icon={<BellOutlined
+                  style={{
+                    fontSize: '20px',
+                    color: '#8D8BA7'
+                  }} />} />
+              <Button
+                type='default'
+                shape='circle'
+                size='large'
+                icon={<UserOutlined
+                  style={{
+                    fontSize: '20px',
+                    color: '#8D8BA7'
+                  }} />} />
+            </ConfigProvider>
+            <IButton text='登入/註冊' bgColor={lightBtn} fontSize='14px' px='px-6' py='py-3'></IButton>
+            <IButton text='尋找諮商師' bgColor={darkBtn} fontSize='14px' px='px-6' py='py-3'></IButton>
+          </ul>
+        </div>
       </div>
     </header>
   );
