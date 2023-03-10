@@ -87,11 +87,12 @@ export function Footer(props: any) {
               token: {
                 colorTextBase: '#5D5A88',
                 // 變更標題色
-                colorBgBase: '#5D5A88' // 變更 border 顏色
+                colorBorder: '#5D5A88',
               }
             }}
           >
-            <Collapse bordered={false} expandIconPosition='end'>
+            <Collapse bordered={false} expandIconPosition='end' style={{ background: '#fff' }}
+>
               <Panel header='會員中心' key='1' style={props.panelStyle}>
                 {text}
               </Panel>
