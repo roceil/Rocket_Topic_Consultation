@@ -18,6 +18,11 @@
   h2 {
     @apply text-2xl font-bold text-primary-heavy lg:text-4xl;
   }
+  /* 輸入時不要放大螢幕 */
+  input,
+  textarea {
+    font-size: initial !important;
+  }
 }
 
 @layer components {
@@ -30,8 +35,7 @@
 }
 
 @layer utilities {
-  .flexCenterCenter{
-    @apply flex justify-center items-center
+  .flexCenterCenter {
+    @apply flex items-center justify-center;
   }
 }
-

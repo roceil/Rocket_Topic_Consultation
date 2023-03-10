@@ -1,60 +1,19 @@
-import {
-  ShoppingCartOutlined,
-  BellOutlined,
-  UserOutlined,
-  AudioOutlined,
-  BorderBottomOutlined,
-  InfoCircleOutlined,
-  SearchOutlined
-} from '@ant-design/icons'
-import {
-  Button,
-  Input,
-  ConfigProvider,
-  Breadcrumb,
-  Space,
-  Select,
-  Pagination,
-  type SelectProps,
-  Tooltip
-} from 'antd'
 import Link from 'next/link'
-const { Search } = Input
-const onSearch = (value: any) => console.log(value)
-const options: SelectProps['options'] = [
-  {
-    label: '親密關係',
-    value: '親密關係'
-  },
-  {
-    label: '青少年',
-    value: '青少年'
-  },
-  {
-    label: '女性議題',
-    value: '女性議題'
-  },
-  {
-    label: '中老年議題',
-    value: '中老年議題'
-  },
-  {
-    label: 'PTSD',
-    value: 'PTSD'
-  },
-  {
-    label: '一般成人',
-    value: '一般成人'
+import { ConfigProvider, Breadcrumb, Select, Pagination } from 'antd'
+import { SearchCapsule } from '../components/Public/SearchCapsule'
+import { topicCardAry } from '@/lib/homeFilesRoute'
+
+const options = topicCardAry.map(({ type }) => {
+  return {
+    label: type,
+    value: type
   }
-]
+})
 
 const handleChange = (value: string[]) => {
   console.log(`selected ${value}`)
 }
 
-const handleChange1 = (value: string) => {
-  console.log(`selected ${value}`)
-}
 export default function CounselorList() {
   return (
     <>
@@ -86,16 +45,44 @@ export default function CounselorList() {
           <p className='mb-1 text-sm text-primary-heavy lg:mb-2'>
             選擇諮商主題
           </p>
-          <div className='selectTopic mb-6 rounded-[24px] border-[1.5px] border-primary-heavy bg-primary-heavy lg:hidden'>
-            <Select
-              mode='multiple'
-              allowClear
-              style={{ width: '100%' }}
-              defaultValue={['一般成人', 'Kris超人']}
-              onChange={handleChange}
-              options={options}
-            />
+          {/* 膠囊選擇器 */}
+          <div id='topicPicker' className='selectTopic relative mb-6 lg:hidden'>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#767494',
+                  colorTextBase: '#767494', // => 文字顏色
+                  controlOutline: 'none', // => 膠囊focus
+                  colorBgContainer: '#EEECFA',
+                  colorFillSecondary: '#ffffff',
+                  borderRadiusSM: 10,
+                  borderRadius: 10,
+                  colorBorder: '#767494',
+                  colorIcon: '#767494',
+                  colorTextPlaceholder: '#767494',
+                  fontSizeIcon: 10,
+                  paddingSM: 16,
+                  paddingXS: 12,
+                  paddingXXS: 8
+                }
+              }}
+            >
+              <Select
+                mode='multiple'
+                allowClear
+                style={{ width: '100%' }}
+                defaultValue={['一般成人', 'Kris超人']}
+                onChange={handleChange}
+                options={options}
+                dropdownMatchSelectWidth={false}
+                placement={'bottomLeft'}
+                getPopupContainer={() =>
+                  document.getElementById('topicPicker') || document.body
+                }
+              />
+            </ConfigProvider>
           </div>
+
           <div className='hidden space-x-4 lg:mb-7 lg:flex'>
             <button className=' rounded-3xl border border-primary-heavy text-xs text-primary-heavy hover:opacity-50 focus:bg-[#EEECFA] focus:text-primary-heavy lg:w-[146px] lg:py-3 lg:text-base lg:font-bold'>
               # 親密關係
@@ -121,64 +108,54 @@ export default function CounselorList() {
               # 一般成人
             </button>
           </div>
+
           {/* 搜尋欄及篩選 */}
           <div className='search flex justify-between lg:justify-start lg:space-x-6'>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: '#767494',
-                  colorTextBase: '#767494', // => 文字顏色
-                  // controlItemBgActive:"red" => 下拉選單背景色
-                  controlOutline: 'none' // => 膠囊focus
-                },
-                components: {
-                  Select: {
-                    borderRadius: 24,
+            {/* 搜尋欄 */}
+            <div className='max-w-[155px] sm:max-w-[180px] lg:w-[416px] lg:max-w-none'>
+              <SearchCapsule
+                colorPrimary={'#767494'}
+                borderRadius={10}
+                controlHeight={48}
+                colorBgContainer={'#D4D2E3'}
+                placeholder={'搜尋諮商師'}
+              />
+            </div>
+
+            {/* 篩選欄 */}
+            <div
+              id='levelFilter'
+              className='relative max-w-[155px] sm:w-[180px] sm:max-w-none'
+            >
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#767494',
+                    colorTextBase: '#767494', // => 文字顏色
+                    controlOutline: 'none', // => 膠囊focus
+                    borderRadius: 10,
                     colorBorder: '#767494',
                     colorIcon: '#767494',
                     colorTextPlaceholder: '#767494',
                     fontSizeIcon: 10,
-                    controlHeight: 48
+                    controlHeight: 48,
+                    borderRadiusSM: 10
                   }
-                }
-              }}
-            >
-              <div className='w-[180px] lg:w-[416px]'>
-                <ConfigProvider
-                  theme={{
-                    token: {},
-                    components: {
-                      Input: {
-                        borderRadius: 24,
-                        colorIcon: '#767494',
-                        colorTextPlaceholder: '#767494',
-                        colorBgContainer: '#D4D2E3',
-                        controlHeight: 48
-                      }
-                    }
-                  }}
-                >
-                  <Input
-                    placeholder='搜尋諮商師'
-                    suffix={
-                      <Tooltip title='Extra information'>
-                        <SearchOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-                      </Tooltip>
-                    }
-                  />
-                </ConfigProvider>
-              </div>
-
-              <Select
-                defaultValue='依熱門程度搜尋'
-                style={{ width: 178 }}
-                options={[
-                  { value: '依熱門程度搜尋', label: '依熱門程度搜尋' },
-                  { value: '依好吃程度搜尋', label: '依好吃程度搜尋' },
-                  { value: '依好玩程度搜尋', label: '依好玩程度搜尋' }
-                ]}
-              />
-            </ConfigProvider>
+                }}
+              >
+                <Select
+                  defaultValue='依熱門程度搜尋'
+                  getPopupContainer={() =>
+                    document.getElementById('levelFilter') || document.body
+                  }
+                  options={[
+                    { value: '依熱門程度搜尋', label: '依熱門程度搜尋' },
+                    { value: '依好吃程度搜尋', label: '依好吃程度搜尋' },
+                    { value: '依好玩程度搜尋', label: '依好玩程度搜尋' }
+                  ]}
+                />
+              </ConfigProvider>
+            </div>
           </div>
         </div>
       </section>
@@ -329,6 +306,62 @@ export default function CounselorList() {
             </li>
 
             {/* 從這開始電腦版會顯示 */}
+            <li className='hidden rounded-3xl border border-secondary lg:flex'>
+              {/* 這是圖片 */}
+              <div className='h-[238px] w-[158px] rounded-l-[20px] bg-secondary lg:h-[327px] lg:w-[220px]'></div>
+
+              {/* 這是文字區塊 */}
+              <div className='w-[222px] py-6 pl-4 pr-[18px] lg:w-[268px] lg:py-12 lg:px-6'>
+                <h3 className='mb-1 text-xl font-bold text-primary-heavy lg:text-2xl'>
+                  筱清
+                </h3>
+                <p className='mb-3 text-sm font-bold text-[#767494] lg:mb-6 lg:text-base'>
+                  10年諮商經驗
+                </p>
+                <p className='mb-6 text-sm text-[#767494] lg:mb-8 lg:text-base'>
+                  Lorem ipsum dolor sit amet consecte adipiscing elit amet
+                  hendrerit pretium nu.
+                </p>
+
+                <div className='flex space-x-3'>
+                  <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy py-2 text-xs font-semibold text-primary-heavy lg:text-sm'>
+                    我有問題
+                  </button>
+                  <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
+                    立即預約
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li className='hidden rounded-3xl border border-secondary lg:flex'>
+              {/* 這是圖片 */}
+              <div className='h-[238px] w-[158px] rounded-l-[20px] bg-secondary lg:h-[327px] lg:w-[220px]'></div>
+
+              {/* 這是文字區塊 */}
+              <div className='w-[222px] py-6 pl-4 pr-[18px] lg:w-[268px] lg:py-12 lg:px-6'>
+                <h3 className='mb-1 text-xl font-bold text-primary-heavy lg:text-2xl'>
+                  筱清
+                </h3>
+                <p className='mb-3 text-sm font-bold text-[#767494] lg:mb-6 lg:text-base'>
+                  10年諮商經驗
+                </p>
+                <p className='mb-6 text-sm text-[#767494] lg:mb-8 lg:text-base'>
+                  Lorem ipsum dolor sit amet consecte adipiscing elit amet
+                  hendrerit pretium nu.
+                </p>
+
+                <div className='flex space-x-3'>
+                  <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy py-2 text-xs font-semibold text-primary-heavy lg:text-sm'>
+                    我有問題
+                  </button>
+                  <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
+                    立即預約
+                  </button>
+                </div>
+              </div>
+            </li>
+
             <li className='hidden rounded-3xl border border-secondary lg:flex'>
               {/* 這是圖片 */}
               <div className='h-[238px] w-[158px] rounded-l-[20px] bg-secondary lg:h-[327px] lg:w-[220px]'></div>
