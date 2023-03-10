@@ -1,6 +1,5 @@
-import { CounselorCard } from './CounselorCard';
-import { fakeCounselorAry } from '../../lib/homeFilesRoute';
-
+import { CounselorCard } from '../CounselorCard'
+import { counselorRank } from '@/lib/homeFilesRoute'
 
 export function SuggestCounselor() {
   return (
@@ -11,15 +10,19 @@ export function SuggestCounselor() {
           Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit
           phasellus mollis sit aliquam sit nullam.
         </p>
+        
+        {/* 手機版輪播圖 */}
         <div className='block lg:hidden'>
-          <CounselorCard />
+          <CounselorCard name={'筱清'} rankTag={"我是第一名"}/>
         </div>
+
+        {/* 電腦版 */}
         <ul className='hidden lg:flex lg:flex-wrap lg:justify-center lg:gap-16'>
-          {fakeCounselorAry.map((data, index) => {
-            return <CounselorCard key={index} />;
+          {counselorRank.map(({name,rankTag}, index) => {
+            return <CounselorCard key={index} name={name} rankTag={rankTag}/>
           })}
         </ul>
       </div>
     </section>
-  );
+  )
 }

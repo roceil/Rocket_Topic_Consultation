@@ -3,7 +3,7 @@ import { ITopicCardProps } from '@/types/interface'
 export function TopicCard({ gap, type, text }: ITopicCardProps) {
   return (
     <li
-      className={`flex items-center space-x-6 rounded-xl border border-secondary py-3 pl-3 sm:max-w-none lg:w-[316px] lg:flex-col lg:justify-center lg:space-x-0 lg:border-none lg:p-0 lg:${gap}`}
+      className={`flex items-center space-x-6 rounded-xl border border-secondary py-3 pl-3 sm:max-w-none lg:w-[316px] lg:flex-col lg:space-x-0 lg:border-none lg:p-0 lg:${gap}`}
     >
       {/* 這是圖片 */}
       <div className='h-[80px] w-[80px] rounded-2xl border border-b-0 border-secondary bg-secondary lg:h-[286px] lg:w-[316px] lg:rounded-b-none'></div>

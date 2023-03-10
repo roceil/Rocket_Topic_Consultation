@@ -3,3 +3,7 @@ export interface ITopicCardProps {
   text: string
   gap?: string
 }
+export interface ISuggestCounselorCardProps {
+  name: string
+  rankTag: string
+}
