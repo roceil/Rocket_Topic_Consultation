@@ -26,3 +26,9 @@
   }
 }
 
+@layer utilities {
+  .flexCenterCenter{
+    @apply flex justify-center items-center
+  }
+}
+
