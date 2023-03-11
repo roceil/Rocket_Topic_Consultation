@@ -101,16 +101,20 @@ export default function id() {
           />
           <div className='mt-6 flex w-full justify-center lg:mt-14'>
             <div className='flex flex-col items-center lg:w-full lg:max-w-[1012px] lg:flex-row lg:items-center lg:justify-between'>
-              <img
+              <Image
                 className='rounded-2xl lg:hidden'
                 src='http://fakeimg.pl/356x356/F9F9FF'
                 alt='這是假圖片'
+                width={356}
+                height={356}
               />
 
-              <img
+              <Image
                 className='hidden rounded-2xl lg:block'
                 src='http://fakeimg.pl/400x400/F9F9FF'
                 alt='這是假圖片'
+                width={400}
+                height={400}
               />
 
               <div className='mt-10 w-full max-w-[340px] border-y border-[#767494] pt-6 pb-8 lg:mt-0 lg:min-h-[400px] lg:max-w-[492px] lg:pt-10 lg:pb-[45px]'>
@@ -379,16 +383,20 @@ export default function id() {
                 可預約時段
               </h2>
 
-              <img
+              <Image
                 className='rounded-2xl lg:hidden'
                 src='http://fakeimg.pl/380x487/F9F9FF/?text=calendar'
                 alt='手機版假圖片'
+                width={380}
+                height={487}
               />
 
-              <img
+              <Image
                 className='hidden rounded-2xl lg:block'
                 src='http://fakeimg.pl/464x572/F9F9FF/?text=PC calendar'
                 alt='電腦版假圖片'
+                width={464}
+                height={572}
               />
             </div>
           </section>
@@ -396,12 +404,12 @@ export default function id() {
           {/* 影片區塊 */}
           <section className='py-12 lg:py-14'>
             <div className='container h-[212px] lg:h-[276px]'>
-              <iframe
+              {/* <iframe
                 className='h-full w-full'
                 src='https://www.youtube.com/embed/qpOcRG3e9Q8'
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-              ></iframe>
+              ></iframe> */}
             </div>
           </section>
 
