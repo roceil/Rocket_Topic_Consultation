@@ -72,7 +72,7 @@ const text = (
     the world.
   </p>
 )
-export default function id() {
+export default function CounselorPage() {
   const [value3, setValue3] = useState('Apple')
 
   const onChange3 = ({ target: { value } }: RadioChangeEvent) => {
