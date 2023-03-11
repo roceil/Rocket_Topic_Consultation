@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   ShoppingCartOutlined,
   BellOutlined,
@@ -15,7 +16,7 @@ import {
   Pagination,
   type SelectProps
 } from 'antd'
-import Link from 'next/link'
+
 const { Search } = Input
 const onSearch = (value: any) => console.log(value)
 const options: SelectProps['options'] = [
@@ -194,7 +195,7 @@ export default function CounselorList() {
                   // colorPrimary: '#767494',
                   colorTextBase: '#767494', // => 文字顏色
                   // controlItemBgActive:"red" => 下拉選單背景色
-                  controlOutline:"none" // => 膠囊focus
+                  controlOutline: 'none' // => 膠囊focus
                 }
               }}
             >
@@ -243,9 +244,11 @@ export default function CounselorList() {
                   <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy py-2 text-xs font-semibold text-primary-heavy lg:text-sm'>
                     我有問題
                   </button>
-                  <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
-                    立即預約
-                  </button>
+                  <Link href={'id'}>
+                    <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
+                      立即預約
+                    </button>
+                  </Link>
                 </div>
               </div>
             </li>
