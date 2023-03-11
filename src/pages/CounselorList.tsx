@@ -244,7 +244,7 @@ export default function CounselorList() {
                   <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy py-2 text-xs font-semibold text-primary-heavy lg:text-sm'>
                     我有問題
                   </button>
-                  <Link href={'id'}>
+                  <Link href={'Id'}>
                     <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
                       立即預約
                     </button>
