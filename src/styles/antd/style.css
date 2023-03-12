@@ -84,3 +84,12 @@
 .footer-shadow {
   box-shadow:  0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
+
+/* 會員中心 tab */
+/* .userCenterTab .ant-tabs-nav-list .ant-tabs-tab {
+ padding: ;
+} */
+
+.userCenterTab .ant-tabs .ant-tabs-content-holder {
+  border-left: none ;
+}
