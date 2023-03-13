@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ConfigProvider, Collapse } from 'antd'
 
 // Footer - 折疊元件(Mobile)
@@ -41,7 +42,9 @@ export function Footer(props: any) {
               </h3>
               <ul className='space-y-4'>
                 <li className='text-[14px] text-[#9795B5]'>個人資料</li>
-                <li className='text-[14px] text-[#9795B5]'>預約記錄</li>
+                <Link href='/ForgetPassword'>
+                  <li className='text-[14px] text-[#9795B5]'>預約記錄</li>
+                </Link>
                 <li className='text-[14px] text-[#9795B5]'>加入會員</li>
                 <li className='text-[14px] text-[#9795B5]'>最新活動</li>
               </ul>
