@@ -177,7 +177,8 @@ export default function SignIn (){
     >
       <Input.Password placeholder='Confirm password' className={inputStyle}/>
     </Form.Item>
-  
+    {/* 推底下間距 */}
+    <div className='h-5'></div>
     <div className='flex justify-between items-end'>
       <Form.Item
         name="agreement"
@@ -316,6 +317,8 @@ export default function SignIn (){
     >
       <Input.Password placeholder='Confirm password' className={inputStyle}/>
     </Form.Item>
+    {/* 推底下間距 */}
+    <div className='h-5'></div>
     <div className='flex justify-between items-end'>
       <Form.Item
         name="agreement"
