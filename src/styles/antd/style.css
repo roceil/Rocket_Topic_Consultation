@@ -82,7 +82,7 @@
 
 /* Footer */
 .footer-shadow {
-  box-shadow:  0 -1px 5px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
 
 /* 會員中心 tab */
@@ -91,5 +91,21 @@
 } */
 
 .userCenterTab .ant-tabs .ant-tabs-content-holder {
-  border-left: none ;
+  border-left: none;
+}
+
+.userCenterTab .ant-tabs .ant-tabs-tab {
+  border-left: 1px solid #d4d2e3;
+}
+.userCenterTab .ant-tabs .ant-tabs-ink-bar {
+  left: 1px;
+}
+
+.order .ant-tabs .ant-tabs-tab {
+  border-left: none;
+  width: 25%;
+  justify-content: center;
+}
+.order .ant-tabs .ant-tabs-nav-list {
+  width: 100%;
 }
