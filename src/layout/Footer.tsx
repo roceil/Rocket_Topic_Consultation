@@ -15,9 +15,9 @@ const panelStyle = {
   colorPrimary: '#9795B5',
   fontSize: '16px'
 }
-export function Footer(props: any) {
+export function Footer({props}: any) {
   return (
-    <footer className='footer-shadow lg:py-[72px]'>
+    <footer className='footer-shadow lg:py-[72px] z-10'>
       {/* PC Footer */}
       <div className='hidden lg:block'>
         <div className='container flex h-[217px] w-[1056px] justify-between p-0'>
@@ -93,16 +93,16 @@ export function Footer(props: any) {
           >
             <Collapse bordered={false} expandIconPosition='end' style={{ background: '#fff' }}
 >
-              <Panel header='會員中心' key='1' style={props.panelStyle}>
+              <Panel header='會員中心' key='1' style={props?.panelStyle}>
                 {text}
               </Panel>
-              <Panel header='常見問題' key='2' style={props.panelStyle}>
+              <Panel header='常見問題' key='2' style={props?.panelStyle}>
                 {text}
               </Panel>
-              <Panel header='關於我們' key='3' style={props.panelStyle}>
+              <Panel header='關於我們' key='3' style={props?.panelStyle}>
                 {text}
               </Panel>
-              <Panel header='追蹤我們' key='4' style={props.panelStyle}>
+              <Panel header='追蹤我們' key='4' style={props?.panelStyle}>
                 {text}
               </Panel>
             </Collapse>
