@@ -25,10 +25,18 @@ export default function CounselorList() {
           <Breadcrumb
             items={[
               {
-                title: <Link href='/'>Home</Link>
+                title: (
+                  <Link href='/' className='text-base'>
+                    Home
+                  </Link>
+                )
               },
               {
-                title: <span className='text-primary-heavy'>諮商師總覽</span>
+                title: (
+                  <span className='text-base text-primary-heavy'>
+                    諮商師總覽
+                  </span>
+                )
               }
             ]}
           />
@@ -43,7 +51,7 @@ export default function CounselorList() {
       {/* 諮商師篩選 */}
       <section className='container'>
         <div className=' border-y border-secondary py-7 lg:border-y-2 lg:border-[#767494] lg:py-12'>
-          <p className='mb-1 text-sm text-primary-heavy lg:mb-2'>
+          <p className='mb-1 text-sm text-primary-heavy lg:mb-2 lg:font-bold'>
             選擇諮商主題
           </p>
           {/* 膠囊選擇器 */}
@@ -147,7 +155,8 @@ export default function CounselorList() {
                     colorTextPlaceholder: '#767494',
                     fontSizeIcon: 10,
                     controlHeight: 48,
-                    borderRadiusSM: 10
+                    borderRadiusSM: 10,
+                    fontSize:16
                   }
                 }}
               >
@@ -172,7 +181,7 @@ export default function CounselorList() {
       <section className='mt-20 lg:mt-[168px]'>
         <div className='container'>
           {/* 清單區塊 */}
-          <ul className='mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-center lg:gap-x-[104px] lg:gap-y-[68px] lg:space-y-0'>
+          <ul className='mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-center lg:gap-x-[52px]  lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px]'>
             <li className='flex rounded-3xl border border-secondary '>
               {/* 這是圖片 */}
               <div className='h-[238px] w-[158px] rounded-l-[20px] bg-secondary lg:h-[327px] lg:w-[220px]'></div>
