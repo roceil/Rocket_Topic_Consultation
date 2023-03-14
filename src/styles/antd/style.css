@@ -87,5 +87,11 @@
 
 /* 忘記密碼、重設密碼底圖 */
 .log-in-box-height-xl{
-  height: calc(100vh - 625px);
+  height: calc(100vh - 225px);
+}
+
+.form .ant-form-item-row{
+  display: flex;
+  flex-direction: column;
+  
 }
