@@ -42,10 +42,16 @@ export function Footer(props: any) {
               </h3>
               <ul className='space-y-4'>
                 <li className='text-[14px] text-[#9795B5]'>個人資料</li>
-                <li className='text-[14px] text-[#9795B5]'>預約記錄</li>
-                <Link href='/ResetPassword'>
-                  <li className='text-[14px] text-[#9795B5]'>加入會員</li>
-                </Link>
+                <li>
+                  <Link href='/ForgetPassword'>
+                    <li className='text-[14px] text-[#9795B5]'>預約記錄</li>
+                  </Link>
+                </li>
+                <li>
+                  <Link href='/ResetPassword'>
+                    <li className='text-[14px] text-[#9795B5]'>加入會員</li>
+                  </Link>
+                </li>
                 <li className='text-[14px] text-[#9795B5]'>最新活動</li>
               </ul>
             </section>
@@ -90,12 +96,15 @@ export function Footer(props: any) {
               token: {
                 colorTextBase: '#5D5A88',
                 // 變更標題色
-                colorBorder: '#5D5A88',
+                colorBorder: '#5D5A88'
               }
             }}
           >
-            <Collapse bordered={false} expandIconPosition='end' style={{ background: '#fff' }}
->
+            <Collapse
+              bordered={false}
+              expandIconPosition='end'
+              style={{ background: '#fff' }}
+            >
               <Panel header='會員中心' key='1' style={props.panelStyle}>
                 {text}
               </Panel>

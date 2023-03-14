@@ -6,8 +6,6 @@
   display: none;
 }
 
-
-
 /* 搜尋元件(輸入框) */
 .search .ant-btn {
   display: flex;
@@ -73,11 +71,16 @@
 }
 
 /* 忘記密碼、重設密碼底圖 */
-.log-in-box-height-xl{
+.log-in-box-height-xl {
   height: calc(100vh - 225px);
 }
 
-.form .ant-form-item-row{
+/* antd 表格 col 排列 */
+.form .ant-form-item-row {
+  display: flex;
+  flex-direction: column;
+}
+.form .ant-form-item-row {
   display: flex;
   flex-direction: column;
 }
