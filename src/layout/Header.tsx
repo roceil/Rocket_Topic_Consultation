@@ -57,7 +57,7 @@ export const onSearch = (value: any) => console.log(value)
 
 export function Header() {
   return (
-    <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-md lg:shadow-gray-300'>
+    <header className='my-[18px] lg:my-0 lg:py-[30px]'>
       <div className='container flex items-center justify-between'>
         <div className='text-2xl font-bold leading-normal text-[#5D5A88]'>
           Logo
