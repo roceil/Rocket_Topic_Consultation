@@ -6,13 +6,7 @@ import React from 'react';
 import { ConfigProvider, Tabs, Button,
   Checkbox,
   Form,
-  Input,
-  Select,
-  Upload} from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons'
-import Column from 'antd/es/table/Column';
-
-const { Option } = Select;
+  Input} from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -21,14 +15,6 @@ const formItemLayout = {
     },
     sm: {
       span: 24,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 0,
-    },
-    sm: {
-      span: 0,
     },
   },
 };
@@ -46,13 +32,6 @@ const tailFormItemLayout = {
 };
 
 const inputStyle = 'py-3 px-5 rounded-[24px] mt-3';
-
-
-
-
-// -----------------------
-
-
 
 export default function LogIn (){
 
