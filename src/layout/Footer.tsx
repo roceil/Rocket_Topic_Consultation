@@ -1,5 +1,6 @@
-import { ConfigProvider, Collapse } from 'antd'
 import Link from 'next/link'
+import { ConfigProvider, Collapse } from 'antd'
+
 // Footer - 折疊元件(Mobile)
 const { Panel } = Collapse
 const text = (
@@ -39,13 +40,17 @@ export function Footer(props: any) {
               <h3 className='mb-6 text-base font-bold text-primary-heavy'>
                 會員中心
               </h3>
-              <ul className='space-y-4'>
-                <Link href='LogIn'>
-                  <li className='text-[14px] text-[#9795B5]'>個人資料</li>
-                </Link>
-                <li className='text-[14px] text-[#9795B5]'>預約記錄</li>
-                <li className='text-[14px] text-[#9795B5]'>加入會員</li>
-                <li className='text-[14px] text-[#9795B5]'>最新活動</li>
+              <ul className='space-y-4 text-[14px] text-[#9795B5]'>
+                <li>
+                  <Link href='/LogIn'>個人資料</Link>
+                </li>
+                <li>
+                  <Link href='/ForgetPassword'>預約記錄</Link>
+                </li>
+                <li>
+                  <Link href='/ResetPassword'>加入會員</Link>
+                </li>
+                <li className=''>最新活動</li>
               </ul>
             </section>
             <section>
@@ -89,12 +94,15 @@ export function Footer(props: any) {
               token: {
                 colorTextBase: '#5D5A88',
                 // 變更標題色
-                colorBorder: '#5D5A88',
+                colorBorder: '#5D5A88'
               }
             }}
           >
-            <Collapse bordered={false} expandIconPosition='end' style={{ background: '#fff' }}
->
+            <Collapse
+              bordered={false}
+              expandIconPosition='end'
+              style={{ background: '#fff' }}
+            >
               <Panel header='會員中心' key='1' style={props.panelStyle}>
                 {text}
               </Panel>

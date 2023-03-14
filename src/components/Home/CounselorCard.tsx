@@ -14,7 +14,7 @@ export function CounselorCard({ name, rankTag }: ISuggestCounselorCardProps) {
           <span className='py-5 text-left text-xl font-bold text-primary-heavy lg:text-[28px]'>
             {name}
           </span>
-          <div className='rounded border border-primary py-1 px-3 '>
+          <div className='rounded border border-primary py-1 px-3 lg:py-2 lg:px-4 bg-white'>
             <p className='text-xs font-bold text-primary'>{rankTag}</p>
           </div>
         </div>
