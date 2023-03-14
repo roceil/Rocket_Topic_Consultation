@@ -6,7 +6,11 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: 'fakeimg.pl',
-        port: '',
+
+      },
+      {
+        protocol: 'https',
+        hostname: 'fakeimg.pl',
       },
     ],
   },
