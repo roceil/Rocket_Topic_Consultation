@@ -84,3 +84,8 @@
 .footer-shadow {
   box-shadow:  0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
+
+
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
+}
