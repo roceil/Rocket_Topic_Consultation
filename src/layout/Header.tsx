@@ -1,10 +1,12 @@
+import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { userCenterPosition } from '@/redux/feature/userCenter'
 import {
   ShoppingCartOutlined,
   BellOutlined,
   UserOutlined
 } from '@ant-design/icons'
 import { Button, ConfigProvider, Input } from 'antd'
-import Link from 'next/link'
 import { IButton, darkBtn, lightBtn } from '../components/Public/IButton'
 
 const isLogIn = false // 判斷是否登入，控制 Nav 顯示內容
@@ -57,18 +59,29 @@ const { Search } = Input
 export const onSearch = (value: any) => console.log(value)
 
 export function Header() {
+  const dispatch = useDispatch()
   return (
     <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-md lg:shadow-gray-300'>
       <div className='container flex items-center justify-between'>
         <Link
           href={'UserCenter'}
           className='cursor-pointer text-2xl font-bold leading-normal text-[#5D5A88] hover:opacity-50'
+          onClick={() => {
+            dispatch(userCenterPosition('個人資料'))
+          }}
         >
           Logo
         </Link>
 
         <div className='flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden'>
-          <div className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'></div>
+          <Link href={'UserCenter'}>
+            <button
+              className='h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]'
+              onClick={() => {
+                dispatch(userCenterPosition('預約管理'))
+              }}
+            ></button>
+          </Link>
         </div>
         {/* PC 版導覽列 */}
         <div className='hidden lg:block'>

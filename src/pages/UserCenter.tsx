@@ -1,7 +1,7 @@
 import { ConfigProvider, Select, Tabs, TabsProps } from 'antd'
+import { useSelector } from 'react-redux'
 import user from '../../public/images/user.svg'
 import profile from '../../public/images/profile.svg'
-import logOut from '../../public/images/logOut.svg'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -583,10 +583,26 @@ export default function UserCenter() {
     { value: '已取消', label: '已取消' }
   ]
 
+  interface IProps {
+    userCenterSlice: { value: string }
+  }
+
+
+  const userCenterPosition = useSelector((state: IProps) => {
+    if (state) {
+      return state.userCenterSlice
+    }
+  })
+  console.log(userCenterPosition?.value)
   return (
     <>
+
       {/* 手機版 個人資料*/}
-      {/* <section className='pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]'>
+      <section
+        className={`pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] ${
+          userCenterPosition?.value === '個人資料' ? 'block' : 'hidden'
+        }`}
+      >
         <div className='container'>
           <div className='hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block'>
             目前尚無預約
@@ -657,10 +673,14 @@ export default function UserCenter() {
             </form>
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* 手機版 預約管理 */}
-      <section className='mt-12 mb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] '>
+      <section
+        className={`mt-12 mb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] ${
+          userCenterPosition?.value === '預約管理' ? 'block' : 'hidden'
+        }`}
+      >
         <div className='container'>
           <div className='hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block'>
             目前尚無預約
