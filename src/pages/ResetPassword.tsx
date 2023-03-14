@@ -98,7 +98,7 @@ export default function LogIn (){
                 <p className='text-right py-[1px]'>請輸入註冊時使用的信箱</p>
               </Form.Item>
               {/* 推底下間距 */}
-              <div className='h-[104px]'></div> 
+              <div className='h-5 lg:h-[104px]'></div> 
               <div className='flex justify-between items-end'>
                 <div className='flex h-8 items-center'>
                   <p>未收到信件？</p>
