@@ -61,7 +61,7 @@ export const onSearch = (value: any) => console.log(value)
 export function Header() {
   const dispatch = useDispatch()
   return (
-    <header className='my-[18px] lg:my-0 lg:py-[30px] lg:shadow-md lg:shadow-gray-300'>
+    <header className='my-[18px] lg:my-0 lg:py-[30px]'>
       <div className='container flex items-center justify-between'>
         <Link
           href={'UserCenter'}
