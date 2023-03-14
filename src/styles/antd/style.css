@@ -99,3 +99,25 @@
 .box-height-lg{
   height: calc(100vh - 110px);
 }
+
+/* antd 表格 col 排列 */
+.form .ant-form-item-row{
+  display: flex;
+  flex-direction: column;
+}
+
+/* 登入表格排列 */
+.form .ant-form-item-control{
+  margin-bottom: 32px;
+}
+
+/* 註冊表格排列 */
+.form-sign-in .ant-form-item-control{
+  margin-bottom: 40px;
+}
+
+.css-dev-only-do-not-override-nro7k0 .ant-row{
+  display: flex;
+  flex-direction: column;
+  flex-flow: column nowrap;
+}

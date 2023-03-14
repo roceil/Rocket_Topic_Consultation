@@ -1,6 +1,5 @@
 // 待修改：
-// PC 表單 文字＆輸入框 要換行排列-> <Form layout="ant-col"> 改得動但有紅字，估計 vercel 會報錯
-// PC 表單格線有問題 -> 剩下諮商師 Upload 的位置調不動
+// PC 表單格線問題 -> 諮商師 Upload 的位置調不動
 // PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
 
 import Link from 'next/link';
@@ -12,8 +11,7 @@ import { ConfigProvider, Tabs, Button,
   Select,
   DatePicker,
   Upload} from 'antd';
-import { BorderHorizontalOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import Column from 'antd/es/table/Column';
+import { PlusCircleOutlined } from '@ant-design/icons'
 
 const { Option } = Select;
 
@@ -25,15 +23,7 @@ const formItemLayout = {
     sm: {
       span: 24,
     },
-  },
-  wrapperCol: {
-    xs: {
-      span: 0,
-    },
-    sm: {
-      span: 0,
-    },
-  },
+  }
 };
 const tailFormItemLayout = {
   wrapperCol: {
@@ -48,14 +38,7 @@ const tailFormItemLayout = {
   },
 };
 
-const inputStyle = 'py-3 px-5 rounded-[24px] ';
-
-
-
-
-// -----------------------
-
-
+const inputStyle = 'py-3 px-5 rounded-[24px] mt-2';
 
 export default function SignIn (){
 
@@ -81,10 +64,10 @@ export default function SignIn (){
     name="register"
     onFinish={onFinish}
     className='space-y-8 max-w-[380px]'
-    layout="ant-col"
+    // layout="ant-col"
     labelAlign="left"
   >
-    <div className='flex justify-between'>
+    <div className='flex justify-between from form-sign-in'>
       <Form.Item
         name="Name"
         label="姓名 Name"
@@ -97,7 +80,7 @@ export default function SignIn (){
         ]}
         style={{width: 180}}
       >
-        <Input placeholder='Name' className={inputStyle}/>
+        <Input placeholder='Name' className={`mb-[80px] ${inputStyle}`}/>
       </Form.Item>
       <Form.Item
         name="gender"
@@ -110,7 +93,7 @@ export default function SignIn (){
         ]}
         style={{width: 180,}}
       >
-        <Select placeholder="選擇性別">
+        <Select placeholder="選擇性別" className={`mb-[72px]`}>
           <Option value="male">男</Option>
           <Option value="female">女</Option>
           <Option value="other">其他</Option>
@@ -151,7 +134,7 @@ export default function SignIn (){
       ]}
       hasFeedback
     >
-      <Input.Password placeholder="Password" className={inputStyle}/>
+      <Input.Password placeholder="Password" className={`mt-7 ${inputStyle}`}/>
       <p className='text-right'>須包含大小寫英文字母及數字</p>
     </Form.Item>
   
@@ -203,7 +186,7 @@ export default function SignIn (){
       </div>
     </div>
     <Form.Item {...tailFormItemLayout}>
-      <Button type="default" htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] rounded-[30px] text-base '>
+    <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
       立即註冊
       </Button>
     </Form.Item>
@@ -218,7 +201,7 @@ export default function SignIn (){
       maxWidth: 380,
     }}
     className='space-y-8'
-    layout="ant-col"
+    // layout="ant-col"
     labelAlign="left"
   >
     <div className='flex justify-between license'>
@@ -232,9 +215,9 @@ export default function SignIn (){
             whitespace: true,
           },
         ]}
-        style={{width: 220,}}
+        style={{width: 180,}}
       >
-        <Input placeholder='Name' className={inputStyle}/>
+        <Input placeholder='Name' className={`mb-[80px] ${inputStyle}`}/>
       </Form.Item>
       <Form.Item
         name="upload"
@@ -243,7 +226,7 @@ export default function SignIn (){
         getValueFromEvent={normFile}
         
       >
-        <Upload name="logo" action="/upload.do" listType="picture" style={{width: 220,}}>
+        <Upload name="logo" action="/upload.do" listType="picture">
           <Button icon={<PlusCircleOutlined />} >License</Button>
         </Upload>
       </Form.Item>
@@ -291,7 +274,7 @@ export default function SignIn (){
       ]}
       hasFeedback
     >
-      <Input.Password placeholder="Password" className={inputStyle}/>
+      <Input.Password placeholder="Password" className={`mt-7 ${inputStyle}`}/>
       <p className='text-right'>須包含大小寫英文字母及數字</p>
     </Form.Item>
   
@@ -343,7 +326,7 @@ export default function SignIn (){
       </div>
     </div>
     <Form.Item {...tailFormItemLayout}>
-      <Button type="default" htmlType="submit" className='-mt-6 bg-[#D4D2E3] text-white h-[56px] w-[380px] rounded-[30px] text-base '>
+    <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
       立即註冊
       </Button>
     </Form.Item>
@@ -363,7 +346,7 @@ export default function SignIn (){
           <p className='text-sm text-primary-heavy font-bold mb-1 hidden lg:block'>SIGN UP</p>
           <h2>會員註冊</h2>
         </div>
-        <div className='max-w-[380px] flex fle-col '>
+        <div className='max-w-[380px] flex fle-col form form-sign-in'>
           <ConfigProvider
             theme={{
               token: {
@@ -382,7 +365,8 @@ export default function SignIn (){
                 },
                 Select:{
                   controlHeight: 48
-                }
+                },
+                
               }
             }}
           >
