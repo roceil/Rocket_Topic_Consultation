@@ -12,7 +12,7 @@ export function Banner() {
             phasellus mollis sit aliquam sit nullam.
           </p>
           <div className='mt-10 space-x-4 lg:mt-[52px]'>
-            <Link href="CounselorList">
+            <Link href={"CounselorList"}>
               <IButton
                 text='尋找專屬諮商師'
                 bgColor={darkBtn}

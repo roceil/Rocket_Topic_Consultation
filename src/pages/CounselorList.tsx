@@ -1,15 +1,53 @@
 import Link from 'next/link'
-import { ConfigProvider, Breadcrumb, Select, Pagination } from 'antd'
-import { SearchCapsule } from '../components/Public/SearchCapsule'
-import { topicCardAry } from '@/lib/homeFilesRoute'
-import { SearchOutlined } from '@ant-design/icons'
 
-const options = topicCardAry.map(({ type }) => {
-  return {
-    label: type,
-    value: type
+import {
+  ShoppingCartOutlined,
+  BellOutlined,
+  UserOutlined,
+  AudioOutlined,
+  BorderBottomOutlined,
+  SearchOutlined
+} from '@ant-design/icons'
+import {
+  Button,
+  Input,
+  ConfigProvider,
+  Breadcrumb,
+  Space,
+  Select,
+  Pagination,
+  type SelectProps
+} from 'antd'
+import { SearchCapsule } from '@/components/Public/SearchCapsule'
+
+const { Search } = Input
+const onSearch = (value: any) => console.log(value)
+const options: SelectProps['options'] = [
+  {
+    label: '親密關係',
+    value: '親密關係'
+  },
+  {
+    label: '青少年',
+    value: '青少年'
+  },
+  {
+    label: '女性議題',
+    value: '女性議題'
+  },
+  {
+    label: '中老年議題',
+    value: '中老年議題'
+  },
+  {
+    label: 'PTSD',
+    value: 'PTSD'
+  },
+  {
+    label: '一般成人',
+    value: '一般成人'
   }
-})
+]
 
 const handleChange = (value: string[]) => {
   console.log(`selected ${value}`)
@@ -124,56 +162,58 @@ export default function CounselorList() {
               # 一般成人
             </button>
           </div>
+      
 
-          {/* 搜尋欄及篩選 */}
-          <div className='search flex justify-between lg:justify-start lg:space-x-6'>
-            {/* 搜尋欄 */}
-            <div className='max-w-[155px] sm:max-w-[180px] lg:w-[416px] lg:max-w-none'>
-              <SearchCapsule
-                colorPrimary={'#767494'}
-                borderRadius={10}
-                controlHeight={48}
-                colorBgContainer={'#EEECFA'}
-                placeholder={'搜尋諮商師'}
-              />
-            </div>
-
-            {/* 篩選欄 */}
-            <div
-              id='levelFilter'
-              className='relative max-w-[155px] sm:w-[180px] sm:max-w-none'
-            >
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#767494',
-                    colorTextBase: '#767494', // => 文字顏色
-                    controlOutline: 'none', // => 膠囊focus
-                    borderRadius: 10,
-                    colorBorder: '#767494',
-                    colorIcon: '#767494',
-                    colorTextPlaceholder: '#767494',
-                    fontSizeIcon: 10,
-                    controlHeight: 48,
-                    borderRadiusSM: 10,
-                    fontSize:16
-                  }
-                }}
-              >
-                <Select
-                  defaultValue='依熱門程度搜尋'
-                  getPopupContainer={() =>
-                    document.getElementById('levelFilter') || document.body
-                  }
-                  options={[
-                    { value: '依熱門程度搜尋', label: '依熱門程度搜尋' },
-                    { value: '依好吃程度搜尋', label: '依好吃程度搜尋' },
-                    { value: '依好玩程度搜尋', label: '依好玩程度搜尋' }
-                  ]}
+            {/* 搜尋欄及篩選 */}
+            <div className='search flex justify-between lg:justify-start lg:space-x-6'>
+              {/* 搜尋欄 */}
+              <div className='max-w-[155px] sm:max-w-[180px] lg:w-[416px] lg:max-w-none'>
+                <SearchCapsule
+                  colorPrimary={'#767494'}
+                  borderRadius={10}
+                  controlHeight={48}
+                  colorBgContainer={'#EEECFA'}
+                  placeholder={'搜尋諮商師'}
                 />
-              </ConfigProvider>
+              </div>
+
+              {/* 篩選欄 */}
+              <div
+                id='levelFilter'
+                className='relative max-w-[155px] sm:w-[180px] sm:max-w-none'
+              >
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#767494',
+                      colorTextBase: '#767494', // => 文字顏色
+                      controlOutline: 'none', // => 膠囊focus
+                      borderRadius: 10,
+                      colorBorder: '#767494',
+                      colorIcon: '#767494',
+                      colorTextPlaceholder: '#767494',
+                      fontSizeIcon: 10,
+                      controlHeight: 48,
+                      borderRadiusSM: 10,
+                      fontSize: 16
+                    }
+                  }}
+                >
+                  <Select
+                    defaultValue='依熱門程度搜尋'
+                    getPopupContainer={() =>
+                      document.getElementById('levelFilter') || document.body
+                    }
+                    options={[
+                      { value: '依熱門程度搜尋', label: '依熱門程度搜尋' },
+                      { value: '依好吃程度搜尋', label: '依好吃程度搜尋' },
+                      { value: '依好玩程度搜尋', label: '依好玩程度搜尋' }
+                    ]}
+                  />
+                </ConfigProvider>
+              </div>
             </div>
-          </div>
+        
         </div>
       </section>
 
@@ -203,9 +243,11 @@ export default function CounselorList() {
                   <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy py-2 text-xs font-semibold text-primary-heavy lg:text-sm'>
                     我有問題
                   </button>
-                  <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
-                    立即預約
-                  </button>
+                  <Link href={'CounselorPage'}>
+                    <button className='h-9 w-[90px] rounded-3xl border border-primary-heavy bg-primary-heavy py-2 text-xs font-semibold text-white lg:text-sm'>
+                      立即預約
+                    </button>
+                  </Link>
                 </div>
               </div>
             </li>
