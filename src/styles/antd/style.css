@@ -1,27 +1,42 @@
 /* 篩選主題器膠囊 */
 .selectTopic .ant-select-selector {
-  border-radius: 24px !important;
-  border: none !important;
-  background-color: #d4d2e3 !important;
-  padding: 6px 20px !important;
+  padding: 2px 5px !important;
+}
+.selectTopic .ant-select-selection-search {
+  display: none;
 }
 
-/* 篩選主題器標籤膠囊 */
-.selectTopic .ant-select-selection-item {
-  border-radius: 24px !important;
-  background-color: white !important;
+
+
+/* 搜尋元件(輸入框) */
+.search .ant-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search .ant-input-affix-wrapper {
+  border: none;
+}
+.search .ant-input-affix-wrapper input {
+  padding-left: 5px;
+}
+.search .ant-input-affix-wrapper .ant-input-suffix {
+  padding-right: 5px;
 }
 
-/* 篩選主題器標籤文字 */
-.selectTopic .ant-select-selection-item-content {
-  font-size: 12px !important;
+/* 搜尋元件(選單) */
+.search .ant-select {
+  display: flex;
+  align-items: center;
 }
 
-/* 篩選主題器icon */
-.selectTopic .ant-select-arrow,
-.selectTopic .ant-select-clear {
-  display: none !important;
+.search .ant-select .ant-select-arrow {
+  color: #767494;
 }
+/* .search .ant-select .ant-select-selector .ant-select-selection-item {
+  font-weight: bold;
+  color: #767494;
+} */
 
 /* 分頁前後頁按鈕 */
 .ant-pagination-disabled .ant-pagination-item-link {
@@ -41,34 +56,6 @@
   color: #5d5a88 !important;
 }
 
-/* 搜尋元件(輸入框) */
-.search .ant-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 搜尋元件(選單) */
-.search .ant-select {
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  border: 1px solid #767494;
-  border-radius: 24px;
-}
-.search .ant-select .ant-select-selector {
-  border: none;
-  padding: 0;
-}
-.search .ant-select .ant-select-arrow {
-  color: #767494;
-  padding: 0 24px 0 0;
-}
-.search .ant-select .ant-select-selector .ant-select-selection-item {
-  font-weight: bold;
-  color: #767494;
-}
-
 /* 分頁頁碼 */
 .ant-pagination-item {
   border: none !important;
@@ -82,7 +69,7 @@
 
 /* Footer */
 .footer-shadow {
-  box-shadow:  0 -1px 5px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
 
 /* 忘記密碼、重設密碼底圖 */
@@ -93,5 +80,8 @@
 .form .ant-form-item-row{
   display: flex;
   flex-direction: column;
-  
+}
+
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
 }

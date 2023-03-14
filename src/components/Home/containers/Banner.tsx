@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { IButton, lightBtn, darkBtn } from '@/components/Public/IButton'
 
 export function Banner() {
@@ -11,13 +12,15 @@ export function Banner() {
             phasellus mollis sit aliquam sit nullam.
           </p>
           <div className='mt-10 space-x-4 lg:mt-[52px]'>
-            <IButton
-              text='尋找專屬諮商師'
-              bgColor={darkBtn}
-              px='px-[28px]'
-              py='py-4'
-              fontSize='text-[14px] lg:text-base'
-            />
+            <Link href={"CounselorList"}>
+              <IButton
+                text='尋找專屬諮商師'
+                bgColor={darkBtn}
+                px='px-[28px]'
+                py='py-4'
+                fontSize='text-[14px] lg:text-base'
+              />
+            </Link>
             <IButton
               text='立即註冊'
               bgColor={lightBtn}
