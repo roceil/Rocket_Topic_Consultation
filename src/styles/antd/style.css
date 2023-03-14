@@ -94,7 +94,7 @@
 
 /* 登入註冊底圖 */
 .box-height-xl{
-  height: calc(100vh - 220px);
+  height: calc(100vh-220px);
 }
 .box-height-lg{
   height: calc(100vh - 110px);

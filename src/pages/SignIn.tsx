@@ -335,7 +335,7 @@ export default function SignIn (){
 
   return(
     <>
-    <div className='hidden lg:block w-[416px] box-height-xl bg-[#D4D2E3] absolute  -z-[99]'></div>
+    <div className='hidden lg:block w-[416px] h-[1145px] bg-[#D4D2E3] absolute  -z-[99]'></div>
     {/* PC 左側底圖 */}
     <div className="z-20 container flex">
       {/* 圖片 */}
