@@ -85,7 +85,13 @@
   box-shadow:  0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
 
-/* 忘記密碼底圖 */
+/* 忘記密碼、重設密碼底圖 */
 .log-in-box-height-xl{
-  height: calc(100vh - 625px);
+  height: calc(100vh - 225px);
+}
+
+/* antd 表格 col 排列 */
+.form .ant-form-item-row{
+  display: flex;
+  flex-direction: column;
 }
