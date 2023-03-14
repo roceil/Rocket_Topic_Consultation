@@ -1,6 +1,4 @@
 // 待修改：
-// PC 表單 文字＆輸入框 要換行排列-> <Form layout="ant-col"> 改得動但有紅字，估計 vercel 會報錯
-// PC 表單格線有問題 -> 剩下諮商師 Upload 的位置調不動
 // PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
 
 import Link from 'next/link';
@@ -47,7 +45,7 @@ const tailFormItemLayout = {
   },
 };
 
-const inputStyle = 'py-3 px-5 rounded-[24px] ';
+const inputStyle = 'py-3 px-5 rounded-[24px] mt-3';
 
 
 
@@ -69,8 +67,7 @@ export default function LogIn (){
     form={form}
     name="register"
     onFinish={onFinish}
-    className='space-y-8 max-w-[380px]'
-    layout="ant-col"
+    className='space-y-8 max-w-[380px] mt-6'
     labelAlign="left"
   >
     <Form.Item
@@ -85,38 +82,39 @@ export default function LogIn (){
       label="密碼 Password"
       hasFeedback
     >
+      <div className='h-5'></div>
       <Input.Password placeholder="Password" className={inputStyle}/>
-      <p className='text-right underline'>忘記密碼？</p>
+      <p className='text-right underline underline-offset-2 '>忘記密碼？</p>
     </Form.Item>
     {/* 推底下間距 */}
-    <div className='h-5'></div> 
+    <div className='h-12'></div> 
     <div className='flex justify-between items-end'>
       <Form.Item className='flex items-end m-0'>
         <Checkbox>
         記住我
         </Checkbox>
       </Form.Item>
+      
       <div className='flex h-8 items-center'>
         <p>尚未成為會員？</p>
         <Link href ='#'>
-          <p className='underline ml-2'>立即註冊</p>
+          <p className='underline ml-2 underline-offset-2 '>立即註冊</p>
         </Link>
       </div>
     </div>
     <Form.Item {...tailFormItemLayout}>
-      <Button type="default" htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] rounded-[30px] text-base '>
+    <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
       登入
       </Button>
     </Form.Item>
     </Form></>},
     {user: '諮商師',
-    form:<><Form
+    form: <><Form
     {...formItemLayout}
     form={form}
     name="register"
     onFinish={onFinish}
-    className='space-y-8 max-w-[380px]'
-    layout="ant-col"
+    className='space-y-8 max-w-[380px] mt-6'
     labelAlign="left"
   >
     <Form.Item
@@ -131,26 +129,28 @@ export default function LogIn (){
       label="密碼 Password"
       hasFeedback
     >
+      <div className='h-5'></div>
       <Input.Password placeholder="Password" className={inputStyle}/>
-      <p className='text-right underline'>忘記密碼？</p>
+      <p className='text-right underline underline-offset-2 '>忘記密碼？</p>
     </Form.Item>
     {/* 推底下間距 */}
-    <div className='h-5'></div> 
+    <div className='h-12'></div> 
     <div className='flex justify-between items-end'>
       <Form.Item className='flex items-end m-0'>
         <Checkbox>
         記住我
         </Checkbox>
       </Form.Item>
+      
       <div className='flex h-8 items-center'>
         <p>尚未成為會員？</p>
         <Link href ='#'>
-          <p className='underline ml-2'>立即註冊</p>
+          <p className='underline underline-offset-2 ml-2'>立即註冊</p>
         </Link>
       </div>
     </div>
     <Form.Item {...tailFormItemLayout}>
-      <Button type="default" htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] rounded-[30px] text-base '>
+    <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
       登入
       </Button>
     </Form.Item>
@@ -170,13 +170,11 @@ export default function LogIn (){
           <p className='text-sm text-primary-heavy font-bold mb-1 hidden lg:block'>LOG IN</p>
           <h2>會員登入</h2>
         </div>
-        <div className='max-w-[380px] flex fle-col '>
+        <div className='max-w-[380px] flex fle-col form'>
           <ConfigProvider
             theme={{
               token: {
                 colorTextPlaceholder: '#5D5A88',
-                colorPrimary: '#5D5A88', // Tab 被選取時的顏色 
-                // borderRadius: 24,
                 colorText: '#5D5A88',
                 colorIcon: '#5D5A88',
                 colorTextDescription: '#ff7f17',
@@ -185,13 +183,16 @@ export default function LogIn (){
               components:{
                 Tabs:{
                   colorText: '#D4D2E3',
-                  borderRadius: 4
-                },
-                Select:{
-                  controlHeight: 48
+                  colorPrimary: '#5D5A88'
                 },
                 Checkbox:{
                   borderRadius: 0,
+                },
+                Button:{
+                  colorPrimaryHover: '#5D5A88',
+                  colorPrimaryActive: '#5D5A88',
+                  colorText: '#5D5A88',
+                  colorTextDisabled: '#fff'
                 }
               }
             }}
