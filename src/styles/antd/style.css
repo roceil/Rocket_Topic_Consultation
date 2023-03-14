@@ -112,3 +112,19 @@
 .ant-radio-button-wrapper::before {
   width: 0px !important;
 }
+
+/* 登入註冊底圖 */
+.log-in-box-height-xl{
+  height: calc(100vh - 105px);
+}
+
+/* antd 表格 col 排列 */
+.form .ant-form-item-row{
+  display: flex;
+  flex-direction: column;
+}
+
+/* 登入表格排列 */
+.form .ant-form-item-control{
+  margin-bottom: 32px;
+}

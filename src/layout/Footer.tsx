@@ -41,7 +41,9 @@ export function Footer(props: any) {
                 會員中心
               </h3>
               <ul className='space-y-4 text-[14px] text-[#9795B5]'>
-                <li className=''>個人資料</li>
+                <li>
+                  <Link href='/LogIn'>個人資料</Link>
+                </li>
                 <li>
                   <Link href='/ForgetPassword'>預約記錄</Link>
                 </li>
