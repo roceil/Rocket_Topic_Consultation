@@ -1,13 +1,11 @@
 // 待修改：
-// PC 表單 文字＆輸入框 要換行排列-> <Form layout="ant-col"> 改得動但有紅字，估計 vercel 會報錯
 // PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
 
 import Link from 'next/link';
 import React from 'react';
 import { ConfigProvider, Button,
   Form,
-  Input,
-  Select} from 'antd';
+  Input} from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -34,13 +32,6 @@ const tailFormItemLayout = {
 
 const inputStyle = 'py-3 px-5 rounded-[24px] ';
 
-
-
-
-// -----------------------
-
-
-
 export default function LogIn (){
 
   const [form] = Form.useForm();
@@ -66,9 +57,7 @@ export default function LogIn (){
             theme={{
               token: {
                 colorTextPlaceholder: '#5D5A88',
-                colorPrimary: '#5D5A88', // Tab 被選取時的顏色 
                 colorText: '#5D5A88',
-                colorIcon: '#5D5A88',
                 colorBorder: '#D4D2E3'
               },
               components:{
