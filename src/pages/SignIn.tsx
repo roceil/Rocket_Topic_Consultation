@@ -1,7 +1,4 @@
-// 待修改：
-// PC 表單格線問題 -> 諮商師 Upload 的位置調不動
-// PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
-
+import { useState } from 'react';
 import Link from 'next/link';
 import React from 'react';
 import { ConfigProvider, Tabs, Button,
@@ -14,40 +11,24 @@ import { ConfigProvider, Tabs, Button,
 import { PlusCircleOutlined } from '@ant-design/icons'
 
 const { Option } = Select;
+type LayoutType = Parameters<typeof Form>[0]['layout'];
 
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 24,
-    },
-  }
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 24,
-      offset: 0,
-    },
-  },
-};
-
-const inputStyle = 'py-3 px-5 rounded-[24px] mt-2';
+const inputStyle = 'py-3 px-5 rounded-[24px]';
 
 export default function SignIn (){
 
   const [form] = Form.useForm();
+  const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
+  const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
+  const formItemLayoutH =
+  formLayout === 'horizontal' ? { labelCol: { span: 4 }, wrapperCol: { offset: 0 } } : null;
+
+
   const onFinish = (values:any) => {
     console.log('Received values of form: ', values);
   };
   const config = {
-    rules: [{ type: 'object' as const, required: true, message: 'Please select time!' }],
+    rules: [{ type: 'object' as const, required: true, message: '請選擇出生年月日' }],
   };
   const normFile = (e: any) => {
     console.log('Upload event:', e);
@@ -58,16 +39,25 @@ export default function SignIn (){
   };
   const SignInAry = [
     {user: '用戶',
-    form: <><Form
+    form: <>
+    <Form
     {...formItemLayout}
+    layout={formLayout}
     form={form}
-    name="register"
+    name="register-counselor"
     onFinish={onFinish}
-    className='space-y-8 max-w-[380px]'
-    // layout="ant-col"
+    style={{
+      width: 380,
+    }}
+    className='space-y-8'
     labelAlign="left"
   >
-    <div className='flex justify-between from form-sign-in'>
+    <Form className='flex justify-between license'
+    {...formItemLayoutH}
+    layout={formLayout}
+    form={form}
+    onFinish={onFinish}
+    >
       <Form.Item
         name="Name"
         label="姓名 Name"
@@ -80,7 +70,7 @@ export default function SignIn (){
         ]}
         style={{width: 180}}
       >
-        <Input placeholder='Name' className={`mb-[80px] ${inputStyle}`}/>
+        <Input placeholder='Name' className={inputStyle}/>
       </Form.Item>
       <Form.Item
         name="gender"
@@ -93,118 +83,124 @@ export default function SignIn (){
         ]}
         style={{width: 180,}}
       >
-        <Select placeholder="選擇性別" className={`mb-[72px]`}>
+        <Select placeholder="選擇性別">
           <Option value="male">男</Option>
           <Option value="female">女</Option>
           <Option value="other">其他</Option>
         </Select>
       </Form.Item>
-    </div>
+    </Form>
   
-    <Form.Item name="date-picker" label="出生年月日 Birth date" {...config}>
-      <DatePicker className={inputStyle} style={{width: 380}} placeholder='Select date'/>
-    </Form.Item>
+      <Form.Item name="date-picker" label="出生年月日 Birth date" {...config}>
+        <DatePicker className={inputStyle} style={{width: 380}} placeholder='Select date'/>
+      </Form.Item>
   
-    <Form.Item
-      name="email"
-      label="帳號 Account"
-      rules={[
-        {
-          type: 'email',
-          message: '請輸入 E-mail',
-        },
-        {
-          required: true,
-          message: '請輸入 E-mail',
-        },
-      ]}
-      
-    >
-      <Input placeholder="Email address" className={inputStyle}/>
-    </Form.Item>
-  
-    <Form.Item
-      name="password"
-      label="密碼 Password"
-      rules={[
-        {
-          required: true,
-          message: '請輸入密碼',
-        },
-      ]}
-      hasFeedback
-    >
-      <Input.Password placeholder="Password" className={`mt-7 ${inputStyle}`}/>
-      <p className='text-right'>須包含大小寫英文字母及數字</p>
-    </Form.Item>
-  
-    <Form.Item
-      name="confirm"
-      label="再次輸入密碼 Confirm password"
-      dependencies={['password']}
-      hasFeedback
-      rules={[
-        {
-          required: true,
-          message: '請再次輸入密碼',
-        },
-        ({ getFieldValue }) => ({
-          validator(_, value) {
-            if (!value || getFieldValue('password') === value) {
-              return Promise.resolve();
-            }
-            return Promise.reject(new Error('The two passwords that you entered do not match!'));
-          },
-        }),
-      ]}
-    >
-      <Input.Password placeholder='Confirm password' className={inputStyle}/>
-    </Form.Item>
-    {/* 推底下間距 */}
-    <div className='h-5'></div>
-    <div className='flex justify-between items-end'>
       <Form.Item
-        name="agreement"
-        valuePropName="checked"
+        name="email"
+        label="帳號 Account"
         rules={[
           {
-            validator: (_, value) =>
-              value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+            type: 'email',
+            message: '請輸入 E-mail',
+          },
+          {
+            required: true,
+            message: '請輸入 E-mail',
           },
         ]}
-        {...tailFormItemLayout}
+        
       >
-        <Checkbox>
-        我已同意 <a href="" className='underline'>隱私權條款</a>
-        </Checkbox>
+        <Input placeholder="Email address" className={inputStyle}/>
       </Form.Item>
-      <div className='flex h-8 items-center'>
-        <p>已成為會員？</p>
-        <Link href ='#'>
-          <p className='underline ml-2'>立即登入</p>
-        </Link>
+    
+      <Form.Item
+        name="password"
+        label="密碼 Password"
+        rules={[
+          {
+            required: true,
+            message: '請輸入密碼',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password placeholder="Password" className={`mt-7 ${inputStyle}`}/>
+        <p className='text-right'>須包含大小寫英文字母及數字</p>
+      </Form.Item>
+    
+      <Form.Item
+        name="confirm"
+        label="再次輸入密碼 Confirm password"
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: '請再次輸入密碼',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+            },
+          }),
+        ]}
+      >
+        <Input.Password placeholder='Confirm password' className={inputStyle}/>
+      </Form.Item>
+      {/* 推底下間距 */}
+      <div className='h-5'></div>
+      <div className='flex justify-between items-end'>
+        <Form.Item
+          name="agreement"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+            },
+          ]}
+          {...formItemLayout}
+        >
+          <Checkbox>
+          我已同意 <a href="" className='underline'>隱私權條款</a>
+          </Checkbox>
+        </Form.Item>
+        <div className='flex h-8 items-center'>
+          <p>已成為會員？</p>
+          <Link href ='#'>
+            <p className='underline ml-2'>立即登入</p>
+          </Link>
+        </div>
       </div>
-    </div>
-    <Form.Item {...tailFormItemLayout}>
-    <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
-      立即註冊
-      </Button>
-    </Form.Item>
-    </Form></>},
+      <Form.Item {...formItemLayout}>
+      <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
+        立即註冊
+        </Button>
+      </Form.Item>
+    </Form></>
+    },
     {user: '諮商師',
     form:<><Form
     {...formItemLayout}
+    layout={formLayout}
     form={form}
-    name="register"
+    name="register-counselor"
     onFinish={onFinish}
     style={{
-      maxWidth: 380,
+      width: 380,
     }}
     className='space-y-8'
-    // layout="ant-col"
     labelAlign="left"
   >
-    <div className='flex justify-between license'>
+    <Form className='flex justify-between license'
+    {...formItemLayoutH}
+    layout={formLayout}
+    form={form}
+    onFinish={onFinish}
+    >
       <Form.Item
         name="Name"
         label="諮商師姓名 Name"
@@ -217,20 +213,25 @@ export default function SignIn (){
         ]}
         style={{width: 180,}}
       >
-        <Input placeholder='Name' className={`mb-[80px] ${inputStyle}`}/>
+        <Input placeholder='Name' className={inputStyle}/>
       </Form.Item>
       <Form.Item
         name="upload"
         label="諮商師執照 License"
         valuePropName="fileList"
         getValueFromEvent={normFile}
-        
+        rules={[
+          {
+            required: true,
+            message: '請輸入諮商師執照',
+          },
+        ]}
       >
-        <Upload name="logo" action="/upload.do" listType="picture">
-          <Button icon={<PlusCircleOutlined />} >License</Button>
+        <Upload name="logo" action="/upload.do" listType="picture" style={{width: 180}}>
+          <Button icon={<PlusCircleOutlined style={{height: 20}}/>} shape='round' style={{width: 180, height: 48}}>License</Button>
         </Upload>
       </Form.Item>
-    </div>
+    </Form>
     <Form.Item
       name="Name"
       label="諮商師證書字號 Certification No."
@@ -274,7 +275,7 @@ export default function SignIn (){
       ]}
       hasFeedback
     >
-      <Input.Password placeholder="Password" className={`mt-7 ${inputStyle}`}/>
+      <Input.Password placeholder="Password" className={`${inputStyle}`}/>
       <p className='text-right'>須包含大小寫英文字母及數字</p>
     </Form.Item>
   
@@ -312,7 +313,6 @@ export default function SignIn (){
               value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
           },
         ]}
-        {...tailFormItemLayout}
       >
         <Checkbox>
         我已同意 <a href="" className='underline'>隱私權條款</a>
@@ -325,7 +325,7 @@ export default function SignIn (){
         </Link>
       </div>
     </div>
-    <Form.Item {...tailFormItemLayout}>
+    <Form.Item>
     <Button type="primary" shape='round' htmlType="submit" className='-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none'>
       立即註冊
       </Button>
@@ -341,12 +341,12 @@ export default function SignIn (){
       {/* 圖片 */}
       <div className='hidden lg:block w-[492px] h-[492px] rounded-[25px] bg-primary-light mr-[176px] mt-[120px] ml-[58px] text-center'>Image</div>
       {/* 右側輸入區 */}
-      <div className="max-w-[380px] lg:mt-[120px] lg:mb-[160px] mb-[84px]">
+      <div className="w-[380px] lg:mt-[120px] lg:mb-[160px] mb-[84px]">
         <div className='flex flex-col items-center my-12 lg:mt-0 lg:mb-12 lg:items-start'>
           <p className='text-sm text-primary-heavy font-bold mb-1 hidden lg:block'>SIGN UP</p>
           <h2>會員註冊</h2>
         </div>
-        <div className='max-w-[380px] flex fle-col form form-sign-in'>
+        <div className='w-[380px] flex fle-col form form-sign-in'>
           <ConfigProvider
             theme={{
               token: {
@@ -359,14 +359,21 @@ export default function SignIn (){
                 colorBorder: '#D4D2E3'
               },
               components:{
-                Tabs:{
-                  colorText: '#D4D2E3',
-                  borderRadius: 4
-                },
                 Select:{
                   controlHeight: 48
                 },
-                
+                Tabs:{
+                  colorText: '#D4D2E3',
+                },
+                Checkbox:{
+                  borderRadius: 0,
+                },
+                Button:{
+                  colorPrimaryHover: '#5D5A88',
+                  colorPrimaryActive: '#5D5A88',
+                  colorText: '#5D5A88',
+                  colorTextDisabled: '#fff'
+                }
               }
             }}
           >
@@ -379,9 +386,9 @@ export default function SignIn (){
                   label: `我是${_.user}`,
                   key: id,
                   children: _.form
-                  
                 };
               })}
+              style={{width : 380}}
             />
           </ConfigProvider>
         </div>

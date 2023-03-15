@@ -101,23 +101,23 @@
 }
 
 /* antd 表格 col 排列 */
-.form .ant-form-item-row{
+/* .form .ant-form-item-row{
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* 登入表格排列 */
-.form .ant-form-item-control{
-  margin-bottom: 32px;
-}
+/* .form .ant-form-item-control{
+  margin-bottom: 10px;
+} */
 
 /* 註冊表格排列 */
-.form-sign-in .ant-form-item-control{
-  margin-bottom: 40px;
-}
+/* .form-sign-in .ant-form-item-control{
+  margin-bottom: 10px;
+} */
 
-.css-dev-only-do-not-override-nro7k0 .ant-row{
+/* .css-dev-only-do-not-override-nro7k0 .ant-row{
   display: flex;
   flex-direction: column;
   flex-flow: column nowrap;
-}
+} */
