@@ -47,7 +47,7 @@ export default function SignIn (){
     name="register-counselor"
     onFinish={onFinish}
     style={{
-      width: 380,
+      maxWidth: 380,
     }}
     className='space-y-8'
     labelAlign="left"
@@ -124,7 +124,7 @@ export default function SignIn (){
         ]}
         hasFeedback
       >
-        <Input.Password placeholder="Password" className={`mt-7 ${inputStyle}`}/>
+        <Input.Password placeholder="Password" className={inputStyle}/>
         <p className='text-right'>須包含大小寫英文字母及數字</p>
       </Form.Item>
     
@@ -190,7 +190,7 @@ export default function SignIn (){
     name="register-counselor"
     onFinish={onFinish}
     style={{
-      width: 380,
+      maxWidth: 380,
     }}
     className='space-y-8'
     labelAlign="left"
@@ -346,7 +346,7 @@ export default function SignIn (){
           <p className='text-sm text-primary-heavy font-bold mb-1 hidden lg:block'>SIGN UP</p>
           <h2>會員註冊</h2>
         </div>
-        <div className='w-[380px] flex fle-col form form-sign-in'>
+        <div className='max-w-[380px] lg:w-[380px] flex fle-col form form-sign-in'>
           <ConfigProvider
             theme={{
               token: {
@@ -388,7 +388,7 @@ export default function SignIn (){
                   children: _.form
                 };
               })}
-              style={{width : 380}}
+              style={{maxWidth : 380}}
             />
           </ConfigProvider>
         </div>
