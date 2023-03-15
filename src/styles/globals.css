@@ -4,31 +4,38 @@
 
 @layer base {
   * {
-    @apply hover:duration-300
+    @apply hover:duration-300;
   }
   html {
     font-family: 'Noto Sans', sans-serif;
   }
   body {
-    @apply leading-normal
+    @apply leading-normal;
   }
   h1 {
-    @apply text-4xl-plus lg:text-5xl
+    @apply text-4xl-plus font-bold lg:text-5xl;
   }
   h2 {
-    @apply text-2xl font-bold text-primary-heavy lg:text-4xl
+    @apply text-2xl font-bold text-primary-heavy lg:text-4xl;
+  }
+  /* 輸入時不要放大螢幕 */
+  input,
+  textarea {
+    font-size: initial !important;
   }
 }
 
 @layer components {
   .subTitle {
-    @apply mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg
+    @apply mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg;
+  }
+  .titleDecoration {
+    @apply after:absolute after:left-0 after:top-1/2 after:h-10 after:w-[10px] after:-translate-y-1/2 after:bg-primary-heavy;
   }
 }
 
 @layer utilities {
-  .flexCenterCenter{
-    @apply flex justify-center items-center
+  .flexCenterCenter {
+    @apply flex items-center justify-center;
   }
 }
-
