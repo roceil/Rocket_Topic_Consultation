@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import { Button, ConfigProvider, Input } from 'antd'
 import { IButton, darkBtn, lightBtn } from '../components/Public/IButton'
+import { SearchCapsule } from '@/components/Public/SearchCapsule'
 
 const isLogIn = false // 判斷是否登入，控制 Nav 顯示內容
 
@@ -98,14 +99,12 @@ export function Header() {
                 components: {}
               }}
             >
-              <Search
-                placeholder=''
-                onSearch={onSearch}
-                size='large'
-                style={{
-                  width: 180
-                }}
-              />
+              <SearchCapsule
+              colorPrimary='#5D5A88'
+              borderRadius= {100} 
+              controlHeight= {40}
+              colorBgContainer = '#fff'
+              placeholder = ''/>
               <Button
                 type='default'
                 shape='circle'
