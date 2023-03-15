@@ -1,14 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 // 待修改：
 // PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
 
-import Link from 'next/link';
 import React from 'react';
 import {
-  ConfigProvider,
-  Button,
-  Form,
-  Input,
+  ConfigProvider, Button, Form, Input,
 } from 'antd';
 
 const formItemLayout = {
@@ -38,24 +36,29 @@ const inputStyle = 'py-3 px-5 rounded-[24px] mt-2';
 
 export default function LogIn() {
   const [form] = Form.useForm();
-  const onFinish = (values:any) => {
-    console.log('Received values of form: ', values);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onFinish = (values: any) => {
+    // console.log('Received values of form: ', values);
   };
 
   return (
     <>
       {/* PC 左側底圖 */}
-      <div className="hidden lg:block w-[416px] log-in-box-height-xl bg-[#D4D2E3] absolute -z-10" />
-      <div className="z-20 container flex">
+      <div className="log-in-box-height-xl absolute -z-10 hidden w-[416px] bg-[#D4D2E3] lg:block" />
+      <div className="container z-20 flex">
         {/* 圖片 */}
-        <div className="hidden lg:block w-[492px] h-[492px] rounded-[25px] bg-primary-light xl:mr-[176px] lg:mr-[100px] my-[120px] ml-[58px] text-center">Image</div>
+        <div className="my-[120px] ml-[58px] hidden h-[492px] w-[492px] rounded-[25px] bg-primary-light text-center lg:mr-[100px] lg:block xl:mr-[176px]">
+          Image
+        </div>
         {/* 右側輸入區 */}
-        <div className="max-w-[380px] lg:mt-[120px] lg:mb-[160px] mb-[84px]">
-          <div className="flex flex-col items-center my-12 lg:mt-0 lg:mb-12 lg:items-start">
-            <p className="text-base text-primary-heavy font-bold mb-1 hidden lg:block">RESET PASSWORD</p>
+        <div className="mb-[84px] max-w-[380px] lg:mt-[120px] lg:mb-[160px]">
+          <div className="my-12 flex flex-col items-center lg:mt-0 lg:mb-12 lg:items-start">
+            <p className="mb-1 hidden text-base font-bold text-primary-heavy lg:block">
+              RESET PASSWORD
+            </p>
             <h2>重設密碼</h2>
           </div>
-          <div className="max-w-[380px] flex fle-col form form-reset">
+          <div className="fle-col form form-reset flex max-w-[380px]">
             <ConfigProvider
               theme={{
                 token: {
@@ -63,7 +66,6 @@ export default function LogIn() {
                   colorText: '#5D5A88',
                   colorBorder: '#D4D2E3',
                   colorIcon: '#5D5A88',
-
                 },
                 components: {
                   Button: {
@@ -80,16 +82,14 @@ export default function LogIn() {
                 form={form}
                 name="register"
                 onFinish={onFinish}
-                className="space-y-8 max-w-[380px]"
-              // layout="ant-col"
+                className="max-w-[380px] space-y-8"
                 labelAlign="left"
               >
-                <Form.Item
-                  name="password"
-                  label="密碼 Password"
-                  hasFeedback
-                >
-                  <Input.Password placeholder="Password" className={inputStyle}/>
+                <Form.Item name="password" label="密碼 Password" hasFeedback>
+                  <Input.Password
+                    placeholder="Password"
+                    className={inputStyle}
+                  />
                 </Form.Item>
                 <Form.Item
                   name="confirm"
@@ -102,19 +102,29 @@ export default function LogIn() {
                         if (!value || getFieldValue('password') === value) {
                           return Promise.resolve();
                         }
-                        return Promise.reject(new Error('與輸入的密碼不相符，請重新輸入'));
+                        return Promise.reject(
+                          new Error('與輸入的密碼不相符，請重新輸入'),
+                        );
                       },
                     }),
                   ]}
                 >
                   {/* 推間距 */}
-                  <div className='h-2'></div>
-                  <Input.Password placeholder='Confirm password' className={inputStyle}/>
+                  <div className="h-2" />
+                  <Input.Password
+                    placeholder="Confirm password"
+                    className={inputStyle}
+                  />
                 </Form.Item>
                 {/* 推底下間距 */}
                 <div className="h-5 lg:h-[64px]" />
                 <Form.Item {...tailFormItemLayout}>
-                  <Button type="primary" shape="round" htmlType="submit" className="-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none">
+                  <Button
+                    type="primary"
+                    shape="round"
+                    htmlType="submit"
+                    className="-mt-8 h-[56px] w-[380px] bg-[#D4D2E3] text-base text-white shadow-none"
+                  >
                     重設密碼
                   </Button>
                 </Form.Item>
