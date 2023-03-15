@@ -21,7 +21,7 @@ export default function SignIn (){
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
   const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
   const formItemLayoutH =
-  formLayout === 'horizontal' ? { labelCol: { span: 4 }, wrapperCol: { offset: 0 } } : null;
+  formLayout === 'horizontal' ? { labelCol: { span: 0 }, wrapperCol: { offset: 0 } } : null;
 
 
   const onFinish = (values:any) => {
@@ -52,7 +52,7 @@ export default function SignIn (){
     className='space-y-8'
     labelAlign="left"
   >
-    <Form className='flex justify-between license'
+    <Form className='flex justify-between'
     {...formItemLayoutH}
     layout={formLayout}
     form={form}

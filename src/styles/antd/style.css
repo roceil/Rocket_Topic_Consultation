@@ -121,3 +121,20 @@
   flex-direction: column;
   flex-flow: column nowrap;
 } */
+
+.css-dev-only-do-not-override-1e85tlm .ant-row{
+  display: flex;
+  flex-direction: column;
+  flex-flow: column nowrap;
+}
+
+/* 調整 Mobile 表單第一列 label 高度 */
+.css-dev-only-do-not-override-1e85tlm .ant-form .ant-form-item .ant-form-item-label{
+  display: flex;
+  flex: 0 0 50%;
+}
+
+/* 調整 Tabs 與 Form 間距 */
+.form .ant-tabs-nav{
+  margin-bottom: 40px !important;
+}
