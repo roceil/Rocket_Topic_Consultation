@@ -118,13 +118,18 @@
   height: calc(100vh - 105px);
 }
 
-/* antd 表格 col 排列 */
+/* antd 表格 col 排列
 .form .ant-form-item-row{
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* 登入表格排列 */
-.form .ant-form-item-control{
+/* .form .ant-form-item-control{
   margin-bottom: 32px;
+} */
+
+/* 調整 Tabs 與 Form 間距 */
+.form .ant-tabs-nav{
+  margin-bottom: 40px !important;
 }
