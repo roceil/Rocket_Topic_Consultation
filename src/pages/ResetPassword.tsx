@@ -4,38 +4,18 @@
 // 待修改：
 // PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ConfigProvider, Button, Form, Input,
 } from 'antd';
 
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 24,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 24,
-      offset: 0,
-    },
-  },
-};
-
-const inputStyle = 'py-3 px-5 rounded-[24px] mt-2';
+type LayoutType = Parameters<typeof Form>[0]['layout'];
+const inputStyle = 'py-3 px-5 rounded-[24px]';
 
 export default function LogIn() {
   const [form] = Form.useForm();
+  const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
+  const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFinish = (values: any) => {
     // console.log('Received values of form: ', values);
@@ -79,10 +59,14 @@ export default function LogIn() {
             >
               <Form
                 {...formItemLayout}
+                layout={formLayout}
                 form={form}
-                name="register"
+                name="register-counselor"
                 onFinish={onFinish}
-                className="max-w-[380px] space-y-8"
+                style={{
+                  maxWidth: 380,
+                }}
+                className="space-y-8"
                 labelAlign="left"
               >
                 <Form.Item name="password" label="密碼 Password" hasFeedback>
@@ -109,8 +93,6 @@ export default function LogIn() {
                     }),
                   ]}
                 >
-                  {/* 推間距 */}
-                  <div className="h-2" />
                   <Input.Password
                     placeholder="Confirm password"
                     className={inputStyle}
@@ -118,7 +100,7 @@ export default function LogIn() {
                 </Form.Item>
                 {/* 推底下間距 */}
                 <div className="h-5 lg:h-[64px]" />
-                <Form.Item {...tailFormItemLayout}>
+                <Form.Item {...formItemLayout}>
                   <Button
                     type="primary"
                     shape="round"
