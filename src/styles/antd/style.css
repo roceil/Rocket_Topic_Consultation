@@ -99,16 +99,6 @@
   height: calc(100vh - 225px);
 }
 
-/* antd 表格 col 排列 */
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
-}
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
-}
-
 .ant-radio-button-wrapper::before {
   width: 0px !important;
 }
@@ -118,13 +108,9 @@
   height: calc(100vh - 105px);
 }
 
-/* antd 表格 col 排列 */
-.form .ant-form-item-row{
+/* 漢堡選單排列 */
+.hamburger-menu .ant-modal-body{
   display: flex;
   flex-direction: column;
-}
-
-/* 登入表格排列 */
-.form .ant-form-item-control{
-  margin-bottom: 32px;
+  align-items: center;
 }
