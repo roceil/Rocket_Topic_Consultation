@@ -27,6 +27,9 @@
   //設定的rules會再蓋掉前者預設的規範，例如在extends引入的規範
   "rules": {
     //LF與CRLF換行警告
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/no-named-as-default": 0
   }
 }

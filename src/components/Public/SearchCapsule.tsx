@@ -1,13 +1,13 @@
-import { SearchOutlined } from '@ant-design/icons'
-import { Input, ConfigProvider } from 'antd'
-import { ISearchCapsuleProps } from '@/types/interface'
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, ConfigProvider } from 'antd';
+import { ISearchCapsuleProps } from '../../types/interface';
 
-export function SearchCapsule({
+export default function SearchCapsule({
   colorPrimary,
   borderRadius,
   controlHeight,
   colorBgContainer,
-  placeholder
+  placeholder,
 }: ISearchCapsuleProps) {
   return (
     <ConfigProvider
@@ -20,20 +20,20 @@ export function SearchCapsule({
           colorText: colorPrimary,
           colorBgContainer,
           controlOutline: colorPrimary,
-          controlHeight
-        }
+          controlHeight,
+        },
       }}
     >
       <Input
         placeholder={placeholder}
-        suffix={
+        suffix={(
           <SearchOutlined
             style={{
-              color: colorPrimary
+              color: colorPrimary,
             }}
           />
-        }
+        )}
       />
     </ConfigProvider>
-  )
+  );
 }
