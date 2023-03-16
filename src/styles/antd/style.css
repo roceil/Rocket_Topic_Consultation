@@ -114,3 +114,8 @@
   flex-direction: column;
   align-items: center;
 }
+
+/* Footer 手機版字重 */
+.footer-mobile .ant-collapse-header-text{
+  font-weight: 700;
+}
