@@ -11,19 +11,20 @@ type LayoutType = Parameters<typeof Form>[0]['layout'];
 const inputStyle = 'py-3 px-5 rounded-[24px] ';
 
 function ForgetPasswordForm() {
-  const onFinish = (values:any) => {
-    console.log('Received values of form: ', values);
-  };
   const [form] = Form.useForm();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
   const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
+
+  const onFinish = (values:any) => {
+    console.log('Received values of form: ', values);
+  };
   return (
     <Form
       {...formItemLayout}
       layout={formLayout}
       form={form}
-      name="register-counselor"
+      name="forgetPassword"
       onFinish={onFinish}
       style={{
         maxWidth: 380,
@@ -86,7 +87,6 @@ export default function ForgetPassword() {
                   Button: {
                     colorPrimaryHover: '#5D5A88',
                     colorPrimaryActive: '#5D5A88',
-                    colorText: '#5D5A88',
                     colorTextDisabled: '#fff',
                   },
                 },
