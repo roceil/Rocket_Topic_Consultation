@@ -18,6 +18,7 @@ const text = (
   </p>
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const panelStyle = {
   background: '#FFF',
   colorPrimary: '#9795B5',
@@ -64,30 +65,30 @@ export function Footer(props: any) {
               <h3 className="mb-6 text-base font-bold text-primary-heavy">
                 常見問題
               </h3>
-              <ul className="space-y-4">
-                <li className="text-[14px] text-[#9795B5]">預約教學</li>
-                <li className="text-[14px] text-[#9795B5]">註冊認證</li>
-                <li className="text-[14px] text-[#9795B5]">付款相關</li>
-                <li className="text-[14px] text-[#9795B5]">退課相關</li>
-                <li className="text-[14px] text-[#9795B5]">條款與政策</li>
+              <ul className="space-y-4 text-[14px] text-[#9795B5]">
+                <li className="">預約教學</li>
+                <li className="">註冊認證</li>
+                <li className="">付款相關</li>
+                <li className="">退課相關</li>
+                <li className="">條款與政策</li>
               </ul>
             </section>
             <section>
               <h3 className="mb-6 text-base font-bold text-primary-heavy">
                 關於我們
               </h3>
-              <ul className="space-y-4">
-                <li className="text-[14px] text-[#9795B5]">品牌故事</li>
-                <li className="text-[14px] text-[#9795B5]">合作機構</li>
+              <ul className="space-y-4 text-[14px] text-[#9795B5]">
+                <li className="">品牌故事</li>
+                <li className="">合作機構</li>
               </ul>
             </section>
             <section>
               <h3 className="mb-6 text-base font-bold text-primary-heavy">
                 追蹤我們
               </h3>
-              <ul className="space-y-4">
-                <li className="text-[14px] text-[#9795B5]">Facebook</li>
-                <li className="text-[14px] text-[#9795B5]">Instagram</li>
+              <ul className="space-y-4 text-[14px] text-[#9795B5]">
+                <li className="">Facebook</li>
+                <li className="">Instagram</li>
               </ul>
             </section>
           </div>
