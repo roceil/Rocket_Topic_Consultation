@@ -108,23 +108,34 @@ padding: ;
 }
 
 /* 登入註冊底圖 */
-.log-in-box-height-xl{
+.log-in-box-height-xl {
   height: calc(100vh - 105px);
 }
 
 /* 漢堡選單排列 */
-.hamburger-menu .ant-modal-body{
+.hamburger-menu .ant-modal-body {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 /* Footer 手機版字重 */
-.footer-mobile .ant-collapse-header-text{
+.footer-mobile .ant-collapse-header-text {
   font-weight: 700;
 }
 
 /* 調整 Tabs 與 Form 間距 */
 .form .ant-tabs-nav{
   margin-bottom: 40px !important;
+}
+.counselorTab .ant-tabs-nav-list {
+  width: 100%;
+  justify-content: center;
+}
+
+.counselorTab .ant-tabs-nav-list .ant-tabs-tab {
+  width: 33.33333%;
+  justify-content: center;
+  margin-left: 0;
+  border: none;
 }
