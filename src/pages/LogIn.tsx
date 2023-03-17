@@ -29,7 +29,7 @@ function LogInForm() {
       {...formItemLayout}
       layout={formLayout}
       form={form}
-      name="register"
+      name="logIn"
       onFinish={onFinish}
       style={{
         maxWidth: 380,
