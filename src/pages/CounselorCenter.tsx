@@ -1,14 +1,59 @@
 import Image from 'next/image';
-import { ConfigProvider, Tabs } from 'antd';
+import {
+  ConfigProvider, Form, Input, Tabs,
+} from 'antd';
 import user from '../../public/images/user.svg';
 import profile from '../../public/images/profile.svg';
 import edit from '../../public/images/Edit.svg';
+
+function InfoForm() {
+  return (
+    <div className="w-full px-4 border space-y-12">
+      <section className="space-y-5">
+        <div className="bg-[#EEECFA] text-center  rounded-lg">
+          <h3 className="py-2 text-base font-bold">會員資料</h3>
+        </div>
+        <div className="space-y-[4.5px]">
+          <p className="text-sm font-bold">會員帳號</p>
+          <p className="text-sm">hellohellohellohello@gamil.com</p>
+        </div>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorTextPlaceholder: '#5D5A88',
+              colorText: '#5D5A88',
+              colorBorder: '#D4D2E3',
+              colorIcon: '#5D5A88',
+              fontSize: 14,
+            },
+          }}
+        >
+
+          <Form>
+            <Form.Item name="會員姓名" label="會員姓名" className="font-bold">
+              <Input placeholder="李森" className="font-normal" />
+            </Form.Item>
+          </Form>
+        </ConfigProvider>
+      </section>
+      <section className="space-y-5">
+        <div className="bg-[#EEECFA] text-center  rounded-lg">
+          <h3 className="py-2 text-base font-bold">個人簡介</h3>
+        </div>
+        <div className="space-y-[4.5px]">
+          <p className="text-sm">會員帳號</p>
+          <p className="text-sm">hellohellohellohello@gamil.com</p>
+        </div>
+      </section>
+    </div>
+  );
+}
 
 const counselorInfoTabAry = [
   {
     key: '基本資料',
     label: '基本資料',
-    children: 'Content of Tab Pane 1',
+    children: <InfoForm />,
   },
   {
     key: '課程資訊',
@@ -90,7 +135,7 @@ export default function CounselorCenter() {
             個人資料
           </h2>
 
-          <div className="counselorTab">
+          <div className="counselorTab mx-4">
             <ConfigProvider
               theme={{
                 token: {
