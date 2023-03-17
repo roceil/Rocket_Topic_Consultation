@@ -103,7 +103,23 @@ padding: ;
   height: calc(100vh - 225px);
 }
 
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
+}
+
 /* 登入註冊底圖 */
 .log-in-box-height-xl{
   height: calc(100vh - 105px);
+}
+
+/* 漢堡選單排列 */
+.hamburger-menu .ant-modal-body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Footer 手機版字重 */
+.footer-mobile .ant-collapse-header-text{
+  font-weight: 700;
 }

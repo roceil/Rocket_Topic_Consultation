@@ -1,14 +1,17 @@
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable import/prefer-default-export */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable import/no-extraneous-dependencies */
-
 import Link from 'next/link';
 import { ConfigProvider, Collapse } from 'antd';
 
 // Footer - 折疊元件(Mobile)
 const { Panel } = Collapse;
 const text = (
-  <p style={{ paddingLeft: 24, color: '#9795B5', fontSize: '14px' }}>
+  <p style={{ color: '#9795B5', fontSize: '14px' }}>
     A dog is a type of domesticated animal. Known for its loyalty and
     faithfulness, it can be found as a welcome guest in many households across
     the world.
@@ -21,9 +24,9 @@ const panelStyle = {
   colorPrimary: '#9795B5',
   fontSize: '16px',
 };
-export function Footer({ props }: any) {
-  return (
-    <footer className="footer-shadow lg:py-[72px] z-10">
+export function Footer(props: any) {
+  return (<>
+    <footer className="footer-shadow lg:py-[72px]">
       {/* PC Footer */}
       <div className="hidden lg:block">
         <div className="container flex h-[217px] w-[1056px] justify-between p-0">
@@ -93,12 +96,11 @@ export function Footer({ props }: any) {
       </div>
       {/* Mobile Footer */}
       <div className="container py-[72px] lg:hidden">
-        <div className="mb-12 px-7">
+        <div className="mb-12 px-7 footer-mobile">
           <ConfigProvider
             theme={{
               token: {
                 colorTextBase: '#5D5A88',
-                // 變更標題色
                 colorBorder: '#5D5A88',
               },
             }}
@@ -120,6 +122,7 @@ export function Footer({ props }: any) {
               <Panel header="追蹤我們" key="4" style={props?.panelStyle}>
                 {text}
               </Panel>
+              <div className="h-[1px] border-primary-heavy" />
             </Collapse>
           </ConfigProvider>
         </div>
@@ -133,5 +136,6 @@ export function Footer({ props }: any) {
         </div>
       </div>
     </footer>
+  </>
   );
 }

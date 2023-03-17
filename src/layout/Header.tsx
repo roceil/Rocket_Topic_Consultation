@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/react-in-jsx-scope */
@@ -9,8 +11,13 @@ import {
   ShoppingCartOutlined,
   BellOutlined,
   UserOutlined,
+  MenuOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
-import { Button, ConfigProvider } from 'antd';
+import {
+  Button, ConfigProvider, Modal, Space,
+} from 'antd';
+import { useState } from 'react';
 import { userCenterPosition } from '@/redux/feature/userCenter';
 import { IButton, darkBtn, lightBtn } from '../components/Public/IButton';
 import { SearchCapsule } from '@/components/Public/SearchCapsule';
@@ -65,6 +72,16 @@ export const onSearch = (value: any) => console.log(value);
 
 export function Header() {
   const dispatch = useDispatch();
+
+  // 漢堡選單開關
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <header className="my-[18px] lg:my-0 lg:py-[30px]">
       <div className="container flex items-center justify-between">
@@ -77,6 +94,67 @@ export function Header() {
         >
           Logo
         </Link>
+        {/* 漢堡選單 */}
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#5D5A88',
+              colorLink: '#5D5A88',
+              colorLinkActive: '#8D8BA7',
+              colorLinkHover: '#8D8BA7',
+              colorIcon: '#5D5A88',
+            },
+            components: {},
+          }}
+        >
+          <Button onClick={showModal} icon={<MenuOutlined />} type="primary" shape="round" className="text-primary-heavy text-base shadow-none lg:hidden" />
+          <Modal
+            width={348}
+            open={isModalOpen}
+            onCancel={handleCancel}
+            footer={null}
+            maskStyle={{
+              backgroundColor: '#EEECFA', boxShadow: 'none', display: 'flex', justifyContent: 'center',
+            }}
+            className="hamburger-menu"
+          >
+            {/* 課程連結 */}
+            <div className="bg-[#EEECFA] w-[276px] flex flex-col justify-center rounded-[10px] mt-12 mb-[52px]">
+              <p className="text-center text-base text-primary-heavy my-3 font-bold">目前尚無預約</p>
+            </div>
+            <Space direction="vertical" style={{ width: 276 }}>
+              <Link href="/CounselorList">
+                <Button type="link" onClick={handleCancel} icon={<SearchOutlined />} className="font-bold text-lg">
+                  諮商師總覽
+                </Button>
+              </Link>
+              <div className="border border-[#D4D2E3] border-t-[1px] my-2" />
+              <Link href="/ShopCart">
+                <Button type="link" icon={<ShoppingCartOutlined />} onClick={handleCancel} className="font-bold text-lg">
+                  購物車
+                </Button>
+              </Link>
+              <div className="border border-[#D4D2E3] border-t-[1px] my-2" />
+              <Button type="link" icon={<UserOutlined />} className="font-bold text-lg">
+                會員中心
+              </Button>
+              <Button type="link" className="text-base ml-[26px]">
+                個人資料
+              </Button>
+              <Button type="link" className="text-base ml-[26px]">
+                預約管理
+              </Button>
+              <Button type="link" className="text-base ml-[26px]">
+                個案記錄
+              </Button>
+              <div className="border border-[#D4D2E3] border-t-[1px] my-2" />
+            </Space>
+
+            <Button type="primary" shape="round" htmlType="submit" className="bg-[#5D5A88] text-white h-[56px] w-[276px] text-base shadow-none mt-20">
+              登出
+            </Button>
+          </Modal>
+        </ConfigProvider>
 
         <div className="flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden">
           <Link href="UserCenter">
