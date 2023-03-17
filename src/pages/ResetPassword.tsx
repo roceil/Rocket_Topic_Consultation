@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 // 待修改：
 // PC 左側底圖高度 -> 無法自適應，目前自訂 css 算出 div 高度，試過 Footer 給 z-10，底圖給 -z-[99] 無效
@@ -14,9 +12,14 @@ const inputStyle = 'py-3 px-5 rounded-[24px]';
 
 export default function LogIn() {
   const [form] = Form.useForm();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
-  const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
+  const formItemLayout = formLayout === 'vertical'
+    ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } }
+    : null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   const onFinish = (values: any) => {
     // console.log('Received values of form: ', values);
   };

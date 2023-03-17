@@ -10,6 +10,14 @@ export interface IBtnStyle {
   py?: string;
 }
 
-export function IButton({ text, bgColor, fontSize, px, py }: IBtnStyle) {
-  return (<input className={`${bgColor} ${fontSize} ${px} ${py}`} type='button' value={text} />);
+export function IButton({
+  text, bgColor, fontSize, px, py,
+}: IBtnStyle) {
+  return (
+    <input
+      className={`${bgColor} ${fontSize} ${px} ${py}`}
+      type="button"
+      value={text}
+    />
+  );
 }

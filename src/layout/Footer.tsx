@@ -1,10 +1,3 @@
-/* eslint-disable react/jsx-closing-tag-location */
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable react/jsx-wrap-multilines */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import { ConfigProvider, Collapse } from 'antd';
 
@@ -18,14 +11,8 @@ const text = (
   </p>
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const panelStyle = {
-  background: '#FFF',
-  colorPrimary: '#9795B5',
-  fontSize: '16px',
-};
-export function Footer(props: any) {
-  return (<>
+export default function Footer() {
+  return (
     <footer className="footer-shadow lg:py-[72px]">
       {/* PC Footer */}
       <div className="hidden lg:block">
@@ -96,7 +83,7 @@ export function Footer(props: any) {
       </div>
       {/* Mobile Footer */}
       <div className="container py-[72px] lg:hidden">
-        <div className="mb-12 px-7 footer-mobile">
+        <div className="footer-mobile mb-12 px-7">
           <ConfigProvider
             theme={{
               token: {
@@ -110,16 +97,16 @@ export function Footer(props: any) {
               expandIconPosition="end"
               style={{ background: '#fff' }}
             >
-              <Panel header="會員中心" key="1" style={props?.panelStyle}>
+              <Panel header="會員中心" key="1">
                 {text}
               </Panel>
-              <Panel header="常見問題" key="2" style={props?.panelStyle}>
+              <Panel header="常見問題" key="2">
                 {text}
               </Panel>
-              <Panel header="關於我們" key="3" style={props?.panelStyle}>
+              <Panel header="關於我們" key="3">
                 {text}
               </Panel>
-              <Panel header="追蹤我們" key="4" style={props?.panelStyle}>
+              <Panel header="追蹤我們" key="4">
                 {text}
               </Panel>
               <div className="h-[1px] border-primary-heavy" />
@@ -136,6 +123,5 @@ export function Footer(props: any) {
         </div>
       </div>
     </footer>
-  </>
   );
 }

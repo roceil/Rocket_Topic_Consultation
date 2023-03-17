@@ -30,6 +30,7 @@
     "linebreak-style": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "react/react-in-jsx-scope": "off",
-    "import/no-named-as-default": 0
+    "import/no-named-as-default": 0,
+    "react/require-default-props": "off"
   }
 }
