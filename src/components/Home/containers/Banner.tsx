@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { IButton, lightBtn, darkBtn } from '@/components/Public/IButton';
 
-export function Banner() {
+export default function Banner() {
   return (
     <section className="container lg:my-[128px] lg:flex lg:justify-between">
       <div className="mt-10 flex flex-col items-center justify-center text-center lg:mt-0 lg:flex-row lg:items-center lg:text-left">
