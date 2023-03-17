@@ -94,90 +94,16 @@ padding: ;
 .order .ant-tabs .ant-tabs-nav-list {
   width: 100%;
 }
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
+}
+
 /* 忘記密碼、重設密碼底圖 */
 .log-in-box-height-xl {
   height: calc(100vh - 225px);
 }
 
-/* antd 表格 col 排列 */
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
-}
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
-}
-
-/* SignIn 表單 */
-.ant-form-item {
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 登入註冊底圖 */
-.box-height-xl{
-  height: calc(100vh-220px);
-}
-.box-height-lg{
-  height: calc(100vh - 110px);
-}
-
-/* antd 表格 col 排列 */
-/* .form .ant-form-item-row{
-  display: flex;
-  flex-direction: column;
-} */
-
-/* 登入表格排列 */
-/* .form .ant-form-item-control{
-  margin-bottom: 10px;
-} */
-
-/* 註冊表格排列 */
-/* .form-sign-in .ant-form-item-control{
-  margin-bottom: 10px;
-} */
-
-/* .css-dev-only-do-not-override-nro7k0 .ant-row{
-  display: flex;
-  flex-direction: column;
-  flex-flow: column nowrap;
-} */
-
-.css-dev-only-do-not-override-1e85tlm .ant-row{
-  display: flex;
-  flex-direction: column;
-  flex-flow: column nowrap;
-}
-
-/* 調整 Mobile 表單第一列 label 高度 */
-.css-dev-only-do-not-override-1e85tlm .ant-form .ant-form-item .ant-form-item-label{
-  display: flex;
-  flex: 0 0 50%;
-}
-
-/* 調整 Tabs 與 Form 間距 */
-.form .ant-tabs-nav{
-  margin-bottom: 40px !important;
-}
-.ant-radio-button-wrapper::before {
-  width: 0px !important;
-}
-
 /* 登入註冊底圖 */
 .log-in-box-height-xl{
   height: calc(100vh - 105px);
-}
-
-/* antd 表格 col 排列 */
-.form .ant-form-item-row{
-  display: flex;
-  flex-direction: column;
-}
-
-/* 登入表格排列 */
-.form .ant-form-item-control{
-  margin-bottom: 32px;
 }
