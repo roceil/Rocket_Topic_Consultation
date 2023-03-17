@@ -43,6 +43,10 @@ const handleChange = (value: string[]) => {
   console.log(`selected ${value}`);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const handleChange1 = (value: string) => {
+  console.log(`selected ${value}`);
+};
 export default function CounselorList() {
   return (
     <>

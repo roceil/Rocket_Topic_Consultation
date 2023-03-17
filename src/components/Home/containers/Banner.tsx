@@ -1,5 +1,8 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable react/react-in-jsx-scope */
 import Link from 'next/link';
-import { IButton, lightBtn, darkBtn } from '../../Public/IButton';
+import { IButton, lightBtn, darkBtn } from '@/components/Public/IButton';
 
 export default function Banner() {
   return (
@@ -21,13 +24,15 @@ export default function Banner() {
                 fontSize="text-[14px] lg:text-base"
               />
             </Link>
-            <IButton
-              text="立即註冊"
-              bgColor={lightBtn}
-              px="px-[28px]"
-              py="py-[15px]"
-              fontSize="text-[14px] lg:text-base"
-            />
+            <Link href="/SignIn">
+              <IButton
+                text="立即註冊"
+                bgColor={lightBtn}
+                px="px-[28px]"
+                py="py-[15px]"
+                fontSize="text-[14px] lg:text-base"
+              />
+            </Link>
           </div>
         </div>
 
