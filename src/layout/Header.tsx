@@ -1,10 +1,5 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/button-has-type */
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import {
@@ -18,9 +13,9 @@ import {
   Button, ConfigProvider, Modal, Space,
 } from 'antd';
 import { useState } from 'react';
-import { userCenterPosition } from '@/redux/feature/userCenter';
+import { userCenterPosition } from '../redux/feature/userCenter';
 import { IButton, darkBtn, lightBtn } from '../components/Public/IButton';
-import { SearchCapsule } from '@/components/Public/SearchCapsule';
+import SearchCapsule from '../components/Public/SearchCapsule';
 
 const isLogIn = false; // 判斷是否登入，控制 Nav 顯示內容
 
@@ -67,10 +62,7 @@ const YetLogInBtn = (
   />
 );
 
-// Header - input 元件(PC)
-export const onSearch = (value: any) => console.log(value);
-
-export function Header() {
+export default function Header() {
   const dispatch = useDispatch();
 
   // 漢堡選單開關
@@ -107,50 +99,80 @@ export function Header() {
             components: {},
           }}
         >
-          <Button onClick={showModal} icon={<MenuOutlined />} type="primary" shape="round" className="text-primary-heavy text-base shadow-none lg:hidden" />
+          <Button
+            onClick={showModal}
+            icon={<MenuOutlined />}
+            type="primary"
+            shape="round"
+            className="text-base text-primary-heavy shadow-none lg:hidden"
+          />
           <Modal
             width={348}
             open={isModalOpen}
             onCancel={handleCancel}
             footer={null}
             maskStyle={{
-              backgroundColor: '#EEECFA', boxShadow: 'none', display: 'flex', justifyContent: 'center',
+              backgroundColor: '#EEECFA',
+              boxShadow: 'none',
+              display: 'flex',
+              justifyContent: 'center',
             }}
             className="hamburger-menu"
           >
             {/* 課程連結 */}
-            <div className="bg-[#EEECFA] w-[276px] flex flex-col justify-center rounded-[10px] mt-12 mb-[52px]">
-              <p className="text-center text-base text-primary-heavy my-3 font-bold">目前尚無預約</p>
+            <div className="mt-12 mb-[52px] flex w-[276px] flex-col justify-center rounded-[10px] bg-[#EEECFA]">
+              <p className="my-3 text-center text-base font-bold text-primary-heavy">
+                目前尚無預約
+              </p>
             </div>
             <Space direction="vertical" style={{ width: 276 }}>
               <Link href="/CounselorList">
-                <Button type="link" onClick={handleCancel} icon={<SearchOutlined />} className="font-bold text-lg">
+                <Button
+                  type="link"
+                  onClick={handleCancel}
+                  icon={<SearchOutlined />}
+                  className="text-lg font-bold"
+                >
                   諮商師總覽
                 </Button>
               </Link>
-              <div className="border border-[#D4D2E3] border-t-[1px] my-2" />
+              <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
               <Link href="/ShopCart">
-                <Button type="link" icon={<ShoppingCartOutlined />} onClick={handleCancel} className="font-bold text-lg">
+                <Button
+                  type="link"
+                  icon={<ShoppingCartOutlined />}
+                  onClick={handleCancel}
+                  className="text-lg font-bold"
+                >
                   購物車
                 </Button>
               </Link>
-              <div className="border border-[#D4D2E3] border-t-[1px] my-2" />
-              <Button type="link" icon={<UserOutlined />} className="font-bold text-lg">
+              <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
+              <Button
+                type="link"
+                icon={<UserOutlined />}
+                className="text-lg font-bold"
+              >
                 會員中心
               </Button>
-              <Button type="link" className="text-base ml-[26px]">
+              <Button type="link" className="ml-[26px] text-base">
                 個人資料
               </Button>
-              <Button type="link" className="text-base ml-[26px]">
+              <Button type="link" className="ml-[26px] text-base">
                 預約管理
               </Button>
-              <Button type="link" className="text-base ml-[26px]">
+              <Button type="link" className="ml-[26px] text-base">
                 個案記錄
               </Button>
-              <div className="border border-[#D4D2E3] border-t-[1px] my-2" />
+              <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
             </Space>
 
-            <Button type="primary" shape="round" htmlType="submit" className="bg-[#5D5A88] text-white h-[56px] w-[276px] text-base shadow-none mt-20">
+            <Button
+              type="primary"
+              shape="round"
+              htmlType="submit"
+              className="mt-20 h-[56px] w-[276px] bg-[#5D5A88] text-base text-white shadow-none"
+            >
               登出
             </Button>
           </Modal>
