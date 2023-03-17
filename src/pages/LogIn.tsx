@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import React, { useState } from 'react';
 import {
@@ -9,36 +8,15 @@ import {
   Checkbox,
   Form,
   Input,
+  TabsProps,
 } from 'antd';
-
-// const formItemLayout = {
-//   labelCol: {
-//     xs: {
-//       span: 24,
-//     },
-//     sm: {
-//       span: 24,
-//     },
-//   },
-// };
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 24,
-      offset: 0,
-    },
-  },
-};
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 const inputStyle = 'py-3 px-5 rounded-[24px]';
 
-export default function LogIn() {
+function LogInForm() {
   const [form] = Form.useForm();
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
   const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
@@ -46,112 +24,74 @@ export default function LogIn() {
   const onFinish = (values:any) => {
     console.log('Received values of form: ', values);
   };
-  const SignInAry = [
+  return (
+    <Form
+      {...formItemLayout}
+      layout={formLayout}
+      form={form}
+      name="register"
+      onFinish={onFinish}
+      style={{
+        maxWidth: 380,
+      }}
+      className="space-y-8"
+      labelAlign="left"
+    >
+      <Form.Item
+        name="email"
+        label="帳號 Account"
+      >
+        <Input placeholder="Email address" className={inputStyle} />
+      </Form.Item>
+
+      <Form.Item
+        name="password"
+        label="密碼 Password"
+        hasFeedback
+      >
+        <div>
+          <Input placeholder="Password" className={inputStyle} />
+          <Link href="/ForgetPassword" className="flex justify-end underline underline-offset-2 ">
+            忘記密碼？
+          </Link>
+        </div>
+      </Form.Item>
+      {/* 推底下間距 */}
+      <div className="h-12" />
+      <div className="flex justify-between items-end">
+        <Form.Item className="flex items-end m-0">
+          <Checkbox>
+            記住我
+          </Checkbox>
+        </Form.Item>
+        <div className="flex h-8 items-center">
+          <p>尚未成為會員？</p>
+          <Link href="/SignIn">
+            <p className="underline ml-2 underline-offset-2 ">立即註冊</p>
+          </Link>
+        </div>
+      </div>
+      <Form.Item {...formItemLayout}>
+        <Button type="primary" shape="round" htmlType="submit" className="-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none">
+          登入
+        </Button>
+      </Form.Item>
+
+    </Form>
+  );
+}
+
+export default function LogIn() {
+  const LogInTabs:TabsProps['items'] = [
     {
-      user: '用戶',
-      form: <>
-        <Form
-          {...formItemLayout}
-          layout={formLayout}
-          form={form}
-          name="register-counselor"
-          onFinish={onFinish}
-          style={{
-            maxWidth: 380,
-          }}
-          className="space-y-8"
-          labelAlign="left"
-        >
-          <Form.Item
-            name="email"
-            label="帳號 Account"
-          >
-            <Input placeholder="Email address" className={inputStyle} />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label="密碼 Password"
-            hasFeedback
-          >
-            <Input.Password placeholder="Password" className={inputStyle} />
-            <p className="text-right underline underline-offset-2 ">忘記密碼？</p>
-          </Form.Item>
-          {/* 推底下間距 */}
-          <div className="h-12" />
-          <div className="flex justify-between items-end">
-            <Form.Item className="flex items-end m-0">
-              <Checkbox>
-                記住我
-              </Checkbox>
-            </Form.Item>
-
-            <div className="flex h-8 items-center">
-              <p>尚未成為會員？</p>
-              <Link href="/SignIn">
-                <p className="underline ml-2 underline-offset-2 ">立即註冊</p>
-              </Link>
-            </div>
-          </div>
-          <Form.Item {...formItemLayout}>
-            <Button type="primary" shape="round" htmlType="submit" className="-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none">
-              登入
-            </Button>
-          </Form.Item>
-        </Form>
-      </>,
+      key: '用戶',
+      label: '我是用戶',
+      children: <LogInForm />,
     },
     {
-      user: '諮商師',
-      form: <Form
-        {...formItemLayout}
-        layout={formLayout}
-        form={form}
-        name="register-counselor"
-        onFinish={onFinish}
-        style={{
-          maxWidth: 380,
-        }}
-        className="space-y-8"
-        labelAlign="left"
-      >
-        <Form.Item
-          name="email"
-          label="帳號 Account"
-        >
-          <Input placeholder="Email address" className={inputStyle} />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          label="密碼 Password"
-          hasFeedback
-        >
-          <Input.Password placeholder="Password" className={inputStyle} />
-          <p className="text-right underline underline-offset-2 ">忘記密碼？</p>
-        </Form.Item>
-        {/* 推底下間距 */}
-        <div className="h-12" />
-        <div className="flex justify-between items-end">
-          <Form.Item className="flex items-end m-0">
-            <Checkbox>
-              記住我
-            </Checkbox>
-          </Form.Item>
-
-          <div className="flex h-8 items-center">
-            <p>尚未成為會員？</p>
-            <Link href="/SignIn">
-              <p className="underline underline-offset-2 ml-2">立即註冊</p>
-            </Link>
-          </div>
-        </div>
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" shape="round" htmlType="submit" className="-mt-8 bg-[#D4D2E3] text-white h-[56px] w-[380px] text-base shadow-none">
-            登入
-          </Button>
-        </Form.Item>
-      </Form>,
+      key: '諮商師',
+      label: '我是諮商師',
+      children: <LogInForm />,
     },
   ];
 
@@ -174,9 +114,8 @@ export default function LogIn() {
                 token: {
                   colorTextPlaceholder: '#5D5A88',
                   colorText: '#5D5A88',
-                  colorIcon: '#5D5A88',
-                  colorTextDescription: '#ff7f17',
                   colorBorder: '#D4D2E3',
+                  colorIcon: '#5D5A88',
                 },
                 components: {
                   Tabs: {
@@ -189,25 +128,12 @@ export default function LogIn() {
                   Button: {
                     colorPrimaryHover: '#5D5A88',
                     colorPrimaryActive: '#5D5A88',
-                    colorText: '#5D5A88',
                     colorTextDisabled: '#fff',
                   },
                 },
               }}
             >
-              <Tabs
-                defaultActiveKey="1"
-                centered
-                items={SignInAry.map((_, i) => {
-                  const id = String(i + 1);
-                  return {
-                    label: `我是${_.user}`,
-                    key: id,
-                    children: _.form,
-
-                  };
-                })}
-              />
+              <Tabs centered defaultActiveKey="1" items={LogInTabs} />
             </ConfigProvider>
           </div>
         </div>

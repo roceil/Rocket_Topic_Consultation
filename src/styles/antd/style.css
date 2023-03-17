@@ -72,7 +72,7 @@
 
 /* 會員中心 tab */
 /* .userCenterTab .ant-tabs-nav-list .ant-tabs-tab {
- padding: ;
+padding: ;
 } */
 
 .userCenterTab .ant-tabs .ant-tabs-content-holder {
@@ -94,19 +94,13 @@
 .order .ant-tabs .ant-tabs-nav-list {
   width: 100%;
 }
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
+}
+
 /* 忘記密碼、重設密碼底圖 */
 .log-in-box-height-xl {
   height: calc(100vh - 225px);
-}
-
-/* antd 表格 col 排列 */
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
-}
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
 }
 
 .ant-radio-button-wrapper::before {
@@ -118,16 +112,17 @@
   height: calc(100vh - 105px);
 }
 
-/* antd 表格 col 排列
-.form .ant-form-item-row{
+/* 漢堡選單排列 */
+.hamburger-menu .ant-modal-body{
   display: flex;
   flex-direction: column;
-} */
+  align-items: center;
+}
 
-/* 登入表格排列 */
-/* .form .ant-form-item-control{
-  margin-bottom: 32px;
-} */
+/* Footer 手機版字重 */
+.footer-mobile .ant-collapse-header-text{
+  font-weight: 700;
+}
 
 /* 調整 Tabs 與 Form 間距 */
 .form .ant-tabs-nav{
