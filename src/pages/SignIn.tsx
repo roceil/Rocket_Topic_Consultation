@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
@@ -53,7 +54,7 @@ export default function SignIn() {
           {...formItemLayout}
           layout={formLayout}
           form={form}
-          name="register-counselor"
+          name="register-user"
           onFinish={onFinish}
           style={{
             maxWidth: 380,

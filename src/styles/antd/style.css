@@ -124,6 +124,10 @@ padding: ;
   font-weight: 700;
 }
 
+/* 調整 Tabs 與 Form 間距 */
+.form .ant-tabs-nav{
+  margin-bottom: 40px !important;
+}
 .counselorTab .ant-tabs-nav-list {
   width: 100%;
   justify-content: center;

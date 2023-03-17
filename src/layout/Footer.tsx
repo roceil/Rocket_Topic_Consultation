@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import { ConfigProvider, Collapse } from 'antd';
 
