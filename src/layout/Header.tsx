@@ -1,25 +1,26 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/button-has-type */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable import/extensions */
+/* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
-import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ShoppingCartOutlined,
   BellOutlined,
   UserOutlined,
-  SearchOutlined,
   MenuOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import {
-  Button, ConfigProvider, Input, Modal, Space,
+  Button, ConfigProvider, Modal, Space,
 } from 'antd';
+import { useState } from 'react';
 import { userCenterPosition } from '@/redux/feature/userCenter';
 import { IButton, darkBtn, lightBtn } from '../components/Public/IButton';
+import { SearchCapsule } from '@/components/Public/SearchCapsule';
 
 const isLogIn = false; // 判斷是否登入，控制 Nav 顯示內容
 
@@ -67,7 +68,6 @@ const YetLogInBtn = (
 );
 
 // Header - input 元件(PC)
-const { Search } = Input;
 export const onSearch = (value: any) => console.log(value);
 
 export function Header() {
@@ -181,13 +181,12 @@ export function Header() {
                 components: {},
               }}
             >
-              <Search
+              <SearchCapsule
+                colorPrimary="#5D5A88"
+                borderRadius={100}
+                controlHeight={40}
+                colorBgContainer="#fff"
                 placeholder=""
-                onSearch={onSearch}
-                size="large"
-                style={{
-                  width: 180,
-                }}
               />
               <Button
                 type="default"

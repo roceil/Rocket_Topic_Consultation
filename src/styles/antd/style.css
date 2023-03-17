@@ -94,6 +94,10 @@
 .order .ant-tabs .ant-tabs-nav-list {
   width: 100%;
 }
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
+}
+
 /* 忘記密碼、重設密碼底圖 */
 .log-in-box-height-xl {
   height: calc(100vh - 225px);
