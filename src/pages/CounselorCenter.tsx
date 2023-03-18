@@ -1,8 +1,10 @@
 import Image from 'next/image';
-import { ConfigProvider, Tabs } from 'antd';
+import { ConfigProvider, Input, Tabs } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import user from '../../public/images/user.svg';
 import profile from '../../public/images/profile.svg';
 import edit from '../../public/images/Edit.svg';
+import right from '../../public/images/Right.svg';
 
 const counselorInfoTabAry = [
   {
@@ -237,6 +239,79 @@ function CounselorHasSetUp() {
   );
 }
 
+function CounselorHasCancel() {
+  return (
+    <div className="overflow-x-auto rounded-2xl bg-bg2 pb-9 lg:pb-12">
+      <ul className="flex w-[588px] border-b border-secondary  py-5  px-[17px] text-center text-sm font-bold text-primary-heavy lg:w-auto lg:px-7 lg:text-center">
+        <li className="w-[20.1438%]">個案姓名</li>
+        <li className="w-[20.1438%]">諮商議題</li>
+        <li className="w-[20.1438%]">諮商日期</li>
+        <li className="w-[20.1438%]">諮商時間</li>
+        <li className="w-[19.4244%]">個案記錄</li>
+      </ul>
+
+      <ul className="w-[588px] space-y-4 px-[17px] pt-5 lg:w-auto lg:px-7 lg:pt-7">
+        <li className="flex items-center rounded-lg bg-white py-5 text-center text-sm text-primary-heavy lg:space-x-0 lg:text-base">
+          <div className="w-[20.1438%]">哈哈哈</div>
+
+          <div className="w-[20.1438%]">一般成人</div>
+
+          <div className="w-[20.1438%]">2023 / 03 / 05</div>
+
+          <div className="w-[20.1438%]">09:00</div>
+
+          <div className="flex w-[19.4244%] justify-center text-xs lg:text-sm">
+            <button
+              type="button"
+              className="rounded-full border border-primary-heavy py-1 px-4 lg:py-2 lg:px-5"
+            >
+              查看
+            </button>
+          </div>
+        </li>
+
+        <li className="flex items-center rounded-lg bg-white py-5 text-center text-sm text-primary-heavy lg:space-x-0 lg:text-base">
+          <div className="w-[20.1438%]">哈哈哈</div>
+
+          <div className="w-[20.1438%]">一般成人</div>
+
+          <div className="w-[20.1438%]">2023 / 03 / 05</div>
+
+          <div className="w-[20.1438%]">09:00</div>
+
+          <div className="flex w-[19.4244%] justify-center text-xs lg:text-sm">
+            <button
+              type="button"
+              className="rounded-full border border-primary-heavy py-1 px-4 lg:py-2 lg:px-5"
+            >
+              查看
+            </button>
+          </div>
+        </li>
+
+        <li className="flex items-center rounded-lg bg-white py-5 text-center text-sm text-primary-heavy lg:space-x-0 lg:text-base">
+          <div className="w-[20.1438%]">哈哈哈</div>
+
+          <div className="w-[20.1438%]">一般成人</div>
+
+          <div className="w-[20.1438%]">2023 / 03 / 05</div>
+
+          <div className="w-[20.1438%]">09:00</div>
+
+          <div className="flex w-[19.4244%] justify-center text-xs lg:text-sm">
+            <button
+              type="button"
+              className="rounded-full border border-primary-heavy py-1 px-4 lg:py-2 lg:px-5"
+            >
+              查看
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
 const counselorReservationTabAry = [
   {
     key: '待回覆',
@@ -251,7 +326,7 @@ const counselorReservationTabAry = [
   {
     key: '已取消',
     label: <p className="font-bold">已取消</p>,
-    children: <CounselorWaitReply />,
+    children: <CounselorHasCancel />,
   },
 ];
 
@@ -278,7 +353,368 @@ function CounselorReservationTab() {
   );
 }
 
-const UserCenterTabAry = [
+function CounselorCaseRecord() {
+  return (
+    <div className="rounded-2xl bg-bg2 pb-9 lg:pb-12">
+      <ul className="flex border-b border-secondary py-5 px-5 text-center text-sm font-bold text-primary-heavy">
+        <li className="w-[44.1176%]">個案記錄</li>
+        <li className="w-[44.1176%]">記錄筆數</li>
+        <li className="w-[11.7647%]" />
+      </ul>
+
+      <ul className=" space-y-4 px-5 pt-5">
+        <li className="w-full">
+          <button
+            type="button"
+            className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy"
+          >
+            <div className="w-[44.1176%]">
+              <div className="flex items-center justify-center space-x-4">
+                <Image
+                  width={40}
+                  height={40}
+                  src="https://fakeimg.pl/40x40/EEECFA/"
+                  alt="user_pic"
+                  className="rounded-full"
+                />
+                <p>哈哈哈</p>
+              </div>
+            </div>
+
+            <div className="w-[44.1176%] lg:w-[16.3179%]">5筆</div>
+
+            <div className="flex w-[11.7647%] justify-center lg:w-[17.364%] lg:pl-[46px]">
+              <Image src={right} width={16} height={16} alt="icons" />
+            </div>
+          </button>
+        </li>
+
+        <li className="w-full">
+          <button
+            type="button"
+            className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy"
+          >
+            <div className="w-[44.1176%]">
+              <div className="flex items-center justify-center space-x-4">
+                <Image
+                  width={40}
+                  height={40}
+                  src="https://fakeimg.pl/40x40/EEECFA/"
+                  alt="user_pic"
+                  className="rounded-full"
+                />
+                <p>哈哈哈</p>
+              </div>
+            </div>
+
+            <div className="w-[44.1176%] lg:w-[16.3179%]">5筆</div>
+
+            <div className="flex w-[11.7647%] justify-center lg:w-[17.364%] lg:pl-[46px]">
+              <Image src={right} width={16} height={16} alt="icons" />
+            </div>
+          </button>
+        </li>
+
+        <li className="w-full">
+          <button
+            type="button"
+            className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy"
+          >
+            <div className="w-[44.1176%]">
+              <div className="flex items-center justify-center space-x-4">
+                <Image
+                  width={40}
+                  height={40}
+                  src="https://fakeimg.pl/40x40/EEECFA/"
+                  alt="user_pic"
+                  className="rounded-full"
+                />
+                <p>哈哈哈</p>
+              </div>
+            </div>
+
+            <div className="w-[44.1176%] lg:w-[16.3179%]">5筆</div>
+
+            <div className="flex w-[11.7647%] justify-center lg:w-[17.364%] lg:pl-[46px]">
+              <Image src={right} width={16} height={16} alt="icons" />
+            </div>
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+function CounselorCaseRecordPC() {
+  return (
+    <div className="mt-[-60px]">
+      {/* 搜尋框 */}
+      <div className="mb-6 w-full max-w-[200px]">
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#5D5A88',
+              borderRadius: 9999,
+              colorTextPlaceholder: '#5D5A88',
+              // colorText: colorPrimary,
+              colorBgContainer: '#EEECFA', // controlOutline: colorPrimary,
+            },
+          }}
+        >
+          <Input
+            placeholder="輸入個案姓名"
+            suffix={<SearchOutlined className="text-[#5D5A88]" />}
+            className="border-none px-5 py-1 "
+          />
+        </ConfigProvider>
+      </div>
+
+      <div className="flex justify-between space-x-[60px] rounded-2xl bg-bg2 pb-9 lg:px-8 lg:pb-12">
+        <div className="w-[278px] ">
+          <ul className="flex border-b border-secondary py-6 text-center font-bold">
+            <li className="w-[44.1176%]">個案記錄</li>
+            <li className="w-[44.1176%]">記錄筆數</li>
+            <li className="w-[11.7647%]" />
+          </ul>
+
+          <ul className=" space-y-4 pt-5">
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div className="w-[278px] ">
+          <ul className="flex border-b border-secondary py-6 text-center font-bold">
+            <li className="w-[44.1176%]">個案記錄</li>
+            <li className="w-[44.1176%]">記錄筆數</li>
+            <li className="w-[11.7647%]" />
+          </ul>
+
+          <ul className=" space-y-4 pt-5">
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div className="w-[278px] ">
+          <ul className="flex border-b border-secondary py-6 text-center font-bold">
+            <li className="w-[44.1176%]">個案記錄</li>
+            <li className="w-[44.1176%]">記錄筆數</li>
+            <li className="w-[11.7647%]" />
+          </ul>
+
+          <ul className=" space-y-4 pt-5">
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center  rounded-lg bg-white py-5 px-2 text-center text-sm text-primary-heavy hover:opacity-50 lg:text-base"
+              >
+                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="https://fakeimg.pl/40x40/EEECFA/"
+                    alt="user_pic"
+                    className="rounded-full"
+                  />
+                  <p>哈哈哈</p>
+                </div>
+
+                <div className="w-[42.1176%] ">5筆</div>
+
+                <div className="flex w-[11.7647%] justify-center ">
+                  <Image src={right} width={16} height={16} alt="icons" />
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const CounselorCenterTabAry = [
   {
     label: (
       <div className="flex items-center justify-between space-x-4">
@@ -326,7 +762,7 @@ const UserCenterTabAry = [
       </div>
     ),
     key: '個案記錄',
-    children: '個案記錄',
+    children: <CounselorCaseRecordPC />,
   },
 ];
 
@@ -364,8 +800,8 @@ export default function CounselorCenter() {
         </div>
       </section>
 
-      {/* 手機版預約管理 */}
-      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
+      {/* 手機版 預約管理 */}
+      <section className="hidden pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
         <div className="container">
           <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
             目前尚無預約
@@ -375,6 +811,42 @@ export default function CounselorCenter() {
           </h2>
 
           <CounselorReservationTab />
+        </div>
+      </section>
+
+      {/* 手機版 個案記錄 */}
+      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
+        <div className="container">
+          <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
+            目前尚無預約
+          </div>
+          <h2 className="mb-12 text-center leading-loose lg:hidden">
+            預約管理
+          </h2>
+
+          {/* 搜尋框 */}
+          <div className="mb-6 w-full max-w-[200px]">
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#5D5A88',
+                  borderRadius: 9999,
+                  colorTextPlaceholder: '#5D5A88',
+                  // colorText: colorPrimary,
+                  colorBgContainer: '#EEECFA',
+                  // controlOutline: colorPrimary,
+                },
+              }}
+            >
+              <Input
+                placeholder="輸入個案姓名"
+                suffix={<SearchOutlined className="text-[#5D5A88]" />}
+                className="border-none px-5 py-1 "
+              />
+            </ConfigProvider>
+          </div>
+
+          <CounselorCaseRecord />
         </div>
       </section>
 
@@ -401,7 +873,7 @@ export default function CounselorCenter() {
               >
                 <Tabs
                   tabPosition="left"
-                  items={UserCenterTabAry}
+                  items={CounselorCenterTabAry}
                   defaultActiveKey="預約管理"
                 />
               </ConfigProvider>
