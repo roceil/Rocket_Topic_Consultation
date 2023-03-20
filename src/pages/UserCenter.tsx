@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  ConfigProvider, Select, Tabs, TabsProps,
-} from 'antd';
+import { ConfigProvider, Select, Tabs, TabsProps } from 'antd';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import user from '../../public/images/user.svg';
 import profile from '../../public/images/profile.svg';
+import  UserCenterLayout  from './usercenter/UserCenterLayout';
 
 function UserInformation({
   save,
@@ -771,32 +770,7 @@ export default function UserCenter() {
       </section>
 
       {/* 電腦版 */}
-      <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px]">
-        <div className="container min-h-[calc(100vh-330px)]">
-          <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
-            目前尚無預約
-          </div>
-
-          <div className="">
-            <h3 className="mb-8 text-xl font-bold text-primary-heavy">
-              會員中心
-            </h3>
-            <div className="userCenterTab">
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#767494',
-                    colorText: '#767494',
-                    fontSize: 16,
-                  },
-                }}
-              >
-                <Tabs tabPosition="left" items={UserCenterTabAry} />
-              </ConfigProvider>
-            </div>
-          </div>
-        </div>
-      </section>
+      <UserCenterLayout />
     </>
   );
 }
