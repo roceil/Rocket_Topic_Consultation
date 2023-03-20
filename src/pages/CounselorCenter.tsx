@@ -36,6 +36,8 @@ function InfoForm({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   name, id, LicenseNum, slogan, introduce,
 }:CounselorProps) {
+  // 控制 disabled
+  const [editInfo, setEditInfo] = useState<boolean>(true);
   const [form] = Form.useForm();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -119,7 +121,7 @@ function InfoForm({
                 <Button className="font-normal" block style={{ height: 40 }}>點我重設密碼</Button>
               </Form.Item>
               <Form.Item name="會員姓名" label="會員姓名" className="font-bold lg:w-[584px] lg:mx-[15px]">
-                <Input placeholder={name} className="font-normal" style={{ height: 40 }} />
+                <Input disabled={editInfo} placeholder={name} className="font-normal" style={{ height: 40 }} />
               </Form.Item>
               <Form.Item
                 name="upload"
@@ -132,13 +134,14 @@ function InfoForm({
                   <Button
                     icon={<PlusCircleFilled />}
                     style={{ height: 40, width: 314 }}
+                    disabled={editInfo}
                   >
                     000.png
                   </Button>
                 </Upload>
               </Form.Item>
               <Form.Item name="諮商師證書字號" label="諮商師證書字號" className="font-bold lg:w-[584px] lg:mx-[15px]">
-                <Input placeholder={`${LicenseNum}`} className="font-normal" style={{ height: 40 }} />
+                <Input placeholder={`${LicenseNum}`} className="font-normal" style={{ height: 40 }} disabled={editInfo} />
               </Form.Item>
             </Form>
           </ConfigProvider>
@@ -182,6 +185,7 @@ function InfoForm({
                   <Button
                     icon={<PlusCircleFilled />}
                     style={{ height: 40, width: 314 }}
+                    disabled={editInfo}
                   >
                     000.png
                   </Button>
@@ -195,6 +199,7 @@ function InfoForm({
                   onChange={onChange}
                   placeholder={`${slogan}`}
                   className="font-normal"
+                  disabled={editInfo}
                 />
               </Form.Item>
               <Form.Item name="自我介紹" label="自我介紹" className="font-bold lg:w-[584px] lg:mx-[15px]">
@@ -205,6 +210,7 @@ function InfoForm({
                   onChange={onChange}
                   placeholder={`${introduce}`}
                   className="font-normal"
+                  disabled={editInfo}
                 />
               </Form.Item>
               <div className="lg:mx-[15px]">
@@ -212,11 +218,11 @@ function InfoForm({
                 <div className="border border-[#D4D2E3] rounded-[10px] p-4 space-y-5 lg:w-[584px]">
                   <div className="flex">
                     <p className="w-[56px] mr-4">Youtube影片連結</p>
-                    <Input placeholder="請輸入影片連結" className="h-10 w-[207px] bg-primary-light border-none font-normal lg:w-[475px]" />
+                    <Input placeholder="請輸入影片連結" className="h-10 w-[207px] bg-primary-light border-none font-normal lg:w-[475px]" disabled={editInfo} />
                   </div>
                   <div className="flex">
                     <p className="w-[56px] mr-4">是否開放</p>
-                    <Switch defaultChecked onChange={SwitchOnChange} />
+                    <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
                   </div>
                 </div>
               </div>
@@ -231,7 +237,9 @@ function InfoForm({
           fontSize="text-[14px] lg:text-base"
           px="px-[66px] lg:px-[74px]"
           py="py-4"
+          onClick={() => setEditInfo(false)}
         />
+        {!editInfo && (
         <IButton
           text="儲存"
           bgColor={darkBtn}
@@ -239,6 +247,8 @@ function InfoForm({
           px="px-[66px] lg:px-[74px]"
           py="py-4"
         />
+        )}
+
       </div>
     </>
   );
