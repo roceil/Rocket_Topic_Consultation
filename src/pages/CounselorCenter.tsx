@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import {
   Button,
-  ConfigProvider, Form, Input, Tabs, Upload, message, Switch,
+  ConfigProvider, Form, Input, Tabs, Upload, message, Switch, Select,
 } from 'antd';
 import type { UploadProps } from 'antd';
 import { useState } from 'react';
@@ -11,7 +11,9 @@ import user from '../../public/images/user.svg';
 import profile from '../../public/images/profile.svg';
 import edit from '../../public/images/Edit.svg';
 import right from '../../public/images/Right.svg';
-import { darkBtn, IButton, lightBtn } from '../components/Public/IButton';
+import {
+  darkBtn, IButton, lightBtn, lightBtn2,
+} from '../components/Public/IButton';
 
 const conselor1 = {
   name: '李森',
@@ -43,7 +45,6 @@ function InfoForm({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
   const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
-
   const onFinish = (values:any) => {
     console.log('Received values of form: ', values);
   };
@@ -254,6 +255,368 @@ function InfoForm({
   );
 }
 
+function ClassInfo() {
+  // 控制『專長領域』樣式
+  const [BtnState, setBtnState] = useState({
+    btn1: false,
+    btn2: false,
+    btn3: false,
+    btn4: false,
+    btn5: false,
+    btn6: false,
+  });
+  // 控制 disabled
+  const [editInfo, setEditInfo] = useState<boolean>(true);
+  // Form
+  const [form] = Form.useForm();
+  const onFinish = (values:any) => {
+    console.log('Received values of form: ', values);
+  };
+  // Switch
+  const SwitchOnChange = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+  };
+  // 下拉選單
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+  // 課程特色
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log('Change:', e.target.value);
+  };
+  return (
+    <>
+      <div className="px-5 lg:mt-2 space-y-12">
+        <div className="flex">
+          <h3 className="font-bold mr-2">專長領域 *</h3>
+          <div className="space-x-3">
+            <IButton
+              text="一般成人"
+              bgColor={BtnState.btn1 ? lightBtn2 : lightBtn}
+              fontSize="text-[14px] lg:text-base"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              onClick={() => {
+                setBtnState({
+                  ...BtnState,
+                  btn1: !BtnState.btn1,
+                });
+              }}
+            />
+            <IButton
+              text="親密關係"
+              bgColor={BtnState.btn2 ? lightBtn2 : lightBtn}
+              fontSize="text-[14px] lg:text-base"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              onClick={() => {
+                setBtnState({
+                  ...BtnState,
+                  btn2: !BtnState.btn2,
+                });
+              }}
+            />
+            <IButton
+              text="青少年"
+              bgColor={BtnState.btn3 ? lightBtn2 : lightBtn}
+              fontSize="text-[14px] lg:text-base"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              onClick={() => {
+                setBtnState({
+                  ...BtnState,
+                  btn3: !BtnState.btn3,
+                });
+              }}
+            />
+            <IButton
+              text="女性議題"
+              bgColor={BtnState.btn4 ? lightBtn2 : lightBtn}
+              fontSize="text-[14px] lg:text-base"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              onClick={() => {
+                setBtnState({
+                  ...BtnState,
+                  btn4: !BtnState.btn4,
+                });
+              }}
+            />
+            <IButton
+              text="PTSD"
+              bgColor={BtnState.btn5 ? lightBtn2 : lightBtn}
+              fontSize="text-[14px] lg:text-base"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              onClick={() => {
+                setBtnState({
+                  ...BtnState,
+                  btn5: !BtnState.btn5,
+                });
+              }}
+            />
+            <IButton
+              text="中老年議題"
+              bgColor={BtnState.btn6 ? lightBtn2 : lightBtn}
+              fontSize="text-[14px] lg:text-base"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              onClick={() => {
+                setBtnState({
+                  ...BtnState,
+                  btn6: !BtnState.btn6,
+                });
+              }}
+            />
+          </div>
+          <p className="ml-4 mt-7 text-sm">可複選</p>
+        </div>
+        <div className="flex">
+          <h3 className="font-bold mr-2">課程方案 *</h3>
+          <div className="rounded-2xl bg-bg2 pb-9">
+            <ul className="flex border-b border-secondary  py-5 text-sm font-bold text-primary-heavy lg:w-auto lg:px-0 lg:text-center">
+              <li className="lg:w-[25%]">專長領域</li>
+              <li className="lg:w-[25%]">課程方案</li>
+              <li className="lg:w-[25%]">定價</li>
+              <li className="lg:w-[25%]">是否開放</li>
+            </ul>
+            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-[804px]">
+              <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorTextPlaceholder: '#5D5A88',
+                      colorText: '#5D5A88',
+                      colorBorder: '#D4D2E3',
+                      colorIcon: '#5D5A88',
+                      fontSize: 14,
+                      borderRadius: 10,
+                      controlHeight: 40,
+                    },
+                  }}
+                >
+                  <Form
+                    form={form}
+                    name="classInfo"
+                    onFinish={onFinish}
+                    style={{ width: 804, display: 'flex' }}
+                  >
+                    <div className="lg:w-[25%]">
+                      <Select
+                        disabled={editInfo}
+                        defaultValue="一般成人"
+                        style={{ width: 108 }}
+                        onChange={handleChange}
+                        options={[
+                          { value: '一般成人', label: '一般成人' },
+                          { value: '親密關係', label: '親密關係' },
+                          { value: '青少年', label: '青少年' },
+                        ]}
+                      />
+                    </div>
+                    {/* 課程方案＋定價 */}
+                    <div className="flex flex-col space-y-4">
+                      <div className="flex w-[603px] items-center">
+                        <div className="lg:w-[33.33%]">1 堂</div>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        </Form.Item>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        </Form.Item>
+                      </div>
+                      <div className="flex w-[603px] items-center">
+                        <div className="lg:w-[33.33%]">3 堂</div>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        </Form.Item>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        </Form.Item>
+                      </div>
+                      <div className="flex w-[603px] items-center">
+                        <div className="lg:w-[33.33%]">5 堂</div>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        </Form.Item>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        </Form.Item>
+                      </div>
+                      <div className="flex w-[603px] items-center">
+                        <div className="lg:w-[33.33%]">體驗課 1 堂</div>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        </Form.Item>
+                        <Form.Item className="lg:w-[33.33%] mb-0">
+                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        </Form.Item>
+                      </div>
+                    </div>
+                  </Form>
+                </ConfigProvider>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex">
+          <h3 className="font-bold mr-2">課程特色 *</h3>
+          <div className="rounded-2xl bg-bg2 pb-9">
+            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-[804px]">
+              <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorTextPlaceholder: '#5D5A88',
+                      colorText: '#5D5A88',
+                      colorBorder: '#D4D2E3',
+                      colorIcon: '#5D5A88',
+                      fontSize: 14,
+                      borderRadius: 10,
+                      controlHeight: 40,
+                    },
+                  }}
+                >
+                  <Form
+                    form={form}
+                    name="classInfo"
+                    onFinish={onFinish}
+                    style={{ width: 804 }}
+                  >
+                    <div className="flex items-start px-[56px] mb-[33px]">
+                      <Select
+                        disabled={editInfo}
+                        defaultValue="一般成人"
+                        style={{ width: 108 }}
+                        onChange={handleChange}
+                        options={[
+                          { value: '一般成人', label: '一般成人' },
+                          { value: '親密關係', label: '親密關係' },
+                          { value: '青少年', label: '青少年' },
+                        ]}
+                      />
+                    </div>
+                    {/* 課程方案＋定價 */}
+                    <Form.Item
+                      name="特色 1"
+                      label="特色 1"
+                      className="px-[56px] mb-8"
+                      rules={[
+                        {
+                          required: true,
+                          message: '此項為必填',
+                          whitespace: true,
+                        }]}
+                    >
+                      <TextArea
+                        showCount
+                        maxLength={25}
+                        style={{ height: 45, resize: 'none' }}
+                        onChange={onChange}
+                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                        disabled={editInfo}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="特色 2"
+                      label="特色 2"
+                      className="px-[56px] mb-8"
+                      rules={[
+                        {
+                          required: true,
+                          message: '此項為必填',
+                          whitespace: true,
+                        }]}
+                    >
+                      <TextArea
+                        showCount
+                        maxLength={25}
+                        style={{ height: 45, resize: 'none' }}
+                        onChange={onChange}
+                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                        disabled={editInfo}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="特色 3"
+                      label="特色 3"
+                      className="px-[56px] mb-8"
+                      rules={[
+                        {
+                          required: true,
+                          message: '此項為必填',
+                          whitespace: true,
+                        }]}
+                    >
+                      <TextArea
+                        showCount
+                        maxLength={25}
+                        style={{ height: 45, resize: 'none' }}
+                        onChange={onChange}
+                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                        disabled={editInfo}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="特色 4"
+                      label="特色 4"
+                      className="px-[56px] mb-8"
+                    >
+                      <TextArea
+                        showCount
+                        maxLength={25}
+                        style={{ height: 45, resize: 'none' }}
+                        onChange={onChange}
+                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                        disabled={editInfo}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="特色 5"
+                      label="特色 5"
+                      className="px-[56px] mb-8"
+                    >
+                      <TextArea
+                        showCount
+                        maxLength={25}
+                        style={{ height: 4, resize: 'none' }}
+                        onChange={onChange}
+                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                        disabled={editInfo}
+                      />
+                    </Form.Item>
+                  </Form>
+                </ConfigProvider>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="space-x-7 flex justify-end mt-12">
+        <IButton
+          text="編輯"
+          bgColor={lightBtn}
+          fontSize="text-[14px] lg:text-base"
+          px="px-[66px] lg:px-[74px]"
+          py="py-4"
+          onClick={() => setEditInfo(false)}
+        />
+        {!editInfo && (
+        <IButton
+          text="儲存"
+          bgColor={darkBtn}
+          fontSize="text-[14px] lg:text-base"
+          px="px-[66px] lg:px-[74px]"
+          py="py-4"
+        />
+        )}
+
+      </div>
+    </>
+
+  );
+}
+
 const counselorInfoTabAry = [
   {
     key: '基本資料',
@@ -269,7 +632,7 @@ const counselorInfoTabAry = [
   {
     key: '課程資訊',
     label: '課程資訊',
-    children: 'sddfgh',
+    children: <ClassInfo />,
   },
   {
     key: '預約時段',
@@ -1063,7 +1426,6 @@ export default function CounselorCenter() {
           <h2 className="mb-12 text-center leading-loose lg:hidden">
             預約管理
           </h2>
-
           <CounselorReservationTab />
         </div>
       </section>

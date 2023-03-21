@@ -1,5 +1,7 @@
 export const lightBtn = 'rounded-[50px] bg-white font-bold text-primary-heavy border-[1px] border-primary-heavy';
 
+export const lightBtn2 = 'rounded-[50px] bg-[#EEECFA] font-bold text-primary-heavy border-[1px] border-primary-heavy';
+
 export const darkBtn = 'rounded-[50px] bg-primary-heavy font-bold text-white ';
 
 export interface IBtnStyle {
