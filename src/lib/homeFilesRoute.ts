@@ -1,10 +1,10 @@
 /* eslint-disable import/no-cycle */
-import Banner from '../components/Home/containers/Banner';
-import SuggestCounselor from '../components/Home/containers/SuggestCounselor';
-import CustomTopic from '../components/Home/containers/CustomTopic';
-import PlatformFeature from '../components/Home/containers/PlatformFeature';
-import UserComment from '../components/Home/containers/UserComment';
-import ReservationTour from '../components/Home/containers/ReservationTour';
+import Banner from '../modules/Home/Banner';
+import SuggestCounselor from '../modules/Home/SuggestCounselor';
+import CustomTopic from '../modules/Home/CustomTopic';
+import PlatformFeature from '../modules/Home/PlatformFeature';
+import UserComment from '../modules/Home/UserComment';
+import ReservationTour from '../modules/Home/ReservationTour';
 
 export const homeComponents = {
   Banner,

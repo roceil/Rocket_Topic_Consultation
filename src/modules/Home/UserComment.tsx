@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import star from '../../../../public/images/star.svg';
+import star from '../../../public/images/star.svg';
 
 export default function UserComment() {
   return (

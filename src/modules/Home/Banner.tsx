@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable react/react-in-jsx-scope */
 import Link from 'next/link';
-import { IButton, lightBtn, darkBtn } from '@/components/Public/IButton';
+import { IButton, lightBtn, darkBtn } from '../../common/components/IButton';
 
 export default function Banner() {
   return (

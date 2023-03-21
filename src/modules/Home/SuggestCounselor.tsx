@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
 // eslint-disable-next-line import/no-cycle
-import CounselorCard from '../CounselorCard';
-import { counselorRank } from '../../../lib/homeFilesRoute';
+import CounselorCard from './CounselorCard';
+import { counselorRank } from '../../lib/homeFilesRoute';
 
 export default function SuggestCounselor() {
   return (
@@ -21,7 +21,9 @@ export default function SuggestCounselor() {
 
         {/* 電腦版 */}
         <ul className="hidden lg:flex lg:flex-wrap lg:justify-center lg:gap-16">
-          {counselorRank.map(({ name, rankTag }, index) => <CounselorCard key={index} name={name} rankTag={rankTag} />)}
+          {counselorRank.map(({ name, rankTag }, index) => (
+            <CounselorCard key={index} name={name} rankTag={rankTag} />
+          ))}
         </ul>
       </div>
     </section>
