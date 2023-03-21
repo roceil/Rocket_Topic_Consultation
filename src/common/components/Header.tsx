@@ -121,7 +121,7 @@ export default function Header() {
               </p>
             </div>
             <Space direction="vertical" style={{ width: 276 }}>
-              <Link href="/CounselorList">
+              <Link href="/counselorlist">
                 <Button
                   type="link"
                   onClick={handleCancel}
@@ -132,7 +132,7 @@ export default function Header() {
                 </Button>
               </Link>
               <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-              <Link href="/ShopCart">
+              <Link href="/shoppingcart">
                 <Button
                   type="link"
                   icon={<ShoppingCartOutlined />}
@@ -163,6 +163,7 @@ export default function Header() {
               shape="round"
               htmlType="submit"
               className="mt-20 h-[56px] w-[276px] bg-[#5D5A88] text-base text-white shadow-none"
+              onClick={() => alert('登出成功，應該吧')}
             >
               登出
             </Button>
