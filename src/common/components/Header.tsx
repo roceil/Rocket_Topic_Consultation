@@ -99,7 +99,6 @@ export default function Header() {
               colorLinkHover: '#8D8BA7',
               colorIcon: '#5D5A88',
             },
-            components: {},
           }}
         >
           <Button
