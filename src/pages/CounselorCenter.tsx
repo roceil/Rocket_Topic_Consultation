@@ -13,7 +13,7 @@ import edit from '../../public/images/Edit.svg';
 import right from '../../public/images/Right.svg';
 import {
   darkBtn, IButton, lightBtn, lightBtn2,
-} from '../components/Public/IButton';
+} from '../common/components/IButton';
 
 const conselor1 = {
   name: '李森',
@@ -286,16 +286,16 @@ function ClassInfo() {
   };
   return (
     <>
-      <div className="px-5 lg:mt-2 space-y-12">
-        <div className="flex">
-          <h3 className="font-bold mr-2">專長領域 *</h3>
-          <div className="space-x-3">
+      <div className="lg:px-5 lg:mt-2 space-y-12">
+        <div className="flex flex-col lg:flex-row">
+          <h3 className="font-bold mr-2 mb-5">專長領域 *</h3>
+          <div className="lg:space-x-3 flex flex-wrap justify-between">
             <IButton
               text="一般成人"
               bgColor={BtnState.btn1 ? lightBtn2 : lightBtn}
-              fontSize="text-[14px] lg:text-base"
+              fontSize="text-[14px] lg:text-base font-normal lg:font-bold mb-3 lg:mb-0"
               px="w-[104px] lg:w-[112px]"
-              py="py-2 lg:py-[10px]"
+              py="h-9 lg:h-10"
               onClick={() => {
                 setBtnState({
                   ...BtnState,
@@ -306,9 +306,9 @@ function ClassInfo() {
             <IButton
               text="親密關係"
               bgColor={BtnState.btn2 ? lightBtn2 : lightBtn}
-              fontSize="text-[14px] lg:text-base"
+              fontSize="text-[14px] lg:text-base font-normal lg:font-bold mb-3 lg:mb-0"
               px="w-[104px] lg:w-[112px]"
-              py="py-2 lg:py-[10px]"
+              py="h-9 lg:h-10"
               onClick={() => {
                 setBtnState({
                   ...BtnState,
@@ -319,9 +319,9 @@ function ClassInfo() {
             <IButton
               text="青少年"
               bgColor={BtnState.btn3 ? lightBtn2 : lightBtn}
-              fontSize="text-[14px] lg:text-base"
+              fontSize="text-[14px] lg:text-base font-normal lg:font-bold mb-3 lg:mb-0"
               px="w-[104px] lg:w-[112px]"
-              py="py-2 lg:py-[10px]"
+              py="h-9 lg:h-10"
               onClick={() => {
                 setBtnState({
                   ...BtnState,
@@ -332,9 +332,9 @@ function ClassInfo() {
             <IButton
               text="女性議題"
               bgColor={BtnState.btn4 ? lightBtn2 : lightBtn}
-              fontSize="text-[14px] lg:text-base"
+              fontSize="text-[14px] lg:text-base font-normal lg:font-bold mb-3 lg:mb-0"
               px="w-[104px] lg:w-[112px]"
-              py="py-2 lg:py-[10px]"
+              py="h-9 lg:h-10"
               onClick={() => {
                 setBtnState({
                   ...BtnState,
@@ -345,9 +345,9 @@ function ClassInfo() {
             <IButton
               text="PTSD"
               bgColor={BtnState.btn5 ? lightBtn2 : lightBtn}
-              fontSize="text-[14px] lg:text-base"
+              fontSize="text-[14px] lg:text-base font-normal lg:font-bold mb-3 lg:mb-0"
               px="w-[104px] lg:w-[112px]"
-              py="py-2 lg:py-[10px]"
+              py="h-9 lg:h-10"
               onClick={() => {
                 setBtnState({
                   ...BtnState,
@@ -358,9 +358,9 @@ function ClassInfo() {
             <IButton
               text="中老年議題"
               bgColor={BtnState.btn6 ? lightBtn2 : lightBtn}
-              fontSize="text-[14px] lg:text-base"
+              fontSize="text-[14px] lg:text-base font-normal lg:font-bold mb-3 lg:mb-0"
               px="w-[104px] lg:w-[112px]"
-              py="py-2 lg:py-[10px]"
+              py="h-9 lg:h-10"
               onClick={() => {
                 setBtnState({
                   ...BtnState,
@@ -369,18 +369,18 @@ function ClassInfo() {
               }}
             />
           </div>
-          <p className="ml-4 mt-7 text-sm">可複選</p>
+          <p className="hidden lg:block ml-4 mt-7 text-sm">可複選</p>
         </div>
-        <div className="flex">
-          <h3 className="font-bold mr-2">課程方案 *</h3>
+        <div className="flex flex-col lg:flex-row">
+          <h3 className="font-bold mr-2 mb-5">課程方案 *</h3>
           <div className="rounded-2xl bg-bg2 pb-9">
-            <ul className="flex border-b border-secondary  py-5 text-sm font-bold text-primary-heavy lg:w-auto lg:px-0 lg:text-center">
+            <ul className="flex border-b border-secondary  py-5 text-sm font-bold text-primary-heavy lg:w-[804px] lg:px-0 lg:text-center ">
               <li className="lg:w-[25%]">專長領域</li>
               <li className="lg:w-[25%]">課程方案</li>
               <li className="lg:w-[25%]">定價</li>
               <li className="lg:w-[25%]">是否開放</li>
             </ul>
-            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-[804px]">
+            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 lg:w-[804px]">
               <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
                 <ConfigProvider
                   theme={{
@@ -395,7 +395,7 @@ function ClassInfo() {
                     },
                   }}
                 >
-                  <Form
+                  {/* <Form
                     form={form}
                     name="classInfo"
                     onFinish={onFinish}
@@ -413,9 +413,9 @@ function ClassInfo() {
                           { value: '青少年', label: '青少年' },
                         ]}
                       />
-                    </div>
+                    </div> */}
                     {/* 課程方案＋定價 */}
-                    <div className="flex flex-col space-y-4">
+                    {/* <div className="flex flex-col space-y-4">
                       <div className="flex w-[603px] items-center">
                         <div className="lg:w-[33.33%]">1 堂</div>
                         <Form.Item className="lg:w-[33.33%] mb-0">
@@ -453,16 +453,16 @@ function ClassInfo() {
                         </Form.Item>
                       </div>
                     </div>
-                  </Form>
+                  </Form> */}
                 </ConfigProvider>
               </li>
             </ul>
           </div>
         </div>
-        <div className="flex">
-          <h3 className="font-bold mr-2">課程特色 *</h3>
+        <div className="flex flex-col lg:flex-row">
+          <h3 className="font-bold mr-2 mb-5">課程特色 *</h3>
           <div className="rounded-2xl bg-bg2 pb-9">
-            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-[804px]">
+            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 lg:w-[804px]">
               <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
                 <ConfigProvider
                   theme={{
@@ -477,7 +477,7 @@ function ClassInfo() {
                     },
                   }}
                 >
-                  <Form
+                  {/* <Form
                     form={form}
                     name="classInfo"
                     onFinish={onFinish}
@@ -495,9 +495,9 @@ function ClassInfo() {
                           { value: '青少年', label: '青少年' },
                         ]}
                       />
-                    </div>
+                    </div> */}
                     {/* 課程方案＋定價 */}
-                    <Form.Item
+                    {/* <Form.Item
                       name="特色 1"
                       label="特色 1"
                       className="px-[56px] mb-8"
@@ -585,7 +585,7 @@ function ClassInfo() {
                         disabled={editInfo}
                       />
                     </Form.Item>
-                  </Form>
+                  </Form> */}
                 </ConfigProvider>
               </li>
             </ul>
@@ -1387,7 +1387,7 @@ export default function CounselorCenter() {
   return (
     <>
       {/* 手機版 個人資料 */}
-      <section className="hidden pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
+      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
         <div className="container">
           <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
             目前尚無預約
@@ -1490,7 +1490,7 @@ export default function CounselorCenter() {
                 <Tabs
                   tabPosition="left"
                   items={CounselorCenterTabAry}
-                  defaultActiveKey="預約管理"
+                  defaultActiveKey="個人資料"
                 />
               </ConfigProvider>
             </div>
