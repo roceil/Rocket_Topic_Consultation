@@ -117,16 +117,14 @@ export default function CounselorList() {
                 placement="bottomLeft"
                 placeholder="選擇主題"
                 virtual={false}
-                suffixIcon={
+                suffixIcon={(
                   <SearchOutlined
                     style={{
                       color: '#767494',
                     }}
                   />
-                }
-                getPopupContainer={() =>
-                  document.getElementById('topicPicker') || document.body
-                }
+                )}
+                getPopupContainer={() => document.getElementById('topicPicker') || document.body}
               />
             </ConfigProvider>
           </div>
@@ -212,9 +210,7 @@ export default function CounselorList() {
               >
                 <Select
                   defaultValue="依熱門程度搜尋"
-                  getPopupContainer={() =>
-                    document.getElementById('levelFilter') || document.body
-                  }
+                  getPopupContainer={() => document.getElementById('levelFilter') || document.body}
                   options={[
                     { value: '依熱門程度搜尋', label: '依熱門程度搜尋' },
                     { value: '依好吃程度搜尋', label: '依好吃程度搜尋' },
