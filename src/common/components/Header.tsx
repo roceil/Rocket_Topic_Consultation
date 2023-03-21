@@ -9,7 +9,9 @@ import {
   MenuOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { Button, ConfigProvider, Modal, Space } from 'antd';
+import {
+  Button, ConfigProvider, Modal, Space,
+} from 'antd';
 import { useState } from 'react';
 import { IButton, darkBtn, lightBtn } from './IButton';
 import SearchCapsule from './SearchCapsule';
@@ -23,27 +25,27 @@ const LogInIcons = (
       type="default"
       shape="circle"
       size="large"
-      icon={
+      icon={(
         <BellOutlined
           style={{
             fontSize: '20px',
             color: '#8D8BA7',
           }}
         />
-      }
+      )}
     />
     <Button
       type="default"
       shape="circle"
       size="large"
-      icon={
+      icon={(
         <UserOutlined
           style={{
             fontSize: '20px',
             color: '#8D8BA7',
           }}
         />
-      }
+      )}
     />
   </>
 );
