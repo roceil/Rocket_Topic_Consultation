@@ -19,7 +19,7 @@ export function IButton({
 }: IBtnStyle) {
   return (
     <input
-      className={`${bgColor} ${fontSize} ${px} ${py}`}
+      className={`${bgColor} ${fontSize} ${px} ${py} cursor-pointer hover:opacity-50`}
       type="button"
       value={text}
       onClick={onClick}

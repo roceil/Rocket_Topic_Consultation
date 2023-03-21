@@ -8,7 +8,7 @@ import {
   Pagination,
   type SelectProps,
 } from 'antd';
-import SearchCapsule from '../components/Public/SearchCapsule';
+import SearchCapsule from '../common/components/SearchCapsule';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const onSearch = (value: any) => console.log(value);

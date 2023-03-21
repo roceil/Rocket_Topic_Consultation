@@ -15,8 +15,8 @@ import {
 } from 'antd';
 import { useState } from 'react';
 import { userCenterPosition } from '../redux/feature/userCenter';
-import { IButton, darkBtn, lightBtn } from '../components/Public/IButton';
-import SearchCapsule from '../components/Public/SearchCapsule';
+import { IButton, darkBtn, lightBtn } from './IButton';
+import SearchCapsule from './SearchCapsule';
 
 const isLogIn = false; // 判斷是否登入，控制 Nav 顯示內容
 
@@ -54,13 +54,15 @@ const LogInIcons = (
 
 // 未登入時，顯示『登入/註冊』Btn
 const YetLogInBtn = (
-  <IButton
-    text="登入 / 註冊"
-    bgColor={lightBtn}
-    fontSize="text-[14px] lg:text-base"
-    px="px-6"
-    py="py-3"
-  />
+  <Link href="login">
+    <IButton
+      text="登入 / 註冊"
+      bgColor={lightBtn}
+      fontSize="text-[14px] lg:text-base"
+      px="px-6"
+      py="py-3"
+    />
+  </Link>
 );
 
 export default function Header() {
