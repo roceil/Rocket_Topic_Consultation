@@ -26,13 +26,13 @@ export default function SearchCapsule({
     >
       <Input
         placeholder={placeholder}
-        suffix={
+        suffix={(
           <SearchOutlined
             style={{
               color: colorPrimary,
             }}
           />
-        }
+        )}
       />
     </ConfigProvider>
   );
