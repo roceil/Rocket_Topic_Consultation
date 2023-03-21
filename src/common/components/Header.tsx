@@ -197,7 +197,7 @@ export default function Header() {
               {isLogIn && LogInIcons}
             </ConfigProvider>
             {!isLogIn && YetLogInBtn}
-            <Link href="">
+            <Link href="/counselorlist">
               <IButton
                 text="尋找諮商師"
                 bgColor={darkBtn}
