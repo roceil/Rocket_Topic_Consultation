@@ -54,7 +54,7 @@ const LogInIcons = (
 
 // 未登入時，顯示『登入/註冊』Btn
 const YetLogInBtn = (
-  <Link href="login">
+  <Link href="/login">
     <IButton
       text="登入 / 註冊"
       bgColor={lightBtn}
