@@ -1,6 +1,6 @@
 import LoginTab from '../modules/login/LoginTab';
 
-export default function logIn() {
+export default function login() {
   return (
     <div className="container z-20 flex">
       {/* 圖片 */}
