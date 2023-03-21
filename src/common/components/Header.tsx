@@ -151,11 +151,7 @@ export default function Header() {
                 </Button>
               </Link>
               <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-              <Button
-                type="link"
-                icon={<UserOutlined />}
-                className="text-lg font-bold"
-              >
+              <Button type="link" icon={<UserOutlined />} className="text-lg font-bold">
                 會員中心
               </Button>
               <Button type="link" className="ml-[26px] text-base">
@@ -181,16 +177,6 @@ export default function Header() {
           </Modal>
         </ConfigProvider>
 
-        <div className="flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden">
-          <Link href="UserCenter">
-            <button
-              className="h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]"
-              onClick={() => {
-                dispatch(userCenterPosition('預約管理'));
-              }}
-            />
-          </Link>
-        </div>
         {/* PC 版導覽列 */}
         <div className="hidden lg:block">
           <ul className="flex items-center space-x-5">

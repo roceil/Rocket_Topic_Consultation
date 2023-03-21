@@ -9,14 +9,12 @@ export default function LogIn() {
       </div>
 
       {/* 右側輸入區 */}
-      <div className="mb-[84px] max-w-[380px] lg:mt-[120px] lg:mb-[160px]">
+      <div className="mb-[84px] w-[380px] lg:mt-[120px] lg:mb-[160px]">
         <div className="my-12 flex flex-col items-center lg:mt-0 lg:mb-12 lg:items-start">
-          <p className="mb-1 hidden text-sm font-bold text-primary-heavy lg:block">
-            LOG IN
-          </p>
+          <p className="mb-1 hidden text-sm font-bold text-primary-heavy lg:block">LOG IN</p>
           <h2>會員登入</h2>
         </div>
-        <div className="fle-col form flex max-w-[380px]">
+        <div className="loginForm">
           <LoginTab />
         </div>
       </div>

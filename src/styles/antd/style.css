@@ -112,6 +112,17 @@ padding: ;
   height: calc(100vh - 105px);
 }
 
+/* 登入頁Tab */
+.loginForm .ant-tabs-nav-list {
+  width: 100%;
+}
+
+.loginForm .ant-tabs-tab {
+  margin: 0;
+  width: 50%;
+  justify-content: center;
+}
+
 /* 漢堡選單排列 */
 .hamburger-menu .ant-modal-body {
   display: flex;
@@ -125,7 +136,7 @@ padding: ;
 }
 
 /* 調整 Tabs 與 Form 間距 */
-.form .ant-tabs-nav{
+.form .ant-tabs-nav {
   margin-bottom: 40px !important;
 }
 .counselorTab .ant-tabs-nav-list {
