@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/button-has-type */
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 import {
   ShoppingCartOutlined,
   BellOutlined,
@@ -10,11 +9,8 @@ import {
   MenuOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import {
-  Button, ConfigProvider, Modal, Space,
-} from 'antd';
+import { Button, ConfigProvider, Modal, Space } from 'antd';
 import { useState } from 'react';
-import { userCenterPosition } from '../redux/feature/userCenter';
 import { IButton, darkBtn, lightBtn } from './IButton';
 import SearchCapsule from './SearchCapsule';
 
@@ -27,27 +23,27 @@ const LogInIcons = (
       type="default"
       shape="circle"
       size="large"
-      icon={(
+      icon={
         <BellOutlined
           style={{
             fontSize: '20px',
             color: '#8D8BA7',
           }}
         />
-      )}
+      }
     />
     <Button
       type="default"
       shape="circle"
       size="large"
-      icon={(
+      icon={
         <UserOutlined
           style={{
             fontSize: '20px',
             color: '#8D8BA7',
           }}
         />
-      )}
+      }
     />
   </>
 );
@@ -66,8 +62,6 @@ const YetLogInBtn = (
 );
 
 export default function Header() {
-  const dispatch = useDispatch();
-
   // 漢堡選單開關
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -81,11 +75,8 @@ export default function Header() {
     <header className="my-[18px] lg:my-0 lg:py-[30px]">
       <div className="container flex items-center justify-between">
         <Link
-          href="UserCenter"
+          href="/"
           className="cursor-pointer text-2xl font-bold leading-normal text-[#5D5A88] hover:opacity-50"
-          onClick={() => {
-            dispatch(userCenterPosition('個人資料'));
-          }}
         >
           Logo
         </Link>
@@ -106,7 +97,7 @@ export default function Header() {
             icon={<MenuOutlined />}
             type="primary"
             shape="round"
-            className="text-base text-primary-heavy shadow-none lg:hidden"
+            className="flexCenterCenter text-base text-primary-heavy shadow-none lg:hidden"
           />
           <Modal
             width={348}
@@ -133,7 +124,7 @@ export default function Header() {
                   type="link"
                   onClick={handleCancel}
                   icon={<SearchOutlined />}
-                  className="text-lg font-bold"
+                  className="text-lg font-bold "
                 >
                   諮商師總覽
                 </Button>
@@ -144,7 +135,7 @@ export default function Header() {
                   type="link"
                   icon={<ShoppingCartOutlined />}
                   onClick={handleCancel}
-                  className="text-lg font-bold"
+                  className="text-lg font-bold "
                 >
                   購物車
                 </Button>
@@ -198,29 +189,23 @@ export default function Header() {
                 colorBgContainer="#fff"
                 placeholder=""
               />
-              <Button
-                type="default"
-                shape="circle"
-                size="large"
-                icon={(
-                  <ShoppingCartOutlined
-                    style={{
-                      fontSize: '20px',
-                      color: '#8D8BA7',
-                    }}
-                  />
-                )}
-              />
+              <Link href="/shoppingcart">
+                <button className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
+                  <ShoppingCartOutlined />
+                </button>
+              </Link>
               {isLogIn && LogInIcons}
             </ConfigProvider>
             {!isLogIn && YetLogInBtn}
-            <IButton
-              text="尋找諮商師"
-              bgColor={darkBtn}
-              fontSize="text-[14px] lg:text-base"
-              px="px-6"
-              py="py-3"
-            />
+            <Link href="">
+              <IButton
+                text="尋找諮商師"
+                bgColor={darkBtn}
+                fontSize="text-[14px] lg:text-base"
+                px="px-6"
+                py="py-3"
+              />
+            </Link>
           </ul>
         </div>
       </div>
