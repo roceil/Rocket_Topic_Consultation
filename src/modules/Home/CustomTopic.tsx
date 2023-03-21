@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import TopicCard from '../TopicCard';
+import TopicCard from './TopicCard';
 // eslint-disable-next-line import/no-cycle
-import { topicCardAry } from '../../../lib/homeFilesRoute';
+import { topicCardAry } from '../../lib/homeFilesRoute';
 
 export default function CustomTopic() {
   return (

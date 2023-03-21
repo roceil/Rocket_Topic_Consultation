@@ -5,8 +5,9 @@ export const userCenterSlice = createSlice({
   initialState: { value: '個人資料' },
   reducers: {
     userCenterPosition: (state, action) => {
-      // eslint-disable-next-line no-param-reassign
-      state.value = action.payload;
+      const newState = { ...state };
+      newState.value = action.payload;
+      return newState;
     },
   },
 });
