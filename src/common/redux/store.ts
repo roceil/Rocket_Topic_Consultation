@@ -1,13 +1,13 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userCenterSlice from './feature/userCenter';
-import loginTabsSlice from './feature/loginTabs';
+import loginTabs from './feature/loginTabs';
 import signUpSlice from './feature/signUp';
 import { login } from './service/login';
 
 const reducers = combineReducers({
   userCenterSlice,
   signUpSlice,
-  loginTabsSlice,
+  loginTabs,
   [login.reducerPath]: login.reducer,
 });
 
