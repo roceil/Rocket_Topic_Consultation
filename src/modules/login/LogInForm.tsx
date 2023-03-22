@@ -93,7 +93,7 @@ function LogInForm() {
       <Form.Item className="pt-24">
         <div className="flex items-center justify-end">
           <p>尚未成為會員？</p>
-          <Link href="/SignIn">
+          <Link href="/signup">
             <p className="ml-2 underline underline-offset-2 ">立即註冊</p>
           </Link>
         </div>

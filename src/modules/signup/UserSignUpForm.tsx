@@ -149,7 +149,7 @@ export default function UserSignUpForm() {
             message: '密碼須為 8 個字元以上',
           },
           {
-            pattern: /^(?=.*[a-z])(?=.*[A-Z]).{8}$/,
+            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
             message: '須包含大小寫英文字母及數字',
           },
         ]}

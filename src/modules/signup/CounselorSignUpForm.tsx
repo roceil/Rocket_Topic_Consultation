@@ -151,15 +151,12 @@ export default function CounselorSignUpForm() {
             message: '密碼須為 8 個字元以上',
           },
           {
-            pattern: /^(?=.*[a-z])(?=.*[A-Z]).{8}$/,
+            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
             message: '須包含大小寫英文字母及數字',
           },
         ]}
       >
-        <div>
-          <Input.Password placeholder="Password" className={inputStyle} />
-          <p className="absolute right-0">須包含大小寫英文字母及數字</p>
-        </div>
+        <Input.Password placeholder="Password" className={inputStyle} />
       </Form.Item>
 
       {/* 再次輸入密碼 Confirm password */}

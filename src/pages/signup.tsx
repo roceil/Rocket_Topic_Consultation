@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import SignUpTabs from '../modules/signup/SignUpTabs';
 
-export default function SignIn() {
+export default function signup() {
   return (
     <div className="container z-20 flex justify-center pt-12 pb-[84px] lg:pt-[120px] lg:pb-[160px]">
       {/* 圖片 */}
