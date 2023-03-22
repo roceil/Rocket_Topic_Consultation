@@ -30,6 +30,7 @@ function LogInForm() {
     }
     const { message } = res.data as { message: string };
     alert(message);
+    console.log(res);
   };
 
   const counselorLoginPost = async (email: string, password: string) => {
@@ -43,6 +44,7 @@ function LogInForm() {
     }
     const { message } = res.data as { message: string };
     alert(message);
+    console.log(res);
   };
 
   const onFinish = ({ email, password }: { email: string; password: string }) => {
