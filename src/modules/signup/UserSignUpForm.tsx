@@ -1,19 +1,57 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import {
   Form, Space, Input, Select, DatePicker, Checkbox, Button,
 } from 'antd';
+import { useUserSignUpPostApiMutation } from '../../common/redux/service/signUp';
+import { IUserOnFinishProps } from '../../types/interface';
 
 export default function UserSignUpForm() {
   const [form] = Form.useForm();
   const { Option } = Select;
   const inputStyle = 'py-3 px-5 rounded-[24px]';
-  const { value: signUpTab } = useSelector((state: any) => state.signUpSlice);
+  const { value: signUpTab } = useSelector(
+    (state: { signUpSlice: { value: string } }) => state.signUpSlice,
+  );
+  const [userSignUpPostApi] = useUserSignUpPostApiMutation();
+  const router = useRouter();
+
+  // 使用者註冊API
+  const userSignUpPost = async (
+    email: string,
+    password: string,
+    name: string,
+    datePicker: Date,
+    gender: string,
+  ) => {
+    const res = await userSignUpPostApi({
+      email,
+      password,
+      name,
+      datePicker,
+      gender,
+    });
+    if ('error' in res) {
+      console.log(res);
+      return;
+    }
+    const { Message } = res.data as { Message: string };
+    alert(`${Message}，請重新登入`);
+    router.push('/login');
+    console.log(res);
+  };
 
   // 表單送出函式
-  const onFinish = (values: any) => {
+  const onFinish = ({
+    name,
+    password,
+    email,
+    datePicker: { $d: date },
+    gender,
+  }: IUserOnFinishProps) => {
     if (signUpTab !== '用戶') return;
-    console.log('Received values of form: ', values, signUpTab);
+    userSignUpPost(email, password, name, date, gender);
   };
 
   return (
@@ -32,7 +70,7 @@ export default function UserSignUpForm() {
       <Form.Item className="-mb-6">
         <Space className="flex justify-between">
           <Form.Item
-            name="Name"
+            name="name"
             label="姓名 Name"
             className="inline-block w-[160px] sm:w-[180px]"
             rules={[
@@ -57,7 +95,7 @@ export default function UserSignUpForm() {
               },
             ]}
           >
-            <Select placeholder="選擇性別">
+            <Select placeholder="選擇性別" getPopupContainer={(trigger) => trigger.parentElement}>
               <Option value="male">男</Option>
               <Option value="female">女</Option>
               <Option value="other">其他</Option>
@@ -68,7 +106,7 @@ export default function UserSignUpForm() {
 
       {/* 出生年月日 Birth date */}
       <Form.Item
-        name="date-picker"
+        name="datePicker"
         label="出生年月日 Birth date"
         rules={[
           {
@@ -77,7 +115,10 @@ export default function UserSignUpForm() {
           },
         ]}
       >
-        <DatePicker className={`${inputStyle} w-full`} placeholder="Select date" />
+        <DatePicker
+          className={`${inputStyle} w-full`}
+          placeholder="Select date"
+        />
       </Form.Item>
 
       {/* 帳號 Account */}
@@ -131,7 +172,7 @@ export default function UserSignUpForm() {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              return Promise.reject(new Error('密碼不一致，請重新輸入'));
             },
           }),
         ]}

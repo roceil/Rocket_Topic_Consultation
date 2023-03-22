@@ -1,20 +1,57 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import {
   Form, Space, Input, Upload, Button, Checkbox,
 } from 'antd';
-import Link from 'next/link';
+import { useCounselorSignUpPostApiMutation } from '../../common/redux/service/signUp';
+import { ICounselorOnFinishProps } from '../../types/interface';
 
 export default function CounselorSignUpForm() {
   const [form] = Form.useForm();
   const inputStyle = 'py-3 px-5 rounded-[24px]';
+  const { value: signUpTab } = useSelector(
+    (state: { signUpSlice: { value: string } }) => state.signUpSlice,
+  );
+  const [counselorSignUpPostApi] = useCounselorSignUpPostApiMutation();
+  const router = useRouter();
+
+  // 使用者註冊API
+  const counselorSignUpPost = async (
+    name: string,
+    license: [],
+    certification: string,
+    email: string,
+    password: string,
+  ) => {
+    const res = await counselorSignUpPostApi({
+      name,
+      license,
+      certification,
+      email,
+      password,
+    });
+    if ('error' in res) {
+      console.log(res);
+      return;
+    }
+    const { Message } = res.data as { Message: string };
+    alert(`${Message}，請重新登入`);
+    router.push('/login');
+    console.log(res);
+  };
 
   // 表單送出函式
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+  const onFinish = ({
+    name, license, certification, email, password,
+  }: ICounselorOnFinishProps) => {
+    if (signUpTab !== '諮商師') return;
+    counselorSignUpPost(name, license, certification, email, password);
   };
 
   // 檔案上傳函式
-  const normFile = (e: any) => {
+  const normFile = (e: { fileList: unknown }) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
@@ -38,7 +75,7 @@ export default function CounselorSignUpForm() {
       <Form.Item className="-mb-6">
         <Space className="flex items-start justify-between">
           <Form.Item
-            name="Name"
+            name="name"
             label="姓名 Name"
             className="inline-block w-[160px] sm:w-[180px]"
             rules={[
@@ -130,7 +167,6 @@ export default function CounselorSignUpForm() {
         name="confirm"
         label="再次輸入密碼 Confirm password"
         dependencies={['password']}
-        hasFeedback
         rules={[
           {
             required: true,
@@ -141,7 +177,7 @@ export default function CounselorSignUpForm() {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              return Promise.reject(new Error('密碼不一致，請重新輸入'));
             },
           }),
         ]}

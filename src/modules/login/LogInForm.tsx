@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import Link from 'next/link';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -8,7 +7,7 @@ import {
 import {
   useUserLoginPostApiMutation,
   useCounselorLoginPostApiMutation,
-} from '@/src/common/redux/service/login';
+} from '../../common/redux/service/login';
 
 const inputStyle = 'py-3 px-5 rounded-[24px]';
 
@@ -28,8 +27,8 @@ function LogInForm() {
       console.log(res);
       return;
     }
-    const { message } = res.data as { message: string };
-    alert(message);
+    const { Message } = res.data as { Message: string };
+    alert(Message);
     console.log(res);
   };
 
@@ -42,8 +41,8 @@ function LogInForm() {
       console.log(res);
       return;
     }
-    const { message } = res.data as { message: string };
-    alert(message);
+    const { Message } = res.data as { Message: string };
+    alert(Message);
     console.log(res);
   };
 
