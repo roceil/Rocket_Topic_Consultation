@@ -5,29 +5,51 @@ import { useSelector } from 'react-redux';
 import {
   Button, Form, Input, Space,
 } from 'antd';
-import { useUserLoginPostApiMutation } from '@/src/common/redux/service/login';
+import {
+  useUserLoginPostApiMutation,
+  useCounselorLoginPostApiMutation,
+} from '@/src/common/redux/service/login';
 
 const inputStyle = 'py-3 px-5 rounded-[24px]';
 
 function LogInForm() {
+  const [form] = Form.useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [userLoginPostApi] = useUserLoginPostApiMutation();
+  const [counselorLoginPostApi] = useCounselorLoginPostApiMutation();
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
 
-  const loginPost = async (email: string, password: string) => {
+  const userLoginPost = async (email: string, password: string) => {
     const res = await userLoginPostApi({
       email,
       password,
     });
-    console.log(res);
+    if ('error' in res) {
+      console.log(res);
+      return;
+    }
+    const { message } = res.data as { message: string };
+    alert(message);
   };
-  const [form] = Form.useForm();
+
+  const counselorLoginPost = async (email: string, password: string) => {
+    const res = await counselorLoginPostApi({
+      email,
+      password,
+    });
+    if ('error' in res) {
+      console.log(res);
+      return;
+    }
+    const { message } = res.data as { message: string };
+    alert(message);
+  };
 
   const onFinish = ({ email, password }: { email: string; password: string }) => {
     if (value === '用戶') {
-      loginPost(email, password);
+      userLoginPost(email, password);
     } else if (value === '諮商師') {
-      console.log(123);
+      counselorLoginPost(email, password);
     }
   };
   return (
@@ -36,7 +58,7 @@ function LogInForm() {
       form={form}
       name="logIn"
       onFinish={onFinish}
-      className="space-y-8"
+      className="space-y-8 px-4"
       labelAlign="left"
     >
       <Form.Item
@@ -81,7 +103,7 @@ function LogInForm() {
           type="primary"
           shape="round"
           htmlType="submit"
-          className="-mt-8 h-[56px] w-[380px] bg-[#D4D2E3] text-base text-white shadow-none"
+          className="-mt-8 h-[56px] w-full bg-[#D4D2E3] text-base text-white shadow-none"
         >
           登入
         </Button>

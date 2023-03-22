@@ -13,4 +13,13 @@ export const handlers = [
       message: '登入成功',
     }),
   )),
+  rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/counselor/login`, (req, res, ctx) => res(
+    ctx.status(200),
+    ctx.json({
+      username: '我是諮商師名',
+      userID: '09876',
+      authorization: '我是token',
+      message: '登入成功',
+    }),
+  )),
 ];

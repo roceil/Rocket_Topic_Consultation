@@ -13,7 +13,14 @@ export const login = createApi({
         body,
       }),
     }),
+    counselorLoginPostApi: builder.mutation({
+      query: (body) => ({
+        url: '/api/counselor/login',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useUserLoginPostApiMutation } = login;
+export const { useUserLoginPostApiMutation, useCounselorLoginPostApiMutation } = login;

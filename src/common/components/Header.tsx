@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/button-has-type */
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 import {
   ShoppingCartOutlined,
   BellOutlined,
@@ -14,7 +13,6 @@ import {
   Button, ConfigProvider, Modal, Space,
 } from 'antd';
 import { useState } from 'react';
-import { userCenterPosition } from '../redux/feature/userCenter';
 import { IButton, darkBtn, lightBtn } from './IButton';
 import SearchCapsule from './SearchCapsule';
 
@@ -54,7 +52,7 @@ const LogInIcons = (
 
 // 未登入時，顯示『登入/註冊』Btn
 const YetLogInBtn = (
-  <Link href="login">
+  <Link href="/login">
     <IButton
       text="登入 / 註冊"
       bgColor={lightBtn}
@@ -66,8 +64,6 @@ const YetLogInBtn = (
 );
 
 export default function Header() {
-  const dispatch = useDispatch();
-
   // 漢堡選單開關
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -81,11 +77,8 @@ export default function Header() {
     <header className="my-[18px] lg:my-0 lg:py-[30px]">
       <div className="container flex items-center justify-between">
         <Link
-          href="UserCenter"
+          href="/"
           className="cursor-pointer text-2xl font-bold leading-normal text-[#5D5A88] hover:opacity-50"
-          onClick={() => {
-            dispatch(userCenterPosition('個人資料'));
-          }}
         >
           Logo
         </Link>
@@ -99,7 +92,6 @@ export default function Header() {
               colorLinkHover: '#8D8BA7',
               colorIcon: '#5D5A88',
             },
-            components: {},
           }}
         >
           <Button
@@ -107,7 +99,7 @@ export default function Header() {
             icon={<MenuOutlined />}
             type="primary"
             shape="round"
-            className="text-base text-primary-heavy shadow-none lg:hidden"
+            className="flexCenterCenter text-base text-primary-heavy shadow-none lg:hidden"
           />
           <Modal
             width={348}
@@ -129,33 +121,29 @@ export default function Header() {
               </p>
             </div>
             <Space direction="vertical" style={{ width: 276 }}>
-              <Link href="/CounselorList">
+              <Link href="/counselorlist">
                 <Button
                   type="link"
                   onClick={handleCancel}
                   icon={<SearchOutlined />}
-                  className="text-lg font-bold"
+                  className="text-lg font-bold "
                 >
                   諮商師總覽
                 </Button>
               </Link>
               <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-              <Link href="/ShopCart">
+              <Link href="/shoppingcart">
                 <Button
                   type="link"
                   icon={<ShoppingCartOutlined />}
                   onClick={handleCancel}
-                  className="text-lg font-bold"
+                  className="text-lg font-bold "
                 >
                   購物車
                 </Button>
               </Link>
               <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-              <Button
-                type="link"
-                icon={<UserOutlined />}
-                className="text-lg font-bold"
-              >
+              <Button type="link" icon={<UserOutlined />} className="text-lg font-bold">
                 會員中心
               </Button>
               <Button type="link" className="ml-[26px] text-base">
@@ -175,22 +163,13 @@ export default function Header() {
               shape="round"
               htmlType="submit"
               className="mt-20 h-[56px] w-[276px] bg-[#5D5A88] text-base text-white shadow-none"
+              onClick={() => alert('登出成功，應該吧')}
             >
               登出
             </Button>
           </Modal>
         </ConfigProvider>
 
-        <div className="flex h-6 w-6 items-center justify-center  lg:hidden xl:hidden">
-          <Link href="UserCenter">
-            <button
-              className="h-[10px] w-[18px] border-y-2 border-y-[#5D5A88]"
-              onClick={() => {
-                dispatch(userCenterPosition('預約管理'));
-              }}
-            />
-          </Link>
-        </div>
         {/* PC 版導覽列 */}
         <div className="hidden lg:block">
           <ul className="flex items-center space-x-5">
@@ -213,29 +192,23 @@ export default function Header() {
                 colorBgContainer="#fff"
                 placeholder=""
               />
-              <Button
-                type="default"
-                shape="circle"
-                size="large"
-                icon={(
-                  <ShoppingCartOutlined
-                    style={{
-                      fontSize: '20px',
-                      color: '#8D8BA7',
-                    }}
-                  />
-                )}
-              />
+              <Link href="/shoppingcart">
+                <button className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
+                  <ShoppingCartOutlined />
+                </button>
+              </Link>
               {isLogIn && LogInIcons}
             </ConfigProvider>
             {!isLogIn && YetLogInBtn}
-            <IButton
-              text="尋找諮商師"
-              bgColor={darkBtn}
-              fontSize="text-[14px] lg:text-base"
-              px="px-6"
-              py="py-3"
-            />
+            <Link href="/counselorlist">
+              <IButton
+                text="尋找諮商師"
+                bgColor={darkBtn}
+                fontSize="text-[14px] lg:text-base"
+                px="px-6"
+                py="py-3"
+              />
+            </Link>
           </ul>
         </div>
       </div>
