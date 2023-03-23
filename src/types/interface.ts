@@ -15,3 +15,21 @@ export interface ISearchCapsuleProps {
   colorBgContainer?: string;
   placeholder?: string;
 }
+
+export interface IUserOnFinishProps {
+  name: string;
+  password: string;
+  email: string;
+  datePicker: {
+    $d: Date;
+  };
+  gender: string;
+}
+
+export interface ICounselorOnFinishProps {
+  name: string;
+  license: [];
+  certification: string;
+  email: string;
+  password: string;
+}
