@@ -144,10 +144,19 @@ padding: ;
   justify-content: center;
 }
 
+/* 註冊頁Tab */
+.signUpForm .ant-tabs-nav-list {
+  width: 100% !important;
+}
+.signUpForm .ant-tabs-tab {
+  margin: 0 !important;
+  width: 50%;
+  justify-content: center;
+}
+
 .counselorTab .ant-tabs-nav-list .ant-tabs-tab {
   width: 33.33333%;
   justify-content: center;
   margin-left: 0;
   border: none;
 }
-

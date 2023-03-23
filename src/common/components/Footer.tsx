@@ -44,7 +44,7 @@ export default function Footer() {
                   <Link href="/ForgetPassword">預約記錄</Link>
                 </li>
                 <li>
-                  <Link href="/ResetPassword">加入會員</Link>
+                  <Link href="/signup">加入會員</Link>
                 </li>
                 <li className="">最新活動</li>
               </ul>

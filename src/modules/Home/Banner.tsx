@@ -24,7 +24,7 @@ export default function Banner() {
                 fontSize="text-[14px] lg:text-base"
               />
             </Link>
-            <Link href="/SignIn">
+            <Link href="/signup">
               <IButton
                 text="立即註冊"
                 bgColor={lightBtn}

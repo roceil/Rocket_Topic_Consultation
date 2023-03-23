@@ -24,8 +24,9 @@ function LogInForm() {
       console.log(res);
       return;
     }
-    const { message } = res.data as { message: string };
-    alert(message);
+    const { Message } = res.data as { Message: string };
+    alert(Message);
+    console.log(res);
   };
 
   const counselorLoginPost = async (email: string, password: string) => {
@@ -37,8 +38,9 @@ function LogInForm() {
       console.log(res);
       return;
     }
-    const { message } = res.data as { message: string };
-    alert(message);
+    const { Message } = res.data as { Message: string };
+    alert(Message);
+    console.log(res);
   };
 
   const onFinish = ({ email, password }: { email: string; password: string }) => {
@@ -89,7 +91,7 @@ function LogInForm() {
       <Form.Item className="pt-24">
         <div className="flex items-center justify-end">
           <p>尚未成為會員？</p>
-          <Link href="/SignIn">
+          <Link href="/signup">
             <p className="ml-2 underline underline-offset-2 ">立即註冊</p>
           </Link>
         </div>
