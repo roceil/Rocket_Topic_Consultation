@@ -9,6 +9,7 @@ export const handlers = [
     ctx.status(200),
     ctx.json({
       Username: '我是用戶名',
+      Identity: 'user',
       UserID: '123456',
       Authorization: '我是token',
       Message: '登入成功',
@@ -20,6 +21,8 @@ export const handlers = [
     ctx.status(200),
     ctx.json({
       Username: '我是諮商師名',
+      Identity: 'counselor',
+      Validation: false,
       UserID: '09876',
       Authorization: '我是token',
       Message: '登入成功',
