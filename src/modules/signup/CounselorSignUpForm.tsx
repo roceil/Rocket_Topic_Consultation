@@ -132,6 +132,10 @@ export default function CounselorSignUpForm() {
             required: true,
             message: '請輸入帳號',
           },
+          {
+            type: 'email',
+            message: '請輸入正確的 email 格式',
+          },
         ]}
       >
         <Input placeholder="Email address" className={inputStyle} />

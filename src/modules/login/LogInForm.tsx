@@ -65,7 +65,16 @@ function LogInForm() {
       <Form.Item
         name="email"
         label="帳號 Account"
-        rules={[{ required: true, message: '請輸入帳號' }]}
+        rules={[
+          {
+            required: true,
+            message: '請輸入帳號',
+          },
+          {
+            type: 'email',
+            message: '請輸入正確的 email 格式',
+          },
+        ]}
       >
         <Input placeholder="Email address" className={inputStyle} />
       </Form.Item>
