@@ -32,6 +32,9 @@
   .titleDecoration {
     @apply after:absolute after:left-0 after:top-1/2 after:h-10 after:w-[10px] after:-translate-y-1/2 after:bg-primary-heavy;
   }
+  .formInput {
+    @apply py-3 px-5 rounded-full 
+  }
 }
 
 @layer utilities {

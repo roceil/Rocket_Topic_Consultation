@@ -1,16 +1,12 @@
-/* eslint-disable import/extensions */
 import Link from 'next/link';
+
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Button, Form, Input, Space,
-} from 'antd';
+import { Button, Form, Input, Space } from 'antd';
 import {
   useUserLoginPostApiMutation,
   useCounselorLoginPostApiMutation,
-} from '@/src/common/redux/service/login';
-
-const inputStyle = 'py-3 px-5 rounded-[24px]';
+} from '../../common/redux/service/login';
 
 function LogInForm() {
   const [form] = Form.useForm();
@@ -52,6 +48,7 @@ function LogInForm() {
       counselorLoginPost(email, password);
     }
   };
+
   return (
     <Form
       layout="vertical"
@@ -66,7 +63,7 @@ function LogInForm() {
         label="帳號 Account"
         rules={[{ required: true, message: '請輸入帳號' }]}
       >
-        <Input placeholder="Email address" className={inputStyle} />
+        <Input placeholder="Email address" className="formInput" />
       </Form.Item>
 
       <Form.Item
@@ -77,7 +74,7 @@ function LogInForm() {
         <Space className="block">
           <Input.Password
             placeholder="Password"
-            className={inputStyle}
+            className="formInput"
             visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
           />
           <Link
