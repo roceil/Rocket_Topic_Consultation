@@ -80,7 +80,7 @@ function LogInForm() {
             visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
           />
           <Link
-            href="/ForgetPassword"
+            href="/forgetpassword"
             className="absolute right-0 flex justify-end underline underline-offset-2"
           >
             忘記密碼？
