@@ -19,31 +19,33 @@ function LogInForm() {
   // 使用者登入函式
   const userLoginPost = async (Email: string, Password: string) => {
     const res = await userLoginPostApi({
-      Email,
+      Account: npmEmail,
       Password,
     });
     if ('error' in res) {
       console.log(res);
+      const { data } = res.error as { data: { Message: string } };
+      alert(data.Message);
       return;
     }
     const { Message } = res.data as { Message: string };
     alert(Message);
-    console.log(res);
   };
 
   // 諮商師登入函式
   const counselorLoginPost = async (Email: string, Password: string) => {
     const res = await counselorLoginPostApi({
-      Email,
+      Account: Email,
       Password,
     });
     if ('error' in res) {
       console.log(res);
+      const { data } = res.error as { data: { Message: string } };
+      alert(data.Message);
       return;
     }
     const { Message } = res.data as { Message: string };
     alert(Message);
-    console.log(res);
   };
 
   // 表單送出函式
