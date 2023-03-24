@@ -9,6 +9,7 @@ export const handlers = [
     ctx.status(200),
     ctx.json({
       Username: '我是用戶名',
+      Identity: 'user',
       UserID: '123456',
       Authorization: '我是token',
       Message: '登入成功',
@@ -20,6 +21,8 @@ export const handlers = [
     ctx.status(200),
     ctx.json({
       Username: '我是諮商師名',
+      Identity: 'counselor',
+      Validation: false,
       UserID: '09876',
       Authorization: '我是token',
       Message: '登入成功',
@@ -39,6 +42,26 @@ export const handlers = [
     ctx.status(200),
     ctx.json({
       Message: '諮商師註冊成功',
+    }),
+  )),
+
+  // 忘記密碼 => POST
+  rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgotPassword`, (req, res, ctx) => res(
+    ctx.status(200),
+    ctx.json({
+      Message: 'Email已發送，請檢查信箱',
+    }),
+  )),
+
+  // 重設密碼 => POST
+  rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resetPassword`, (req, res, ctx) => res(
+    ctx.status(200),
+    ctx.json({
+      Message: '密碼重設成功，請重新登入',
+    }),
+    ctx.status(400),
+    ctx.json({
+      Message: '密碼重設失敗',
     }),
   )),
 ];

@@ -1,4 +1,4 @@
-import LoginTab from '../modules/login/LoginTab';
+import LoginTab from '@/modules/login/LoginTab';
 
 export default function login() {
   return (

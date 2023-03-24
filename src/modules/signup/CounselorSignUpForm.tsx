@@ -2,15 +2,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import {
-  Form, Space, Input, Upload, Button, Checkbox,
-} from 'antd';
-import { useCounselorSignUpPostApiMutation } from '../../common/redux/service/signUp';
-import { ICounselorOnFinishProps } from '../../types/interface';
+import { Form, Space, Input, Upload, Button, Checkbox } from 'antd';
+import { useCounselorSignUpPostApiMutation } from '@/common/redux/service/signUp';
+import { ICounselorOnFinishProps } from '@/types/interface';
+import FormNameInput from '@/common/components/FormNameInput';
+import FormAccountInput from '@/common/components/FormAccountInput';
+import FormPasswordInput from '@/common/components/FormPasswordInput';
+import FormConfirmPasswordInput from '@/common/components/FormConfirmPasswordInput';
+import FormSubmitBtn from '@/common/components/FormSubmitBtn';
 
 export default function CounselorSignUpForm() {
   const [form] = Form.useForm();
-  const inputStyle = 'py-3 px-5 rounded-[24px]';
   const { value: signUpTab } = useSelector(
     (state: { signUpSlice: { value: string } }) => state.signUpSlice,
   );
@@ -19,18 +21,18 @@ export default function CounselorSignUpForm() {
 
   // 使用者註冊API
   const counselorSignUpPost = async (
-    name: string,
-    license: [],
-    certification: string,
-    email: string,
-    password: string,
+    Name: string,
+    License: [],
+    Certification: string,
+    Email: string,
+    Password: string,
   ) => {
     const res = await counselorSignUpPostApi({
-      name,
-      license,
-      certification,
-      email,
-      password,
+      Name,
+      License,
+      Certification,
+      Email,
+      Password,
     });
     if ('error' in res) {
       console.log(res);
@@ -43,11 +45,9 @@ export default function CounselorSignUpForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({
-    name, license, certification, email, password,
-  }: ICounselorOnFinishProps) => {
+  const onFinish = ({ Name, License, Certification, Email, Password }: ICounselorOnFinishProps) => {
     if (signUpTab !== '諮商師') return;
-    counselorSignUpPost(name, license, certification, email, password);
+    counselorSignUpPost(Name, License, Certification, Email, Password);
   };
 
   // 檔案上傳函式
@@ -65,32 +65,18 @@ export default function CounselorSignUpForm() {
       form={form}
       name="register-user"
       onFinish={onFinish}
-      style={{
-        maxWidth: 380,
-      }}
       className="space-y-8"
       labelAlign="left"
     >
       {/* 姓名、執照 */}
       <Form.Item className="-mb-6">
         <Space className="flex items-start justify-between">
-          <Form.Item
-            name="name"
-            label="姓名 Name"
-            className="inline-block w-[160px] sm:w-[180px]"
-            rules={[
-              {
-                required: true,
-                message: '請輸入姓名',
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input placeholder="Name" className={inputStyle} />
-          </Form.Item>
+          {/* 姓名 Name */}
+          <FormNameInput />
 
+          {/* 執照 License */}
           <Form.Item
-            name="license"
+            name="License"
             label="諮商師執照 License"
             className="inline-block w-[160px] sm:w-[180px]"
             valuePropName="fileList"
@@ -116,36 +102,20 @@ export default function CounselorSignUpForm() {
 
       {/* 證書字號 */}
       <Form.Item
-        name="certification"
+        name="Certification"
         label="諮商師證書字號 Certification"
         rules={[{ required: true, message: '請輸入證書字號' }]}
       >
-        <Input placeholder="Certification" className={inputStyle} />
+        <Input placeholder="Certification" className="formInput" />
       </Form.Item>
 
       {/* 帳號 Account */}
-      <Form.Item
-        name="email"
-        label="帳號 Account"
-        rules={[
-          {
-            required: true,
-            message: '請輸入帳號',
-          },
-        ]}
-      >
-        <Input placeholder="Email address" className={inputStyle} />
-      </Form.Item>
+      <FormAccountInput />
 
       {/* 密碼 Password */}
-      <Form.Item
-        name="password"
-        label="密碼 Password"
-        rules={[
-          {
-            required: true,
-            message: '請輸入密碼',
-          },
+      <FormPasswordInput
+        needLink={false}
+        extraRules={[
           {
             min: 8,
             message: '密碼須為 8 個字元以上',
@@ -155,32 +125,10 @@ export default function CounselorSignUpForm() {
             message: '須包含大小寫英文字母及數字',
           },
         ]}
-      >
-        <Input.Password placeholder="Password" className={inputStyle} />
-      </Form.Item>
+      />
 
       {/* 再次輸入密碼 Confirm password */}
-      <Form.Item
-        name="confirm"
-        label="再次輸入密碼 Confirm password"
-        dependencies={['password']}
-        rules={[
-          {
-            required: true,
-            message: '請再次輸入密碼',
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('密碼不一致，請重新輸入'));
-            },
-          }),
-        ]}
-      >
-        <Input.Password placeholder="Confirm password" className={inputStyle} />
-      </Form.Item>
+      <FormConfirmPasswordInput />
 
       {/* 隱私權條款 */}
       <Form.Item
@@ -211,16 +159,7 @@ export default function CounselorSignUpForm() {
       </Form.Item>
 
       {/* 立即註冊 */}
-      <Form.Item className="!mt-0">
-        <Button
-          type="primary"
-          shape="round"
-          htmlType="submit"
-          className="h-[50px] w-full bg-[#D4D2E3] text-base text-white shadow-none"
-        >
-          立即註冊
-        </Button>
-      </Form.Item>
+      <FormSubmitBtn text="立即註冊" />
     </Form>
   );
 }

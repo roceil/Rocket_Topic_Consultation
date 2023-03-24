@@ -1,7 +1,7 @@
 import { ConfigProvider, Tabs } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { loginTabs } from '@/common/redux/feature/loginTabs';
 import LogInForm from './LogInForm';
-import { loginTabs } from '../../common/redux/feature/loginTabs';
 
 const loginTab = [
   {
