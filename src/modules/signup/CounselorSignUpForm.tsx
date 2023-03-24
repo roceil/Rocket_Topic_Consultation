@@ -40,7 +40,7 @@ export default function CounselorSignUpForm() {
     }
     const { Message } = res.data as { Message: string };
     alert(`${Message}，請重新登入`);
-    // router.push('/login');
+    router.push('/login');
     console.log(res);
   };
 
