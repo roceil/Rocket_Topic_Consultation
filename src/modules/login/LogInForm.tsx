@@ -19,7 +19,7 @@ function LogInForm() {
   // 使用者登入函式
   const userLoginPost = async (Email: string, Password: string) => {
     const res = await userLoginPostApi({
-      Account: npmEmail,
+      Account: Email,
       Password,
     });
     if ('error' in res) {
