@@ -40,7 +40,7 @@ export default function CounselorSignUpForm() {
     }
     const { Message } = res.data as { Message: string };
     alert(`${Message}，請重新登入`);
-    router.push('/login');
+    // router.push('/login');
     console.log(res);
   };
 
@@ -76,7 +76,7 @@ export default function CounselorSignUpForm() {
 
           {/* 執照 License */}
           <Form.Item
-            name="license"
+            name="License"
             label="諮商師執照 License"
             className="inline-block w-[160px] sm:w-[180px]"
             valuePropName="fileList"
@@ -102,7 +102,7 @@ export default function CounselorSignUpForm() {
 
       {/* 證書字號 */}
       <Form.Item
-        name="certification"
+        name="Certification"
         label="諮商師證書字號 Certification"
         rules={[{ required: true, message: '請輸入證書字號' }]}
       >
