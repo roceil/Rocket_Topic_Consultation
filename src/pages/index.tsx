@@ -1,14 +1,22 @@
+/* eslint-disable max-len */
 import Head from 'next/head';
+import { hasCookie } from 'cookies-next';
+import { hasToken } from '@/common/redux/feature/hasToken';
 import { homeComponents } from '@/lib/homeFilesRoute';
+import wrapper from '@/common/redux/store';
 
-const {
-  Banner,
-  SuggestCounselor,
-  CustomTopic,
-  PlatformFeature,
-  UserComment,
-  ReservationTour,
-} = homeComponents;
+const { Banner, SuggestCounselor, CustomTopic, PlatformFeature, UserComment, ReservationTour } = homeComponents;
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res }) => {
+  const passToken = hasCookie('auth', { req, res });
+  if (passToken) {
+    store.dispatch(hasToken(passToken));
+  }
+  store.dispatch(hasToken(passToken));
+  return {
+    props: {},
+  };
+});
 
 export default function Home() {
   return (

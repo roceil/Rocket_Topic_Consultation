@@ -11,7 +11,7 @@ export const handlers = [
       Username: '我是用戶名',
       Identity: 'user',
       UserID: '123456',
-      Authorization: '我是token',
+      Authorization: 'bear-token-123456789',
       Message: '登入成功',
     }),
   )),
