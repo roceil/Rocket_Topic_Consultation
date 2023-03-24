@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { homeComponents } from '../lib/homeFilesRoute';
+import { homeComponents } from '@/lib/homeFilesRoute';
 
 const {
   Banner,

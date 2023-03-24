@@ -1,13 +1,16 @@
-import { ConfigProvider, Button, Form, Input } from 'antd';
-import { useResetPasswordPostApiMutation } from '../../common/redux/service/resetPassword';
+import { ConfigProvider, Form } from 'antd';
+import { useResetPasswordPostApiMutation } from '@/common/redux/service/resetPassword';
+import FormPasswordInput from '@/common/components/FormPasswordInput';
+import FormConfirmPasswordInput from '@/common/components/FormConfirmPasswordInput';
+import FormSubmitBtn from '@/common/components/FormSubmitBtn';
 
 export default function ResetPasswordForm() {
   const [form] = Form.useForm();
   const [resetPasswordPostApi] = useResetPasswordPostApiMutation();
 
   // 重設密碼API 函式
-  const resetPasswordPost = async (password: string) => {
-    const res = await resetPasswordPostApi({ password });
+  const resetPasswordPost = async (Password: string) => {
+    const res = await resetPasswordPostApi({ Password });
     if ('error' in res) {
       console.log(res);
       return;
@@ -18,8 +21,8 @@ export default function ResetPasswordForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({ password }: { password: string }) => {
-    resetPasswordPost(password);
+  const onFinish = ({ Password }: { Password: string }) => {
+    resetPasswordPost(Password);
   };
   return (
     <ConfigProvider
@@ -48,14 +51,10 @@ export default function ResetPasswordForm() {
         labelAlign="left"
       >
         {/* 新密碼 */}
-        <Form.Item
-          name="password"
+        <FormPasswordInput
+          needLink={false}
           label="輸入新密碼 Password"
-          rules={[
-            {
-              required: true,
-              message: '請輸入密碼',
-            },
+          extraRules={[
             {
               min: 8,
               message: '密碼須為 8 個字元以上',
@@ -65,45 +64,13 @@ export default function ResetPasswordForm() {
               message: '須包含大小寫英文字母及數字',
             },
           ]}
-        >
-          <Input.Password placeholder="Password" className="formInput" />
-        </Form.Item>
+        />
 
         {/* 再次輸入新密碼 */}
-        <Form.Item
-          name="confirm"
-          label="再次輸入新密碼 Confirm password"
-          className="mt-8"
-          dependencies={['password']}
-          rules={[
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error('與輸入的密碼不相符，請重新輸入'));
-              },
-            }),
-            {
-              required: true,
-              message: '請再次輸入密碼',
-            },
-          ]}
-        >
-          <Input.Password placeholder="Confirm password" className="formInput" />
-        </Form.Item>
+        <FormConfirmPasswordInput />
 
         {/* 重設密碼按鈕 */}
-        <Form.Item className="mt-[84px]">
-          <Button
-            type="primary"
-            shape="round"
-            htmlType="submit"
-            className=" h-[56px] w-full bg-secondary text-base text-white shadow-none"
-          >
-            重設密碼
-          </Button>
-        </Form.Item>
+        <FormSubmitBtn text="重設密碼" extraStyle={{ marginTop: '60px' }} />
       </Form>
     </ConfigProvider>
   );

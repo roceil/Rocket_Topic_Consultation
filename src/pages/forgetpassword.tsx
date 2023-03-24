@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ForgetPasswordForm from '../modules/forgetPassword/ForgetPasswordForm';
+import ForgetPasswordForm from '@/modules/forgetPassword/ForgetPasswordForm';
 
 export default function ForgetPassword() {
   return (

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ResetPasswordForm from '../modules/resetPassword/ResetPasswordForm';
+import ResetPasswordForm from '@/modules/resetPassword/ResetPasswordForm';
 
 export default function LogIn() {
   return (

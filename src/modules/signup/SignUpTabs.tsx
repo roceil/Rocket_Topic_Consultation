@@ -1,6 +1,6 @@
 import { ConfigProvider, Tabs } from 'antd';
 import { useDispatch } from 'react-redux';
-import { signUpTabs } from '../../common/redux/feature/signUp';
+import { signUpTabs } from '@/common/redux/feature/signUp';
 import UserSignUpForm from './UserSignUpForm';
 import CounselorSignUpForm from './CounselorSignUpForm';
 

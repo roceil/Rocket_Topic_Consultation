@@ -1,5 +1,6 @@
-import { Button, ConfigProvider, Form, Input } from 'antd';
-import { useForgetPasswordPostApiMutation } from '../../common/redux/service/forgetPassword';
+import { ConfigProvider, Form, Input } from 'antd';
+import { useForgetPasswordPostApiMutation } from '@/common/redux/service/forgetPassword';
+import FormSubmitBtn from '@/common/components/FormSubmitBtn';
 
 export default function ForgetPasswordForm() {
   const [form] = Form.useForm();
@@ -11,8 +12,8 @@ export default function ForgetPasswordForm() {
   };
 
   // 重設密碼API 函式
-  const forgerPasswordPost = async (email: string) => {
-    const res = await forgetPasswordPostApi({ email });
+  const forgerPasswordPost = async (Email: string) => {
+    const res = await forgetPasswordPostApi({ Email });
     if ('error' in res) {
       console.log(res);
       return;
@@ -23,8 +24,8 @@ export default function ForgetPasswordForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({ email }: { email: string }) => {
-    forgerPasswordPost(email);
+  const onFinish = ({ Email }: { Email: string }) => {
+    forgerPasswordPost(Email);
   };
   return (
     <ConfigProvider
@@ -53,7 +54,7 @@ export default function ForgetPasswordForm() {
       >
         {/* 信箱 */}
         <Form.Item
-          name="email"
+          name="Email"
           label="信箱 Email Address"
           rules={[
             {
@@ -79,16 +80,7 @@ export default function ForgetPasswordForm() {
         </Form.Item>
 
         {/* 發送密碼重設信 */}
-        <Form.Item className="-mt-6">
-          <Button
-            type="primary"
-            shape="round"
-            htmlType="submit"
-            className="h-[56px] w-full bg-[#D4D2E3] text-base text-white shadow-none"
-          >
-            發送密碼重設信
-          </Button>
-        </Form.Item>
+        <FormSubmitBtn text="發送密碼重設信" extraStyle={{ marginTop: '-11px' }} />
       </Form>
     </ConfigProvider>
   );

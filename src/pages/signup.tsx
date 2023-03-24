@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import SignUpTabs from '../modules/signup/SignUpTabs';
+import SignUpTabs from '@/modules/signup/SignUpTabs';
 
 export default function signup() {
   return (

@@ -17,19 +17,19 @@ export interface ISearchCapsuleProps {
 }
 
 export interface IUserOnFinishProps {
-  name: string;
-  password: string;
-  email: string;
-  datePicker: {
+  Name: string;
+  Password: string;
+  Email: string;
+  DatePicker: {
     $d: Date;
   };
-  gender: string;
+  Gender: string;
 }
 
 export interface ICounselorOnFinishProps {
-  name: string;
-  license: [];
-  certification: string;
-  email: string;
-  password: string;
+  Name: string;
+  License: [];
+  Certification: string;
+  Email: string;
+  Password: string;
 }

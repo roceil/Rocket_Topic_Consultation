@@ -22,6 +22,11 @@
     "project": "./tsconfig.json"
   },
 
+  "settings": {
+    "import/resolver": {
+        "typescript": {}
+    }
+},
   "plugins": ["react", "@typescript-eslint"],
 
   //設定的rules會再蓋掉前者預設的規範，例如在extends引入的規範
