@@ -24,8 +24,10 @@ function LogInForm() {
     });
     if ('error' in res) {
       console.log(res);
-      const { data } = res.error as { data: { Message: string } };
-      alert(data.Message);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
@@ -40,8 +42,10 @@ function LogInForm() {
     });
     if ('error' in res) {
       console.log(res);
-      const { data } = res.error as { data: { Message: string } };
-      alert(data.Message);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
