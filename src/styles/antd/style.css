@@ -72,7 +72,7 @@
 
 /* 會員中心 tab */
 /* .userCenterTab .ant-tabs-nav-list .ant-tabs-tab {
- padding: ;
+padding: ;
 } */
 
 .userCenterTab .ant-tabs .ant-tabs-content-holder {
@@ -94,19 +94,13 @@
 .order .ant-tabs .ant-tabs-nav-list {
   width: 100%;
 }
+.ant-radio-button-wrapper::before {
+  width: 0px !important;
+}
+
 /* 忘記密碼、重設密碼底圖 */
 .log-in-box-height-xl {
   height: calc(100vh - 225px);
-}
-
-/* antd 表格 col 排列 */
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
-}
-.form .ant-form-item-row {
-  display: flex;
-  flex-direction: column;
 }
 
 .ant-radio-button-wrapper::before {
@@ -114,17 +108,55 @@
 }
 
 /* 登入註冊底圖 */
-.log-in-box-height-xl{
+.log-in-box-height-xl {
   height: calc(100vh - 105px);
 }
 
-/* antd 表格 col 排列 */
-.form .ant-form-item-row{
-  display: flex;
-  flex-direction: column;
+/* 登入頁Tab */
+.loginForm .ant-tabs-nav-list {
+  width: 100%;
 }
 
-/* 登入表格排列 */
-.form .ant-form-item-control{
-  margin-bottom: 32px;
+.loginForm .ant-tabs-tab {
+  margin: 0;
+  width: 50%;
+  justify-content: center;
+}
+
+/* 漢堡選單排列 */
+.hamburger-menu .ant-modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Footer 手機版字重 */
+.footer-mobile .ant-collapse-header-text {
+  font-weight: 700;
+}
+
+/* 調整 Tabs 與 Form 間距 */
+.form .ant-tabs-nav {
+  margin-bottom: 40px !important;
+}
+.counselorTab .ant-tabs-nav-list {
+  width: 100%;
+  justify-content: center;
+}
+
+/* 註冊頁Tab */
+.signUpForm .ant-tabs-nav-list {
+  width: 100% !important;
+}
+.signUpForm .ant-tabs-tab {
+  margin: 0 !important;
+  width: 50%;
+  justify-content: center;
+}
+
+.counselorTab .ant-tabs-nav-list .ant-tabs-tab {
+  width: 33.33333%;
+  justify-content: center;
+  margin-left: 0;
+  border: none;
 }
