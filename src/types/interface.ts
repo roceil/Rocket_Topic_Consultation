@@ -33,3 +33,7 @@ export interface ICounselorOnFinishProps {
   Email: string;
   Password: string;
 }
+
+export interface IUserCenterLayoutProps {
+  children: React.ReactNode;
+}

@@ -71,21 +71,6 @@
 }
 
 /* 會員中心 tab */
-/* .userCenterTab .ant-tabs-nav-list .ant-tabs-tab {
-padding: ;
-} */
-
-.userCenterTab .ant-tabs .ant-tabs-content-holder {
-  border-left: none;
-}
-
-.userCenterTab .ant-tabs .ant-tabs-tab {
-  border-left: 1px solid #d4d2e3;
-}
-.userCenterTab .ant-tabs .ant-tabs-ink-bar {
-  left: 1px;
-}
-
 .order .ant-tabs .ant-tabs-tab {
   border-left: none;
   width: 25%;
