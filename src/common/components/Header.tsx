@@ -10,8 +10,9 @@ import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
 
 export default function Header() {
-  const cookie = useSelector(selectHasToken);
-  const hasCookie = cookie.auth !== undefined;
+  const { auth, identity } = useSelector(selectHasToken);
+  const hasCookie = auth !== undefined;
+  const handleDisplay = identity === 'counselor' ? 'hidden' : 'block';
 
   return (
     <header className="py-[18px] lg:py-[30px]">
@@ -38,7 +39,7 @@ export default function Header() {
           >
             <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#fff" placeholder="" />
 
-            <Link href="/shoppingcart">
+            <Link href="/shoppingcart" className={handleDisplay}>
               <button type="button" className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
                 <ShoppingCartOutlined />
               </button>
