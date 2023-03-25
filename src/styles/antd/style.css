@@ -102,7 +102,6 @@ padding: ;
 .log-in-box-height-xl {
   height: calc(100vh - 225px);
 }
-
 .ant-radio-button-wrapper::before {
   width: 0px !important;
 }
@@ -116,7 +115,6 @@ padding: ;
 .loginForm .ant-tabs-nav-list {
   width: 100%;
 }
-
 .loginForm .ant-tabs-tab {
   margin: 0;
   width: 50%;
@@ -128,6 +126,11 @@ padding: ;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  min-height: 400px;
+}
+.ant-modal-content {
+  padding: 72px 36px 44px 36px !important;
 }
 
 /* Footer 手機版字重 */
@@ -153,10 +156,12 @@ padding: ;
   width: 50%;
   justify-content: center;
 }
-
 .counselorTab .ant-tabs-nav-list .ant-tabs-tab {
   width: 33.33333%;
   justify-content: center;
   margin-left: 0;
   border: none;
 }
+
+
+

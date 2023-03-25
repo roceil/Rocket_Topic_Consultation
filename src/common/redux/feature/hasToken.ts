@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
+const initialState = { value: {} };
+
 export const hasTokenSlice = createSlice({
   name: 'hasToken',
-  initialState: { value: false },
+  initialState,
   reducers: {
     hasToken: (state, action) => {
       const newState = { ...state };
@@ -13,7 +15,6 @@ export const hasTokenSlice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      console.log('HYDRATE', action);
       const newState = { ...state };
       newState.value = action.payload.hasTokenSlice.value;
       return newState;
@@ -22,5 +23,5 @@ export const hasTokenSlice = createSlice({
 });
 
 export const { hasToken } = hasTokenSlice.actions;
-export const selectHasToken = (state: { hasTokenSlice: { value: boolean } }) => state.hasTokenSlice.value;
+export const selectHasToken = (state: { hasTokenSlice: { value: any }; }) => state.hasTokenSlice.value;
 export default hasTokenSlice.reducer;

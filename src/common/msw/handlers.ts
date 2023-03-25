@@ -59,9 +59,5 @@ export const handlers = [
     ctx.json({
       Message: '密碼重設成功，請重新登入',
     }),
-    ctx.status(400),
-    ctx.json({
-      Message: '密碼重設失敗',
-    }),
   )),
 ];

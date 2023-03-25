@@ -1,8 +1,8 @@
 import { ConfigProvider, Form } from 'antd';
 import { useResetPasswordPostApiMutation } from '@/common/redux/service/resetPassword';
-import FormPasswordInput from '@/common/components/FormPasswordInput';
-import FormConfirmPasswordInput from '@/common/components/FormConfirmPasswordInput';
-import FormSubmitBtn from '@/common/components/FormSubmitBtn';
+import FormPasswordInput from '@/common/components/form/FormPasswordInput';
+import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
+import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 
 export default function ResetPasswordForm() {
   const [form] = Form.useForm();

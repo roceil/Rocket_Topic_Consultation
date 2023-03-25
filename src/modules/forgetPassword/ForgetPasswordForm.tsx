@@ -1,6 +1,6 @@
 import { ConfigProvider, Form, Input } from 'antd';
 import { useForgetPasswordPostApiMutation } from '@/common/redux/service/forgetPassword';
-import FormSubmitBtn from '@/common/components/FormSubmitBtn';
+import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 
 export default function ForgetPasswordForm() {
   const [form] = Form.useForm();
