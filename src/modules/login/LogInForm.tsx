@@ -1,17 +1,23 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { setCookie } from 'cookies-next';
 import { Form } from 'antd';
-import {
-  useUserLoginPostApiMutation,
-  useCounselorLoginPostApiMutation,
-} from '@/common/redux/service/login';
-import FormSubmitBtn from '@/common/components/FormSubmitBtn';
-import FormPasswordInput from '@/common/components/FormPasswordInput';
-import FormAccountInput from '@/common/components/FormAccountInput';
+import { useUserLoginPostApiMutation, useCounselorLoginPostApiMutation } from '@/common/redux/service/login';
+import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import FormPasswordInput from '@/common/components/form/FormPasswordInput';
+import FormAccountInput from '@/common/components/form/FormAccountInput';
+
+interface IUserLoginRes {
+  Message: string;
+  Authorization: string;
+  Identity: string;
+  UserID: string;
+}
 
 function LogInForm() {
   const [form] = Form.useForm();
-
+  const router = useRouter();
   const [userLoginPostApi] = useUserLoginPostApiMutation();
   const [counselorLoginPostApi] = useCounselorLoginPostApiMutation();
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
@@ -22,13 +28,18 @@ function LogInForm() {
       Email,
       Password,
     });
+    console.log('🚀 ~ file: LogInForm.tsx:27 ~ userLoginPost ~ res:', res);
     if ('error' in res) {
       console.log(res);
       return;
     }
     const { Message } = res.data as { Message: string };
+    const { Authorization, Identity, UserID } = res.data as IUserLoginRes;
     alert(Message);
-    console.log(res);
+    setCookie('auth', decodeURIComponent(Authorization), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
+    router.push('/');
   };
 
   // 諮商師登入函式
@@ -42,8 +53,12 @@ function LogInForm() {
       return;
     }
     const { Message } = res.data as { Message: string };
+    const { Authorization, Identity, UserID } = res.data as IUserLoginRes;
     alert(Message);
-    console.log(res);
+    setCookie('auth', decodeURIComponent(Authorization), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
+    router.push('/');
   };
 
   // 表單送出函式
@@ -56,14 +71,7 @@ function LogInForm() {
   };
 
   return (
-    <Form
-      layout="vertical"
-      form={form}
-      name="logIn"
-      onFinish={onFinish}
-      className="space-y-8 px-4"
-      labelAlign="left"
-    >
+    <Form layout="vertical" form={form} name="logIn" onFinish={onFinish} className="space-y-8 px-4" labelAlign="left">
       <FormAccountInput />
 
       <FormPasswordInput needLink />

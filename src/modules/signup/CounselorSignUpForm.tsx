@@ -5,11 +5,11 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Form, Space, Input, Upload, Button, Checkbox } from 'antd';
 import { useCounselorSignUpPostApiMutation } from '@/common/redux/service/signUp';
 import { ICounselorOnFinishProps } from '@/types/interface';
-import FormNameInput from '@/common/components/FormNameInput';
-import FormAccountInput from '@/common/components/FormAccountInput';
-import FormPasswordInput from '@/common/components/FormPasswordInput';
-import FormConfirmPasswordInput from '@/common/components/FormConfirmPasswordInput';
-import FormSubmitBtn from '@/common/components/FormSubmitBtn';
+import FormNameInput from '@/common/components/form/FormNameInput';
+import FormAccountInput from '@/common/components/form/FormAccountInput';
+import FormPasswordInput from '@/common/components/form/FormPasswordInput';
+import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
+import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 
 export default function CounselorSignUpForm() {
   const [form] = Form.useForm();

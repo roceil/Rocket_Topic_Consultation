@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { Form, Space, Select, DatePicker, Checkbox } from 'antd';
 import { useUserSignUpPostApiMutation } from '@/common/redux/service/signUp';
 import { IUserOnFinishProps } from '@/types/interface';
-import FormAccountInput from '@/common/components/FormAccountInput';
-import FormPasswordInput from '@/common/components/FormPasswordInput';
-import FormSubmitBtn from '@/common/components/FormSubmitBtn';
-import FormConfirmPasswordInput from '@/common/components/FormConfirmPasswordInput';
-import FormNameInput from '@/common/components/FormNameInput';
+import FormAccountInput from '@/common/components/form/FormAccountInput';
+import FormPasswordInput from '@/common/components/form/FormPasswordInput';
+import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
+import FormNameInput from '@/common/components/form/FormNameInput';
 
 export default function UserSignUpForm() {
   const [form] = Form.useForm();

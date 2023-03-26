@@ -1,7 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { createWrapper } from 'next-redux-wrapper';
 import userCenterSlice from './feature/userCenter';
 import loginTabs from './feature/loginTabs';
 import signUpSlice from './feature/signUp';
+import hasTokenSlice from './feature/hasToken';
 import { login } from './service/login';
 import { forgetPassword } from './service/forgetPassword';
 import { resetPassword } from './service/resetPassword';
@@ -11,6 +13,7 @@ const reducers = combineReducers({
   userCenterSlice,
   signUpSlice,
   loginTabs,
+  hasTokenSlice,
   [login.reducerPath]: login.reducer,
   [forgetPassword.reducerPath]: forgetPassword.reducer,
   [resetPassword.reducerPath]: resetPassword.reducer,
@@ -26,4 +29,5 @@ const store = configureStore({
     .concat(signUp.middleware),
 });
 
-export default store;
+const wrapper = createWrapper(() => store, { debug: false });
+export default wrapper;
