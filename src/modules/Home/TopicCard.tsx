@@ -7,10 +7,10 @@ export default function TopicCard({ gap, type, text, img, imgSM }: ITopicCardPro
       {/* 手機版圖片 */}
       <Image src={imgSM} alt="test5" width={80} height={80} className="h-[80px] w-[80px] lg:hidden" />
       {/* 電腦版圖片 */}
-      <Image src={img} alt="test1" width={316} height={286} className="hidden lg:block lg:border-x-2 lg:border-t-2 lg:border-primary-border lg:rounded-t-xl lg:bg-primary" />
+      <Image src={img} alt="test1" width={316} height={286} className="hidden lg:block lg:rounded-t-xl lg:border-x-2 lg:border-t-2 lg:border-primary-border lg:bg-primary" />
 
       {/* 文字區塊 */}
-      <div className="text-left lg:w-full lg:rounded-b-2xl lg:pt-5 lg:pb-8 lg:text-center bg-white lg:border-x-2 lg:border-b-2 lg:border-primary-border">
+      <div className="text-left lg:w-full lg:rounded-b-2xl lg:border-x-2 lg:border-b-2 lg:border-primary-border lg:bg-white lg:pt-5 lg:pb-8 lg:text-center">
         <h3 className="mb-2 font-bold text-gray-900 lg:text-xl">{type}</h3>
         <p className="text-xs text-gray-800 lg:text-base">{text}</p>
       </div>
