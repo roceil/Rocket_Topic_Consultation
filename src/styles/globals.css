@@ -10,13 +10,13 @@
     font-family: 'Noto Sans', sans-serif;
   }
   body {
-    @apply leading-normal;
+    @apply leading-normal bg-primary-tint;
   }
   h1 {
     @apply text-4xl-plus font-bold lg:text-5xl;
   }
   h2 {
-    @apply text-2xl font-bold text-primary-heavy lg:text-4xl;
+    @apply text-2xl font-bold text-gray-900 lg:text-4xl;
   }
   /* 輸入時不要放大螢幕 */
   input,
@@ -27,7 +27,7 @@
 
 @layer components {
   .subTitle {
-    @apply mt-2 mb-3 text-primary lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg;
+    @apply mt-2 mb-3 text-gray-800 lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg;
   }
   .titleDecoration {
     @apply after:absolute after:left-0 after:top-1/2 after:h-10 after:w-[10px] after:-translate-y-1/2 after:bg-primary-heavy;

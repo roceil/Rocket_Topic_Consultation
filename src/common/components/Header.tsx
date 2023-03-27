@@ -15,9 +15,9 @@ export default function Header() {
   const handleDisplay = identity === 'counselor' ? 'hidden' : 'block';
 
   return (
-    <header className="py-[18px] lg:py-[30px]">
+    <header className="py-[18px] lg:py-[30px] bg-gray-100/70 border border-gray-200">
       <div className="container flex items-center justify-between">
-        <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-primary-heavy hover:opacity-50">
+        <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary hover:opacity-50">
           Logo
         </Link>
 
@@ -40,7 +40,7 @@ export default function Header() {
             <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#fff" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
-              <button type="button" className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
+              <button type="button" className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-secondary hover:opacity-50">
                 <ShoppingCartOutlined />
               </button>
             </Link>

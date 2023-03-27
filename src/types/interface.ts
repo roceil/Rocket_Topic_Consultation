@@ -1,11 +1,17 @@
+import { StaticImageData } from 'next/image';
+
 export interface ITopicCardProps {
   type: string;
   text: string;
+  img: string;
+  imgSM: string;
   gap?: string;
 }
 export interface ISuggestCounselorCardProps {
   name: string;
   rankTag: string;
+  img: StaticImageData;
+  skillsAry: ITopicCardProps[];
 }
 
 export interface ISearchCapsuleProps {
@@ -36,4 +42,10 @@ export interface ICounselorOnFinishProps {
 
 export interface IUserCenterLayoutProps {
   children: React.ReactNode;
+}
+
+export interface IReservationStepCardProps {
+  step: string;
+  img: StaticImageData;
+  extraStyle: string | null;
 }

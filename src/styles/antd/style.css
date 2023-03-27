@@ -83,19 +83,6 @@
   width: 0px !important;
 }
 
-/* 忘記密碼、重設密碼底圖 */
-.log-in-box-height-xl {
-  height: calc(100vh - 225px);
-}
-.ant-radio-button-wrapper::before {
-  width: 0px !important;
-}
-
-/* 登入註冊底圖 */
-.log-in-box-height-xl {
-  height: calc(100vh - 105px);
-}
-
 /* 登入頁Tab */
 .loginForm .ant-tabs-nav-list {
   width: 100%;

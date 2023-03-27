@@ -45,7 +45,7 @@ export default function HamburgerModal() {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#5D5A88',
+          colorPrimary: '#FFF6E2',
           colorLink: '#5D5A88',
           colorLinkActive: '#8D8BA7',
           colorLinkHover: '#8D8BA7',
@@ -53,7 +53,7 @@ export default function HamburgerModal() {
         },
       }}
     >
-      <Button onClick={showModal} icon={<MenuOutlined />} type="primary" shape="round" className="flexCenterCenter text-base text-primary-heavy shadow-none lg:hidden" />
+      <Button onClick={showModal} icon={<MenuOutlined />} type="primary" shape="round" className="flexCenterCenter text-base text-secondary shadow-none lg:hidden" />
 
       {/* 漢堡選單本體 */}
       <Modal
@@ -62,7 +62,7 @@ export default function HamburgerModal() {
         onCancel={handleCancel}
         footer={null}
         maskStyle={{
-          backgroundColor: '#EEECFA',
+          backgroundColor: '#FFF6E2',
           boxShadow: 'none',
           display: 'flex',
           justifyContent: 'center',
@@ -70,16 +70,16 @@ export default function HamburgerModal() {
         className="hamburger-menu"
       >
         {/* 課程連結文字欄 */}
-        <div className={`${handleDisplay} mb-[52px] flex w-full flex-col justify-center rounded-[10px] bg-bg2 py-3`}>
-          <p className="text-center text-base font-bold text-primary-heavy">目前尚無預約</p>
+        <div className={`${handleDisplay} mb-[52px] flex w-full flex-col justify-center rounded-[10px] bg-primary-heavy py-3`}>
+          <p className="text-center text-base font-bold text-secondary">目前尚無預約</p>
         </div>
 
         {/* 列表清單 */}
         <ul className="w-full">
           {/* 這裡會列出前兩個按鈕 */}
           {checkIdentity.map(({ labelName, link, icon }) => (
-            <li key={labelName} className="border-b-2 border-secondary py-5 ">
-              <Link href={link} className="flex items-center justify-start space-x-5 text-primary-heavy">
+            <li key={labelName} className="border-b-2 border-gray-400 py-5 ">
+              <Link href={link} className="flex items-center justify-start space-x-5 text-secondary">
                 {icon}
                 <button type="button" onClick={handleCancel} className="text-lg font-bold ">
                   {labelName}
@@ -89,14 +89,14 @@ export default function HamburgerModal() {
           ))}
 
           {/* 這裡會列出會員中心的子按鈕 */}
-          <li className={`${handleDisplay} border-b-2 border-secondary py-5`}>
-            <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-primary-heavy">
+          <li className={`${handleDisplay} border-b-2 border-gray-400 py-5`}>
+            <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-secondary">
               <UserOutlined className="text-lg" />
               <button type="button" onClick={handleCancel} className="text-lg font-bold ">
                 會員中心
               </button>
             </Link>
-            <div className="mt-4 flex flex-col items-start space-y-4 text-primary-heavy">
+            <div className="mt-4 flex flex-col items-start space-y-4 text-secondary">
               {checkCenter.map(({ lableName, link }) => (
                 <Link key={lableName} href={link}>
                   <button type="button" onClick={handleCancel} className="ml-[38px] text-base">
@@ -110,7 +110,7 @@ export default function HamburgerModal() {
 
         {/* 登入登出按鈕 */}
         <Link href={handleLink} className="w-full">
-          <button type="button" className="mt-20 h-[56px] w-full rounded-full bg-primary-heavy text-base text-white" onClick={loginLogout}>
+          <button type="button" className="mt-20 h-[56px] w-full rounded-full bg-gray-400 text-base font-bold text-gray-900" onClick={loginLogout}>
             {handleText}
           </button>
         </Link>
