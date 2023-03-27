@@ -18,9 +18,9 @@ import 家庭議題SM from '../../public/images/home/customTopic/家庭議題SM.
 import 職場議題 from '../../public/images/home/customTopic/職場議題.svg';
 import 職場議題SM from '../../public/images/home/customTopic/職場議題SM.svg';
 import step1 from '../../public/images/home/reservationTour/step1.svg';
-import step2 from '../../public/images/home/reservationTour/step2.svg';
-import step3 from '../../public/images/home/reservationTour/step3.svg';
-import step4 from '../../public/images/home/reservationTour/step4.svg';
+import step2 from '../../public/images/home/reservationTour/Step2.svg';
+import step3 from '../../public/images/home/reservationTour/Step3.svg';
+import step4 from '../../public/images/home/reservationTour/Step4.svg';
 import counselor1 from '../../public/images/home/suggestCounselor/counselor1.svg';
 import counselor2 from '../../public/images/home/suggestCounselor/counselor2.svg';
 import counselor3 from '../../public/images/home/suggestCounselor/counselor3.svg';
