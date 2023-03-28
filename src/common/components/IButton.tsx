@@ -1,4 +1,4 @@
-export const lightBtn = 'rounded-[50px] bg-white font-bold text-secondary border-[2px] border-secondary';
+export const lightBtn = 'rounded-[50px] bg-white font-bold text-secondary fakeBorder';
 
 export const darkBtn = 'rounded-[50px] bg-secondary font-bold text-white ';
 

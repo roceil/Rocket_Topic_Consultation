@@ -1,8 +1,9 @@
 /* 篩選主題器膠囊 */
 .selectTopic .ant-select-selector {
   padding: 7px 8px !important;
-  border-width: 2px !important;
+  border-width: 0px !important;
   border-radius: 99999px !important;
+  box-shadow: inset 0 0 0 1.5px #4A5364 !important;
 }
 .selectTopic .ant-select-selection-search {
   display: none;
@@ -24,6 +25,9 @@
 .search .ant-input-affix-wrapper .ant-input-suffix {
   padding-right: 5px;
 }
+.ant-input-affix-wrapper:hover {
+  border-inline-end-width: none !important;
+}
 
 /* 搜尋元件(選單) */
 .search .ant-select {
@@ -31,7 +35,8 @@
   align-items: center;
 }
 .search .ant-select .ant-select-selector {
-  border-width: 2px;
+  border-width: 0px;
+  box-shadow: inset 0 0 0 1.5px #4A5364 !important;
 }
 .search .ant-select .ant-select-arrow {
   color: #4a5364;
@@ -88,6 +93,9 @@
   width: 50%;
   justify-content: center;
 }
+.loginForm .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+  margin: 0;
+}
 
 /* 漢堡選單排列 */
 .hamburger-menu .ant-modal-body {
@@ -129,4 +137,21 @@
   justify-content: center;
   margin-left: 0;
   border: none;
+}
+
+/* 用戶註冊頁 */
+.UserSignUp .ant-select .ant-select-selector {
+  border: 1px solid #4A5364 
+}
+.UserSignUp .ant-select .ant-select-arrow {
+  color: #4A5364;
+}
+
+/* 日曆右側ICON */
+.ant-picker .ant-picker-suffix {
+  color: #4A5364;
+}
+.CounselorSignUp .ant-upload-list-item {
+  background-color: white;
+  border:1px solid #4A5364 !important;
 }

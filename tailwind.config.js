@@ -40,7 +40,7 @@ module.exports = {
           DEFAULT: '#FFF6E2',
           tint: '#FFFCF6',
           heavy: '#FFEFCD',
-          border:"#F4E6C0"
+          border: '#F4E6C0',
         },
         secondary: '#4A5364',
         gray: {
@@ -60,20 +60,20 @@ module.exports = {
         bg2: '#EEECFA',
       },
       animation: {
-        'wiggle': 'wiggle 5s linear infinite',
+        wiggle: 'wiggle 5s linear infinite',
       },
       keyframes: {
         wiggle: {
-          '0%': { transform: "translateY(10px)" },
-          '50%': { transform: "translateY(-40px)" },
-          '100%': { transform: "translateY(10px)" },
-        }
+          '0%': { transform: 'translateY(10px)' },
+          '50%': { transform: 'translateY(-30px)' },
+          '100%': { transform: 'translateY(10px)' },
+        },
       },
       backgroundImage: {
-        'bannerBG': "url('/images/home/banner/BannerBG.svg')",
-      }
-
-
+        bannerBG: "url('/images/home/banner/BannerBG.svg')",
+        bannerBGSM: "url('/images/home/banner/BannerBGSM.svg')",
+        loginBG: "url('/images/login/login-img.svg')",
+      },
     },
   },
   plugins: [],

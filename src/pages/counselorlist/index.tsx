@@ -38,7 +38,6 @@ export default function CounselorList() {
                   colorBgContainer: '#ffffff',
                   borderRadiusSM: 10,
                   borderRadius: 10,
-                  colorBorder: '#4A5364',
                   colorTextPlaceholder: '#4A5364',
                   paddingSM: 16,
                   paddingXS: 12,
@@ -48,14 +47,14 @@ export default function CounselorList() {
             >
               <Select
                 mode="multiple"
-                allowClear
-                className="w-full"
+                className="w-full ring-1 rounded-full fakeBorder"
                 onChange={handleMobileSelectorChange}
                 options={selectOptions}
                 dropdownMatchSelectWidth={false}
                 placement="bottomLeft"
                 placeholder="選擇主題"
                 virtual={false}
+                maxTagCount="responsive"
                 getPopupContainer={() => document.getElementById('topicPicker') || document.body}
               />
             </ConfigProvider>
@@ -64,7 +63,7 @@ export default function CounselorList() {
           <ul className="hidden space-x-4 lg:mb-7 lg:flex">
             {selectOptions?.map(({ label, value }) => (
               <li key={value}>
-                <button type="button" className=" rounded-full border-[2px] border-secondary text-xs text-secondary hover:opacity-50 focus:bg-secondary focus:text-white lg:w-[146px] lg:py-3 lg:text-base lg:font-bold">
+                <button type="button" className=" rounded-full fakeBorder text-xs text-secondary hover:opacity-50 focus:bg-secondary focus:text-white lg:w-[146px] lg:py-3 lg:text-base lg:font-bold">
                   {`# ${label}`}
                 </button>
               </li>

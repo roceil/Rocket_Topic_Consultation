@@ -39,7 +39,7 @@ export default function Header() {
             <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
-              <button type="button" className="flexCenterCenter rounded-full border-[2px] border-secondary p-[10px] text-xl text-secondary hover:opacity-50">
+              <button type="button" className="flexCenterCenter rounded-full fakeBorder p-[10px] text-xl text-secondary hover:opacity-50">
                 <ShoppingCartOutlined />
               </button>
             </Link>

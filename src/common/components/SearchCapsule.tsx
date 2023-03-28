@@ -19,7 +19,7 @@ export default function SearchCapsule({ colorPrimary, borderRadius, controlHeigh
     >
       <Input
         placeholder={placeholder}
-        className="border-[2px] border-secondary"
+        className="fakeBorder border-0"
         style={{
           borderRadius,
         }}
