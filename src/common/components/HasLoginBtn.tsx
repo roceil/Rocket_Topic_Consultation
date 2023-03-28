@@ -9,12 +9,12 @@ export default function HasLoginBtn() {
   const handleLink = identity === 'user' ? 'UserCenter' : 'CounselorCenter';
   return (
     <>
-      <button type="button" className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
+      <button type="button" className="flexCenterCenter rounded-full border-[2px] border-secondary p-[10px] text-xl text-secondary hover:opacity-50 ">
         <BellOutlined />
       </button>
 
       <Link href={handleLink}>
-        <button type="button" className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
+        <button type="button" className="flexCenterCenter rounded-full border-[2px] border-secondary p-[10px] text-xl text-secondary hover:opacity-50">
           <UserOutlined />
         </button>
       </Link>

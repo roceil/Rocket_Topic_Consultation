@@ -19,11 +19,13 @@ export default function SearchCapsule({ colorPrimary, borderRadius, controlHeigh
     >
       <Input
         placeholder={placeholder}
+        className="border-[2px] border-secondary"
         style={{
           borderRadius,
         }}
         suffix={(
           <SearchOutlined
+            className="text-lg"
             style={{
               color: colorPrimary,
             }}

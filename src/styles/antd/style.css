@@ -1,8 +1,14 @@
 /* 篩選主題器膠囊 */
 .selectTopic .ant-select-selector {
-  padding: 2px 5px !important;
+  padding: 7px 8px !important;
+  border-width: 2px !important;
+  border-radius: 99999px !important;
 }
 .selectTopic .ant-select-selection-search {
+  display: none;
+}
+.selectTopic .ant-select-arrow,
+.selectTopic .ant-select-clear {
   display: none;
 }
 
@@ -11,9 +17,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.search .ant-input-affix-wrapper {
-  border: none;
 }
 .search .ant-input-affix-wrapper input {
   padding-left: 5px;
@@ -27,14 +30,12 @@
   display: flex;
   align-items: center;
 }
-
-.search .ant-select .ant-select-arrow {
-  color: #767494;
+.search .ant-select .ant-select-selector {
+  border-width: 2px;
 }
-/* .search .ant-select .ant-select-selector .ant-select-selection-item {
-  font-weight: bold;
-  color: #767494;
-} */
+.search .ant-select .ant-select-arrow {
+  color: #4a5364;
+}
 
 /* 分頁前後頁按鈕 */
 .ant-pagination-disabled .ant-pagination-item-link {
@@ -42,7 +43,7 @@
   border-radius: 100% !important;
 }
 .ant-pagination-item-link {
-  border: 1px solid #5d5a88 !important;
+  border: 1px solid #4A5364 !important;
   border-radius: 100% !important;
 }
 .ant-pagination-disabled .ant-pagination-item-link .anticon-left,
@@ -51,7 +52,7 @@
 }
 .anticon-left,
 .anticon-right {
-  color: #5d5a88 !important;
+  color: #4A5364 !important;
 }
 
 /* 分頁頁碼 */
@@ -59,15 +60,10 @@
   border: none !important;
 }
 .ant-pagination-item a {
-  color: #5d5a88 !important;
+  color: #4A5364 !important;
 }
 .ant-pagination-item-active a {
   text-decoration: underline !important;
-}
-
-/* Footer */
-.footer-shadow {
-  box-shadow: 0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
 
 /* 會員中心 tab */
@@ -134,6 +130,3 @@
   margin-left: 0;
   border: none;
 }
-
-
-

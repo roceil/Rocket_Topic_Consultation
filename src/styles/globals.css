@@ -10,7 +10,7 @@
     font-family: 'Noto Sans', sans-serif;
   }
   body {
-    @apply leading-normal bg-primary-tint;
+    @apply bg-primary-tint leading-normal;
   }
   h1 {
     @apply text-4xl-plus font-bold lg:text-5xl;
@@ -30,10 +30,13 @@
     @apply mt-2 mb-3 text-gray-800 lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg;
   }
   .titleDecoration {
-    @apply after:absolute after:left-0 after:top-1/2 after:h-10 after:w-[10px] after:-translate-y-1/2 after:bg-primary-heavy;
+    @apply after:absolute after:left-0 after:top-1/2 after:h-10 after:w-[10px] after:-translate-y-1/2 after:bg-secondary;
   }
   .formInput {
-    @apply py-3 px-5 rounded-full 
+    @apply rounded-full py-3 px-5;
+  }
+  .counselorCardShadow {
+    box-shadow: 0px 1px 5px rgba(157, 157, 157, 0.25);
   }
 }
 

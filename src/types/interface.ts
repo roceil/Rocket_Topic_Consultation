@@ -49,3 +49,11 @@ export interface IReservationStepCardProps {
   img: StaticImageData;
   extraStyle: string | null;
 }
+
+export interface ICounselorListCardProps {
+  className: string;
+  counselorName: string;
+  subtitle: string;
+  description: string;
+  img: string;
+}

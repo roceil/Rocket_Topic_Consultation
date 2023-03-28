@@ -32,15 +32,14 @@ export default function Header() {
                 colorPrimary: '#D4D2E3',
                 borderRadiusLG: 100,
                 borderRadius: 100,
-                colorBorder: '#D4D2E3',
-                colorFillAlter: '#FFF',
+                colorBorder: '#4A5364',
               },
             }}
           >
-            <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#fff" placeholder="" />
+            <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
-              <button type="button" className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-secondary hover:opacity-50">
+              <button type="button" className="flexCenterCenter rounded-full border-[2px] border-secondary p-[10px] text-xl text-secondary hover:opacity-50">
                 <ShoppingCartOutlined />
               </button>
             </Link>
