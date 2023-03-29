@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { deleteCookie } from 'cookies-next';
 import { LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { IUserCenterLayoutProps } from '@/types/interface';
 
@@ -12,25 +13,28 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
   // 登出函式 => 未完成 delete cookie
   const logout = () => {
     alert('登出成功');
+    deleteCookie('auth');
+    deleteCookie('identity');
+    deleteCookie('userID');
     router.push('/');
   };
   return (
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px]">
       <div className="container min-h-[calc(100vh-330px)]">
-        <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
+        <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
           目前尚無預約
         </div>
 
         <div className="flex justify-between">
           <div className="w-[20%]">
-            <h3 className="mb-7 text-xl font-bold text-primary-heavy">會員中心</h3>
-            <ul className="flex flex-col space-y-4 text-primary-heavy">
+            <h3 className="mb-7 text-xl font-bold text-secondary">會員中心</h3>
+            <ul className="flex flex-col space-y-4 text-secondary">
               {/* 個人資料 */}
               <li className={`${isUserCenter} hover:opacity-100`}>
                 <Link href="/usercenter">
                   <button
                     type="button"
-                    className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                    className="border-l-2 border-secondary/70 p-4 font-bold"
                   >
                     <UserOutlined className="mr-3 text-xl" />
                     個人資料
@@ -43,7 +47,7 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
                 <Link href="/usercenter/reservation">
                   <button
                     type="button"
-                    className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                    className="border-l-2 border-secondary/70 p-4 font-bold"
                   >
                     <ProfileOutlined className="mr-3 text-xl" />
                     預約紀錄
@@ -55,7 +59,7 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
               <li className="opacity-70 hover:opacity-100">
                 <button
                   type="button"
-                  className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                  className="border-l-2 border-secondary/70 p-4 font-bold"
                   onClick={logout}
                 >
                   <LogoutOutlined className="mr-3 text-xl" />

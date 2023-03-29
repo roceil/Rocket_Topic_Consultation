@@ -1,7 +1,7 @@
 export default function HasCancel() {
   return (
-    <div className=" w-full rounded-2xl bg-bg2 text-center">
-      <ul className="flex w-full border-b border-secondary py-5 text-left text-sm font-bold text-[#767494]">
+    <div className=" w-full rounded-2xl bg-gray-200 text-center">
+      <ul className="flex w-full border-b border-gray-400 py-5 text-left text-sm font-bold text-gray-900">
         <li className="hidden lg:block lg:w-1/4 lg:pl-[134px]">諮商師</li>
         <li className="w-1/2 pl-[59px] lg:w-1/4 lg:pl-[93px]">諮商議題</li>
         <li className="hidden lg:block lg:w-1/4 lg:pl-[87px]">預約日期</li>
@@ -9,9 +9,9 @@ export default function HasCancel() {
         <li className="w-1/2 pl-[48px] lg:hidden ">預約詳情</li>
       </ul>
 
-      <ul className="mt-5 flex flex-col space-y-4 px-4 pb-9 text-sm text-primary-heavy lg:mt-7 lg:px-7 lg:text-base">
+      <ul className="mt-5 flex flex-col space-y-4 px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:space-y-5 lg:px-7 lg:text-base">
         <li className="flex  rounded-lg bg-white lg:py-6">
-          <div className="w-[44.2528%] py-[18px] pl-5 text-left text-primary-heavy lg:w-[22.1757%] lg:p-0 lg:text-center">
+          <div className="w-[44.2528%] py-[18px] pl-5 text-left text-gray-900 lg:w-[22.1757%] lg:p-0 lg:text-center">
             <p className="mb-3 font-semibold lg:hidden">一般諮商</p>
             <p className="lg:hidden">諮商師｜我是誰</p>
             <p className="hidden lg:block lg:pl-[104px] lg:text-left">我是誰</p>
@@ -37,7 +37,7 @@ export default function HasCancel() {
         </li>
 
         <li className="flex  rounded-lg bg-white lg:py-6">
-          <div className="w-[44.2528%] py-[18px] pl-5 text-left text-primary-heavy lg:w-[22.1757%] lg:p-0 lg:text-center">
+          <div className="w-[44.2528%] py-[18px] pl-5 text-left text-gray-900 lg:w-[22.1757%] lg:p-0 lg:text-center">
             <p className="mb-3 font-semibold lg:hidden">一般諮商</p>
             <p className="lg:hidden">諮商師｜我是誰</p>
             <p className="hidden lg:block lg:pl-[104px] lg:text-left">我是誰</p>
@@ -63,7 +63,7 @@ export default function HasCancel() {
         </li>
 
         <li className="flex  rounded-lg bg-white lg:py-6">
-          <div className="w-[44.2528%] py-[18px] pl-5 text-left text-primary-heavy lg:w-[22.1757%] lg:p-0 lg:text-center">
+          <div className="w-[44.2528%] py-[18px] pl-5 text-left text-gray-900 lg:w-[22.1757%] lg:p-0 lg:text-center">
             <p className="mb-3 font-semibold lg:hidden">一般諮商</p>
             <p className="lg:hidden">諮商師｜我是誰</p>
             <p className="hidden lg:block lg:pl-[104px] lg:text-left">我是誰</p>
