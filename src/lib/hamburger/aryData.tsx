@@ -20,11 +20,11 @@ export const counselorCenterAry = [
 export const userCenterAry = [
   {
     lableName: '個人資料',
-    link: '/UserCenter',
+    link: '/usercenter',
   },
   {
     lableName: '預約管理',
-    link: '/UserCenter',
+    link: '/usercenter/reservation',
   },
 ];
 
