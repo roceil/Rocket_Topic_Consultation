@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumb, ConfigProvider } from 'antd';
 import close from '../../public/images/Close.svg';
-import example from '../../public/images/shoppingcart/example.svg';
+import example from '../../public/images/shoppingCart/example.svg';
 
 const breadcrumbTabs = [
   {
