@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import Image from 'next/image';
 import { ISuggestCounselorCardProps } from '../../types/interface';
+import test from "../../../public/images/test.jpg"
 
 export default function CounselorCard({ name, rankTag, img, skillsAry }: ISuggestCounselorCardProps) {
   return (
@@ -8,7 +9,8 @@ export default function CounselorCard({ name, rankTag, img, skillsAry }: ISugges
       <div className="max-w-[244px] lg:max-w-[280px]">
         {/* 這是圖片 */}
         {/* <div className="h-[244px] w-[244px] rounded bg-secondary lg:h-[280px] lg:w-[280px]" /> */}
-        <Image src={img} alt="諮商師圖片" className="h-[244px] w-[244px] lg:h-[280px] lg:w-[280px]" />
+
+        <Image src={test} alt="stepPicture" width={280} height={360} className="h-[360px] w-[280px] lg:block lg:h-[415px] lg:w-[328px]" placeholder="empty" />
 
         {/* 諮商師名稱 */}
         <div className="flex items-center justify-between px-2">

@@ -47,4 +47,7 @@
   .fakeBorder {
     box-shadow: inset 0 0 0 1.5px #4A5364;
   }
+  .fakeBorderHover {
+    box-shadow: inset 0 0 0 1.5px #BDBDBD;
+  }
 }
