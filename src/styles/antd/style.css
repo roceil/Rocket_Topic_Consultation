@@ -25,10 +25,9 @@
 .search .ant-input-affix-wrapper .ant-input-suffix {
   padding-right: 5px;
 }
-/* .ant-input-affix-wrapper:hover {
+.ant-input-affix-wrapper:hover {
   border-inline-end-width: none !important;
-  border:none !important;
-} */
+}
 
 /* 搜尋元件(選單) */
 .search .ant-select {
