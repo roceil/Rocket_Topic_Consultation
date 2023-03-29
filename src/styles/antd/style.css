@@ -28,6 +28,9 @@
 .ant-input-affix-wrapper:hover {
   border-inline-end-width: none !important;
 }
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-inline-end-width: 0px !important;
+}
 
 /* 搜尋元件(選單) */
 .search .ant-select {
