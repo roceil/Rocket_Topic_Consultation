@@ -134,7 +134,8 @@ export default function ShopCart() {
                 預約成立後若要更改時段，請至
                 <Link href="UserCenter" className="underline lg:hover:opacity-50">
                   {' '}
-                  會員中心 / 預約管理 / 已成立{' '}
+                  會員中心 / 預約管理 / 已成立
+                  {' '}
                 </Link>
                 更改時段。
               </li>
