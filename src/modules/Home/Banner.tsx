@@ -25,7 +25,7 @@ export default function Banner() {
           <Image src={bannerMain} alt="bannerMain" width={200} height={388.68} className="hidden animate-wiggle lg:block" priority />
         </div>
 
-        <div className="lg:hidden mt-12 bg-bannerBGSM w-full flex justify-center items-center bg-center">
+        <div className="lg:hidden bg-no-repeat mt-12 bg-bannerBGSM w-full flex justify-center items-center bg-center">
           <Image src={bannreMainSM} alt="bannreMainSM" width={136} height={262} className=" lg:hidden animate-wiggle" priority />
         </div>
       </div>

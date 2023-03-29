@@ -27,6 +27,7 @@
 }
 .ant-input-affix-wrapper:hover {
   border-inline-end-width: none !important;
+  border:1px solid #4A5364 !important;
 }
 
 /* 搜尋元件(選單) */

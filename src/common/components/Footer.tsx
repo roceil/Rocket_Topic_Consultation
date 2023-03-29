@@ -1,8 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
+import Image from 'next/image';
 import { ConfigProvider, Collapse } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import footerLOGO from '../../../public/images/footer/footerLOGO.svg';
 
 // Footer - 折疊元件(Mobile)
 const { Panel } = Collapse;
@@ -70,7 +72,7 @@ export default function Footer() {
         <div className="container flex justify-center space-x-[225px]">
           {/* Logo & copy right */}
           <div className="flex flex-col justify-between">
-            <h2 className="text-2xl">Logo</h2>
+            <Image src={footerLOGO} alt="footerLOGO" width={100} height={100} />
             <p className="text-sm text-secondary">
               Copyright © 2023 xxxxxxxxxxx
               <br />

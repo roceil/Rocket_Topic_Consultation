@@ -20,7 +20,7 @@ export default function FormPasswordInput({ needLink, extraRules, label }: { nee
       <Space className="block">
         <Input.Password
           placeholder="Password"
-          className="formInput border-secondary"
+          className="formInput border-secondary hover:border-secondary"
           visibilityToggle={{
             visible: passwordVisible,
             onVisibleChange: setPasswordVisible,

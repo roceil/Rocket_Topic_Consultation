@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ConfigProvider } from 'antd';
 import { useSelector } from 'react-redux';
@@ -8,6 +9,7 @@ import SearchCapsule from './SearchCapsule';
 import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
+import LOGO from '../../../public/images/header/LOGO.svg';
 
 export default function Header() {
   const { auth, identity } = useSelector(selectHasToken);
@@ -15,10 +17,10 @@ export default function Header() {
   const handleDisplay = identity === 'counselor' ? 'hidden' : 'block';
 
   return (
-    <header className="py-[18px] lg:py-[30px] bg-gray-100/70 border border-gray-200">
+    <header className="border border-gray-200 bg-gray-100/70 py-[18px] lg:py-[30px]">
       <div className="container flex items-center justify-between">
         <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary hover:opacity-50">
-          Logo
+          <Image src={LOGO} alt="LOGO" width={100} height={43} />
         </Link>
 
         {/* 漢堡選單 */}
@@ -39,7 +41,7 @@ export default function Header() {
             <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
-              <button type="button" className="flexCenterCenter rounded-full fakeBorder p-[10px] text-xl text-secondary hover:opacity-50">
+              <button type="button" className="flexCenterCenter fakeBorder rounded-full p-[10px] text-xl text-secondary hover:opacity-50">
                 <ShoppingCartOutlined />
               </button>
             </Link>
