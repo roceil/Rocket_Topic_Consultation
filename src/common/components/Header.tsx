@@ -4,7 +4,7 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ConfigProvider } from 'antd';
 import { useSelector } from 'react-redux';
 import { selectHasToken } from '../redux/feature/hasToken';
-import { IButton, darkBtn } from './IButton';
+import { IButton } from './IButton';
 import SearchCapsule from './SearchCapsule';
 import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
@@ -52,7 +52,7 @@ export default function Header() {
             {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
             <Link href="/counselorlist" className="flex flex-shrink-0 justify-center">
-              <IButton text="尋找諮商師" bgColor={darkBtn} fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" />
+              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" />
             </Link>
           </ConfigProvider>
         </div>

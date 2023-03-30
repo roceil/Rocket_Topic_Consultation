@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import star from '../../../public/images/star.svg';
-import user01 from '../../../public/images/home/userComment/user01.png';
+// import user01 from '../../../public/images/home/userComment/user01.png';
 import test from '../../../public/images/test.jpg';
 
 export default function UserComment() {
