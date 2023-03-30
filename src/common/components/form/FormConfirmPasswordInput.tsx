@@ -3,7 +3,7 @@ import { Form, Input } from 'antd';
 export default function FormConfirmPasswordInput() {
   return (
     <Form.Item
-      name="confirm"
+      name="ConfirmPassword"
       label="再次輸入密碼 Confirm password"
       dependencies={['Password']}
       rules={[

@@ -23,9 +23,9 @@ function LogInForm() {
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
 
   // 使用者登入函式
-  const userLoginPost = async (Email: string, Password: string) => {
+  const userLoginPost = async (Account: string, Password: string) => {
     const res = await userLoginPostApi({
-      Email,
+      Account,
       Password,
     });
     console.log('🚀 ~ file: LogInForm.tsx:27 ~ userLoginPost ~ res:', res);
@@ -43,9 +43,9 @@ function LogInForm() {
   };
 
   // 諮商師登入函式
-  const counselorLoginPost = async (Email: string, Password: string) => {
+  const counselorLoginPost = async (Account: string, Password: string) => {
     const res = await counselorLoginPostApi({
-      Email,
+      Account,
       Password,
     });
     if ('error' in res) {
@@ -62,11 +62,11 @@ function LogInForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({ Email, Password }: { Email: string; Password: string }) => {
+  const onFinish = ({ Account, Password }: { Account: string; Password: string }) => {
     if (value === '用戶') {
-      userLoginPost(Email, Password);
+      userLoginPost(Account, Password);
     } else if (value === '諮商師') {
-      counselorLoginPost(Email, Password);
+      counselorLoginPost(Account, Password);
     }
   };
 

@@ -7,9 +7,9 @@ import wrapper from '../common/redux/store';
 import Header from '../common/components/Header';
 import Footer from '../common/components/Footer';
 
-import('../common/msw').then(({ setupMocks }) => {
-  setupMocks();
-});
+// import('../common/msw').then(({ setupMocks }) => {
+//   setupMocks();
+// });
 
 export function App({ Component, pageProps }: AppProps) {
   return (
