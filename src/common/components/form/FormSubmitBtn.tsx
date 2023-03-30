@@ -14,7 +14,7 @@ export default function FormSubmitBtn({
         shape="round"
         htmlType="submit"
         style={extraStyle}
-        className=" h-[56px] w-full bg-secondary text-base text-white shadow-none"
+        className=" h-[56px] w-full bg-secondary text-base text-white shadow-none font-bold hover:opacity-50 !hover:bg-secondary"
       >
         {text}
       </Button>

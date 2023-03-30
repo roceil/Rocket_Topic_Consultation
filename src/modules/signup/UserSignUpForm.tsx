@@ -4,30 +4,22 @@ import { useSelector } from 'react-redux';
 import { Form, Space, Select, DatePicker, Checkbox } from 'antd';
 import { useUserSignUpPostApiMutation } from '@/common/redux/service/signUp';
 import { IUserOnFinishProps } from '@/types/interface';
-import FormAccountInput from '@/common/components/FormAccountInput';
-import FormPasswordInput from '@/common/components/FormPasswordInput';
-import FormSubmitBtn from '@/common/components/FormSubmitBtn';
-import FormConfirmPasswordInput from '@/common/components/FormConfirmPasswordInput';
-import FormNameInput from '@/common/components/FormNameInput';
+import FormAccountInput from '@/common/components/form/FormAccountInput';
+import FormPasswordInput from '@/common/components/form/FormPasswordInput';
+import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
+import FormNameInput from '@/common/components/form/FormNameInput';
 
 export default function UserSignUpForm() {
   const [form] = Form.useForm();
   const { Option } = Select;
   const inputStyle = 'py-3 px-5 rounded-[24px]';
-  const { value: signUpTab } = useSelector(
-    (state: { signUpSlice: { value: string } }) => state.signUpSlice,
-  );
+  const { value: signUpTab } = useSelector((state: { signUpSlice: { value: string } }) => state.signUpSlice);
   const [userSignUpPostApi] = useUserSignUpPostApiMutation();
   const router = useRouter();
 
   // 使用者註冊API
-  const userSignUpPost = async (
-    Email: string,
-    Password: string,
-    Name: string,
-    Date: Date,
-    Gender: string,
-  ) => {
+  const userSignUpPost = async (Email: string, Password: string, Name: string, Date: Date, Gender: string) => {
     const res = await userSignUpPostApi({
       Email,
       Password,
@@ -46,26 +38,13 @@ export default function UserSignUpForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({
-    Name,
-    Password,
-    Email,
-    DatePicker: { $d: Date },
-    Gender,
-  }: IUserOnFinishProps) => {
+  const onFinish = ({ Name, Password, Email, DatePicker: { $d: Date }, Gender }: IUserOnFinishProps) => {
     if (signUpTab !== '用戶') return;
     userSignUpPost(Email, Password, Name, Date, Gender);
   };
 
   return (
-    <Form
-      layout="vertical"
-      form={form}
-      name="register-user"
-      onFinish={onFinish}
-      className="space-y-8"
-      labelAlign="left"
-    >
+    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="space-y-8 UserSignUp" labelAlign="left">
       {/* 姓名、性別 */}
       <Form.Item className="-mb-6">
         <Space className="flex justify-between">
@@ -104,7 +83,7 @@ export default function UserSignUpForm() {
           },
         ]}
       >
-        <DatePicker className={`${inputStyle} w-full`} placeholder="Select date" />
+        <DatePicker className={`${inputStyle} w-full border-secondary  focus:shadow-none`} placeholder="Select date" />
       </Form.Item>
 
       {/* 帳號 Account */}
@@ -142,15 +121,15 @@ export default function UserSignUpForm() {
         <div className="flex items-center justify-between">
           <Checkbox>
             我已同意
-            <Link href="/" className="underline">
+            <Link href="/" className="underline hover:text-secondary hover:opacity-50">
               隱私權條款
             </Link>
           </Checkbox>
 
           <div className="flex h-8 items-center">
             <p>已成為會員？</p>
-            <Link href="/login">
-              <p className="ml-2 underline">立即登入</p>
+            <Link href="/login" className="hover:text-secondary hover:opacity-50">
+              <p className="ml-2 underline ">立即登入</p>
             </Link>
           </div>
         </div>
