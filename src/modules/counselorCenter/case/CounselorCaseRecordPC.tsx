@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { SearchOutlined } from '@ant-design/icons';
 import { ConfigProvider, Input } from 'antd';
-import right from '../../../../public/images/right.svg';
+import right from '../../../../public/images/Right.svg';
 
 export default function CounselorCaseRecordPC() {
   return (

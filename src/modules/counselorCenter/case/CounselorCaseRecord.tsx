@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import right from '../../../../public/images/right.svg';
+import right from '../../../../public/images/Right.svg';
 
 export default function CounselorCaseRecord() {
   return (
