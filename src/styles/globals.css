@@ -54,6 +54,6 @@
     @apply fakeBorder relative inline-block flex-shrink-0 overflow-hidden rounded-full bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:bg-secondary before:transition before:duration-500 before:ease-in-out lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100 cursor-pointer active:scale-[0.8]
   }
   .btnHoverText {
-    @apply justify-center relative z-0 flex text-xl font-bold text-secondary lg:group-hover:text-gray-200
+    @apply justify-center relative z-0 flex font-bold text-secondary lg:group-hover:text-gray-200
   }
 }

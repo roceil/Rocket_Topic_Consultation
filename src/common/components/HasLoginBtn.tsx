@@ -11,14 +11,14 @@ export default function HasLoginBtn() {
     <>
       <button type="button" className="btnHover h-10 w-10 group">
         <span className="btnHoverText">
-          <BellOutlined className="p-[10px]" />
+          <BellOutlined className="p-[10px] text-xl" />
         </span>
       </button>
 
       <Link href={handleLink}>
         <button type="button" className="btnHover h-10 w-10 group">
           <span className="btnHoverText">
-            <UserOutlined className="p-[10px]" />
+            <UserOutlined className="p-[10px] text-xl" />
           </span>
         </button>
       </Link>

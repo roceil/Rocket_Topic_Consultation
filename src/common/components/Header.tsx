@@ -19,8 +19,8 @@ export default function Header() {
   return (
     <header className="border border-gray-200 bg-gray-100/70 py-[18px] lg:py-[30px]">
       <div className="container flex items-center justify-between">
-        <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary lg:hover:opacity-50 active:scale-[0.8]">
-          <Image src={LOGO} alt="LOGO" width={100} height={43} />
+        <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8] lg:hover:opacity-50">
+          <Image src={LOGO} alt="LOGO" width={100} height={43} className="h-9 w-[60px ] lg:h-auto lg:w-auto" />
         </Link>
 
         {/* 漢堡選單 */}
@@ -41,9 +41,9 @@ export default function Header() {
             <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
-              <button type="button" className="btnHover h-10 w-10 group">
+              <button type="button" className="btnHover group h-10 w-10">
                 <span className="btnHoverText">
-                  <ShoppingCartOutlined className="p-[10px]" />
+                  <ShoppingCartOutlined className="p-[10px] text-xl" />
                 </span>
               </button>
             </Link>
