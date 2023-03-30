@@ -11,7 +11,7 @@ export const handlers = [
       Username: '我是用戶名',
       Identity: 'user',
       UserID: '123456',
-      Authorization: '我是token',
+      Authorization: 'bear-token-123456789',
       Message: '登入成功',
     }),
   )),
@@ -58,10 +58,6 @@ export const handlers = [
     ctx.status(200),
     ctx.json({
       Message: '密碼重設成功，請重新登入',
-    }),
-    ctx.status(400),
-    ctx.json({
-      Message: '密碼重設失敗',
     }),
   )),
 ];

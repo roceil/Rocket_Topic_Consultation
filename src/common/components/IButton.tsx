@@ -1,23 +1,24 @@
-export const lightBtn = 'rounded-[50px] bg-white font-bold text-primary-heavy border-[1px] border-primary-heavy';
+/* eslint-disable max-len */
+export const lightBtn = 'rounded-[50px] bg-white font-bold text-secondary fakeBorder';
 
-export const darkBtn = 'rounded-[50px] bg-primary-heavy font-bold text-white ';
+export const darkBtn = 'rounded-[50px] bg-secondary font-bold text-white ';
 
 export interface IBtnStyle {
   text: string;
-  bgColor: string;
   fontSize: string;
   px?: string;
   py?: string;
+  // eslint-disable-next-line react/no-unused-prop-types
+  onClick?: () => void;
 }
 
-export function IButton({
-  text, bgColor, fontSize, px, py,
-}: IBtnStyle) {
+export function IButton({ text, fontSize, px, py }: IBtnStyle) {
   return (
-    <input
-      className={`${bgColor} ${fontSize} ${px} ${py} cursor-pointer hover:opacity-50`}
+    <button
       type="button"
-      value={text}
-    />
+      className={`btnHover group ${px} ${py}`}
+    >
+      <span className={`${fontSize} btnHoverText`}>{text}</span>
+    </button>
   );
 }
