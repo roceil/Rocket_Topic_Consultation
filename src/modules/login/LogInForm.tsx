@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -79,8 +80,8 @@ function LogInForm() {
       <Form.Item className="pt-24">
         <div className="flex items-center justify-end">
           <p>尚未成為會員？</p>
-          <Link href="/signup">
-            <p className="ml-2 underline underline-offset-2 ">立即註冊</p>
+          <Link href="/signup" className="hover:text-secondary hover:opacity-50 ">
+            <p className="ml-2 underline underline-offset-2">立即註冊</p>
           </Link>
         </div>
       </Form.Item>

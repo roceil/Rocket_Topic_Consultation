@@ -1,8 +1,15 @@
 /* 篩選主題器膠囊 */
 .selectTopic .ant-select-selector {
-  padding: 2px 5px !important;
+  padding: 7px 8px !important;
+  border-width: 0px !important;
+  border-radius: 99999px !important;
+  box-shadow: inset 0 0 0 1.5px #4A5364 !important;
 }
 .selectTopic .ant-select-selection-search {
+  display: none;
+}
+.selectTopic .ant-select-arrow,
+.selectTopic .ant-select-clear {
   display: none;
 }
 
@@ -12,14 +19,17 @@
   align-items: center;
   justify-content: center;
 }
-.search .ant-input-affix-wrapper {
-  border: none;
-}
 .search .ant-input-affix-wrapper input {
   padding-left: 5px;
 }
 .search .ant-input-affix-wrapper .ant-input-suffix {
   padding-right: 5px;
+}
+.ant-input-affix-wrapper:hover {
+  border-inline-end-width: none !important;
+}
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-inline-end-width: 0px !important;
 }
 
 /* 搜尋元件(選單) */
@@ -27,14 +37,13 @@
   display: flex;
   align-items: center;
 }
-
-.search .ant-select .ant-select-arrow {
-  color: #767494;
+.search .ant-select .ant-select-selector {
+  border-width: 0px;
+  box-shadow: inset 0 0 0 1.5px #4A5364 !important;
 }
-/* .search .ant-select .ant-select-selector .ant-select-selection-item {
-  font-weight: bold;
-  color: #767494;
-} */
+.search .ant-select .ant-select-arrow {
+  color: #4a5364;
+}
 
 /* 分頁前後頁按鈕 */
 .ant-pagination-disabled .ant-pagination-item-link {
@@ -42,7 +51,7 @@
   border-radius: 100% !important;
 }
 .ant-pagination-item-link {
-  border: 1px solid #5d5a88 !important;
+  border: 1px solid #4A5364 !important;
   border-radius: 100% !important;
 }
 .ant-pagination-disabled .ant-pagination-item-link .anticon-left,
@@ -51,7 +60,7 @@
 }
 .anticon-left,
 .anticon-right {
-  color: #5d5a88 !important;
+  color: #4A5364 !important;
 }
 
 /* 分頁頁碼 */
@@ -59,15 +68,10 @@
   border: none !important;
 }
 .ant-pagination-item a {
-  color: #5d5a88 !important;
+  color: #4A5364 !important;
 }
 .ant-pagination-item-active a {
   text-decoration: underline !important;
-}
-
-/* Footer */
-.footer-shadow {
-  box-shadow: 0 -1px 5px 2px rgba(0, 0, 0, 0.06);
 }
 
 /* 會員中心 tab */
@@ -83,19 +87,6 @@
   width: 0px !important;
 }
 
-/* 忘記密碼、重設密碼底圖 */
-.log-in-box-height-xl {
-  height: calc(100vh - 225px);
-}
-.ant-radio-button-wrapper::before {
-  width: 0px !important;
-}
-
-/* 登入註冊底圖 */
-.log-in-box-height-xl {
-  height: calc(100vh - 105px);
-}
-
 /* 登入頁Tab */
 .loginForm .ant-tabs-nav-list {
   width: 100%;
@@ -104,6 +95,9 @@
   margin: 0;
   width: 50%;
   justify-content: center;
+}
+.loginForm .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+  margin: 0;
 }
 
 /* 漢堡選單排列 */
@@ -148,5 +142,19 @@
   border: none;
 }
 
+/* 用戶註冊頁 */
+.UserSignUp .ant-select .ant-select-selector {
+  border: 1px solid #4A5364 
+}
+.UserSignUp .ant-select .ant-select-arrow {
+  color: #4A5364;
+}
 
-
+/* 日曆右側ICON */
+.ant-picker .ant-picker-suffix {
+  color: #4A5364;
+}
+.CounselorSignUp .ant-upload-list-item {
+  background-color: white;
+  border:1px solid #4A5364 !important;
+}

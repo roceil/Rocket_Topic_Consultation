@@ -30,16 +30,10 @@ export default function ForgetPasswordForm() {
   return (
     <ConfigProvider
       theme={{
-        token: {
-          colorTextPlaceholder: '#5D5A88',
-          colorText: '#5D5A88',
-          colorBorder: '#D4D2E3',
-          colorIcon: '#5D5A88',
-        },
         components: {
           Button: {
-            colorPrimaryHover: '#5D5A88',
-            colorPrimaryActive: '#5D5A88',
+            colorPrimaryHover: '#4A5364',
+            colorPrimaryActive: '#4A5364',
             colorTextDisabled: '#fff',
           },
         },
@@ -64,7 +58,7 @@ export default function ForgetPasswordForm() {
           ]}
         >
           <div>
-            <Input placeholder="Email address" className="formInput" />
+            <Input placeholder="Email address" className="formInput border-secondary focus:border-secondary hover:border-secondary" />
             <p className="absolute right-0">請輸入註冊時使用的信箱</p>
           </div>
         </Form.Item>

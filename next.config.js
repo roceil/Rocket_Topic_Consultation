@@ -12,6 +12,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'fakeimg.pl',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com/',
+      },
     ],
   },
   

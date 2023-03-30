@@ -13,20 +13,12 @@ import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 
 export default function CounselorSignUpForm() {
   const [form] = Form.useForm();
-  const { value: signUpTab } = useSelector(
-    (state: { signUpSlice: { value: string } }) => state.signUpSlice,
-  );
+  const { value: signUpTab } = useSelector((state: { signUpSlice: { value: string } }) => state.signUpSlice);
   const [counselorSignUpPostApi] = useCounselorSignUpPostApiMutation();
   const router = useRouter();
 
   // 使用者註冊API
-  const counselorSignUpPost = async (
-    Name: string,
-    License: [],
-    Certification: string,
-    Email: string,
-    Password: string,
-  ) => {
+  const counselorSignUpPost = async (Name: string, License: [], Certification: string, Email: string, Password: string) => {
     const res = await counselorSignUpPostApi({
       Name,
       License,
@@ -60,14 +52,7 @@ export default function CounselorSignUpForm() {
   };
 
   return (
-    <Form
-      layout="vertical"
-      form={form}
-      name="register-user"
-      onFinish={onFinish}
-      className="space-y-8"
-      labelAlign="left"
-    >
+    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="CounselorSignUp space-y-8" labelAlign="left">
       {/* 姓名、執照 */}
       <Form.Item className="-mb-6">
         <Space className="flex items-start justify-between">
@@ -89,10 +74,7 @@ export default function CounselorSignUpForm() {
             ]}
           >
             <Upload listType="picture" maxCount={1}>
-              <Button
-                className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full sm:w-[180px]"
-                icon={<PlusCircleOutlined className="text-xl" />}
-              >
+              <Button className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full border-secondary bg-white sm:w-[180px]" icon={<PlusCircleOutlined className="text-xl" />}>
                 License
               </Button>
             </Upload>
@@ -101,12 +83,8 @@ export default function CounselorSignUpForm() {
       </Form.Item>
 
       {/* 證書字號 */}
-      <Form.Item
-        name="Certification"
-        label="諮商師證書字號 Certification"
-        rules={[{ required: true, message: '請輸入證書字號' }]}
-      >
-        <Input placeholder="Certification" className="formInput" />
+      <Form.Item name="Certification" label="諮商師證書字號 Certification" rules={[{ required: true, message: '請輸入證書字號' }]}>
+        <Input placeholder="Certification" className="formInput border-secondary" />
       </Form.Item>
 
       {/* 帳號 Account */}
@@ -144,14 +122,14 @@ export default function CounselorSignUpForm() {
         <div className="flex items-center justify-between">
           <Checkbox>
             我已同意
-            <Link href="/" className="underline">
+            <Link href="/" className="underline hover:text-secondary hover:opacity-50">
               隱私權條款
             </Link>
           </Checkbox>
 
           <div className="flex h-8 items-center">
             <p>已成為會員？</p>
-            <Link href="/login">
+            <Link href="/login" className="hover:text-secondary hover:opacity-50">
               <p className="ml-2 underline">立即登入</p>
             </Link>
           </div>
