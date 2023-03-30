@@ -8,6 +8,8 @@ export interface IBtnStyle {
   fontSize: string;
   px?: string;
   py?: string;
+  // eslint-disable-next-line react/no-unused-prop-types
+  onClick?: () => void;
 }
 
 export function IButton({ text, fontSize, px, py }: IBtnStyle) {
