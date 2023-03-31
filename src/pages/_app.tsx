@@ -2,6 +2,9 @@
 
 import '../styles/globals.css';
 import '../styles/antd/style.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 import type { AppProps } from 'next/app';
 import wrapper from '../common/redux/store';
 import Header from '../common/components/Header';
@@ -22,4 +25,3 @@ export function App({ Component, pageProps }: AppProps) {
 }
 
 export default wrapper.withRedux(App);
-
