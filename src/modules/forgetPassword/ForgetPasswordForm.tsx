@@ -58,7 +58,7 @@ export default function ForgetPasswordForm() {
           ]}
         >
           <div>
-            <Input placeholder="Email address" className="formInput border-secondary focus:border-secondary hover:border-secondary" />
+            <Input placeholder="Email address" className="formInput border-secondary focus:border-secondary hover:border-secondary !shadow-none" />
             <p className="absolute right-0">請輸入註冊時使用的信箱</p>
           </div>
         </Form.Item>

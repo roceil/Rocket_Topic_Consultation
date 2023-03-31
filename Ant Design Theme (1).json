@@ -1,0 +1,13 @@
+{
+  "token": {
+    "borderRadius": 16,
+    "colorPrimary": "#4a5364",
+    "colorInfo": "#4a5364"
+  },
+  "components": {
+    "Form": {
+      "controlOutlineWidth": 0,
+      "controlOutline": "red"
+    }
+  }
+}

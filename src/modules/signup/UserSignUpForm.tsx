@@ -44,7 +44,7 @@ export default function UserSignUpForm() {
   };
 
   return (
-    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="space-y-8 UserSignUp" labelAlign="left">
+    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="UserSignUp space-y-8" labelAlign="left">
       {/* 姓名、性別 */}
       <Form.Item className="-mb-6">
         <Space className="flex justify-between">
@@ -55,7 +55,7 @@ export default function UserSignUpForm() {
           <Form.Item
             name="Gender"
             label="性別 Sex"
-            className="inline-block w-[160px] sm:w-[180px]"
+            className="userSignUpGender inline-block w-[160px] sm:w-[180px]"
             rules={[
               {
                 required: true,

@@ -10,6 +10,7 @@ import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
 import LOGO from '../../../public/images/header/LOGO.svg';
+import LOGO_SM from '../../../public/images/header/LOGO_SM.svg';
 
 export default function Header() {
   const { auth, identity } = useSelector(selectHasToken);
@@ -20,7 +21,8 @@ export default function Header() {
     <header className="border border-gray-200 bg-gray-100/70 py-[18px] lg:py-[30px]">
       <div className="container flex items-center justify-between">
         <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
-          <Image src={LOGO} alt="LOGO" width={100} height={43} className="h-9 w-[60px] lg:h-auto lg:w-auto" />
+          <Image src={LOGO} alt="LOGO" width={100} height={43} className="hidden lg:block" />
+          <Image src={LOGO_SM} alt="LOGO" width={60} height={27} className="lg:hidden" />
         </Link>
 
         {/* 漢堡選單 */}
@@ -38,7 +40,7 @@ export default function Header() {
               },
             }}
           >
-            <SearchCapsule colorPrimary="#5D5A88" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
+            <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
               <button type="button" className="btnHover group h-10 w-10">
@@ -51,7 +53,7 @@ export default function Header() {
             {/* 判斷是否有登入，有登入就顯示『會員中心、通知』icons，沒有登入就顯示『登入、註冊』icons */}
             {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
-            <Link href="/counselorlist" className="flex flex-shrink-0 justify-center">
+            <Link href="counselorlist" className="flex-shrink-0">
               <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" />
             </Link>
           </ConfigProvider>

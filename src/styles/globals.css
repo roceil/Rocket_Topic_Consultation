@@ -57,17 +57,12 @@
     @apply relative z-0 flex justify-center font-bold text-secondary lg:group-hover:text-gray-200;
   }
   .btnHoverDark {
-    @apply before:fakeBorder  relative overflow-hidden rounded-full bg-secondary [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-[100%] before:w-[100%] before:origin-[100%_100%] before:scale-x-0 before:rounded-full before:bg-inherit before:transition before:duration-500 before:ease-in-out hover:before:origin-[0_0] hover:before:scale-x-100;
+    @apply relative overflow-hidden rounded-full bg-secondary font-bold text-white before:absolute before:inset-0 before:top-0 before:left-0 before:z-10 before:h-full before:w-full before:scale-0 before:rounded-full before:transition-all before:duration-500 active:scale-[0.8] lg:before:hover:scale-100 lg:before:hover:bg-white/30;
   }
   .btnHoverTextDark {
-    @apply relative z-20 font-bold text-gray-100 group-hover:text-secondary;
-  }
-  .btn4 span {
-    transform: translateX(-101%);
-    transition: transform 0.2s ease-in;
-  }
-
-  .btn4:hover span {
-    transform: translateX(0);
+    @apply relative z-20;
   }
 }
+
+
+

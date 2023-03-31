@@ -3,6 +3,7 @@
 import '../styles/globals.css';
 import '../styles/antd/style.css';
 import '../styles/swiper/style.css';
+import '../styles/waves/style.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 

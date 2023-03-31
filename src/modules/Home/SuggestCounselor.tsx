@@ -7,7 +7,11 @@ import { counselorRank } from '../../lib/homeFilesRoute';
 
 export default function SuggestCounselor() {
   return (
-    <section className="bg-primary ">
+    <section className="bg-primary">
+      <div className="bg-primary-tint">
+        <div className="wavesTop" />
+      </div>
+
       <div className="container flex w-screen flex-col items-center  py-20 text-center">
         <h2>推薦諮商師</h2>
         <p className="subTitle w-[250px] sm:w-auto">不用出門，在線上就能找到陪伴你聊天的專業夥伴</p>
@@ -38,6 +42,10 @@ export default function SuggestCounselor() {
             <CounselorCard key={name} name={name} rankTag={rankTag} img={img} skillsAry={skillsAry} />
           ))}
         </ul>
+      </div>
+
+      <div className="rotate-180 bg-primary-tint">
+        <div className="wavesTop" />
       </div>
     </section>
   );
