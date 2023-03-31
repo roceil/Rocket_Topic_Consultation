@@ -45,21 +45,29 @@
     @apply flex items-center justify-center;
   }
   .fakeBorder {
-    box-shadow: inset 0 0 0 1.5px #4A5364;
+    box-shadow: inset 0 0 0 1.5px #4a5364;
   }
   .fakeBorderHover {
     box-shadow: inset 0 0 0 1.5px #fff;
   }
   .btnHover {
-    @apply fakeBorder relative inline-block flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:bg-secondary before:transition before:duration-500 before:ease-in-out active:scale-[0.8] lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100 before:fakeBorder before:rounded-full;
+    @apply fakeBorder before:fakeBorder relative inline-block flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:rounded-full before:bg-secondary before:transition before:duration-500 before:ease-in-out active:scale-[0.8] lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100;
   }
   .btnHoverText {
     @apply relative z-0 flex justify-center font-bold text-secondary lg:group-hover:text-gray-200;
   }
   .btnHoverDark {
-    @apply relative  bg-secondary overflow-hidden [transform:translateZ(0)] rounded-full before:absolute before:bottom-0 before:left-0 before:h-[100%] before:w-[100%] before:origin-[100%_100%] before:scale-x-0 before:bg-inherit before:transition before:duration-500 before:ease-in-out hover:before:origin-[0_0] hover:before:scale-x-100 before:fakeBorder before:rounded-full;
+    @apply before:fakeBorder  relative overflow-hidden rounded-full bg-secondary [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-[100%] before:w-[100%] before:origin-[100%_100%] before:scale-x-0 before:rounded-full before:bg-inherit before:transition before:duration-500 before:ease-in-out hover:before:origin-[0_0] hover:before:scale-x-100;
   }
   .btnHoverTextDark {
     @apply relative z-20 font-bold text-gray-100 group-hover:text-secondary;
+  }
+  .btn4 span {
+    transform: translateX(-101%);
+    transition: transform 0.2s ease-in;
+  }
+
+  .btn4:hover span {
+    transform: translateX(0);
   }
 }
