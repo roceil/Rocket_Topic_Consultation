@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Slider from 'react-slick';
 import Marquee from 'react-fast-marquee';
 import star from '../../../public/images/star.svg';
 // import user01 from '../../../public/images/home/userComment/user01.png';
