@@ -19,8 +19,8 @@ export default function Header() {
   return (
     <header className="border border-gray-200 bg-gray-100/70 py-[18px] lg:py-[30px]">
       <div className="container flex items-center justify-between">
-        <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8] lg:hover:opacity-50">
-          <Image src={LOGO} alt="LOGO" width={100} height={43} className="h-9 w-[60px ] lg:h-auto lg:w-auto" />
+        <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
+          <Image src={LOGO} alt="LOGO" width={100} height={43} className="h-9 w-[60px] lg:h-auto lg:w-auto" />
         </Link>
 
         {/* 漢堡選單 */}
@@ -52,7 +52,7 @@ export default function Header() {
             {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
             <Link href="/counselorlist" className="flex flex-shrink-0 justify-center">
-              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" />
+              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" />
             </Link>
           </ConfigProvider>
         </div>

@@ -1,15 +1,24 @@
 /* eslint-disable import/no-cycle */
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRightOutlined } from '@ant-design/icons';
 import { ISuggestCounselorCardProps } from '../../types/interface';
 
 export default function CounselorCard({ name, rankTag, img, skillsAry }: ISuggestCounselorCardProps) {
   return (
-    <div className="p-[36px]">
+    <Link href="/CounselorPage" className="group flex justify-center p-[36px]">
       <div className="max-w-[244px] lg:max-w-[280px]">
         {/* 這是圖片 */}
-        {/* <div className="h-[244px] w-[244px] rounded bg-secondary lg:h-[280px] lg:w-[280px]" /> */}
+        <div className="relative h-[244px] w-[244px] lg:h-[280px] lg:w-[280px]">
+          <Image src={img} alt="stepPicture" width={280} height={280} className="object-fill transition duration-300 lg:group-hover:opacity-70" />
+          {/* 手機版連結裝飾按鈕 */}
+          <button type="button" className="absolute bottom-3 right-3 h-7 w-7 rounded-full bg-white/70 text-gray-800 lg:hidden">
+            <ArrowRightOutlined />
+          </button>
 
-        <Image src={img} alt="stepPicture" width={280} height={360} className="h-[360px] w-[280px] lg:block lg:h-[415px] lg:w-[328px] object-contain" />
+          {/* 電腦版連結裝飾按鈕 */}
+          <div className="absolute bottom-0 left-0 hidden w-full rounded-b-xl bg-white/70 py-3 font-semibold text-gray-800 opacity-0 backdrop-blur-sm transition duration-300 lg:group-hover:opacity-100 lg:block">立即預約</div>
+        </div>
 
         {/* 諮商師名稱 */}
         <div className="flex items-center justify-between px-2">
@@ -28,6 +37,6 @@ export default function CounselorCard({ name, rankTag, img, skillsAry }: ISugges
           ))}
         </ul>
       </div>
-    </div>
+    </Link>
   );
 }

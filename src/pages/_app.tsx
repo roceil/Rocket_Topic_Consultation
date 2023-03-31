@@ -2,8 +2,9 @@
 
 import '../styles/globals.css';
 import '../styles/antd/style.css';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import '../styles/swiper/style.css';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 import type { AppProps } from 'next/app';
 import wrapper from '../common/redux/store';
