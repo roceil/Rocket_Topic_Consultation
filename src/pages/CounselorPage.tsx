@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
@@ -82,7 +83,7 @@ const text = (
   </p>
 );
 
-// 課程時段
+// 課程時段，假資料，之後換成 API
 const weekData = [
   {
     week: 1,
@@ -1007,7 +1008,7 @@ export default function CounselorPage() {
   const [value3, setValue3] = useState('Apple');
 
   const onChange3 = ({ target: { value } }: RadioChangeEvent) => {
-    console.log('radio3 checked', value);
+    // console.log('radio3 checked', value);
     setValue3(value);
   };
 
@@ -1325,8 +1326,8 @@ export default function CounselorPage() {
                   <h3 className="text-base text-gray-900 border-b w-[108px] text-center border-b-gray-900 mb-3">{`${weekData[weekNum].weekDataAry[0].year} ${weekData[weekNum].weekDataAry[0].month}`}</h3>
                 </div>
                 <ul className="hour-scrollbar flex w-[332px] h-[487px] lg:h-[451px] lg:w-[464px] space-x-1 lg:space-x-3 overflow-auto  text-center">
-                  {nextWeek.map((item) => (
-                    <li className="relative">
+                  {nextWeek.map((item, i) => (
+                    <li className="relative" key={i}>
                       <div className="space-y-1 bg-primary-tint sticky top-0 flex">
                         <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-[#424242] py-3 mb-[10px]">
                           <p className="text-sm lg:text-lg">{item.weekDay}</p>
@@ -1334,10 +1335,11 @@ export default function CounselorPage() {
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
-                        {item.hours.map((hoursItem) => (
+                        {item.hours.map((hoursItem, index) => (
                           <input
                             type="button"
                             value={hoursItem.time}
+                            key={index}
                             className={`my-[5px] lg:w-[52px] w-[31px] lg:text-sm mobile-calendar ${
                               hoursItem.available
                                 ? 'text-[#424242]'
@@ -1351,7 +1353,6 @@ export default function CounselorPage() {
                 </ul>
                 <div className="flex justify-between w-[332px] lg:w-[464px] ">
                   <Button
-                    // type="button"
                     className="text-sm text-[#424242] w-[160px] lg:w-[220px] rounded-[10px] border-[1.5px] border-[#424242] font-semibold"
                     onClick={getPreviousWeek}
                   >
