@@ -25,6 +25,11 @@
   }
 }
 
+/* 諮商師個人頁，手機版日曆用 */
+.mobile-calendar{
+  font-size: 12px !important;
+}
+
 @layer components {
   .subTitle {
     @apply mt-2 mb-3 text-gray-800 lg:mt-3 lg:mb-[76px] lg:max-w-[612px] lg:text-lg;
@@ -57,3 +62,8 @@
     @apply justify-center relative z-0 flex font-bold text-secondary lg:group-hover:text-gray-200
   }
 }
+
+.hour-scrollbar::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+  }
