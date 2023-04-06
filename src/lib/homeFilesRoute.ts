@@ -21,7 +21,7 @@ import step1 from '../../public/images/home/reservationTour/step1.svg';
 import step2 from '../../public/images/home/reservationTour/Step2.svg';
 import step3 from '../../public/images/home/reservationTour/Step3.svg';
 import step4 from '../../public/images/home/reservationTour/Step4.svg';
-import counselor1 from '../../public/images/home/suggestCounselor/counselor1.svg';
+import counselor1 from '../../public/images/home/suggestCounselor/counselor1.jpg';
 import counselor2 from '../../public/images/home/suggestCounselor/counselor2.svg';
 import counselor3 from '../../public/images/home/suggestCounselor/counselor3.svg';
 import counselor4 from '../../public/images/home/suggestCounselor/counselor4.svg';
