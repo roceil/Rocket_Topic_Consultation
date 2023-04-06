@@ -80,11 +80,11 @@ export default function Footer() {
             </p>
           </div>
           {/* Footers */}
-          <div className="flex space-x-[120px] text-center text-secondary">
+          <div className="flex space-x-[120px] text-center text-gray-900">
             {/* 會員中心 */}
             <div>
               <h3 className="mb-6 text-base font-bold">會員中心</h3>
-              <ul className="space-y-4 text-sm text-gray-900">
+              <ul className="space-y-4 text-sm">
                 <li>
                   <Link href="/LogIn">個人資料</Link>
                 </li>
@@ -101,7 +101,7 @@ export default function Footer() {
             {/* 常見問題 */}
             <div>
               <h3 className="mb-6 text-base font-bold">常見問題</h3>
-              <ul className="space-y-4 text-sm text-gray-900">
+              <ul className="space-y-4 text-sm ">
                 <li className="">預約教學</li>
                 <li className="">註冊認證</li>
                 <li className="">付款相關</li>
@@ -113,7 +113,7 @@ export default function Footer() {
             {/* 關於我們 */}
             <div>
               <h3 className="mb-6 text-base font-bold ">關於我們</h3>
-              <ul className="space-y-4 text-sm text-gray-900">
+              <ul className="space-y-4 text-sm ">
                 <li className="">品牌故事</li>
                 <li className="">合作機構</li>
               </ul>
@@ -122,7 +122,7 @@ export default function Footer() {
             {/* 追蹤我們 */}
             <div>
               <h3 className="mb-6 text-base font-bold">追蹤我們</h3>
-              <ul className="space-y-4 text-sm text-gray-900">
+              <ul className="space-y-4 text-sm ">
                 <li className="">Facebook</li>
                 <li className="">Instagram</li>
               </ul>
