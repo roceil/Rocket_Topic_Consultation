@@ -34,8 +34,8 @@ function CounselorReservationTab() {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#767494',
-            colorText: '#767494',
+            colorPrimary: '#4A5364',
+            colorText: '#9E9E9E',
             fontSize: 16,
             margin: 32,
           },

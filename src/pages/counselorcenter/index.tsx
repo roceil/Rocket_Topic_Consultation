@@ -45,17 +45,15 @@ export default function index() {
       {/* 手機版 */}
       <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
         <div className="container">
-          <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
-            目前尚無預約
-          </div>
-          <h2 className="mb-12 text-center leading-loose lg:hidden">個人資料</h2>
+          <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">目前尚無預約</div>
+          <h2 className="mb-12 text-center leading-loose lg:hidden text-secondary">個人資料</h2>
 
           <div className="counselorTab mx-4">
             <ConfigProvider
               theme={{
                 token: {
-                  colorPrimary: '#767494',
-                  colorText: '#767494',
+                  colorPrimary: '#4A5364',
+                  colorText: '#4A5364',
                   fontSize: 16,
                   margin: 32,
                 },
