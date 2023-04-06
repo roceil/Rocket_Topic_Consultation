@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Breadcrumb, Collapse, ConfigProvider, Radio, RadioChangeEvent, Select } from 'antd';
 import { counselorPageBreadcrumb } from '@/lib/counselorPage/CounselorPageData';
-import checkCircle from '../../public/images/check-circle.svg';
-import rateStar from '../../public/images/rateStar.svg';
+import checkCircle from '../../../../public/images/check-circle.svg';
+import rateStar from '../../../../public/images/rateStar.svg';
 
 interface IButton2Props {
   rounded?: 'full' | number | 'xl';

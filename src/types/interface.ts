@@ -56,4 +56,5 @@ export interface ICounselorListCardProps {
   subtitle: string;
   description: string;
   img: string;
+  id: number;
 }

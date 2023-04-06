@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { rest } from 'msw';
+import { counselorData } from '@/lib/counselorList/counselorData';
 
 export const handlers = [
   // 使用者登入 => POST
@@ -60,4 +61,19 @@ export const handlers = [
       Message: '密碼重設成功，請重新登入',
     }),
   )),
+
+  // 諮商師總覽 => GET
+  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/1`, (req, res, ctx) => res(ctx.status(200), ctx.json({ Message: counselorData }))),
+
+  // 諮商師總覽 => GET
+  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/2`, (req, res, ctx) => res(ctx.status(200), ctx.json({ Message: counselorData }))),
+
+  // 諮商師總覽 => GET
+  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/3`, (req, res, ctx) => res(ctx.status(200), ctx.json({ Message: counselorData }))),
+
+  // 諮商師總覽 => GET
+  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/4`, (req, res, ctx) => res(ctx.status(200), ctx.json({ Message: counselorData }))),
+
+  // 諮商師總覽 => GET
+  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/5`, (req, res, ctx) => res(ctx.status(200), ctx.json({ Message: counselorData }))),
 ];

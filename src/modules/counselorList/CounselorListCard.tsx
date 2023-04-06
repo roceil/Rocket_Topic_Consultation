@@ -5,7 +5,8 @@ import { ICounselorListCardProps } from '../../types/interface';
 const before = 'counselorCardShadow flex justify-between overflow-hidden rounded-3xl bg-white';
 
 const after = 'counselorCardShadow flex justify-between overflow-hidden bg-white lg:mb-8 hidden rounded-3xl lg:flex';
-export default function CounselorListCard({ className, counselorName, subtitle, img, description }: ICounselorListCardProps) {
+
+export default function CounselorListCard({ className, counselorName, subtitle, img, description, id }: ICounselorListCardProps) {
   const isBefore = className === 'before' ? before : after;
 
   return (
@@ -23,8 +24,8 @@ export default function CounselorListCard({ className, counselorName, subtitle, 
           <button type="button" className="hidden w-[90px] rounded-full border border-secondary py-2 text-xs font-semibold text-secondary hover:opacity-50 lg:block lg:text-sm">
             我有問題
           </button>
-          <Link href="CounselorPage">
-            <button type="button" className="w-[90px] rounded-full border border-secondary bg-secondary py-2 text-xs font-semibold text-white hover:opacity-50 lg:text-sm">
+          <Link href={`/counselorlist/counselorpage/${id}`}>
+            <button type="button" className="w-[90px] rounded-full border border-secondary bg-secondary py-2 text-xs font-semibold text-white hover:opacity-50 lg:text-sm" onClick={() => console.log(id)}>
               立即預約
             </button>
           </Link>
