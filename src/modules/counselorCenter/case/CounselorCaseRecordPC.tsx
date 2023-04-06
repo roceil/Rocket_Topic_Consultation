@@ -115,7 +115,7 @@ export default function CounselorCaseRecordPC() {
                   <Image
                     width={40}
                     height={40}
-                    src={item.image}
+                    src={userImg}
                     alt="user_pic"
                     className="rounded-full"
                   />
