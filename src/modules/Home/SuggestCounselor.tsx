@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-cycle */
 // eslint-disable-next-line import/no-cycle
 import { Swiper, SwiperSlide } from 'swiper/react';

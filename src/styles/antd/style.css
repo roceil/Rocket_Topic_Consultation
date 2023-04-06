@@ -44,6 +44,9 @@
 .search .ant-select .ant-select-arrow {
   color: #4a5364;
 }
+.ant-input-password input::placeholder{
+  color:#BDBDBD !important;
+}
 
 /* 分頁前後頁按鈕 */
 .ant-pagination-disabled .ant-pagination-item-link {
@@ -110,6 +113,11 @@
 }
 .ant-modal-content {
   padding: 72px 36px 44px 36px !important;
+  box-shadow: none !important;
+}
+.ant-modal-close-x {
+  font-size: 24px !important;
+  color: #424242 !important;
 }
 
 /* Footer 手機版字重 */
@@ -164,6 +172,6 @@
 }
 
 /* 調整表單錯誤訊息位置 */
-.ant-form-item-explain-error{
+.ant-form-item-explain-error {
   padding-left: 9.453px;
 }
