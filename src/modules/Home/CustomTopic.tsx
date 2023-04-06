@@ -5,7 +5,7 @@ import { topicCardAry } from '../../lib/homeFilesRoute';
 
 export default function CustomTopic() {
   return (
-    <section className="container py-20 lg:py-0">
+    <section className="container pt-20 pb-6 lg:py-0">
       <div className="flex flex-col items-center px-6 text-center sm:px-0 lg:pt-[100px] lg:pb-[164px]">
         <h2>客製化諮商主題</h2>
         <p className="subTitle mb-0 text-sm lg:text-lg">選擇主題，讓諮商師為你量身定做專屬課程</p>

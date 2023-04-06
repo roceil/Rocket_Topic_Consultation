@@ -17,12 +17,12 @@ export default function CounselorCard({ name, rankTag, img, skillsAry }: ISugges
           </button>
 
           {/* 電腦版連結裝飾按鈕 */}
-          <div className="absolute bottom-0 left-0 hidden w-full rounded-b-xl bg-white/70 py-3 font-semibold text-gray-800 opacity-0 backdrop-blur-sm transition duration-300 lg:group-hover:opacity-100 lg:block">立即預約</div>
+          <div className="absolute bottom-0 left-0 hidden w-full rounded-b-xl bg-white/70 py-3 font-semibold text-gray-800 opacity-0 backdrop-blur-sm transition duration-300 lg:block lg:group-hover:opacity-100">立即預約</div>
         </div>
 
         {/* 諮商師名稱 */}
         <div className="flex items-center justify-between px-2">
-          <span className="py-5 text-left text-xl font-bold text-secondary lg:text-[28px]">{name}</span>
+          <span className="py-5 text-left text-xl font-bold text-gray-900 lg:text-[28px]">{name}</span>
           <div className="rounded border border-secondary bg-white py-1 px-3 lg:py-2 lg:px-4">
             <p className="text-xs font-bold text-secondary">{rankTag}</p>
           </div>
@@ -31,7 +31,7 @@ export default function CounselorCard({ name, rankTag, img, skillsAry }: ISugges
         {/* 諮商師tag */}
         <ul className="flex flex-wrap border-y-2 border-secondary py-2">
           {skillsAry?.map(({ type }) => (
-            <li key={type} className=" py-2 px-3 text-xs font-bold text-secondary lg:text-sm">
+            <li key={type} className=" py-2 px-3 text-xs font-bold text-gray-700 lg:text-sm">
               <p>{`#${type}`}</p>
             </li>
           ))}

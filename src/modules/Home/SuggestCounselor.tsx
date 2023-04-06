@@ -12,7 +12,7 @@ export default function SuggestCounselor() {
         <div className="wavesTop" />
       </div>
 
-      <div className="container flex w-screen flex-col items-center  py-20 text-center">
+      <div className="container flex w-screen flex-col items-center  py-6 text-center lg:py-20">
         <h2>推薦諮商師</h2>
         <p className="subTitle w-[250px] sm:w-auto">不用出門，在線上就能找到陪伴你聊天的專業夥伴</p>
 

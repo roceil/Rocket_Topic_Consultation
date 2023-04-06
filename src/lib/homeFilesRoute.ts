@@ -297,22 +297,22 @@ export const topicCardAry = [
 
 export const reservationCardAry = [
   {
-    step: 'Step1',
+    step: 'Step 1',
     img: step1,
     extraStyle: null,
   },
   {
-    step: 'Step2',
+    step: 'Step 2',
     img: step2,
     extraStyle: 'lg:!mt-[182px]',
   },
   {
-    step: 'Step3',
+    step: 'Step 3',
     img: step3,
     extraStyle: 'lg:!mt-[-127px]',
   },
   {
-    step: 'Step4',
+    step: 'Step 4',
     img: step4,
     extraStyle: 'lg:!mt-[56px]',
   },

@@ -9,56 +9,56 @@ import footerLOGO from '../../../public/images/footer/footerLOGO.svg';
 // Footer - 折疊元件(Mobile)
 const { Panel } = Collapse;
 const userCenterChilds = (
-  <ul className="flex flex-col space-y-4">
-    <li className="text-sm text-secondary">
+  <ul className="flex flex-col space-y-4 text-gray-900">
+    <li className="text-sm">
       <Link href="/usercenter">個人資料</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/usercenter/reservation">預約記錄</Link>
     </li>
-    <li className="text-sm text-secondary hover:text-white">
+    <li className="text-sm hover:text-white">
       <Link href="/signup">加入會員</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/">最新活動</Link>
     </li>
   </ul>
 );
 const questionChilds = (
-  <ul className="flex flex-col space-y-4">
-    <li className="text-sm text-secondary">
+  <ul className="flex flex-col space-y-4 text-gray-900">
+    <li className="text-sm">
       <Link href="/">預約教學</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/">註冊認證</Link>
     </li>
-    <li className="text-sm text-secondary hover:text-white">
+    <li className="text-sm hover:text-white">
       <Link href="/">付款相關</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/">退課相關</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/">條款與政策</Link>
     </li>
   </ul>
 );
 const aboutUsChilds = (
-  <ul className="flex flex-col space-y-4">
-    <li className="text-sm text-secondary">
+  <ul className="flex flex-col space-y-4 text-gray-900">
+    <li className="text-sm">
       <Link href="/">品牌故事</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/">合作機構</Link>
     </li>
   </ul>
 );
 const followUsChilds = (
-  <ul className="flex flex-col space-y-4">
-    <li className="text-sm text-secondary">
+  <ul className="flex flex-col space-y-4 text-gray-900">
+    <li className="text-sm">
       <Link href="/">Facebook</Link>
     </li>
-    <li className="text-sm text-secondary">
+    <li className="text-sm">
       <Link href="/">Instagram</Link>
     </li>
   </ul>
@@ -84,7 +84,7 @@ export default function Footer() {
             {/* 會員中心 */}
             <div>
               <h3 className="mb-6 text-base font-bold">會員中心</h3>
-              <ul className="space-y-4 text-sm">
+              <ul className="space-y-4 text-sm text-gray-900">
                 <li>
                   <Link href="/LogIn">個人資料</Link>
                 </li>
@@ -101,7 +101,7 @@ export default function Footer() {
             {/* 常見問題 */}
             <div>
               <h3 className="mb-6 text-base font-bold">常見問題</h3>
-              <ul className="space-y-4 text-sm">
+              <ul className="space-y-4 text-sm text-gray-900">
                 <li className="">預約教學</li>
                 <li className="">註冊認證</li>
                 <li className="">付款相關</li>
@@ -113,7 +113,7 @@ export default function Footer() {
             {/* 關於我們 */}
             <div>
               <h3 className="mb-6 text-base font-bold ">關於我們</h3>
-              <ul className="space-y-4 text-sm">
+              <ul className="space-y-4 text-sm text-gray-900">
                 <li className="">品牌故事</li>
                 <li className="">合作機構</li>
               </ul>
@@ -122,7 +122,7 @@ export default function Footer() {
             {/* 追蹤我們 */}
             <div>
               <h3 className="mb-6 text-base font-bold">追蹤我們</h3>
-              <ul className="space-y-4 text-sm">
+              <ul className="space-y-4 text-sm text-gray-900">
                 <li className="">Facebook</li>
                 <li className="">Instagram</li>
               </ul>
