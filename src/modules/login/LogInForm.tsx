@@ -24,9 +24,9 @@ function LogInForm() {
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
 
   // 使用者登入函式
-  const userLoginPost = async (Email: string, Password: string) => {
+  const userLoginPost = async (Account: string, Password: string) => {
     const res = await userLoginPostApi({
-      Account: Email,
+      Account,
       Password,
     });
     console.log('🚀 ~ file: LogInForm.tsx:27 ~ userLoginPost ~ res:', res);
@@ -39,7 +39,7 @@ function LogInForm() {
       return;
     }
     const { Message } = res.data as { Message: string };
-    const { Authorization, Identity, UserID } = res.data as IUserLoginRes;
+    const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
     alert(Message);
     setCookie('auth', decodeURIComponent(Authorization), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
@@ -48,9 +48,9 @@ function LogInForm() {
   };
 
   // 諮商師登入函式
-  const counselorLoginPost = async (Email: string, Password: string) => {
+  const counselorLoginPost = async (Account: string, Password: string) => {
     const res = await counselorLoginPostApi({
-      Account: Email,
+      Account,
       Password,
     });
     if ('error' in res) {
@@ -62,7 +62,7 @@ function LogInForm() {
       return;
     }
     const { Message } = res.data as { Message: string };
-    const { Authorization, Identity, UserID } = res.data as IUserLoginRes;
+    const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
     alert(Message);
     setCookie('auth', decodeURIComponent(Authorization), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
@@ -71,11 +71,11 @@ function LogInForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({ Email, Password }: { Email: string; Password: string }) => {
+  const onFinish = ({ Account, Password }: { Account: string; Password: string }) => {
     if (value === '用戶') {
-      userLoginPost(Email, Password);
+      userLoginPost(Account, Password);
     } else if (value === '諮商師') {
-      counselorLoginPost(Email, Password);
+      counselorLoginPost(Account, Password);
     }
   };
 
@@ -83,7 +83,7 @@ function LogInForm() {
     <Form layout="vertical" form={form} name="logIn" onFinish={onFinish} className="space-y-8 px-4" labelAlign="left">
       <FormAccountInput />
 
-      <FormPasswordInput needLink />
+      <FormPasswordInput needLink label="密碼 Password" />
 
       <Form.Item className="pt-24">
         <div className="flex items-center justify-end">

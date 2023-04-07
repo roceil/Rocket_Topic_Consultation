@@ -3,7 +3,7 @@ import { Form, Input } from 'antd';
 export default function FormAccountInput() {
   return (
     <Form.Item
-      name="Email"
+      name="Account"
       label="帳號 Account"
       rules={[
         {
@@ -12,7 +12,7 @@ export default function FormAccountInput() {
         },
       ]}
     >
-      <Input placeholder="Email address" className="formInput border-secondary" />
+      <Input placeholder="Email address" className="formInput border-secondary !shadow-none placeholder:text-gray-500" />
     </Form.Item>
   );
 }

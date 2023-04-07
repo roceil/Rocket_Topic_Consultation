@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Form, Space, Select, DatePicker, Checkbox } from 'antd';
+import dayjs from 'dayjs';
 import { useUserSignUpPostApiMutation } from '@/common/redux/service/signUp';
 import { IUserOnFinishProps } from '@/types/interface';
 import FormAccountInput from '@/common/components/form/FormAccountInput';
@@ -19,13 +20,14 @@ export default function UserSignUpForm() {
   const router = useRouter();
 
   // 使用者註冊API
-  const userSignUpPost = async (Email: string, Password: string, Name: string, Date: Date, Gender: string) => {
+  const userSignUpPost = async (Name: string, Sex: string, BirthDate: string, Account: string, Password: string, ConfirmPassword: string) => {
     const res = await userSignUpPostApi({
-      Email,
-      Password,
       Name,
-      Date,
-      Gender,
+      Sex,
+      BirthDate,
+      Account,
+      Password,
+      ConfirmPassword,
     });
     if ('error' in res) {
       console.log(res);
@@ -38,13 +40,15 @@ export default function UserSignUpForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({ Name, Password, Email, DatePicker: { $d: Date }, Gender }: IUserOnFinishProps) => {
+  const onFinish = ({ Name, Sex, Account, Password, DatePicker: { $d: Date }, ConfirmPassword }: IUserOnFinishProps) => {
+    const BirthDate = dayjs(Date).format('YYYY-MM-DD');
+
     if (signUpTab !== '用戶') return;
-    userSignUpPost(Email, Password, Name, Date, Gender);
+    userSignUpPost(Name, Sex, BirthDate, Account, Password, ConfirmPassword);
   };
 
   return (
-    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="space-y-8 UserSignUp" labelAlign="left">
+    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="UserSignUp space-y-8" labelAlign="left">
       {/* 姓名、性別 */}
       <Form.Item className="-mb-6">
         <Space className="flex justify-between">
@@ -53,9 +57,9 @@ export default function UserSignUpForm() {
 
           {/* 性別 Gender */}
           <Form.Item
-            name="Gender"
+            name="Sex"
             label="性別 Sex"
-            className="inline-block w-[160px] sm:w-[180px]"
+            className="userSignUpGender inline-block w-[160px] sm:w-[180px]"
             rules={[
               {
                 required: true,

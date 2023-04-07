@@ -2,14 +2,19 @@
 
 import '../styles/globals.css';
 import '../styles/antd/style.css';
+import '../styles/swiper/style.css';
+import '../styles/waves/style.css';
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 import type { AppProps } from 'next/app';
 import wrapper from '../common/redux/store';
 import Header from '../common/components/Header';
 import Footer from '../common/components/Footer';
 
-import('../common/msw').then(({ setupMocks }) => {
-  setupMocks();
-});
+// import('../common/msw').then(({ setupMocks }) => {
+//   setupMocks();
+// });
 
 export function App({ Component, pageProps }: AppProps) {
   return (
@@ -22,4 +27,3 @@ export function App({ Component, pageProps }: AppProps) {
 }
 
 export default wrapper.withRedux(App);
-

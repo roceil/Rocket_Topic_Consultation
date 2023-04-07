@@ -1,4 +1,5 @@
 import { ConfigProvider, Breadcrumb, Select } from 'antd';
+import { IButton } from '@/common/components/IButton';
 import { counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselorData';
 import SearchCapsule from '../../common/components/SearchCapsule';
 import CounselorListCard from '../../modules/counselorList/CounselorListCard';
@@ -95,13 +96,11 @@ export default function CounselorList({ data: { Message }, pageId }: { data: ICo
               />
             </ConfigProvider>
           </div>
-
+          {/* 電腦版 膠囊選擇器 */}
           <ul className="hidden space-x-4 lg:mb-7 lg:flex">
             {selectOptions?.map(({ label, value }) => (
               <li key={value}>
-                <button type="button" className=" fakeBorder rounded-full text-xs text-secondary hover:opacity-50 focus:bg-secondary focus:text-white lg:w-[146px] lg:py-3 lg:text-base lg:font-bold">
-                  {`# ${label}`}
-                </button>
+                <IButton text={`# ${label}`} fontSize="text-xs lg:text-base" py="py-3" px="px-8" />
               </li>
             ))}
           </ul>

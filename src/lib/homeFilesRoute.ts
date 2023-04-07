@@ -21,8 +21,8 @@ import step1 from '../../public/images/home/reservationTour/step1.svg';
 import step2 from '../../public/images/home/reservationTour/Step2.svg';
 import step3 from '../../public/images/home/reservationTour/Step3.svg';
 import step4 from '../../public/images/home/reservationTour/Step4.svg';
-import counselor1 from '../../public/images/home/suggestCounselor/counselor1.svg';
-import counselor2 from '../../public/images/home/suggestCounselor/counselor2.svg';
+import counselor1 from '../../public/images/home/suggestCounselor/counselor1.jpg';
+import counselor2 from '../../public/images/home/suggestCounselor/counselor2.png';
 import counselor3 from '../../public/images/home/suggestCounselor/counselor3.svg';
 import counselor4 from '../../public/images/home/suggestCounselor/counselor4.svg';
 import counselor5 from '../../public/images/home/suggestCounselor/counselor5.svg';
@@ -297,22 +297,22 @@ export const topicCardAry = [
 
 export const reservationCardAry = [
   {
-    step: 'Step1',
+    step: 'Step 1',
     img: step1,
     extraStyle: null,
   },
   {
-    step: 'Step2',
+    step: 'Step 2',
     img: step2,
     extraStyle: 'lg:!mt-[182px]',
   },
   {
-    step: 'Step3',
+    step: 'Step 3',
     img: step3,
     extraStyle: 'lg:!mt-[-127px]',
   },
   {
-    step: 'Step4',
+    step: 'Step 4',
     img: step4,
     extraStyle: 'lg:!mt-[56px]',
   },

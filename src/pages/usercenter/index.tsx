@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { IButton } from '@/common/components/IButton';
 import UserInformation from '@/modules/userCenter/UserInformation';
 import UserCenterLayout from '../../modules/userCenter/UserCenterLayout';
 
 export default function index() {
   const [nameDisable, setNameDisable] = useState(true);
   const edit = () => setNameDisable(false);
-  const save = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const save = () => {
     if (nameDisable === true) return;
     setNameDisable(true);
     alert('儲存成功');
@@ -59,13 +59,8 @@ export default function index() {
               </div>
 
               <div className="flex justify-center space-x-5 lg:justify-end">
-                <button type="button" className="w-full max-w-[180px] rounded-full border border-primary-heavy py-4 font-bold text-primary-heavy" onClick={edit}>
-                  編輯
-                </button>
-
-                <button type="submit" className="w-full max-w-[180px] rounded-full border border-primary-heavy bg-primary-heavy py-4 font-bold text-white">
-                  儲存
-                </button>
+                <IButton text="編輯" fontSize="text-base" px="px-[74px]" py="py-4" mode="light" onClick={edit} />
+                <IButton text="儲存" fontSize="text-base" px="px-[74px]" py="py-4" mode="dark" onClick={save} />
               </div>
             </form>
           </div>

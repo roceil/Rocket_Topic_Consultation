@@ -10,6 +10,7 @@ import FormAccountInput from '@/common/components/form/FormAccountInput';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import { RcFile } from 'antd/es/upload';
 
 export default function CounselorSignUpForm() {
   const [form] = Form.useForm();
@@ -17,14 +18,15 @@ export default function CounselorSignUpForm() {
   const [counselorSignUpPostApi] = useCounselorSignUpPostApiMutation();
   const router = useRouter();
 
-  // 使用者註冊API
-  const counselorSignUpPost = async (Name: string, License: [], Certification: string, Email: string, Password: string) => {
+  // 諮商師註冊API
+  const counselorSignUpPost = async (Name: string, thumbUrl: string, Certification: string, Account: string, Password: string, ConfirmPassword: string) => {
     const res = await counselorSignUpPostApi({
       Name,
-      License,
+      License: "測試檔名",
       Certification,
-      Email,
+      Account,
       Password,
+      ConfirmPassword,
     });
     if ('error' in res) {
       console.log(res);
@@ -36,19 +38,19 @@ export default function CounselorSignUpForm() {
     console.log(res);
   };
 
-  // 表單送出函式
-  const onFinish = ({ Name, License, Certification, Email, Password }: ICounselorOnFinishProps) => {
-    if (signUpTab !== '諮商師') return;
-    counselorSignUpPost(Name, License, Certification, Email, Password);
-  };
-
   // 檔案上傳函式
-  const normFile = (e: { fileList: unknown }) => {
-    console.log('Upload event:', e);
+  const normFile = (e: { fileList: RcFile[] }) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
+  };
+
+  // 表單送出函式
+  const onFinish = ({ Name, License, Certification, Account, Password, ConfirmPassword }: ICounselorOnFinishProps) => {
+    const { thumbUrl } = License[0];
+    if (signUpTab !== '諮商師') return;
+    counselorSignUpPost(Name, thumbUrl, Certification, Account, Password, ConfirmPassword);
   };
 
   return (
@@ -84,7 +86,7 @@ export default function CounselorSignUpForm() {
 
       {/* 證書字號 */}
       <Form.Item name="Certification" label="諮商師證書字號 Certification" rules={[{ required: true, message: '請輸入證書字號' }]}>
-        <Input placeholder="Certification" className="formInput border-secondary" />
+        <Input placeholder="Certification" className="formInput border-secondary !shadow-none" />
       </Form.Item>
 
       {/* 帳號 Account */}

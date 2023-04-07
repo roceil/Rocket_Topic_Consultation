@@ -28,18 +28,12 @@ export default function ResetPasswordForm() {
     <ConfigProvider
       theme={{
         token: {
-          colorTextPlaceholder: '#5D5A88',
-          colorText: '#5D5A88',
-          colorBorder: '#D4D2E3',
-          colorIcon: '#5D5A88',
-        },
-        components: {
-          Button: {
-            colorPrimaryHover: '#5D5A88',
-            colorPrimaryActive: '#5D5A88',
-            colorText: '#5D5A88',
-            colorTextDisabled: '#fff',
-          },
+          colorTextPlaceholder: '#4A5364',
+          colorText: '#4A5364',
+          colorBorder: '#4A5364',
+          colorPrimaryBorderHover: '#4A5364',
+          colorPrimaryHover: '#4A5364',
+          colorPrimaryActive: '#4A5364',
         },
       }}
     >

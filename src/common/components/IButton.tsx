@@ -8,17 +8,17 @@ export interface IBtnStyle {
   fontSize: string;
   px?: string;
   py?: string;
-  // eslint-disable-next-line react/no-unused-prop-types
+  mode?: 'light' | 'dark';
   onClick?: () => void;
+  extraStyle?: string;
 }
 
-export function IButton({ text, fontSize, px, py }: IBtnStyle) {
+export function IButton({ text, fontSize, px, py, mode, onClick, extraStyle }: IBtnStyle) {
+  const btnStyle = mode === 'dark' ? 'btnHoverDark' : 'btnHover';
+  const textStyle = mode === 'dark' ? 'btnHoverTextDark' : 'btnHoverText';
   return (
-    <button
-      type="button"
-      className={`btnHover group ${px} ${py}`}
-    >
-      <span className={`${fontSize} btnHoverText`}>{text}</span>
+    <button type="button" className={`group ${btnStyle} ${px} ${py} ${extraStyle}`} onClick={onClick}>
+      <span className={`${fontSize} ${textStyle}`}>{text}</span>
     </button>
   );
 }
