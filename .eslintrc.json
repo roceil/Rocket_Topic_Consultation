@@ -39,7 +39,6 @@
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 1, "maxEOF": 1 }],
     "object-curly-newline": ["error", { "consistent": true }],
-    "max-len": ["error", { "code": 250 }],
-    "react/destructuring-assignment": "off"
+    "max-len": ["error", { "code": 250 }]
   }
 }

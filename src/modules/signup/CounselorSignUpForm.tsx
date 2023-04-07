@@ -22,7 +22,7 @@ export default function CounselorSignUpForm() {
   const counselorSignUpPost = async (Name: string, thumbUrl: string, Certification: string, Account: string, Password: string, ConfirmPassword: string) => {
     const res = await counselorSignUpPostApi({
       Name,
-      License: "測試檔名",
+      License: '測試檔名',
       Certification,
       Account,
       Password,
