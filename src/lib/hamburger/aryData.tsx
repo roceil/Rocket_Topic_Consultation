@@ -32,7 +32,7 @@ export const userCenterAry = [
 export const counselorListAry = [
   {
     labelName: '諮商師總覽',
-    link: '/counselorlist',
+    link: '/counselorlist/1',
     icon: <SearchOutlined className="text-lg" />,
   },
 ];
@@ -41,7 +41,7 @@ export const counselorListAry = [
 export const userListAry = [
   {
     labelName: '諮商師總覽',
-    link: '/counselorlist',
+    link: '/counselorlist/1',
     icon: <SearchOutlined className="text-lg" />,
   },
   {

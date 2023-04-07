@@ -24,20 +24,22 @@ export interface ISearchCapsuleProps {
 
 export interface IUserOnFinishProps {
   Name: string;
-  Password: string;
-  Email: string;
+  Sex: string;
   DatePicker: {
     $d: Date;
   };
-  Gender: string;
+  Account: string;
+  Password: string;
+  ConfirmPassword: string;
 }
 
 export interface ICounselorOnFinishProps {
   Name: string;
-  License: [];
+  License: any;
   Certification: string;
-  Email: string;
+  Account: string;
   Password: string;
+  ConfirmPassword: string;
 }
 
 export interface IUserCenterLayoutProps {
@@ -56,4 +58,5 @@ export interface ICounselorListCardProps {
   subtitle: string;
   description: string;
   img: string;
+  id: number;
 }

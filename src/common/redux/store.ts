@@ -8,6 +8,7 @@ import { login } from './service/login';
 import { forgetPassword } from './service/forgetPassword';
 import { resetPassword } from './service/resetPassword';
 import { signUp } from './service/signUp';
+import { counselorList } from './service/counselorList';
 
 const reducers = combineReducers({
   userCenterSlice,
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   [forgetPassword.reducerPath]: forgetPassword.reducer,
   [resetPassword.reducerPath]: resetPassword.reducer,
   [signUp.reducerPath]: signUp.reducer,
+  [counselorList.reducerPath]: counselorList.reducer,
 });
 
 const store = configureStore({
@@ -26,7 +28,8 @@ const store = configureStore({
     .concat(login.middleware)
     .concat(forgetPassword.middleware)
     .concat(resetPassword.middleware)
-    .concat(signUp.middleware),
+    .concat(signUp.middleware)
+    .concat(counselorList.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });

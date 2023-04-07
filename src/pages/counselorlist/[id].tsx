@@ -1,5 +1,6 @@
 import { ConfigProvider, Breadcrumb, Select } from 'antd';
-import { counselorData, counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselorData';
+import { IButton } from '@/common/components/IButton';
+import { counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselorData';
 import SearchCapsule from '../../common/components/SearchCapsule';
 import CounselorListCard from '../../modules/counselorList/CounselorListCard';
 import CommonPagination from '../../common/components/CommonPagination';
@@ -9,7 +10,43 @@ const handleMobileSelectorChange = (value: string[]) => {
   console.log('🚀 ~ file: index.tsx:8 ~ handleMobileSelectorChange ~ value:', value);
 };
 
-export default function CounselorList() {
+export const getServerSideProps = async ({ query: { id } }: { query: { id: string } }) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/${id}`);
+    const data = await res.json();
+    return {
+      props: {
+        data,
+        pageId: id,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        data: 'error',
+      },
+    };
+  }
+};
+
+interface ICounselorListProps {
+  Message: {
+    id: number;
+    counselorName: string;
+    subtitle: string;
+    description: string;
+    img: string;
+  }[];
+}
+
+export default function CounselorList({ data: { Message }, pageId }: { data: ICounselorListProps; pageId: string }) {
+  // 用於確認是否有換頁
+  console.log('🚀 ~ file: [id].tsx:43 ~ CounselorList ~ pageId:', pageId);
+
+  // 用於確認是否有值
+  const counselorData = typeof Message !== 'string' ? Message : [];
+  console.log('🚀 ~ file: [id].tsx:47 ~ CounselorList ~ Message:', Message);
+
   return (
     <>
       {/* 分頁標題 */}
@@ -47,7 +84,7 @@ export default function CounselorList() {
             >
               <Select
                 mode="multiple"
-                className="w-full ring-1 rounded-full fakeBorder"
+                className="fakeBorder w-full rounded-full ring-1"
                 onChange={handleMobileSelectorChange}
                 options={selectOptions}
                 dropdownMatchSelectWidth={false}
@@ -59,13 +96,11 @@ export default function CounselorList() {
               />
             </ConfigProvider>
           </div>
-
+          {/* 電腦版 膠囊選擇器 */}
           <ul className="hidden space-x-4 lg:mb-7 lg:flex">
             {selectOptions?.map(({ label, value }) => (
               <li key={value}>
-                <button type="button" className=" rounded-full fakeBorder text-xs text-secondary hover:opacity-50 focus:bg-secondary focus:text-white lg:w-[146px] lg:py-3 lg:text-base lg:font-bold">
-                  {`# ${label}`}
-                </button>
+                <IButton text={`# ${label}`} fontSize="text-xs lg:text-base" py="py-3" px="px-8" />
               </li>
             ))}
           </ul>
@@ -115,11 +150,11 @@ export default function CounselorList() {
         <div className="container">
           {/* 清單區塊 */}
           <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-center lg:gap-x-[52px]  lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px]">
-            {counselorData.map(({ counselorName, subtitle, img, description, id }, index) => {
+            {counselorData?.map(({ counselorName, subtitle, img, description, id }, index) => {
               if (index < 5) {
-                return <CounselorListCard key={id} className="before" counselorName={counselorName} subtitle={subtitle} img={img} description={description} />;
+                return <CounselorListCard key={id} className="before" counselorName={counselorName} subtitle={subtitle} img={img} description={description} id={id} />;
               }
-              return <CounselorListCard key={id} className="after" counselorName={counselorName} subtitle={subtitle} img={img} description={description} />;
+              return <CounselorListCard key={id} className="after" counselorName={counselorName} subtitle={subtitle} img={img} description={description} id={id} />;
             })}
           </ul>
 

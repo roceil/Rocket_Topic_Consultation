@@ -9,7 +9,6 @@ export interface IBtnStyle {
   px?: string;
   py?: string;
   mode?: 'light' | 'dark';
-  // eslint-disable-next-line react/no-unused-prop-types
   onClick?: () => void;
   extraStyle?: string;
 }

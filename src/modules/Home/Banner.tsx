@@ -13,7 +13,7 @@ export default function Banner() {
           <h1 className="text-5xl font-bold text-secondary">Slogan</h1>
           <p className="mt-5 text-[14px] text-gray-900 lg:mt-[84px] lg:max-w-[612px] lg:text-left lg:text-lg">那些你說不出口的話，我們來聽！</p>
           <div className="mt-10 flex space-x-4 lg:mt-[52px] ">
-            <Link href="counselorlist" className="">
+            <Link href="counselorlist/1" className="">
               <IButton text="尋找專屬諮商師" px="px-7 lg:px-9" py="py-4 lg:py-5" fontSize="text-[14px] lg:text-base" mode="dark" />
             </Link>
             <Link href="/signup" className="">
