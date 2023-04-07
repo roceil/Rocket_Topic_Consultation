@@ -33,13 +33,6 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
       </div>
 
       <div className="flex justify-center space-x-5 lg:justify-end">
-        {/* <button
-          type="button"
-          className="w-full max-w-[180px] rounded-full border border-primary-heavy py-4 font-bold text-primary-heavy"
-          onClick={edit}
-        >
-          編輯
-        </button> */}
         <IButton text="編輯" fontSize="text-base" px="px-[74px]" py="py-4" mode="light" onClick={edit} />
         <IButton text="儲存" fontSize="text-base" px="px-[74px]" py="py-4" mode="dark" onClick={save} />
       </div>
