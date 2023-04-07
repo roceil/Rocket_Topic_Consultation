@@ -41,12 +41,12 @@ const userInfo = [
 export default function CounselorHasCancel() {
   return (
     <div className="overflow-x-auto rounded-2xl bg-gray-200 pb-9 lg:pb-12">
-      <ul className="flex w-[624px] border-b border-gray-400  py-5 pl-[29px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
+      <ul className="flex w-[624px] border-b border-gray-400  py-5 pl-[40px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
         <li className="w-[20.1438%] lg:pl-11">個案姓名</li>
         <li className="w-[20.1438%] lg:pl-3">諮商議題</li>
         <li className="w-[20.1438%]">諮商日期</li>
         <li className="w-[20.1438%]">諮商時間</li>
-        <li className="w-[19.4244%] lg:pr-10">個案記錄</li>
+        <li className="w-[19.4244%] mr-5 lg:mr-0 lg:pr-10">個案記錄</li>
       </ul>
 
       <ul className="w-[588px] space-y-4 px-[17px] pt-5 lg:w-auto lg:px-7 lg:pt-7">

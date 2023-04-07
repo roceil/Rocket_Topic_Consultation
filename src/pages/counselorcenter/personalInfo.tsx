@@ -699,11 +699,7 @@ export default function CounselorCenter() {
                   },
                 }}
               >
-                <Tabs
-                  tabPosition="left"
-                  items={counselorInfoTabAry}
-                  defaultActiveKey="預約管理"
-                />
+                <CounselorInfoTab />
               </ConfigProvider>
             </div>
           </div>

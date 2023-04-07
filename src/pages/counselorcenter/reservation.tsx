@@ -53,10 +53,8 @@ export default function reservation() {
       {/* 手機版 預約管理 */}
       <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
         <div className="container">
-          <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
-            目前尚無預約
-          </div>
           <h2 className="mb-12 text-center leading-loose lg:hidden">預約管理</h2>
+          <CounselorReservationTab />
         </div>
       </section>
 

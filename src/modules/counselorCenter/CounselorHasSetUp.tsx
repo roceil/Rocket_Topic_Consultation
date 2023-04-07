@@ -41,12 +41,12 @@ const userInfo = [
 export default function CounselorHasSetUp() {
   return (
     <div className="overflow-x-auto rounded-2xl bg-gray-200 pb-9 lg:pb-12">
-      <ul className="flex w-[624px] border-b border-gray-400  py-5 pl-[29px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
-        <li className="w-[15.2631%] lg:w-[18.0498%] lg:pl-[95px] lg:text-left">個案姓名</li>
+      <ul className="flex w-[761px] border-b border-gray-400  py-5 pl-[40px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
+        <li className="w-[15.2631%] lg:w-[18.0498%]  lg:pl-[92px] lg:text-left">個案姓名</li>
         <li className="w-[15.2631%] lg:w-[14.1762%] lg:pl-3">諮商議題</li>
-        <li className="w-[15.2631%] lg:w-[19.5402%]">預約日期</li>
-        <li className="w-[15.2631%] lg:w-[11.6858%]">預約時間</li>
-        <li className="w-[22.7332%] lg:w-[17.1455%]">加入Google日曆</li>
+        <li className="w-[15.2631%] lg:w-[19.5402%] pl-3 ">預約日期</li>
+        <li className="w-[15.2631%] lg:w-[11.6858%] pl-4">預約時間</li>
+        <li className="w-[22.7332%] lg:w-[17.1455%] pl-5">加入Google日曆</li>
         <li className="w-[16.2943%] pl-[20px] text-left lg:w-[17.3371%] lg:pl-[55px]">個案記錄</li>
       </ul>
 
