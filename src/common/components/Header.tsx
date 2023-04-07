@@ -54,7 +54,7 @@ export default function Header() {
             {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
             <Link href="/counselorlist/1" className="flex flex-shrink-0 justify-center">
-              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" />
+              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" />
             </Link>
           </ConfigProvider>
         </div>
