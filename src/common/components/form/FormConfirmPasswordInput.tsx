@@ -22,7 +22,7 @@ export default function FormConfirmPasswordInput() {
         }),
       ]}
     >
-      <Input.Password placeholder="Confirm password" className="formInput" />
+      <Input.Password placeholder="Confirm password" className="formInput border-secondary !shadow-none" />
     </Form.Item>
   );
 }

@@ -26,22 +26,23 @@ export default function LoginTab() {
     <ConfigProvider
       theme={{
         token: {
-          colorTextPlaceholder: '#5D5A88',
-          colorText: '#5D5A88',
+          colorText: '#4A5364',
           colorBorder: '#D4D2E3',
-          colorIcon: '#5D5A88',
+          colorIcon: '#4A5364',
+          colorPrimaryHover: '#4A5364',
+          colorPrimaryActive: '#4A5364',
         },
         components: {
           Tabs: {
             colorText: '#D4D2E3',
-            colorPrimary: '#5D5A88',
+            colorPrimary: '#4A5364',
           },
           Checkbox: {
             borderRadius: 0,
           },
           Button: {
-            colorPrimaryHover: '#5D5A88',
-            colorPrimaryActive: '#5D5A88',
+            colorPrimaryHover: '#4A5364',
+            colorPrimaryActive: '#4A5364',
             colorTextDisabled: '#fff',
           },
         },

@@ -22,7 +22,7 @@ export default function CounselorSignUpForm() {
   const counselorSignUpPost = async (Name: string, thumbUrl: string, Certification: string, Account: string, Password: string, ConfirmPassword: string) => {
     const res = await counselorSignUpPostApi({
       Name,
-      License: thumbUrl,
+      License: "測試檔名",
       Certification,
       Account,
       Password,
@@ -54,7 +54,7 @@ export default function CounselorSignUpForm() {
   };
 
   return (
-    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="space-y-8" labelAlign="left">
+    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="CounselorSignUp space-y-8" labelAlign="left">
       {/* 姓名、執照 */}
       <Form.Item className="-mb-6">
         <Space className="flex items-start justify-between">
@@ -76,7 +76,7 @@ export default function CounselorSignUpForm() {
             ]}
           >
             <Upload listType="picture" maxCount={1}>
-              <Button className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full sm:w-[180px]" icon={<PlusCircleOutlined className="text-xl" />}>
+              <Button className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full border-secondary bg-white sm:w-[180px]" icon={<PlusCircleOutlined className="text-xl" />}>
                 License
               </Button>
             </Upload>
@@ -86,7 +86,7 @@ export default function CounselorSignUpForm() {
 
       {/* 證書字號 */}
       <Form.Item name="Certification" label="諮商師證書字號 Certification" rules={[{ required: true, message: '請輸入證書字號' }]}>
-        <Input placeholder="Certification" className="formInput" />
+        <Input placeholder="Certification" className="formInput border-secondary !shadow-none" />
       </Form.Item>
 
       {/* 帳號 Account */}
@@ -124,14 +124,14 @@ export default function CounselorSignUpForm() {
         <div className="flex items-center justify-between">
           <Checkbox>
             我已同意
-            <Link href="/" className="underline">
+            <Link href="/" className="underline hover:text-secondary hover:opacity-50">
               隱私權條款
             </Link>
           </Checkbox>
 
           <div className="flex h-8 items-center">
             <p>已成為會員？</p>
-            <Link href="/login">
+            <Link href="/login" className="hover:text-secondary hover:opacity-50">
               <p className="ml-2 underline">立即登入</p>
             </Link>
           </div>

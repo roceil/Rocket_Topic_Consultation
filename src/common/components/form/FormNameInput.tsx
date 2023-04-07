@@ -14,7 +14,7 @@ export default function FormNameInput() {
         },
       ]}
     >
-      <Input placeholder="Name" className="formInput" />
+      <Input placeholder="Name" className="formInput border-secondary !shadow-none" />
     </Form.Item>
   );
 }

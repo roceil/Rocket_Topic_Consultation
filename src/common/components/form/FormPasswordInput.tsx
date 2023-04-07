@@ -2,15 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Form, Input, Space } from 'antd';
 
-export default function FormPasswordInput({
-  needLink,
-  extraRules,
-  label,
-}: {
-  needLink: boolean;
-  extraRules?: any[];
-  label?: string;
-}) {
+export default function FormPasswordInput({ needLink, extraRules, label }: { needLink: boolean; extraRules?: any[]; label?: string }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
@@ -28,17 +20,13 @@ export default function FormPasswordInput({
       <Space className="block">
         <Input.Password
           placeholder="Password"
-          className="formInput"
+          className="formInput border-secondary hover:border-secondary !shadow-none"
           visibilityToggle={{
             visible: passwordVisible,
             onVisibleChange: setPasswordVisible,
           }}
         />
-        <Link
-          style={needLink ? { visibility: 'visible' } : { visibility: 'hidden' }}
-          href="/forgetpassword"
-          className="absolute right-0 flex justify-end underline underline-offset-2"
-        >
+        <Link style={needLink ? { visibility: 'visible' } : { visibility: 'hidden' }} href="/forgetpassword" className="absolute right-0 flex justify-end underline underline-offset-2 hover:text-secondary hover:opacity-50">
           忘記密碼？
         </Link>
       </Space>

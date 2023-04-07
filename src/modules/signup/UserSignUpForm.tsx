@@ -48,7 +48,7 @@ export default function UserSignUpForm() {
   };
 
   return (
-    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="space-y-8" labelAlign="left">
+    <Form layout="vertical" form={form} name="register-user" onFinish={onFinish} className="UserSignUp space-y-8" labelAlign="left">
       {/* 姓名、性別 */}
       <Form.Item className="-mb-6">
         <Space className="flex justify-between">
@@ -59,7 +59,7 @@ export default function UserSignUpForm() {
           <Form.Item
             name="Sex"
             label="性別 Sex"
-            className="inline-block w-[160px] sm:w-[180px]"
+            className="userSignUpGender inline-block w-[160px] sm:w-[180px]"
             rules={[
               {
                 required: true,
@@ -87,7 +87,7 @@ export default function UserSignUpForm() {
           },
         ]}
       >
-        <DatePicker className={`${inputStyle} w-full`} placeholder="Select date" />
+        <DatePicker className={`${inputStyle} w-full border-secondary  focus:shadow-none`} placeholder="Select date" />
       </Form.Item>
 
       {/* 帳號 Account */}
@@ -125,15 +125,15 @@ export default function UserSignUpForm() {
         <div className="flex items-center justify-between">
           <Checkbox>
             我已同意
-            <Link href="/" className="underline">
+            <Link href="/" className="underline hover:text-secondary hover:opacity-50">
               隱私權條款
             </Link>
           </Checkbox>
 
           <div className="flex h-8 items-center">
             <p>已成為會員？</p>
-            <Link href="/login">
-              <p className="ml-2 underline">立即登入</p>
+            <Link href="/login" className="hover:text-secondary hover:opacity-50">
+              <p className="ml-2 underline ">立即登入</p>
             </Link>
           </div>
         </div>

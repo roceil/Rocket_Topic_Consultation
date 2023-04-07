@@ -4,32 +4,36 @@ import { ISearchCapsuleProps } from '../../types/interface';
 
 export default function SearchCapsule({ colorPrimary, borderRadius, controlHeight, colorBgContainer, placeholder }: ISearchCapsuleProps) {
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary,
-          colorIcon: colorPrimary,
-          colorTextPlaceholder: colorPrimary,
-          colorText: colorPrimary,
-          colorBgContainer,
-          controlOutline: colorPrimary,
-          controlHeight,
-        },
-      }}
-    >
-      <Input
-        placeholder={placeholder}
-        style={{
-          borderRadius,
+    <div className="searchCapsule">
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary,
+            colorIcon: colorPrimary,
+            colorTextPlaceholder: colorPrimary,
+            colorText: colorPrimary,
+            colorBgContainer,
+            controlOutline: colorPrimary,
+            controlHeight,
+          },
         }}
-        suffix={(
-          <SearchOutlined
-            style={{
-              color: colorPrimary,
-            }}
-          />
-        )}
-      />
-    </ConfigProvider>
+      >
+        <Input
+          placeholder={placeholder}
+          className="fakeBorder border-0"
+          style={{
+            borderRadius,
+          }}
+          suffix={(
+            <SearchOutlined
+              className="text-lg"
+              style={{
+                color: colorPrimary,
+              }}
+            />
+          )}
+        />
+      </ConfigProvider>
+    </div>
   );
 }
