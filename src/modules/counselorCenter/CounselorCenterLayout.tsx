@@ -31,7 +31,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
             <ul className="flex flex-col space-y-4 text-secondary">
               {/* 個人資料 */}
               <li className={`${isCounselorCenter} hover:opacity-100`}>
-                <Link href="/counselorcenter">
+                <Link href="/counselorcenter/personalInfo">
                   <button
                     type="button"
                     className="border-l-2 border-secondary p-4 font-bold"
