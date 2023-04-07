@@ -12,7 +12,7 @@ export default function FormAccountInput() {
         },
       ]}
     >
-      <Input placeholder="Email address" className="formInput border-secondary" />
+      <Input placeholder="Email address" className="formInput border-secondary !shadow-none placeholder:text-gray-500" />
     </Form.Item>
   );
 }

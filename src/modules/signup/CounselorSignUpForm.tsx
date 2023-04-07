@@ -84,7 +84,7 @@ export default function CounselorSignUpForm() {
 
       {/* 證書字號 */}
       <Form.Item name="Certification" label="諮商師證書字號 Certification" rules={[{ required: true, message: '請輸入證書字號' }]}>
-        <Input placeholder="Certification" className="formInput border-secondary" />
+        <Input placeholder="Certification" className="formInput border-secondary !shadow-none" />
       </Form.Item>
 
       {/* 帳號 Account */}

@@ -70,7 +70,7 @@ export default function HamburgerModal() {
         className="hamburger-menu"
       >
         {/* 課程連結文字欄 */}
-        <div className={`${handleDisplay} mb-[52px] flex w-full flex-col justify-center rounded-[10px] bg-primary-heavy py-3`}>
+        <div className={`${handleDisplay} mb-8 flex w-full flex-col justify-center rounded-[10px] bg-primary-heavy py-3`}>
           <p className="text-center text-base font-bold text-secondary">目前尚無預約</p>
         </div>
 
@@ -79,7 +79,7 @@ export default function HamburgerModal() {
           {/* 這裡會列出前兩個按鈕 */}
           {checkIdentity.map(({ labelName, link, icon }) => (
             <li key={labelName} className="border-b-2 border-gray-400 py-5 ">
-              <Link href={link} className="flex items-center justify-start space-x-5 text-secondary">
+              <Link href={link} className="flex items-center justify-start space-x-5 text-gray-900">
                 {icon}
                 <button type="button" onClick={handleCancel} className="text-lg font-bold ">
                   {labelName}
@@ -90,7 +90,7 @@ export default function HamburgerModal() {
 
           {/* 這裡會列出會員中心的子按鈕 */}
           <li className={`${handleDisplay} border-b-2 border-gray-400 py-5`}>
-            <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-secondary">
+            <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-gray-900">
               <UserOutlined className="text-lg" />
               <button type="button" onClick={handleCancel} className="text-lg font-bold ">
                 會員中心
@@ -99,7 +99,7 @@ export default function HamburgerModal() {
             <div className="mt-4 flex flex-col items-start space-y-4 text-secondary">
               {checkCenter.map(({ lableName, link }) => (
                 <Link key={lableName} href={link}>
-                  <button type="button" onClick={handleCancel} className="ml-[38px] text-base">
+                  <button type="button" onClick={handleCancel} className="ml-[38px] text-base text-gray-900">
                     {lableName}
                   </button>
                 </Link>
@@ -110,7 +110,7 @@ export default function HamburgerModal() {
 
         {/* 登入登出按鈕 */}
         <Link href={handleLink} className="w-full">
-          <button type="button" className="mt-20 h-[56px] w-full rounded-full bg-gray-400 text-base font-bold text-gray-900" onClick={loginLogout}>
+          <button type="button" className="mt-20 h-[56px] w-full rounded-full bg-gray-300 text-base font-bold text-gray-900" onClick={loginLogout}>
             {handleText}
           </button>
         </Link>

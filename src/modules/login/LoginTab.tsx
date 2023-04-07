@@ -26,11 +26,11 @@ export default function LoginTab() {
     <ConfigProvider
       theme={{
         token: {
-          colorTextPlaceholder: '#4A5364',
           colorText: '#4A5364',
           colorBorder: '#D4D2E3',
           colorIcon: '#4A5364',
           colorPrimaryHover: '#4A5364',
+          colorPrimaryActive: '#4A5364',
         },
         components: {
           Tabs: {

@@ -45,15 +45,24 @@
     @apply flex items-center justify-center;
   }
   .fakeBorder {
-    box-shadow: inset 0 0 0 1.5px #4A5364;
+    box-shadow: inset 0 0 0 1.5px #4a5364;
   }
   .fakeBorderHover {
-    box-shadow: inset 0 0 0 1.5px #BDBDBD;
+    box-shadow: inset 0 0 0 1.5px #fff;
   }
   .btnHover {
-    @apply fakeBorder relative inline-block flex-shrink-0 overflow-hidden rounded-full bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:bg-secondary before:transition before:duration-500 before:ease-in-out lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100 cursor-pointer active:scale-[0.8]
+    @apply fakeBorder before:fakeBorder relative inline-block flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:rounded-full before:bg-secondary before:transition before:duration-500 before:ease-in-out active:scale-[0.8] lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100;
   }
   .btnHoverText {
-    @apply justify-center relative z-0 flex font-bold text-secondary lg:group-hover:text-gray-200
+    @apply relative z-0 flex justify-center font-bold text-secondary lg:group-hover:text-gray-200;
+  }
+  .btnHoverDark {
+    @apply relative overflow-hidden rounded-full bg-secondary font-bold text-white before:absolute before:inset-0 before:top-0 before:left-0 before:z-10 before:h-full before:w-full before:scale-0 before:rounded-full before:transition-all before:duration-500 active:scale-[0.8] lg:before:hover:scale-100 lg:before:hover:bg-white/30;
+  }
+  .btnHoverTextDark {
+    @apply relative z-20;
   }
 }
+
+
+

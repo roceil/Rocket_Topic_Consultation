@@ -83,7 +83,7 @@ function LogInForm() {
     <Form layout="vertical" form={form} name="logIn" onFinish={onFinish} className="space-y-8 px-4" labelAlign="left">
       <FormAccountInput />
 
-      <FormPasswordInput needLink />
+      <FormPasswordInput needLink label="密碼 Password" />
 
       <Form.Item className="pt-24">
         <div className="flex items-center justify-end">
