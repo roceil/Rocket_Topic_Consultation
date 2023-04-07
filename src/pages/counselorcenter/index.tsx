@@ -44,12 +44,10 @@ export default function index() {
   return (
     <>
       {/* 手機版 */}
-      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
+      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] bg-white">
         <div className="container">
-          <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">目前尚無預約</div>
           <h2 className="mb-12 text-center leading-loose lg:hidden text-secondary">個人資料</h2>
-
-          <div className="counselorTab mx-4">
+          <div className="counselorTab mx-4 ">
             <ConfigProvider
               theme={{
                 token: {

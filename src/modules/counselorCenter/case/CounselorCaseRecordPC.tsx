@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { SearchOutlined } from '@ant-design/icons';
+import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { ConfigProvider, Input } from 'antd';
-import right from '../../../../public/images/Right.svg';
 import userImg from '../../../../public/images/User01.jpg';
+import CommonPagination from '@/common/components/CommonPagination';
 
 const userInfo = [
   {
@@ -103,7 +103,7 @@ export default function CounselorCaseRecordPC() {
         </ConfigProvider>
       </div>
 
-      <div className="flex justify-between space-x-[60px] rounded-2xl bg-gray-200 pb-9 text-gray-900 lg:p-8 lg:pb-12">
+      <div className="flex justify-between space-x-[60px] rounded-2xl bg-gray-200 pb-9 text-gray-900 lg:p-8 lg:pb-12 mb-10">
         <ul className="flex flex-wrap">
           {userInfo.map((item) => (
             <li key={item.id} className="mr-[20px] w-[278px] rounded-xl">
@@ -117,7 +117,7 @@ export default function CounselorCaseRecordPC() {
                     height={40}
                     src={item.image}
                     alt="user_pic"
-                    className="rounded-full"
+                    className="rounded-full object-cover h-10 w-10 text-gray-900"
                   />
                   <p>{item.name}</p>
                 </div>
@@ -128,13 +128,14 @@ export default function CounselorCaseRecordPC() {
                 </div>
 
                 <div className="flex w-[11.7647%] justify-center ">
-                  <Image src={right} width={16} height={16} alt="icons" />
+                  <RightOutlined style={{ fontSize: '16px', color: '#F5F5F5' }} />
                 </div>
               </button>
             </li>
           ))}
         </ul>
       </div>
+      <CommonPagination />
     </div>
   );
 }
