@@ -26,12 +26,16 @@ function LogInForm() {
   // 使用者登入函式
   const userLoginPost = async (Email: string, Password: string) => {
     const res = await userLoginPostApi({
-      Email,
+      Account: Email,
       Password,
     });
     console.log('🚀 ~ file: LogInForm.tsx:27 ~ userLoginPost ~ res:', res);
     if ('error' in res) {
       console.log(res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
@@ -46,11 +50,15 @@ function LogInForm() {
   // 諮商師登入函式
   const counselorLoginPost = async (Email: string, Password: string) => {
     const res = await counselorLoginPostApi({
-      Email,
+      Account: Email,
       Password,
     });
     if ('error' in res) {
       console.log(res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
@@ -75,7 +83,7 @@ function LogInForm() {
     <Form layout="vertical" form={form} name="logIn" onFinish={onFinish} className="space-y-8 px-4" labelAlign="left">
       <FormAccountInput />
 
-      <FormPasswordInput needLink />
+      <FormPasswordInput needLink label="密碼 Password" />
 
       <Form.Item className="pt-24">
         <div className="flex items-center justify-end">

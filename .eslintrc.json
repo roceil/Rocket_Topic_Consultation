@@ -24,9 +24,9 @@
 
   "settings": {
     "import/resolver": {
-        "typescript": {}
+      "typescript": {}
     }
-},
+  },
   "plugins": ["react", "@typescript-eslint"],
 
   //設定的rules會再蓋掉前者預設的規範，例如在extends引入的規範
@@ -39,6 +39,7 @@
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 1, "maxEOF": 1 }],
     "object-curly-newline": ["error", { "consistent": true }],
-    "max-len": ["error", {"code": 250}]
+    "max-len": ["error", { "code": 250 }],
+    "react/destructuring-assignment": "off"
   }
 }
