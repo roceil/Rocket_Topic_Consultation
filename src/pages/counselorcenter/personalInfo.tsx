@@ -1,20 +1,29 @@
 import Image from 'next/image';
 import {
   Button,
-  ConfigProvider, Form, Input, Tabs, Upload, message, Switch, Select,
+  ConfigProvider,
+  Form,
+  Input,
+  Tabs,
+  Upload,
+  message,
+  Switch,
+  Select,
 } from 'antd';
 import type { UploadProps } from 'antd';
 import { useState } from 'react';
 
 import { PlusCircleFilled } from '@ant-design/icons';
 import { IButton } from '@/common/components/IButton';
+import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 
 const conselor1 = {
   name: '李森',
   id: 1,
   LicenseNum: 12345678,
   slogan: '您的諮商年資、特殊經歷等...',
-  introduce: '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關',
+  introduce:
+    '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關',
 };
 
 interface CounselorProps {
@@ -24,20 +33,27 @@ interface CounselorProps {
   slogan: string;
   introduce: string;
 }
-  type LayoutType = Parameters<typeof Form>[0]['layout'];
+type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
 function InfoForm({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  name, id, LicenseNum, slogan, introduce,
-}:CounselorProps) {
+  name,
+  id,
+  LicenseNum,
+  slogan,
+  introduce,
+}: CounselorProps) {
   // 控制 disabled
   const [editInfo, setEditInfo] = useState<boolean>(true);
   const [form] = Form.useForm();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
-  const formItemLayout = formLayout === 'vertical' ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } } : null;
+  const formItemLayout =
+    formLayout === 'vertical'
+      ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } }
+      : null;
 
-  const onFinish = (values:any) => {
+  const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
   // Upload
@@ -67,7 +83,9 @@ function InfoForm({
   };
 
   // 個人簡介
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     console.log('Change:', e.target.value);
   };
   // Switch
@@ -76,9 +94,9 @@ function InfoForm({
   };
   return (
     <>
-      <div className="w-full px-4 space-y-12 lg:border-b pb-12">
+      <div className="w-full space-y-12 px-4 pb-12 lg:border-b">
         <div className="space-y-5">
-          <div className="bg-[#EEECFA] text-center rounded-lg py-2 text-base font-bold">
+          <div className="rounded-lg bg-[#EEECFA] py-2 text-center text-base font-bold">
             <h3>會員資料</h3>
           </div>
           <div className="space-y-[4.5px] lg:mx-[15px]">
@@ -109,18 +127,33 @@ function InfoForm({
               className="space-y-8"
               labelAlign="left"
             >
-              <Form.Item name="重設密碼" label="重設密碼" className="font-bold lg:w-[124px] lg:mx-[15px]">
-                <Button className="font-normal" block style={{ height: 40 }}>點我重設密碼</Button>
+              <Form.Item
+                name="重設密碼"
+                label="重設密碼"
+                className="font-bold lg:mx-[15px] lg:w-[124px]"
+              >
+                <Button className="font-normal" block style={{ height: 40 }}>
+                  點我重設密碼
+                </Button>
               </Form.Item>
-              <Form.Item name="會員姓名" label="會員姓名" className="font-bold lg:w-[584px] lg:mx-[15px]">
-                <Input disabled={editInfo} placeholder={name} className="font-normal" style={{ height: 40 }} />
+              <Form.Item
+                name="會員姓名"
+                label="會員姓名"
+                className="font-bold lg:mx-[15px] lg:w-[584px]"
+              >
+                <Input
+                  disabled={editInfo}
+                  placeholder={name}
+                  className="font-normal"
+                  style={{ height: 40 }}
+                />
               </Form.Item>
               <Form.Item
                 name="upload"
                 label="諮商師執照"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
-                className="font-bold lg:w-[584px] lg:mx-[15px]"
+                className="font-bold lg:mx-[15px] lg:w-[584px]"
               >
                 <Upload {...props}>
                   <Button
@@ -132,14 +165,23 @@ function InfoForm({
                   </Button>
                 </Upload>
               </Form.Item>
-              <Form.Item name="諮商師證書字號" label="諮商師證書字號" className="font-bold lg:w-[584px] lg:mx-[15px]">
-                <Input placeholder={`${LicenseNum}`} className="font-normal" style={{ height: 40 }} disabled={editInfo} />
+              <Form.Item
+                name="諮商師證書字號"
+                label="諮商師證書字號"
+                className="font-bold lg:mx-[15px] lg:w-[584px]"
+              >
+                <Input
+                  placeholder={`${LicenseNum}`}
+                  className="font-normal"
+                  style={{ height: 40 }}
+                  disabled={editInfo}
+                />
               </Form.Item>
             </Form>
           </ConfigProvider>
         </div>
         <div className="space-y-5">
-          <div className="bg-[#EEECFA] text-center rounded-lg">
+          <div className="rounded-lg bg-[#EEECFA] text-center">
             <h3 className="py-2 text-base font-bold">個人簡介</h3>
           </div>
           <ConfigProvider
@@ -183,7 +225,11 @@ function InfoForm({
                   </Button>
                 </Upload>
               </Form.Item>
-              <Form.Item name="個人賣點" label="個人賣點" className="font-bold lg:w-[584px] lg:mx-[15px]">
+              <Form.Item
+                name="個人賣點"
+                label="個人賣點"
+                className="font-bold lg:mx-[15px] lg:w-[584px]"
+              >
                 <TextArea
                   showCount
                   maxLength={12}
@@ -194,7 +240,11 @@ function InfoForm({
                   disabled={editInfo}
                 />
               </Form.Item>
-              <Form.Item name="自我介紹" label="自我介紹" className="font-bold lg:w-[584px] lg:mx-[15px]">
+              <Form.Item
+                name="自我介紹"
+                label="自我介紹"
+                className="font-bold lg:mx-[15px] lg:w-[584px]"
+              >
                 <TextArea
                   showCount
                   maxLength={100}
@@ -206,15 +256,23 @@ function InfoForm({
                 />
               </Form.Item>
               <div className="lg:mx-[15px]">
-                <h3 className="text-sm font-bold mb-3">介紹影片</h3>
-                <div className="border border-[#D4D2E3] rounded-[10px] p-4 space-y-5 lg:w-[584px]">
+                <h3 className="mb-3 text-sm font-bold">介紹影片</h3>
+                <div className="space-y-5 rounded-[10px] border border-[#D4D2E3] p-4 lg:w-[584px]">
                   <div className="flex">
-                    <p className="w-[56px] mr-4">Youtube影片連結</p>
-                    <Input placeholder="請輸入影片連結" className="h-10 w-[207px] bg-primary-light border-none font-normal lg:w-[475px]" disabled={editInfo} />
+                    <p className="mr-4 w-[56px]">Youtube影片連結</p>
+                    <Input
+                      placeholder="請輸入影片連結"
+                      className="bg-primary-light h-10 w-[207px] border-none font-normal lg:w-[475px]"
+                      disabled={editInfo}
+                    />
                   </div>
                   <div className="flex">
-                    <p className="w-[56px] mr-4">是否開放</p>
-                    <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                    <p className="mr-4 w-[56px]">是否開放</p>
+                    <Switch
+                      defaultChecked
+                      onChange={SwitchOnChange}
+                      disabled={editInfo}
+                    />
                   </div>
                 </div>
               </div>
@@ -222,7 +280,7 @@ function InfoForm({
           </ConfigProvider>
         </div>
       </div>
-      <div className="space-x-7 flex justify-end mt-12">
+      <div className="mt-12 flex justify-end space-x-7">
         <IButton
           text="編輯"
           fontSize="text-[14px] lg:text-base"
@@ -231,12 +289,12 @@ function InfoForm({
           onClick={() => setEditInfo(false)}
         />
         {!editInfo && (
-        <IButton
-          text="儲存"
-          fontSize="text-[14px] lg:text-base"
-          px="px-[66px] lg:px-[74px]"
-          py="py-4"
-        />
+          <IButton
+            text="儲存"
+            fontSize="text-[14px] lg:text-base"
+            px="px-[66px] lg:px-[74px]"
+            py="py-4"
+          />
         )}
       </div>
     </>
@@ -257,7 +315,7 @@ function ClassInfo() {
   const [editInfo, setEditInfo] = useState<boolean>(true);
   // Form
   const [form] = Form.useForm();
-  const onFinish = (values:any) => {
+  const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
   // Switch
@@ -269,14 +327,16 @@ function ClassInfo() {
     console.log(`selected ${value}`);
   };
   // 課程特色
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     console.log('Change:', e.target.value);
   };
   return (
     <>
-      <div className="px-5 lg:mt-2 space-y-12">
+      <div className="space-y-12 px-5 lg:mt-2">
         <div className="flex">
-          <h3 className="font-bold mr-2">專長領域 *</h3>
+          <h3 className="mr-2 font-bold">專長領域 *</h3>
           <div className="space-x-3">
             <IButton
               text="一般成人"
@@ -360,7 +420,7 @@ function ClassInfo() {
           <p className="ml-4 mt-7 text-sm">可複選</p>
         </div>
         <div className="flex">
-          <h3 className="font-bold mr-2">課程方案 *</h3>
+          <h3 className="mr-2 font-bold">課程方案 *</h3>
           <div className="rounded-2xl bg-bg2 pb-9">
             <ul className="flex border-b border-secondary  py-5 text-sm font-bold text-primary-heavy lg:w-auto lg:px-0 lg:text-center">
               <li className="lg:w-[25%]">專長領域</li>
@@ -368,7 +428,7 @@ function ClassInfo() {
               <li className="lg:w-[25%]">定價</li>
               <li className="lg:w-[25%]">是否開放</li>
             </ul>
-            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-[804px]">
+            <ul className="w-[804px] space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
               <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
                 <ConfigProvider
                   theme={{
@@ -406,38 +466,74 @@ function ClassInfo() {
                     <div className="flex flex-col space-y-4">
                       <div className="flex w-[603px] items-center">
                         <div className="lg:w-[33.33%]">1 堂</div>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 124 }}
+                          />
                         </Form.Item>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
                         </Form.Item>
                       </div>
                       <div className="flex w-[603px] items-center">
                         <div className="lg:w-[33.33%]">3 堂</div>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 124 }}
+                          />
                         </Form.Item>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
                         </Form.Item>
                       </div>
                       <div className="flex w-[603px] items-center">
                         <div className="lg:w-[33.33%]">5 堂</div>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 124 }}
+                          />
                         </Form.Item>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
                         </Form.Item>
                       </div>
                       <div className="flex w-[603px] items-center">
                         <div className="lg:w-[33.33%]">體驗課 1 堂</div>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Input disabled={editInfo} placeholder="請填寫價格" className="font-normal" style={{ height: 40, width: 124 }} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 124 }}
+                          />
                         </Form.Item>
-                        <Form.Item className="lg:w-[33.33%] mb-0">
-                          <Switch defaultChecked onChange={SwitchOnChange} disabled={editInfo} />
+                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
                         </Form.Item>
                       </div>
                     </div>
@@ -448,9 +544,9 @@ function ClassInfo() {
           </div>
         </div>
         <div className="flex">
-          <h3 className="font-bold mr-2">課程特色 *</h3>
+          <h3 className="mr-2 font-bold">課程特色 *</h3>
           <div className="rounded-2xl bg-bg2 pb-9">
-            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-[804px]">
+            <ul className="w-[804px] space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
               <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
                 <ConfigProvider
                   theme={{
@@ -471,7 +567,7 @@ function ClassInfo() {
                     onFinish={onFinish}
                     style={{ width: 804 }}
                   >
-                    <div className="flex items-start px-[56px] mb-[33px]">
+                    <div className="mb-[33px] flex items-start px-[56px]">
                       <Select
                         disabled={editInfo}
                         defaultValue="一般成人"
@@ -488,13 +584,14 @@ function ClassInfo() {
                     <Form.Item
                       name="特色 1"
                       label="特色 1"
-                      className="px-[56px] mb-8"
+                      className="mb-8 px-[56px]"
                       rules={[
                         {
                           required: true,
                           message: '此項為必填',
                           whitespace: true,
-                        }]}
+                        },
+                      ]}
                     >
                       <TextArea
                         showCount
@@ -508,13 +605,14 @@ function ClassInfo() {
                     <Form.Item
                       name="特色 2"
                       label="特色 2"
-                      className="px-[56px] mb-8"
+                      className="mb-8 px-[56px]"
                       rules={[
                         {
                           required: true,
                           message: '此項為必填',
                           whitespace: true,
-                        }]}
+                        },
+                      ]}
                     >
                       <TextArea
                         showCount
@@ -528,13 +626,14 @@ function ClassInfo() {
                     <Form.Item
                       name="特色 3"
                       label="特色 3"
-                      className="px-[56px] mb-8"
+                      className="mb-8 px-[56px]"
                       rules={[
                         {
                           required: true,
                           message: '此項為必填',
                           whitespace: true,
-                        }]}
+                        },
+                      ]}
                     >
                       <TextArea
                         showCount
@@ -548,7 +647,7 @@ function ClassInfo() {
                     <Form.Item
                       name="特色 4"
                       label="特色 4"
-                      className="px-[56px] mb-8"
+                      className="mb-8 px-[56px]"
                     >
                       <TextArea
                         showCount
@@ -562,7 +661,7 @@ function ClassInfo() {
                     <Form.Item
                       name="特色 5"
                       label="特色 5"
-                      className="px-[56px] mb-8"
+                      className="mb-8 px-[56px]"
                     >
                       <TextArea
                         showCount
@@ -580,7 +679,7 @@ function ClassInfo() {
           </div>
         </div>
       </div>
-      <div className="space-x-7 flex justify-end mt-12">
+      <div className="mt-12 flex justify-end space-x-7">
         <IButton
           text="編輯"
           fontSize="text-[14px] lg:text-base"
@@ -589,17 +688,15 @@ function ClassInfo() {
           onClick={() => setEditInfo(false)}
         />
         {!editInfo && (
-        <IButton
-          text="儲存"
-          fontSize="text-[14px] lg:text-base"
-          px="px-[66px] lg:px-[74px]"
-          py="py-4"
-        />
+          <IButton
+            text="儲存"
+            fontSize="text-[14px] lg:text-base"
+            px="px-[66px] lg:px-[74px]"
+            py="py-4"
+          />
         )}
-
       </div>
     </>
-
   );
 }
 
@@ -607,13 +704,15 @@ const counselorInfoTabAry = [
   {
     key: '基本資料',
     label: '基本資料',
-    children: <InfoForm
-      name={conselor1.name}
-      id={conselor1.id}
-      LicenseNum={conselor1.LicenseNum}
-      slogan={conselor1.slogan}
-      introduce={conselor1.introduce}
-    />,
+    children: (
+      <InfoForm
+        name={conselor1.name}
+        id={conselor1.id}
+        LicenseNum={conselor1.LicenseNum}
+        slogan={conselor1.slogan}
+        introduce={conselor1.introduce}
+      />
+    ),
   },
   {
     key: '課程資訊',
@@ -628,7 +727,7 @@ const counselorInfoTabAry = [
 ];
 
 // 控制右側選單函式
-function CounselorInfoTab() {
+export function CounselorInfoTab() {
   // 顯示分頁位置函式
   const onChange = (key: string) => {
     console.log('🚀 ~ file: reservation.tsx:23 ~ onChange ~ key:', key);
@@ -645,7 +744,11 @@ function CounselorInfoTab() {
           },
         }}
       >
-        <Tabs defaultActiveKey="會員資料" items={counselorInfoTabAry} onChange={onChange} />
+        <Tabs
+          defaultActiveKey="會員資料"
+          items={counselorInfoTabAry}
+          onChange={onChange}
+        />
       </ConfigProvider>
     </div>
   );
@@ -690,17 +793,19 @@ export default function CounselorCenter() {
               會員中心
             </h3>
             <div className="userCenterTab">
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#767494',
-                    colorText: '#767494',
-                    fontSize: 16,
-                  },
-                }}
-              >
-                <CounselorInfoTab />
-              </ConfigProvider>
+              <CounselorCenterLayout>
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#767494',
+                      colorText: '#767494',
+                      fontSize: 16,
+                    },
+                  }}
+                >
+                  <CounselorInfoTab />
+                </ConfigProvider>
+              </CounselorCenterLayout>
             </div>
           </div>
         </div>

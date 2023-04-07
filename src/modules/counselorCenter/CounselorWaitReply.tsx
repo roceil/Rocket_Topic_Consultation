@@ -42,8 +42,8 @@ export default function CounselorWaitReply() {
   return (
     <div className="overflow-x-auto rounded-2xl bg-gray-200 pb-9 lg:pb-12">
       <ul className="flex w-[624px] border-b border-gray-400  py-5 pl-[29px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
-        <li className="lg:w-[17.5889%] lg:pl-[105px] lg:text-left">個案姓名</li>
-        <li className="ml-[33px] lg:ml-0 lg:w-[16.996%] lg:pl-3">諮商議題</li>
+        <li className="lg:w-[19.5889%] lg:pl-[100px] xl:pl-[80px] lg:text-center">個案姓名</li>
+        <li className="ml-[33px] lg:ml-0 lg:w-[16.996%] lg:pl-0">諮商議題</li>
         <li className="ml-[57px] lg:ml-0  lg:w-[17.7865%]">諮商日期</li>
         <li className="ml-[47px] lg:ml-0  lg:w-[14.4268%]">諮商時間</li>
         <li className="ml-[72px] lg:ml-0  lg:w-[33.2015%] lg:pl-[100px] lg:text-left">

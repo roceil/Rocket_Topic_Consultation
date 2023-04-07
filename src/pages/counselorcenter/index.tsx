@@ -1,5 +1,6 @@
 import { ConfigProvider, Tabs } from 'antd';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
+import { CounselorInfoTab } from './personalInfo';
 
 // interface CounselorProps {
 //   name: string;
@@ -66,7 +67,7 @@ export default function index() {
       </section>
       {/* 電腦版 */}
       <CounselorCenterLayout>
-        <p>123</p>
+        <CounselorInfoTab />
       </CounselorCenterLayout>
     </>
   );
