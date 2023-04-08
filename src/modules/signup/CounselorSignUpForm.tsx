@@ -66,7 +66,7 @@ export default function CounselorSignUpForm() {
       return false;
     }
 
-    return true;
+    return false;
   };
 
   // 檔案上傳函式
