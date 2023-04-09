@@ -12,7 +12,7 @@ const handleMobileSelectorChange = (value: string[]) => {
 
 export const getServerSideProps = async ({ query: { id } }: { query: { id: string } }) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${id}`);
     const data = await res.json();
     return {
       props: {
@@ -152,7 +152,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
       <section className="mt-20 lg:mt-[168px]">
         <div className="container">
           {/* 清單區塊 */}
-          <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:px-[68px] lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px]">
+          <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 lg:px-[68px] xl:gap-x-[104px]">
             {counselorData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }, index) => {
               if (index < 5) {
                 return <CounselorListCard key={Id} className="before" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />;
