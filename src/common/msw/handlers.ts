@@ -2,7 +2,6 @@
 /* eslint-disable import/prefer-default-export */
 
 import { rest } from 'msw';
-import { counselorListAPI, counselorListAPI2 } from '@/lib/counselorList/counselorData';
 
 export const handlers = [
   // 使用者登入 => POST =>已接通
@@ -62,18 +61,9 @@ export const handlers = [
     }),
   )),
 
-  // 諮商師總覽 => GET
-  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=1`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI))),
+  // 諮商師總覽 => GET =>已接通
+  // rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=1`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI))),
 
-  // 諮商師總覽 => GET
-  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=2`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI2))),
-
-  // 諮商師總覽 => GET
-  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/3`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI))),
-
-  // 諮商師總覽 => GET
-  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/4`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI))),
-
-  // 諮商師總覽 => GET
-  rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/counselorList/5`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI))),
+  // 諮商師總覽 => GET =>已接通
+  // rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=2`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI2))),
 ];

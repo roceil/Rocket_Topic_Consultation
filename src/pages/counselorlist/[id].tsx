@@ -12,7 +12,7 @@ const handleMobileSelectorChange = (value: string[]) => {
 
 export const getServerSideProps = async ({ query: { id } }: { query: { id: string } }) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${id}&keyword=`);
     const data = await res.json();
     return {
       props: {
@@ -162,7 +162,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
           </ul>
 
           {/* 分頁按鈕 */}
-          <CommonPagination TotalPageNum={TotalPageNum} />
+          <CommonPagination TotalPageNum={TotalPageNum} pageId={pageId} />
         </div>
       </section>
     </>
