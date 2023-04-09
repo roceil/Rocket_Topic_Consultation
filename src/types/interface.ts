@@ -60,3 +60,7 @@ export interface ICounselorListCardProps {
   img: string;
   id: number;
 }
+
+export interface IUserDataProps {
+  data: { Data: [{ Account: string; BirthDate: string; Name: string; Sex: string }]; Message: string; Success: boolean };
+}
