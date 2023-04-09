@@ -30,22 +30,25 @@ export const getServerSideProps = async ({ query: { id } }: { query: { id: strin
 };
 
 interface ICounselorListProps {
-  Message: {
-    id: number;
-    counselorName: string;
-    subtitle: string;
-    description: string;
-    img: string;
-  }[];
+  Data: {
+    CounselorsData: { Id: number; Name: string; SellingPoint: string; SelfIntroduction: string; Photo: string }[];
+    TotalPageNum: number;
+  };
+  Message: string;
+  Success: boolean;
 }
 
-export default function CounselorList({ data: { Message }, pageId }: { data: ICounselorListProps; pageId: string }) {
+export default function CounselorList({ data, pageId }: { data: ICounselorListProps; pageId: string }) {
+  const {
+    Data: { CounselorsData, TotalPageNum },
+    Success,
+  } = data;
+
   // 用於確認是否有換頁
   console.log('🚀 ~ file: [id].tsx:43 ~ CounselorList ~ pageId:', pageId);
 
   // 用於確認是否有值
-  const counselorData = typeof Message !== 'string' ? Message : [];
-  console.log('🚀 ~ file: [id].tsx:47 ~ CounselorList ~ Message:', Message);
+  const counselorData = Success ? CounselorsData : [];
 
   return (
     <>
@@ -149,17 +152,17 @@ export default function CounselorList({ data: { Message }, pageId }: { data: ICo
       <section className="mt-20 lg:mt-[168px]">
         <div className="container">
           {/* 清單區塊 */}
-          <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-center lg:gap-x-[52px]  lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px]">
-            {counselorData?.map(({ counselorName, subtitle, img, description, id }, index) => {
+          <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:px-[68px] lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px]">
+            {counselorData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }, index) => {
               if (index < 5) {
-                return <CounselorListCard key={id} className="before" counselorName={counselorName} subtitle={subtitle} img={img} description={description} id={id} />;
+                return <CounselorListCard key={Id} className="before" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />;
               }
-              return <CounselorListCard key={id} className="after" counselorName={counselorName} subtitle={subtitle} img={img} description={description} id={id} />;
+              return <CounselorListCard key={Id} className="after" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />;
             })}
           </ul>
 
           {/* 分頁按鈕 */}
-          <CommonPagination />
+          <CommonPagination TotalPageNum={TotalPageNum} />
         </div>
       </section>
     </>
