@@ -59,7 +59,7 @@ export default function UserSignUpForm() {
           <Form.Item
             name="Sex"
             label="性別 Sex"
-            className="userSignUpGender inline-block w-[160px] sm:w-[180px]"
+            className="userSignUpGender userSignUpSex inline-block w-[160px] sm:w-[180px]"
             rules={[
               {
                 required: true,
@@ -78,6 +78,7 @@ export default function UserSignUpForm() {
 
       {/* 出生年月日 Birth date */}
       <Form.Item
+        id="DatePicker"
         name="DatePicker"
         label="出生年月日 Birth date"
         rules={[
@@ -87,7 +88,7 @@ export default function UserSignUpForm() {
           },
         ]}
       >
-        <DatePicker className={`${inputStyle} w-full border-secondary  focus:shadow-none`} placeholder="Select date" />
+        <DatePicker className={`${inputStyle} w-full border-secondary  focus:shadow-none`} placeholder="Select date" getPopupContainer={() => document.getElementById('DatePicker') || document.body} />
       </Form.Item>
 
       {/* 帳號 Account */}
