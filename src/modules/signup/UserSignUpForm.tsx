@@ -68,9 +68,9 @@ export default function UserSignUpForm() {
             ]}
           >
             <Select placeholder="選擇性別" getPopupContainer={(trigger) => trigger.parentElement}>
-              <Option value="male">男</Option>
-              <Option value="female">女</Option>
-              <Option value="other">其他</Option>
+              <Option value="男">男</Option>
+              <Option value="女">女</Option>
+              <Option value="不公開">不公開</Option>
             </Select>
           </Form.Item>
         </Space>

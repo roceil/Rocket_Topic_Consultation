@@ -12,7 +12,7 @@ export default function CounselorListCard({ className, counselorName, subtitle, 
   return (
     <li className={isBefore}>
       {/* 這是圖片 */}
-      <Image src={img} alt="test" className="] h-[238px] w-[41.5789%] bg-primary-tint object-cover lg:h-[100%] lg:w-[220px]" />
+      <Image src={img} alt={counselorName} width={220} height={327} className="h-[238px] w-[41.5789%] bg-primary-tint object-cover lg:h-[327px] lg:w-[220px]" />
 
       {/* 這是文字區塊 */}
       <div className="flex w-[58.421%] flex-col justify-center pl-4  pr-[18px] lg:h-[327px] lg:w-[268px] lg:px-6">

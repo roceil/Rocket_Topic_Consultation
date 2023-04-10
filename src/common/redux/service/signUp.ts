@@ -20,7 +20,19 @@ export const signUp = createApi({
         body,
       }),
     }),
+    counselorUploadImagePostApi: builder.mutation({
+      query: ({ file, Account }) => {
+        const formData = new FormData();
+        formData.append('File', file);
+        formData.append('Account', Account);
+        return {
+          url: '/api/uploadLicense',
+          method: 'POST',
+          body: formData,
+        };
+      },
+    }),
   }),
 });
 
-export const { useCounselorSignUpPostApiMutation, useUserSignUpPostApiMutation } = signUp;
+export const { useCounselorSignUpPostApiMutation, useUserSignUpPostApiMutation, useCounselorUploadImagePostApiMutation } = signUp;

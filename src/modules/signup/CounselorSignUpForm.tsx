@@ -1,56 +1,91 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { File } from 'buffer';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Form, Space, Input, Upload, Button, Checkbox } from 'antd';
-import { useCounselorSignUpPostApiMutation } from '@/common/redux/service/signUp';
+import { Form, Space, Input, Upload, Button, Checkbox, message } from 'antd';
+import { useCounselorSignUpPostApiMutation, useCounselorUploadImagePostApiMutation } from '@/common/redux/service/signUp';
 import { ICounselorOnFinishProps } from '@/types/interface';
 import FormNameInput from '@/common/components/form/FormNameInput';
 import FormAccountInput from '@/common/components/form/FormAccountInput';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
-import { RcFile } from 'antd/es/upload';
 
 export default function CounselorSignUpForm() {
+  const [uploadImage, setUploadImage] = useState<File | null>(null);
   const [form] = Form.useForm();
   const { value: signUpTab } = useSelector((state: { signUpSlice: { value: string } }) => state.signUpSlice);
   const [counselorSignUpPostApi] = useCounselorSignUpPostApiMutation();
+  const [counselorUploadImagePostApi] = useCounselorUploadImagePostApiMutation();
   const router = useRouter();
 
   // 諮商師註冊API
-  const counselorSignUpPost = async (Name: string, thumbUrl: string, Certification: string, Account: string, Password: string, ConfirmPassword: string) => {
+  const counselorSignUpPost = async (Name: string, name: string, Certification: string, Account: string, Password: string, ConfirmPassword: string) => {
+    // 文字POST
     const res = await counselorSignUpPostApi({
       Name,
-      License: '測試檔名',
+      License: name,
       Certification,
       Account,
       Password,
       ConfirmPassword,
     });
     if ('error' in res) {
-      console.log(res);
+      const { Message } = (res.error as { data: { Message: string } }).data;
+      alert(Message);
       return;
     }
+
+    // 圖片POST
+    const uploadImgRes = await counselorUploadImagePostApi({
+      file: uploadImage,
+      Account,
+    });
+    if ('error' in uploadImgRes) {
+      const { Message } = (uploadImgRes.error as { data: { Message: string } }).data;
+      alert(Message);
+      return;
+    }
+
     const { Message } = res.data as { Message: string };
     alert(`${Message}，請重新登入`);
     router.push('/login');
-    console.log(res);
+  };
+
+  // 定義允許上傳的文件大小（以字節為單位）
+  const allowedSize = 2 * 1024 * 1024; // 2MB
+
+  // 自定義 beforeUpload 函式，用於限制上傳的文件類型和大小
+  const beforeUpload = (file: { size: number }) => {
+    // 檢查文件大小是否符合要求
+    const isAllowedSize = file.size <= allowedSize;
+    if (!isAllowedSize) {
+      message.error('文件大小不超過 2MB');
+      return false;
+    }
+
+    return false;
   };
 
   // 檔案上傳函式
-  const normFile = (e: { fileList: RcFile[] }) => {
+  const normFile = (e: { fileList: { originFileObj: File }[] }) => {
     if (Array.isArray(e)) {
       return e;
+    }
+    // 這個判斷是為了防止刪除圖片時，e.fileList.length 會變成 0，進而導致 setUploadImage(undefined) 這個行為
+    if (e.fileList.length > 0) {
+      setUploadImage(e.fileList[0].originFileObj);
     }
     return e && e.fileList;
   };
 
   // 表單送出函式
   const onFinish = ({ Name, License, Certification, Account, Password, ConfirmPassword }: ICounselorOnFinishProps) => {
-    const { thumbUrl } = License[0];
+    const { name } = License[0];
     if (signUpTab !== '諮商師') return;
-    counselorSignUpPost(Name, thumbUrl, Certification, Account, Password, ConfirmPassword);
+    counselorSignUpPost(Name, name, Certification, Account, Password, ConfirmPassword);
   };
 
   return (
@@ -75,7 +110,7 @@ export default function CounselorSignUpForm() {
               },
             ]}
           >
-            <Upload listType="picture" maxCount={1}>
+            <Upload listType="picture" maxCount={1} beforeUpload={beforeUpload} accept="image/png,image/jpg">
               <Button className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full border-secondary bg-white text-base text-gray-500 sm:w-[180px]" icon={<PlusCircleOutlined className="text-xl text-secondary" />}>
                 License
               </Button>
