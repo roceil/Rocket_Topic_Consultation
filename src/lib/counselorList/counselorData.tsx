@@ -1,88 +1,74 @@
 import { SelectProps } from 'antd';
 import Link from 'next/link';
-import counselor01 from '../../../public/images/counselorList/Counselor 01  - lg.svg';
-import counselor02 from '../../../public/images/counselorList/Counselor 02  - lg.svg';
 import counselor03 from '../../../public/images/counselorList/Counselor 03  - lg.svg';
-import counselor04 from '../../../public/images/counselorList/Counselor 04  - lg.svg';
-import counselor05 from '../../../public/images/counselorList/Counselor 05  - lg.svg';
-import counselor06 from '../../../public/images/counselorList/Counselor 06  - lg.svg';
-import counselor07 from '../../../public/images/counselorList/Counselor 07  - lg.svg';
-import counselor08 from '../../../public/images/counselorList/Counselor 08  - lg.svg';
-import counselor09 from '../../../public/images/counselorList/Counselor 09  - lg.svg';
-import counselor10 from '../../../public/images/counselorList/Counselor 10  - lg.svg';
 
-export const counselorData = [
-  {
-    id: 1,
-    counselorName: '王小明',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor01,
+export const counselorListAPI = {
+  Success: true,
+  Message: '成功取得諮商師總覽',
+  Data: {
+    TotalPageNum: 2, // 總頁數
+    CounselorsData: [
+      {
+        Id: 1,
+        Name: '王小明123',
+        SellingPoint: '頂級傳統百年手作諮商工藝',
+        SelfIntroduction: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
+        Photo: 'https://pi.rocket-coding.com/upload/headshot/22-KrisHsueh-20230409133904.jpg',
+        Field: ['職場議題', '伴侶關係'],
+      },
+      {
+        Id: 2,
+        Name: '哈哈哈',
+        SellingPoint: '頂級傳統百年手作諮商工藝',
+        SelfIntroduction: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
+        Photo: 'https://images.unsplash.com/photo-1620613908146-bb9a8bbb7eca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80',
+        Field: ['職場議題', '伴侶關係'],
+      },
+      {
+        Id: 3,
+        Name: '耶耶耶',
+        SellingPoint: '頂級傳統百年手作諮商工藝',
+        SelfIntroduction: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
+        Photo: counselor03,
+        Field: ['職場議題', '伴侶關係'],
+      },
+    ],
   },
-  {
-    id: 2,
-    counselorName: '李小華',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor02,
+};
+
+export const counselorListAPI2 = {
+  Success: true,
+  Message: '成功取得諮商師總覽',
+  Data: {
+    TotalPageNum: 2, // 總頁數
+    CounselorsData: [
+      {
+        Id: 1,
+        Name: '王小明 2 號',
+        SellingPoint: '頂級傳統百年手作諮商工藝',
+        SelfIntroduction: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
+        Photo: 'https://pi.rocket-coding.com/upload/headshot/22-KrisHsueh-20230409133904.jpg',
+        Field: ['職場議題', '伴侶關係'],
+      },
+      {
+        Id: 2,
+        Name: '哈哈哈哈哈',
+        SellingPoint: '頂級傳統百年手作諮商工藝',
+        SelfIntroduction: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
+        Photo: 'https://images.unsplash.com/photo-1620613908146-bb9a8bbb7eca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80',
+        Field: ['職場議題', '伴侶關係'],
+      },
+      {
+        Id: 3,
+        Name: '耶耶耶耶耶',
+        SellingPoint: '頂級傳統百年手作諮商工藝',
+        SelfIntroduction: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
+        Photo: counselor03,
+        Field: ['職場議題', '伴侶關係'],
+      },
+    ],
   },
-  {
-    id: 3,
-    counselorName: '陳小美',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor03,
-  },
-  {
-    id: 4,
-    counselorName: '林小英',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor04,
-  },
-  {
-    id: 5,
-    counselorName: '黃小花',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor05,
-  },
-  {
-    id: 6,
-    counselorName: '張小雄',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor06,
-  },
-  {
-    id: 7,
-    counselorName: '劉小娟',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor07,
-  },
-  {
-    id: 8,
-    counselorName: '蔡小威',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor08,
-  },
-  {
-    id: 9,
-    counselorName: '謝小婷',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor09,
-  },
-  {
-    id: 10,
-    counselorName: '蔡小威',
-    subtitle: '頂級傳統百年手作諮商工藝',
-    description: '我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒...',
-    img: counselor10,
-  },
-];
+};
 
 export const counselorBreadcrumb = [
   {
