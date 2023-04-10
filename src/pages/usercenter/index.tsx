@@ -16,7 +16,7 @@ export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req,
   }
   const resData = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   });
   const { data } = resData;

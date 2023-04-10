@@ -41,7 +41,7 @@ function LogInForm() {
     const { Message } = res.data as { Message: string };
     const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
     alert(Message);
-    setCookie('auth', decodeURIComponent(`Bearer ${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
@@ -64,7 +64,7 @@ function LogInForm() {
     const { Message } = res.data as { Message: string };
     const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
     alert(Message);
-    setCookie('auth', decodeURIComponent(`Bearer ${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');

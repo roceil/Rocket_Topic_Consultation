@@ -12,7 +12,7 @@ export const userCenter = createApi({
         method: 'PUT',
         body: { Name: value },
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       }),
     }),
