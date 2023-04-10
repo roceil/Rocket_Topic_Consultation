@@ -1,8 +1,11 @@
-import { SearchOutlined } from '@ant-design/icons';
 import { Input, ConfigProvider } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import { searchCounselorKeyWords } from '../redux/feature/counselorList';
 import { ISearchCapsuleProps } from '../../types/interface';
 
 export default function SearchCapsule({ colorPrimary, borderRadius, controlHeight, colorBgContainer, placeholder }: ISearchCapsuleProps) {
+  const dispatch = useDispatch();
   return (
     <div className="searchCapsule">
       <ConfigProvider
@@ -21,6 +24,11 @@ export default function SearchCapsule({ colorPrimary, borderRadius, controlHeigh
         <Input
           placeholder={placeholder}
           className="fakeBorder border-0"
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              dispatch(searchCounselorKeyWords(e.currentTarget.value));
+            }
+          }}
           style={{
             borderRadius,
           }}

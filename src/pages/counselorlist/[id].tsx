@@ -1,9 +1,13 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { ConfigProvider, Breadcrumb, Select } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { searchCounselorKeyWords } from '@/common/redux/feature/counselorList';
 import { IButton } from '@/common/components/IButton';
 import { counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselorData';
-import SearchCapsule from '../../common/components/SearchCapsule';
-import CounselorListCard from '../../modules/counselorList/CounselorListCard';
-import CommonPagination from '../../common/components/CommonPagination';
+import SearchCapsule from '@/common/components/SearchCapsule';
+import CounselorListCard from '@/modules/counselorList/CounselorListCard';
+import CommonPagination from '@/common/components/CommonPagination';
 
 // 手機版膠囊篩選器函式
 const handleMobileSelectorChange = (value: string[]) => {
@@ -41,14 +45,46 @@ interface ICounselorListProps {
 export default function CounselorList({ data, pageId }: { data: ICounselorListProps; pageId: string }) {
   const {
     Data: { CounselorsData, TotalPageNum },
-    Success,
   } = data;
+  const [renderData, setRenderData] = useState(CounselorsData);
+  const [totalPage, setTotalPage] = useState(TotalPageNum);
+  const [chooseTopic, setChooseTopic] = useState<string[]>([]);
+  const dispatch = useDispatch();
 
-  // 用於確認是否有換頁
-  console.log('🚀 ~ file: [id].tsx:43 ~ CounselorList ~ pageId:', pageId);
+  const searchValue = useSelector((state: { counselorListSlice: { value: string } }) => state.counselorListSlice.value);
 
-  // 用於確認是否有值
-  const counselorData = Success ? CounselorsData : [];
+  // 如果搜尋關鍵字有變動，就重新抓取資料並渲染畫面
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${pageId}&keyword=${searchValue}`);
+      const filterData = await res.data;
+      setRenderData(filterData.Data.CounselorsData);
+      setTotalPage(filterData.Data.TotalPageNum);
+    })();
+  }, [searchValue]);
+
+  // 進此頁面之前，清空搜尋關鍵字
+  useEffect(
+    () => () => {
+      dispatch(searchCounselorKeyWords(''));
+    },
+    [],
+  );
+
+  // 監聽膠囊選擇器的變化
+  useEffect(() => {
+    const encodedURI = encodeURI(chooseTopic.toString());
+    console.log('🚀 ~ file: [id].tsx:77 ~ useEffect ~ encodedURI:', encodedURI);
+  }, [chooseTopic]);
+
+  const onClickHandler = (value: string) => {
+    setChooseTopic((prevChooseTopic) => {
+      if (prevChooseTopic.includes(value)) {
+        return prevChooseTopic.filter((item) => item !== value);
+      }
+      return [...prevChooseTopic, value];
+    });
+  };
 
   return (
     <>
@@ -103,7 +139,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
           <ul className="hidden space-x-4 lg:mb-7 lg:flex">
             {selectOptions?.map(({ label, value }) => (
               <li key={value}>
-                <IButton text={`# ${label}`} fontSize="text-xs lg:text-base" py="py-3" px="px-8" />
+                <IButton text={`# ${label}`} fontSize="text-xs lg:text-base" py="py-3" px="px-8" mode={chooseTopic.includes(value) ? 'dark' : 'light'} onClick={() => onClickHandler(value)} />
               </li>
             ))}
           </ul>
@@ -152,8 +188,8 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
       <section className="mt-20 lg:mt-[168px]">
         <div className="container">
           {/* 清單區塊 */}
-          <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 xl:px-[68px] xl:gap-x-[104px]">
-            {counselorData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }, index) => {
+          <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px] xl:px-[68px]">
+            {renderData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }, index) => {
               if (index < 5) {
                 return <CounselorListCard key={Id} className="before" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />;
               }
@@ -162,7 +198,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
           </ul>
 
           {/* 分頁按鈕 */}
-          <CommonPagination TotalPageNum={TotalPageNum} pageId={pageId} />
+          <CommonPagination TotalPageNum={totalPage} pageId={pageId} />
         </div>
       </section>
     </>
