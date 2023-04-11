@@ -20,12 +20,12 @@ export default function CounselorListCard({ className, counselorName, subtitle, 
       <div className="flex w-[58.421%] flex-col justify-center pl-4  pr-[18px] lg:h-[327px] lg:w-[268px] lg:px-6">
         <h3 className="mb-1 text-xl font-bold text-secondary lg:text-2xl">{counselorName}</h3>
         <p className="mb-3 text-sm font-bold text-gray-900 lg:mb-6 lg:text-base">{subtitle}</p>
-        <p className="mb-6 text-sm text-gray-700 lg:mb-8 lg:text-base">{convertDescription(description)}</p>
+        <p className="mb-6 min-h-[72px] text-sm text-gray-700 lg:mb-8 lg:text-base">{convertDescription(description)}</p>
 
         <div className="flex justify-end space-x-3">
-          <IButton text="我有問題" fontSize="text-xs lg:text-sm" mode="light" py="py-2" extraStyle="w-[90px]" />
+          <IButton text="我有問題" fontSize="text-xs lg:text-sm" mode="light" py="py-2" px="px-5" extraStyle="!hidden sm:!block" />
           <Link href={`/counselorlist/counselorpage/${id}`}>
-            <IButton text="我有問題" fontSize="text-xs lg:text-sm" mode="dark" py="py-2" extraStyle="w-[90px]" />
+            <IButton text="立即預約" fontSize="text-xs lg:text-sm" mode="dark" py="py-2" px="px-5" extraStyle="flex" />
           </Link>
         </div>
       </div>

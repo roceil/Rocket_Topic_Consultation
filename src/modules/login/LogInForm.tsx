@@ -29,9 +29,8 @@ function LogInForm() {
       Account,
       Password,
     });
-    console.log('🚀 ~ file: LogInForm.tsx:27 ~ userLoginPost ~ res:', res);
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };

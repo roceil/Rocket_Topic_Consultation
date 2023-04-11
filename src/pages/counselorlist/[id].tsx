@@ -3,20 +3,16 @@ import axios from 'axios';
 import { ConfigProvider, Breadcrumb, Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchCounselorKeyWords } from '@/common/redux/feature/counselorList';
+import { useGetFilterListQuery } from '@/common/redux/service/counselorList';
 import { IButton } from '@/common/components/IButton';
 import { counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselorData';
 import SearchCapsule from '@/common/components/SearchCapsule';
 import CounselorListCard from '@/modules/counselorList/CounselorListCard';
 import CommonPagination from '@/common/components/CommonPagination';
 
-// 手機版膠囊篩選器函式
-const handleMobileSelectorChange = (value: string[]) => {
-  console.log('🚀 ~ file: index.tsx:8 ~ handleMobileSelectorChange ~ value:', value);
-};
-
 export const getServerSideProps = async ({ query: { id } }: { query: { id: string } }) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${id}&keyword=`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${id}`);
     const data = await res.json();
     return {
       props: {
@@ -53,30 +49,9 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
 
   const searchValue = useSelector((state: { counselorListSlice: { value: string } }) => state.counselorListSlice.value);
 
-  // 如果搜尋關鍵字有變動，就重新抓取資料並渲染畫面
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${pageId}&keyword=${searchValue}`);
-      const filterData = await res.data;
-      setRenderData(filterData.Data.CounselorsData);
-      setTotalPage(filterData.Data.TotalPageNum);
-    })();
-  }, [searchValue]);
-
-  // 進此頁面之前，清空搜尋關鍵字
-  useEffect(
-    () => () => {
-      dispatch(searchCounselorKeyWords(''));
-    },
-    [],
-  );
-
-  // 監聽膠囊選擇器的變化
-  useEffect(() => {
-    console.log('🚀 ~ file: [id].tsx:78 ~ CounselorList ~ chooseTopic:', chooseTopic);
-
-    // 這邊會將chooseTopic內的字串，透過switch轉成相對應的數字
-    const convertTopic = chooseTopic.map((item) => {
+  // 這邊會將chooseTopic內的字串，透過switch轉成相對應的數字
+  const convertTopic = chooseTopic
+    .map((item) => {
       switch (item) {
         case '職場議題':
           return 1;
@@ -93,10 +68,53 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
         default:
           return item;
       }
-    });
-    console.log(convertTopic.join(''));
-  }, [chooseTopic]);
+    })
+    .join('');
 
+  const { data: newData } = useGetFilterListQuery({ pageId, convertTopic });
+
+  // 如果搜尋關鍵字&頁數有變動，就重新抓取資料並渲染畫面
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${pageId}&keyword=${searchValue}`);
+      const filterData = await res.data;
+      setRenderData(filterData.Data.CounselorsData);
+      setTotalPage(filterData.Data.TotalPageNum);
+    })();
+  }, [searchValue, pageId]);
+
+  // 進此頁面之前，清空搜尋關鍵字
+  useEffect(
+    () => () => {
+      dispatch(searchCounselorKeyWords(''));
+    },
+    [],
+  );
+
+  // 監聽膠囊選擇器的變化
+  useEffect(() => {
+    // 這裡會將轉換過的數字，透過axios抓取資料並渲染畫面
+    // ! 暫時用不到，未來要刪掉
+    // (async () => {
+    //   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${pageId}&tag=${convertTopic}`);
+    //   const filterData = await res.data;
+    //   setRenderData(filterData.Data.CounselorsData);
+    //   setTotalPage(filterData.Data.TotalPageNum);
+    // })();
+
+    // 使用redux-toolkit的query
+    if (data) {
+      setRenderData(newData?.Data?.CounselorsData);
+      setTotalPage(newData?.Data?.TotalPageNum);
+    }
+  }, [newData, chooseTopic]);
+
+  // 手機版膠囊篩選器函式
+  const handleMobileSelectorChange = (value: string[]) => {
+    setChooseTopic(value);
+  };
+
+  // 電腦版膠囊篩選器函式
   const onClickHandler = (value: string) => {
     setChooseTopic((prevChooseTopic) => {
       if (prevChooseTopic.includes(value)) {
@@ -151,6 +169,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
                 placeholder="選擇主題"
                 virtual={false}
                 maxTagCount="responsive"
+                value={chooseTopic}
                 getPopupContainer={() => document.getElementById('topicPicker') || document.body}
               />
             </ConfigProvider>
