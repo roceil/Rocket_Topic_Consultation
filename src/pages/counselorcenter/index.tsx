@@ -1,6 +1,7 @@
-import { ConfigProvider, Tabs } from 'antd';
+import { ConfigProvider } from 'antd';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
-import { CounselorInfoTab } from './personalInfo';
+// import { CounselorInfoTab } from './personalInfo';
+import CounselorInfoTab from './personalInfo';
 
 // interface CounselorProps {
 //   name: string;
@@ -10,37 +11,6 @@ import { CounselorInfoTab } from './personalInfo';
 // }
 
 export default function index() {
-  const counselorInfoTabAry = [
-    {
-      key: '基本資料',
-      label: '基本資料',
-      children: (
-        <p>123</p>
-        // <InfoForm
-        //   name={conselor1.name}
-        //   id={conselor1.id}
-        //   LicenseNum={conselor1.LicenseNum}
-        //   slogan={conselor1.slogan}
-        //   introduce={conselor1.introduce}
-        // />
-      ),
-    },
-    {
-      key: '課程資訊',
-      label: '課程資訊',
-      children: <p>456</p>,
-    },
-    {
-      key: '預約時段',
-      label: '預約時段',
-      children: 'Content of Tab Pane 1',
-    },
-  ];
-
-  const onChange = (key: string) => {
-    console.log(key);
-  };
-
   return (
     <>
       {/* 手機版 */}
@@ -58,7 +28,7 @@ export default function index() {
                 },
               }}
             >
-              <Tabs defaultActiveKey="1" items={counselorInfoTabAry} onChange={onChange} />
+              <CounselorInfoTab />
             </ConfigProvider>
           </div>
         </div>
