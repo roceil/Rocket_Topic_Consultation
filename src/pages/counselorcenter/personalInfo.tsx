@@ -653,6 +653,19 @@ function ClassInfo() {
   );
 }
 
+function TimeInfo() {
+  return (
+    <div className="bg-bg2 rounded-lg border py-[42px] flex flex-col lg:flex-row">
+      <div className="flex">
+        <div>開始日期</div>
+        <div>結束日期</div>
+      </div>
+      <div className="hidden lg:block ml-[60px] mr-[64px] w-[180px] bg-white">這是日期選單</div>
+      <div className="border bg-white w-full lg:w-[594px] h-[473px]">這是日曆</div>
+    </div>
+  );
+}
+
 const counselorInfoTabAry = [
   {
     key: '基本資料',
@@ -676,7 +689,7 @@ const counselorInfoTabAry = [
   {
     key: '預約時段',
     label: '預約時段',
-    children: 'Content of Tab Pane 1',
+    children: <TimeInfo />,
   },
 ];
 
