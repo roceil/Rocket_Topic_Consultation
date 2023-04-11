@@ -46,8 +46,8 @@ function InfoForm({
   LicenseNum,
   slogan,
   introduce,
-  // counselorImage,
-}: CounselorProps) {
+}: // counselorImage,
+CounselorProps) {
   // Upload 諮商師執照＆頭貼圖檔
   const [filelist, setFilelist] = useState<UploadFile[]>([
     {
@@ -58,7 +58,9 @@ function InfoForm({
     },
   ]);
 
-  const uploadOnChange: UploadProps['onChange'] = ({ filelist: newFilelist }) => {
+  const uploadOnChange: UploadProps['onChange'] = ({
+    fileList: newFilelist,
+  }) => {
     setFilelist(newFilelist);
   };
 
@@ -168,7 +170,7 @@ function InfoForm({
                 // getValueFromEvent={normFile}
                 className="font-bold lg:mx-[15px]"
               >
-                <div className="flex lg:w-[600px] items-end">
+                <div className="flex items-end lg:w-[600px]">
                   <ImgCrop rotationSlider>
                     <Upload
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -224,7 +226,7 @@ function InfoForm({
                 // getValueFromEvent={normFile}
                 className="font-bold lg:mx-[15px]"
               >
-                <div className="flex  lg:w-[600px] items-end">
+                <div className="flex  items-end lg:w-[600px]">
                   <ImgCrop rotationSlider>
                     <Upload
                       action=""
@@ -318,6 +320,7 @@ function InfoForm({
   );
 }
 
+// 諮商師 > 個人資料 > 課程資訊
 function ClassInfo() {
   // 控制 disabled
   const [editInfo, setEditInfo] = useState<boolean>(true);
@@ -330,10 +333,6 @@ function ClassInfo() {
   const SwitchOnChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
-  // 下拉選單
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
   // 課程特色
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -342,12 +341,12 @@ function ClassInfo() {
   };
   return (
     <>
-      <div className="space-y-12 px-5 lg:mt-2">
-        <div className="flex">
-          <h3 className="mr-2 text-base font-bold text-secondary">
+      <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
+        <div className="flex-row lg:flex">
+          <h3 className="mr-2 mb-4 text-base font-bold text-secondary lg:mb-0 lg:w-[10%]">
             專長領域 *
           </h3>
-          <div className="space-x-3">
+          <div className="flex flex-wrap justify-around lg:flex-nowrap lg:justify-between lg:space-x-3 lg:w-[80%]">
             <IButton
               text="職場議題"
               fontSize="text-[14px]"
@@ -386,16 +385,19 @@ function ClassInfo() {
             />
           </div>
         </div>
-        <div className="flex">
-          <h3 className="mr-2 font-bold text-secondary">課程方案 *</h3>
-          <div className="rounded-2xl bg-gray-200 pb-9">
-            <ul className="flex border-b border-gray-400  py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
+        <div className="flex-row lg:flex">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:border-none lg:pt-0 lg:w-[10%]">
+            課程方案 *
+          </h3>
+          {/* PC 課程方案 */}
+          <div className="hidden rounded-2xl bg-gray-200 pb-9 lg:block w-[90%]">
+            <ul className="flex border-b border-gray-400  py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center w-full">
               <li className="lg:w-[33.33%]">專長領域</li>
               <li className="lg:w-[33.33%]">定價</li>
               <li className="lg:w-[33.33%]">是否開放</li>
             </ul>
-            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
-              <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-full">
+              <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base w-full">
                 <ConfigProvider
                   theme={{
                     token: {
@@ -413,12 +415,12 @@ function ClassInfo() {
                     form={form}
                     name="classInfo"
                     onFinish={onFinish}
-                    style={{ width: 804, display: 'flex' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
                   >
-                    {/* 課程方案＋定價 */}
+                    {/* PC 課程方案＋定價 */}
                     <div className="flex w-full flex-col space-y-4">
                       <div className="flex items-center">
-                        <div className="lg:w-[33.33%]">1 堂</div>
+                        <div className="w-[33.33%]">1 堂</div>
                         <Form.Item className="mb-0 lg:w-[33.33%]">
                           <Input
                             disabled={editInfo}
@@ -436,7 +438,7 @@ function ClassInfo() {
                         </Form.Item>
                       </div>
                       <div className="flex items-center">
-                        <div className="lg:w-[33.33%]">3 堂</div>
+                        <div className="w-[33.33%]">3 堂</div>
                         <Form.Item className="mb-0 lg:w-[33.33%]">
                           <Input
                             disabled={editInfo}
@@ -445,7 +447,7 @@ function ClassInfo() {
                             style={{ height: 40, width: 124 }}
                           />
                         </Form.Item>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                        <Form.Item className="mb-0 w-[33.33%]">
                           <Switch
                             defaultChecked
                             onChange={SwitchOnChange}
@@ -454,7 +456,7 @@ function ClassInfo() {
                         </Form.Item>
                       </div>
                       <div className="flex items-center">
-                        <div className="lg:w-[33.33%]">5 堂</div>
+                        <div className="w-[33.33%]">5 堂</div>
                         <Form.Item className="mb-0 lg:w-[33.33%]">
                           <Input
                             disabled={editInfo}
@@ -463,7 +465,7 @@ function ClassInfo() {
                             style={{ height: 40, width: 124 }}
                           />
                         </Form.Item>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                        <Form.Item className="mb-0 w-[33.33%]">
                           <Switch
                             defaultChecked
                             onChange={SwitchOnChange}
@@ -472,8 +474,8 @@ function ClassInfo() {
                         </Form.Item>
                       </div>
                       <div className="flex items-center">
-                        <div className="lg:w-[33.33%]">體驗課 1 堂</div>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
+                        <div className="w-[33.33%]">體驗課 1 堂</div>
+                        <Form.Item className="mb-0 w-[33.33%]">
                           <Input
                             disabled={editInfo}
                             placeholder="請填寫價格"
@@ -495,18 +497,21 @@ function ClassInfo() {
               </li>
             </ul>
           </div>
-        </div>
-        <div className="flex">
-          <h3 className="mr-2 font-bold text-secondary">課程特色 *</h3>
-          <div className="rounded-2xl bg-bg2 pb-9">
-            <ul className="w-[804px] space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
-              <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+          {/* Mobile 課程方案 */}
+          <div className="rounded-2xl bg-gray-200 lg:hidden">
+            <ul className="flex w-full border-b  border-gray-400 py-5 px-0 text-center text-sm font-bold text-gray-900">
+              <li className="w-[33.33%]">專長領域</li>
+              <li className="w-[33.33%]">定價</li>
+              <li className="w-[33.33%]">是否開放</li>
+            </ul>
+            <ul className="flex flex-col space-y-4 pt-5 ">
+              <li className="items-center space-x-10 rounded-lg text-sm text-primary-heavy">
                 <ConfigProvider
                   theme={{
                     token: {
                       colorTextPlaceholder: '#9E9E9E',
                       colorText: '#424242',
-                      colorBorder: '#D4D2E3',
+                      colorBorder: '#BDBDBD',
                       colorIcon: '#5D5A88',
                       fontSize: 14,
                       borderRadius: 10,
@@ -514,123 +519,316 @@ function ClassInfo() {
                     },
                   }}
                 >
-                  <Form
-                    form={form}
-                    name="classInfo"
-                    onFinish={onFinish}
-                    style={{ width: 804 }}
-                  >
-                    <div className="mb-[33px] flex items-start px-[56px]">
-                      <Select
-                        disabled={editInfo}
-                        defaultValue="一般成人"
-                        style={{ width: 108 }}
-                        onChange={handleChange}
-                        options={[
-                          { value: '一般成人', label: '一般成人' },
-                          { value: '親密關係', label: '親密關係' },
-                          { value: '青少年', label: '青少年' },
-                        ]}
-                      />
-                    </div>
+                  <Form form={form} name="classInfo" onFinish={onFinish}>
                     {/* 課程方案＋定價 */}
-                    <Form.Item
-                      name="特色 1"
-                      label="特色 1"
-                      className="mb-8 px-[56px]"
-                      rules={[
-                        {
-                          required: true,
-                          message: '此項為必填',
-                          whitespace: true,
-                        },
-                      ]}
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={25}
-                        style={{ height: 45, resize: 'none' }}
-                        onChange={onChange}
-                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                        disabled={editInfo}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="特色 2"
-                      label="特色 2"
-                      className="mb-8 px-[56px]"
-                      rules={[
-                        {
-                          required: true,
-                          message: '此項為必填',
-                          whitespace: true,
-                        },
-                      ]}
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={25}
-                        style={{ height: 45, resize: 'none' }}
-                        onChange={onChange}
-                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                        disabled={editInfo}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="特色 3"
-                      label="特色 3"
-                      className="mb-8 px-[56px]"
-                      rules={[
-                        {
-                          required: true,
-                          message: '此項為必填',
-                          whitespace: true,
-                        },
-                      ]}
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={25}
-                        style={{ height: 45, resize: 'none' }}
-                        onChange={onChange}
-                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                        disabled={editInfo}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="特色 4"
-                      label="特色 4"
-                      className="mb-8 px-[56px]"
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={25}
-                        style={{ height: 45, resize: 'none' }}
-                        onChange={onChange}
-                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                        disabled={editInfo}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="特色 5"
-                      label="特色 5"
-                      className="mb-8 px-[56px]"
-                    >
-                      <TextArea
-                        showCount
-                        maxLength={25}
-                        style={{ height: 4, resize: 'none' }}
-                        onChange={onChange}
-                        placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                        disabled={editInfo}
-                      />
-                    </Form.Item>
+                    <div className="flex flex-col space-y-4 pb-7">
+                      <div className="flex items-center justify-between">
+                        <div className="w-[33.33%] text-center">1 堂</div>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 96 }}
+                          />
+                        </Form.Item>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
+                        </Form.Item>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="w-[33.33%] text-center">3 堂</div>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 96 }}
+                          />
+                        </Form.Item>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
+                        </Form.Item>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="w-[33.33%] text-center">5 堂</div>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 96 }}
+                          />
+                        </Form.Item>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
+                        </Form.Item>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="w-[33.33%] text-center flex justify-center">
+                          <p className="w-[42px]">體驗課 1 堂</p>
+                        </div>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Input
+                            disabled={editInfo}
+                            placeholder="請填寫價格"
+                            className="font-normal"
+                            style={{ height: 40, width: 96 }}
+                          />
+                        </Form.Item>
+                        <Form.Item className="mb-0 w-[33.33%] text-center">
+                          <Switch
+                            defaultChecked
+                            onChange={SwitchOnChange}
+                            disabled={editInfo}
+                          />
+                        </Form.Item>
+                      </div>
+                    </div>
                   </Form>
                 </ConfigProvider>
               </li>
             </ul>
           </div>
         </div>
+        <div className="flex-row lg:flex">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:border-none lg:pt-0 lg:w-[10%]">
+            課程特色 *
+          </h3>
+          <div className="rounded-2xl bg-gray-200 pb-9 lg:w-[90%]">
+            <ul className="space-y-4 pt-5 lg:px-0 lg:pt-7 w-full">
+              <li className="flex flex-col items-center rounded-lg py-5 text-sm text-primary-heavy lg:space-x-10 lg:text-center lg:text-base w-full">
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorTextPlaceholder: '#9E9E9E',
+                      colorText: '#424242',
+                      colorBorder: '#BDBDBD',
+                      colorIcon: '#5D5A88',
+                      fontSize: 14,
+                      borderRadius: 10,
+                      controlHeight: 40,
+                    },
+                  }}
+                >
+                  {/* PC 課程特色 textarea */}
+                  <div className="hidden lg:block w-full">
+                    <Form
+                      form={form}
+                      name="classInfo"
+                      onFinish={onFinish}
+                      style={{ width: '100%', display: 'flex', flexDirection: 'column' }}
+                    >
+                      {/* 課程方案＋定價 */}
+                      <Form.Item
+                        name="特色 1"
+                        label="特色 1"
+                        className="mb-8 px-5 lg:px-[56px]"
+                        rules={[
+                          {
+                            required: true,
+                            message: '此項為必填',
+                            whitespace: true,
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 45, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="特色 2"
+                        label="特色 2"
+                        className="mb-8 px-[56px]"
+                        rules={[
+                          {
+                            required: true,
+                            message: '此項為必填',
+                            whitespace: true,
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 45, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="特色 3"
+                        label="特色 3"
+                        className="mb-8 px-[56px]"
+                        rules={[
+                          {
+                            required: true,
+                            message: '此項為必填',
+                            whitespace: true,
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 45, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="特色 4"
+                        label="特色 4"
+                        className="mb-8 px-[56px]"
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 45, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="特色 5"
+                        label="特色 5"
+                        className="mb-8 px-[56px]"
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 4, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                    </Form>
+                  </div>
+                  {/* Mobile 課程特色 textarea */}
+                  <div className="class-info w-full px-5 lg:hidden">
+                    <Form
+                      form={form}
+                      name="classInfo"
+                      onFinish={onFinish}
+                      style={{ width: '100%', display: 'flex', flexDirection: 'column' }}
+                    >
+                      {/* 課程方案＋定價 */}
+                      <Form.Item
+                        name="特色 1"
+                        label="特色 1"
+                        className="mb-8"
+                        rules={[
+                          {
+                            required: true,
+                            message: '此項為必填',
+                            whitespace: true,
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 69, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="特色 2"
+                        label="特色 2"
+                        className="mb-8"
+                        rules={[
+                          {
+                            required: true,
+                            message: '此項為必填',
+                            whitespace: true,
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 69, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="特色 3"
+                        label="特色 3"
+                        className="mb-8"
+                        rules={[
+                          {
+                            required: true,
+                            message: '此項為必填',
+                            whitespace: true,
+                          },
+                        ]}
+                      >
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 69, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item name="特色 4" label="特色 4" className="mb-8">
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 69, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                      <Form.Item name="特色 5" label="特色 5" className="mb-8">
+                        <TextArea
+                          showCount
+                          maxLength={25}
+                          style={{ height: 69, resize: 'none' }}
+                          onChange={onChange}
+                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
+                          disabled={editInfo}
+                        />
+                      </Form.Item>
+                    </Form>
+                  </div>
+                </ConfigProvider>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <input
+          type="button"
+          value="刪除此專長領域"
+          className="mt-4 text-base text-gray-900 underline underline-offset-2"
+        />
       </div>
       <div className="mt-12 flex justify-end space-x-7">
         <IButton
@@ -655,13 +853,17 @@ function ClassInfo() {
 
 function TimeInfo() {
   return (
-    <div className="bg-bg2 rounded-lg border py-[42px] flex flex-col lg:flex-row">
+    <div className="flex flex-col rounded-lg border bg-bg2 py-[42px] lg:flex-row">
       <div className="flex">
         <div>開始日期</div>
         <div>結束日期</div>
       </div>
-      <div className="hidden lg:block ml-[60px] mr-[64px] w-[180px] bg-white">這是日期選單</div>
-      <div className="border bg-white w-full lg:w-[594px] h-[473px]">這是日曆</div>
+      <div className="ml-[60px] mr-[64px] hidden w-[180px] bg-white lg:block">
+        這是日期選單
+      </div>
+      <div className="h-[473px] w-full border bg-white lg:w-[594px]">
+        這是日曆
+      </div>
     </div>
   );
 }
