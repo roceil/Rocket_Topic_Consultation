@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import Image from 'next/image';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ImgCrop from 'antd-img-crop';
 import {
@@ -10,7 +9,6 @@ import {
   Tabs,
   Upload,
   Switch,
-  Select,
 } from 'antd';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { useState } from 'react';
