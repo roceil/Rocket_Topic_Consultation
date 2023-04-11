@@ -73,8 +73,28 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
 
   // 監聽膠囊選擇器的變化
   useEffect(() => {
-    const encodedURI = encodeURI(chooseTopic.toString());
-    console.log('🚀 ~ file: [id].tsx:77 ~ useEffect ~ encodedURI:', encodedURI);
+    console.log('🚀 ~ file: [id].tsx:78 ~ CounselorList ~ chooseTopic:', chooseTopic);
+
+    // 這邊會將chooseTopic內的字串，透過switch轉成相對應的數字
+    const convertTopic = chooseTopic.map((item) => {
+      switch (item) {
+        case '職場議題':
+          return 1;
+        case '伴侶關係':
+          return 2;
+        case '人際關係':
+          return 3;
+        case '負面情緒':
+          return 4;
+        case '個人發展':
+          return 5;
+        case '家庭議題':
+          return 6;
+        default:
+          return item;
+      }
+    });
+    console.log(convertTopic.join(''));
   }, [chooseTopic]);
 
   const onClickHandler = (value: string) => {
