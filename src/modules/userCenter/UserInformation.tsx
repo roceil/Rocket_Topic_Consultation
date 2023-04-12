@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import { IButton } from '@/common/components/IButton';
+import ResetPassWordModal from '../../common/components/ResetPassWordModal';
 
 export default function UserInformation({ save, edit, nameDisable, accountName, accountEmail, BirthDate, Sex, extraStyle, nameRef }: any) {
+  const [showResetPassword, setShowResetPassword] = useState(false);
+
   return (
     <form onSubmit={save} action="" className="flex w-full flex-col ">
       <div className="mb-12 flex flex-col space-y-6 border-y border-gray-400 py-8 lg:rounded-xl lg:border lg:py-10 lg:px-9 lg:shadow">
@@ -11,10 +15,18 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
 
         <label className="min-h-10 text-gray-900">
           <span>修改密碼：</span>
-          <button type="button" className="rounded-[10px] border border-secondary py-[9px] px-5 text-sm hover:bg-primary-heavy hover:text-white">
+          <button
+            type="button"
+            className="rounded-[10px] border border-secondary py-[9px] px-5 text-sm active:scale-[0.8] lg:hover:opacity-80"
+            onClick={() => {
+              setShowResetPassword(!showResetPassword);
+            }}
+          >
             點我重設密碼
           </button>
         </label>
+
+        <ResetPassWordModal showResetPassword={showResetPassword} setShowResetPassword={setShowResetPassword} />
 
         <label className="min-h-10 text-gray-900">
           <span>會員姓名：</span>

@@ -8,6 +8,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import type { AppProps } from 'next/app';
+import ChatRoom from '@/common/components/ChatRoom';
 import wrapper from '../common/redux/store';
 import Header from '../common/components/Header';
 import Footer from '../common/components/Footer';
@@ -20,6 +21,7 @@ export function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Header />
+      <ChatRoom />
       <Component {...pageProps} />
       <Footer />
     </>

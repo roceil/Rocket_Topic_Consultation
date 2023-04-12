@@ -54,12 +54,12 @@ export const handlers = [
   )),
 
   // 重設密碼 => POST
-  rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resetPassword`, (req, res, ctx) => res(
-    ctx.status(200),
-    ctx.json({
-      Message: '密碼重設成功，請重新登入',
-    }),
-  )),
+  // rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resetPassword`, (req, res, ctx) => res(
+  //   ctx.status(200),
+  //   ctx.json({
+  //     Message: '密碼重設成功，請重新登入',
+  //   }),
+  // )),
 
   // 諮商師總覽 => GET =>已接通
   // rest.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=1`, (req, res, ctx) => res(ctx.status(200), ctx.json(counselorListAPI))),

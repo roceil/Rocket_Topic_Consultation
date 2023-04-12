@@ -44,8 +44,8 @@
 .search .ant-select .ant-select-arrow {
   color: #4a5364;
 }
-.ant-input-password input::placeholder{
-  color:#BDBDBD !important;
+.ant-input-password input::placeholder {
+  color: #bdbdbd !important;
 }
 
 /* 分頁前後頁按鈕 */
@@ -174,4 +174,21 @@
 /* 調整表單錯誤訊息位置 */
 .ant-form-item-explain-error {
   padding-left: 9.453px;
+}
+
+.modalResetPassword .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+}
+.modalResetPassword .ant-modal-title {
+  color: #424242;
+  font-size: 24px;
+}
+.modalResetPassword .ant-input-affix-wrapper:focus {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
+.modalResetPassword .ant-input-affix-wrapper:hover {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
 }
