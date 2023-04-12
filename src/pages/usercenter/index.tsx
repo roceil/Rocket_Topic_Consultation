@@ -1,16 +1,72 @@
-import { useState } from 'react';
-import { IButton } from '@/common/components/IButton';
+import { useState, useRef } from 'react';
+import axios from 'axios';
+import { getCookie } from 'cookies-next';
+import wrapper from '@/common/redux/store';
+import { useEditInformationPutMutation } from '@/common/redux/service/userCenter';
+import { IUserDataProps } from '@/types/interface';
 import UserInformation from '@/modules/userCenter/UserInformation';
-import UserCenterLayout from '../../modules/userCenter/UserCenterLayout';
+import convertDate from '@/common/helpers/convertDate';
+import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 
-export default function index() {
-  const [nameDisable, setNameDisable] = useState(true);
-  const edit = () => setNameDisable(false);
-  const save = () => {
-    if (nameDisable === true) return;
-    setNameDisable(true);
-    alert('儲存成功');
+export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
+  const token = getCookie('auth', { req, res });
+  if (!token) {
+    res.writeHead(302, { Location: '/login' });
+    res.end();
+  }
+  const resData = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const { data } = resData;
+  return {
+    props: {
+      data,
+    },
   };
+});
+
+export default function index({ data }: IUserDataProps) {
+  const { Account, BirthDate, Name, Sex } = data.Data[0];
+  const nameRef = useRef(Name);
+  const token = getCookie('auth');
+  const transferDate = convertDate(BirthDate);
+  const [nameDisable, setNameDisable] = useState(true);
+  const isHidden = nameDisable ? '!opacity-0 transform duration-300' : '!opacity-100 transform duration-300';
+  const [editInformationPut] = useEditInformationPutMutation();
+
+  // 開啟編輯功能函式
+  const edit = () => setNameDisable(false);
+
+  // 儲存資料並打PUT API函式
+  const save = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    const { value } = nameRef.current as unknown as { value: string };
+
+    // 如果用戶沒有改變名字，則直接儲存
+    if (value === '') {
+      alert('儲存成功');
+      setNameDisable(true);
+      return;
+    }
+
+    const res = await editInformationPut({ token, value });
+
+    // 這裡會攔截錯誤訊息
+    if ('error' in res) {
+      console.log('🚀 ~ file: index.tsx:54 ~ save ~ error:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
+      return;
+    }
+    const { Message } = res.data as { Message: string };
+    setNameDisable(true);
+    alert(Message);
+  };
+
   return (
     <div className="bg-white">
       {/* 手機版 */}
@@ -22,54 +78,14 @@ export default function index() {
             <div className="hidden h-[242px] w-[116px] ring-1 lg:block ">
               <h3 className="mb-8 font-bold text-primary-heavy">會員中心</h3>
             </div>
-
-            <form onSubmit={save} className="flex w-full flex-col  border-secondary  lg:mt-[62px] lg:max-w-[1012px] ">
-              <div className="mb-12 flex flex-col space-y-6 border-y py-8 lg:rounded-xl lg:border lg:border-secondary lg:py-10 lg:px-9">
-                <label className="min-h-10 py-2 text-gray-900">
-                  <span>會員帳號：</span>
-                  <span className="text-sm">hello@gamil.com</span>
-                </label>
-
-                <label className="min-h-10 text-gray-900">
-                  <span>修改密碼：</span>
-                  <button type="button" className="rounded-[10px] border border-secondary py-[9px] px-5 text-sm hover:bg-primary-heavy hover:text-white">
-                    點我重設密碼
-                  </button>
-                </label>
-
-                <label className="min-h-10 text-gray-900">
-                  <span>會員姓名：</span>
-                  <input
-                    type="text"
-                    className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 disabled:border-gray-800 disabled:bg-inherit"
-                    placeholder="設計超人"
-                    disabled={nameDisable}
-                  />
-                </label>
-
-                <label className="min-h-10 py-2 text-gray-900">
-                  <span>會員生日：</span>
-                  <span className="text-sm">1998/88/99</span>
-                </label>
-
-                <label className="min-h-10 !mb-3 py-2 text-gray-900">
-                  <span>會員性別：</span>
-                  <span className="text-sm">女</span>
-                </label>
-              </div>
-
-              <div className="flex justify-center space-x-5 lg:justify-end">
-                <IButton text="編輯" fontSize="text-base" px="px-[74px]" py="py-4" mode="light" onClick={edit} />
-                <IButton text="儲存" fontSize="text-base" px="px-[74px]" py="py-4" mode="dark" onClick={save} />
-              </div>
-            </form>
+            <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameRef={nameRef} />
           </div>
         </div>
       </section>
 
       {/* 電腦版 */}
       <UserCenterLayout>
-        <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName="菲菲" accountEmail="test@no.mail" />
+        <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameRef={nameRef} />
       </UserCenterLayout>
     </div>
   );

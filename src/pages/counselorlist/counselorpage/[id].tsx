@@ -2,9 +2,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Breadcrumb, Collapse, ConfigProvider, Radio, RadioChangeEvent, Select } from 'antd';
+import { IButton } from '@/common/components/IButton';
 import { counselorPageBreadcrumb } from '@/lib/counselorPage/CounselorPageData';
-import checkCircle from '../../public/images/check-circle.svg';
-import rateStar from '../../public/images/rateStar.svg';
+import checkCircle from '../../../../public/images/check-circle.svg';
+import rateStar from '../../../../public/images/rateStar.svg';
 
 interface IButton2Props {
   rounded?: 'full' | number | 'xl';
@@ -53,7 +54,33 @@ const topicOptions = [
 ];
 // 折疊元件
 const { Panel } = Collapse;
-const text = <p className="pl-6 text-sm text-gray-900">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>;
+// 常見問題的資料陣列
+const questionData = [
+  {
+    question: '預約方式',
+    answer: (
+      <ul className=" font-normal text-gray-900">
+        <li>1. 選擇心儀的課程方案後，點選「手刀預約」</li>
+        <li>2. 前往購物車完成結帳</li>
+        <li>3. 前往 會員中心 / 預約管理 / 待預約 選擇預約時段</li>
+        <li>4. 等待諮商師接受預約，收到接受通知後就完成囉！</li>
+      </ul>
+    ),
+  },
+  {
+    question: '費用說明',
+    answer: <p className=" font-normal text-gray-900">每堂課皆為一小時，可以自行選擇預約堂數，單堂費用由諮商師自行訂定，不同諮商主題的費用可能不同。</p>,
+  },
+  {
+    question: '上課說明',
+    answer: <p className=" font-normal text-gray-900">課程將透過 ZOOM 線上進行，預約時間十分鐘前會在會員中心釋出課程連結，只要點選連結，就可以開始上課囉！</p>,
+  },
+  {
+    question: '退課須知',
+    answer: <p className=" font-normal text-gray-900">預約成功後若要辦理退課，請聯絡客服信箱由小幫手協助處理。提醒：為維護雙方權益，請審慎考慮後再申請退課。</p>,
+  },
+];
+
 export default function CounselorPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [value3, setValue3] = useState('Apple');
@@ -76,11 +103,10 @@ export default function CounselorPage() {
 
               <div className="mt-10 w-full max-w-[340px] border-y border-secondary pt-6 pb-8 lg:mt-0 lg:min-h-[400px] lg:max-w-[492px] lg:pt-10 lg:pb-[45px]">
                 <h2 className="mb-4 w-full text-left lg:mb-6">筱清 1 號</h2>
-                <div className="mb-8 flex space-x-[22px] lg:mb-[84px] lg:space-x-3">
-                  <IButton2 rounded="full" text="親屬關係" textColor="text-secondary" textSize={14} textLgSize={16} py="py-3" width="w-[104px]" />
-
-                  <IButton2 rounded="full" text="中老年議題" textColor="text-secondary" textSize={14} textLgSize={16} py="py-3" width="w-[104px]" />
-                </div>
+                <ul className="mb-8 flex space-x-[22px] lg:mb-[84px] lg:space-x-3">
+                  <li className="fakeBorder w-full max-w-[104px] rounded-full py-3 text-center  text-sm font-semibold text-secondary">職場議題</li>
+                  <li className="fakeBorder w-full max-w-[104px] rounded-full py-3 text-center  text-sm font-semibold text-secondary">伴侶關係</li>
+                </ul>
                 <p className="text-sm text-gray-900 lg:text-lg">我是一位經驗豐富的心理學家和諮商師，專注於幫助人們克服壓力、焦慮和憂鬱等情緒問題。我認為，通過與我的客戶建立一種真誠的關係，可以幫助他們達到長期穩定的情緒狀態</p>
               </div>
             </div>
@@ -169,32 +195,32 @@ export default function CounselorPage() {
                 <ul className="mb-20 flex w-full flex-col items-start space-y-5 lg:mb-0">
                   <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
                     <Image src={checkCircle} alt="checkCircle_icon" width={17.5} height={17.5} />
-                    <p className="text-secondary">想要改善伴侶間爭吵、衝突的你們</p>
+                    <p className="text-gray-900">想要改善伴侶間爭吵、衝突的你們</p>
                   </li>
 
                   <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
                     <Image src={checkCircle} alt="checkCircle_icon" width={17.5} height={17.5} />
-                    <p className="text-secondary">想要改善伴侶間爭吵、衝突的你們</p>
+                    <p className="text-gray-900">想要改善伴侶間爭吵、衝突的你們</p>
                   </li>
 
                   <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
                     <Image src={checkCircle} alt="checkCircle_icon" width={17.5} height={17.5} />
-                    <p className="text-secondary">關係裡出現了裂痕，想要修復關係、好好處理問題的你們</p>
+                    <p className="text-gray-900">關係裡出現了裂痕，想要修復關係、好好處理問題的你們</p>
                   </li>
 
                   <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
                     <Image src={checkCircle} alt="checkCircle_icon" width={17.5} height={17.5} />
-                    <p className="text-secondary">建議伴侶雙方可以先各自預約一堂課，再一起開始伴侶課程。</p>
+                    <p className="text-gray-900">建議伴侶雙方可以先各自預約一堂課，再一起開始伴侶課程。</p>
                   </li>
 
                   <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
                     <Image src={checkCircle} alt="checkCircle_icon" width={17.5} height={17.5} />
-                    <p className="text-secondary">給關係裡出現了裂痕，想要修復關係、好好處理問題的你們</p>
+                    <p className="text-gray-900">給關係裡出現了裂痕，想要修復關係、好好處理問題的你們</p>
                   </li>
                 </ul>
 
                 {/* 價格區塊 */}
-                <div className=" relative w-full max-w-[340px] rounded-2xl border-2 border-secondary bg-white px-11 pt-[60px] pb-12 lg:hidden">
+                <div className=" relative w-full max-w-[340px] rounded-2xl border-2 border-gray-700 bg-white px-11 pt-[60px] pb-12 lg:hidden">
                   <div className="mb-9">
                     <ConfigProvider
                       theme={{
@@ -205,7 +231,7 @@ export default function CounselorPage() {
                           colorPrimaryHover: '#FFEFCD',
                           colorBgContainer: '#F5F5F5',
                           controlHeight: 53,
-                          colorText: '#4A5364',
+                          colorText: '#424242',
                           fontSize: 14,
                         },
                       }}
@@ -214,13 +240,13 @@ export default function CounselorPage() {
                         {options.map((item, index) => {
                           if (index === 0) {
                             return (
-                              <Radio.Button key={index} className="w-[252px] !rounded-xl !border-0 !text-center !font-bold !text-secondary" value={item.value}>
+                              <Radio.Button key={index} className="w-[252px] !rounded-xl !border-0 !text-center !font-bold !text-gray-900" value={item.value}>
                                 {item.label}
                               </Radio.Button>
                             );
                           }
                           return (
-                            <Radio.Button key={index} className="mt-5 w-[252px] !rounded-xl !border-0  !text-center !font-bold !text-secondary" value={item.value}>
+                            <Radio.Button key={index} className="mt-5 w-[252px] !rounded-xl !border-0  !text-center !font-bold !text-gray-900" value={item.value}>
                               {item.label}
                             </Radio.Button>
                           );
@@ -230,16 +256,11 @@ export default function CounselorPage() {
                   </div>
 
                   <div className="flex justify-center space-x-4">
-                    <button type="button" className="w-[104px] rounded-full border border-secondary py-3 text-sm font-bold text-secondary">
-                      我有問題
-                    </button>
-
-                    <button type="button" className="w-[104px] rounded-full border border-secondary bg-secondary py-3 text-sm text-white">
-                      手刀預約
-                    </button>
+                    <IButton text="我有問題" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="light" />
+                    <IButton text="手刀預約" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="dark" />
                   </div>
 
-                  <div className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-secondary bg-primary-heavy py-3 text-center text-sm font-bold text-secondary">親密關係</div>
+                  <div className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-center font-bold text-gray-900">親密關係</div>
                 </div>
               </div>
             </div>
@@ -297,17 +318,17 @@ export default function CounselorPage() {
           </section>
         </div>
 
-        <div className="hidden lg:block lg:pt-[226px]">
+        <div className="hidden lg:block lg:pt-[146px]">
           {/* 價格區塊 */}
-          <div className="fakeBorder relative w-full max-w-[340px] rounded-2xl bg-gray-100 px-11 pt-[60px] pb-12 lg:max-w-[388px] lg:px-14 lg:pt-[78px] lg:pb-14">
+          <div className="relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14">
             <button
               type="button"
-              className="fakeBorder absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full bg-primary-heavy py-3 text-sm font-bold text-secondary lg:w-[240px]  lg:translate-y-[-35px] lg:py-5 lg:text-xl"
+              className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-sm font-bold text-gray-900 lg:w-[240px]  lg:translate-y-[-35px] lg:py-5 lg:text-xl"
             >
               親密關係
             </button>
 
-            <div className="mb-9 lg:mb-12">
+            <div className="mb-9 lg:mb-12  lg:px-[54px]">
               <ConfigProvider
                 theme={{
                   token: {
@@ -326,13 +347,13 @@ export default function CounselorPage() {
                   {options.map((item, index) => {
                     if (index === 0) {
                       return (
-                        <Radio.Button key={index} className="w-full !rounded-xl !border-0 !text-center !font-bold !text-secondary" value={item.value}>
+                        <Radio.Button key={index} className="w-full !rounded-xl !border-0 !text-center !font-bold !text-gray-900" value={item.value}>
                           {item.label}
                         </Radio.Button>
                       );
                     }
                     return (
-                      <Radio.Button key={index} className="mt-5 w-full !rounded-xl !border-0 !text-center !font-bold !text-secondary lg:mt-[25px]" value={item.value}>
+                      <Radio.Button key={index} className="mt-5 w-full !rounded-xl !border-0 !text-center !font-bold !text-gray-900 lg:mt-[25px]" value={item.value}>
                         {item.label}
                       </Radio.Button>
                     );
@@ -341,14 +362,9 @@ export default function CounselorPage() {
               </ConfigProvider>
             </div>
 
-            <div className="flex justify-center space-x-4">
-              <button type="button" className="fakeBorder w-[104px] rounded-full py-3 text-sm text-secondary lg:w-[144px] lg:py-4 lg:text-base">
-                我有問題
-              </button>
-
-              <button type="button" className="fakeBorder w-[104px] rounded-full bg-secondary py-3 text-sm text-white lg:w-[144px] lg:py-4 lg:text-base">
-                手刀預約
-              </button>
+            <div className="flex justify-center space-x-4 px-10">
+              <IButton text="我有問題" fontSize="text-base" py="py-4" extraStyle="w-[144px]" mode="light" />
+              <IButton text="手刀預約" fontSize="text-base" py="py-4" extraStyle="w-[144px]" mode="dark" />
             </div>
           </div>
         </div>
@@ -361,110 +377,114 @@ export default function CounselorPage() {
 
           <ul className="lg:flex lg:w-full lg:justify-between">
             <li>
-              <div className="h-[338px] w-[284px] rounded-[20px] bg-white py-12 px-6 text-gray-900">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
+              <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
+                <div>
+                  <ul className="mb-3 flex">
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                  </ul>
 
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                  <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                </div>
 
-                <h3 className="mb-2 font-bold">菲菲</h3>
-                <p>前端好伙伴</p>
+                <h3 className="text-xl font-bold">菲小姐</h3>
               </div>
             </li>
 
             <li className="hidden lg:block">
-              <div className="h-[338px] w-[284px] rounded-[20px] bg-white py-12 px-6 text-gray-900">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
+              <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
+                <div className="">
+                  <ul className="mb-3 flex">
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                  </ul>
 
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                  <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                </div>
 
-                <h3 className="mb-2 font-bold">菲菲</h3>
-                <p>前端好伙伴</p>
+                <h3 className="mb-2 text-xl font-bold">菲小姐</h3>
               </div>
             </li>
 
             <li className="hidden lg:block">
-              <div className="h-[338px] w-[284px] rounded-[20px] bg-white py-12 px-6 text-gray-900">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
+              <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
+                <div className="">
+                  <ul className="mb-3 flex">
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                  </ul>
 
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                  <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                </div>
 
-                <h3 className="mb-2 font-bold">菲菲</h3>
-                <p>前端好伙伴</p>
+                <h3 className="mb-2 text-xl font-bold">菲小姐</h3>
               </div>
             </li>
 
-            <li className="hidden xl:block">
-              <div className="h-[338px] w-[284px] rounded-[20px] bg-white py-12 px-6 text-gray-900">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
+            <li className="hidden lg:block">
+              <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
+                <div className="">
+                  <ul className="mb-3 flex">
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                    <li>
+                      <Image src={rateStar} alt="rateStar" />
+                    </li>
+                  </ul>
 
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                  <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
+                </div>
 
-                <h3 className="mb-2 font-bold">菲菲</h3>
-                <p>前端好伙伴</p>
+                <h3 className="mb-2 text-xl font-bold">菲小姐</h3>
               </div>
             </li>
           </ul>
@@ -487,18 +507,11 @@ export default function CounselorPage() {
               }}
             >
               <Collapse bordered={false} expandIconPosition="end" className="bg-inherit">
-                <Panel className="p-2 text-lg font-bold" header="預約方式" key="1">
-                  {text}
-                </Panel>
-                <Panel className="p-2 text-lg font-bold" header="費用說明" key="2">
-                  {text}
-                </Panel>
-                <Panel className="p-2 text-lg font-bold" header="上課說明" key="3">
-                  {text}
-                </Panel>
-                <Panel className="p-2 text-lg font-bold" header="退課須知" key="4">
-                  {text}
-                </Panel>
+                {questionData.map(({ question, answer }, index) => (
+                  <Panel className="p-2 text-lg font-bold " header={question} key={index}>
+                    {answer}
+                  </Panel>
+                ))}
               </Collapse>
             </ConfigProvider>
           </div>

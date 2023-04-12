@@ -53,7 +53,7 @@ export default function Header() {
             {/* 判斷是否有登入，有登入就顯示『會員中心、通知』icons，沒有登入就顯示『登入、註冊』icons */}
             {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
-            <Link href="counselorlist" className="flex-shrink-0">
+            <Link href="/counselorlist/1" className="flex flex-shrink-0 justify-center">
               <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" />
             </Link>
           </ConfigProvider>

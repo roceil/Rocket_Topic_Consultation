@@ -2,6 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
 import { ConfigProvider, Collapse } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import footerLOGO from '../../../public/images/footer/footerLOGO.svg';
@@ -65,6 +66,10 @@ const followUsChilds = (
 );
 
 export default function Footer() {
+  const token = getCookie('auth');
+  const accessToUserCenter = token ? '/usercenter' : '/login';
+  const accessToReservation = token ? '/usercenter/reservation' : '/login';
+
   return (
     <footer className="bg-primary lg:py-[72px]">
       {/* PC Footer */}
@@ -86,10 +91,10 @@ export default function Footer() {
               <h3 className="mb-6 text-base font-bold">會員中心</h3>
               <ul className="space-y-4 text-sm">
                 <li>
-                  <Link href="/LogIn">個人資料</Link>
+                  <Link href={accessToUserCenter}>個人資料</Link>
                 </li>
                 <li>
-                  <Link href="/ForgetPassword">預約記錄</Link>
+                  <Link href={accessToReservation}>預約記錄</Link>
                 </li>
                 <li>
                   <Link href="/signup">加入會員</Link>

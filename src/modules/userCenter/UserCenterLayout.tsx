@@ -7,8 +7,8 @@ import { IUserCenterLayoutProps } from '@/types/interface';
 export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
   const router = useRouter();
   const { pathname } = router;
-  const isUserCenter = pathname === '/usercenter' ? 'opacity-100' : 'opacity-70';
-  const isReservation = pathname === '/usercenter/reservation' ? 'opacity-100' : 'opacity-70';
+  const isUserCenter = pathname === '/usercenter' ? '!text-secondary !border-secondary !font-semibold' : '';
+  const isReservation = pathname === '/usercenter/reservation' ? '!text-secondary !border-secondary !font-semibold' : '';
 
   // 登出函式 => 未完成 delete cookie
   const logout = () => {
@@ -21,21 +21,16 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
   return (
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px]">
       <div className="container min-h-[calc(100vh-330px)]">
-        <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
-          目前尚無預約
-        </div>
+        <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">目前尚無預約</div>
 
         <div className="flex justify-between">
           <div className="w-[20%]">
             <h3 className="mb-7 text-xl font-bold text-secondary">會員中心</h3>
-            <ul className="flex flex-col space-y-4 text-secondary">
+            <ul className="userCenterLayout flex max-w-[130px] flex-col space-y-4">
               {/* 個人資料 */}
-              <li className={`${isUserCenter} hover:opacity-100`}>
+              <li className="group">
                 <Link href="/usercenter">
-                  <button
-                    type="button"
-                    className="border-l-2 border-secondary/70 p-4 font-bold"
-                  >
+                  <button type="button" className={`${isUserCenter} border-l-2 border-gray-600 p-4 text-gray-600 group-hover:border-secondary group-hover:font-semibold group-hover:text-secondary`}>
                     <UserOutlined className="mr-3 text-xl" />
                     個人資料
                   </button>
@@ -43,12 +38,9 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
               </li>
 
               {/* 預約管理 */}
-              <li className={`${isReservation} hover:opacity-100`}>
+              <li className="group ">
                 <Link href="/usercenter/reservation">
-                  <button
-                    type="button"
-                    className="border-l-2 border-secondary/70 p-4 font-bold"
-                  >
+                  <button type="button" className={`${isReservation} border-l-2 border-gray-600 p-4  text-gray-600 group-hover:border-secondary group-hover:font-semibold group-hover:text-secondary`}>
                     <ProfileOutlined className="mr-3 text-xl" />
                     預約紀錄
                   </button>
@@ -56,12 +48,8 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
               </li>
 
               {/* 登出 */}
-              <li className="opacity-70 hover:opacity-100">
-                <button
-                  type="button"
-                  className="border-l-2 border-secondary/70 p-4 font-bold"
-                  onClick={logout}
-                >
+              <li className="group ">
+                <button type="button" className="w-full border-l-2 border-gray-600 p-4 text-left text-gray-600 group-hover:border-secondary group-hover:font-semibold group-hover:text-secondary" onClick={logout}>
                   <LogoutOutlined className="mr-3 text-xl" />
                   登出
                 </button>

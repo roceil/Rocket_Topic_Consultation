@@ -24,14 +24,13 @@ function LogInForm() {
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
 
   // 使用者登入函式
-  const userLoginPost = async (Email: string, Password: string) => {
+  const userLoginPost = async (Account: string, Password: string) => {
     const res = await userLoginPostApi({
-      Account: Email,
+      Account,
       Password,
     });
-    console.log('🚀 ~ file: LogInForm.tsx:27 ~ userLoginPost ~ res:', res);
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
@@ -39,18 +38,18 @@ function LogInForm() {
       return;
     }
     const { Message } = res.data as { Message: string };
-    const { Authorization, Identity, UserID } = res.data as IUserLoginRes;
+    const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
     alert(Message);
-    setCookie('auth', decodeURIComponent(Authorization), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
   };
 
   // 諮商師登入函式
-  const counselorLoginPost = async (Email: string, Password: string) => {
+  const counselorLoginPost = async (Account: string, Password: string) => {
     const res = await counselorLoginPostApi({
-      Account: Email,
+      Account,
       Password,
     });
     if ('error' in res) {
@@ -62,20 +61,20 @@ function LogInForm() {
       return;
     }
     const { Message } = res.data as { Message: string };
-    const { Authorization, Identity, UserID } = res.data as IUserLoginRes;
+    const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
     alert(Message);
-    setCookie('auth', decodeURIComponent(Authorization), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
   };
 
   // 表單送出函式
-  const onFinish = ({ Email, Password }: { Email: string; Password: string }) => {
+  const onFinish = ({ Account, Password }: { Account: string; Password: string }) => {
     if (value === '用戶') {
-      userLoginPost(Email, Password);
+      userLoginPost(Account, Password);
     } else if (value === '諮商師') {
-      counselorLoginPost(Email, Password);
+      counselorLoginPost(Account, Password);
     }
   };
 
