@@ -344,7 +344,7 @@ function ClassInfo() {
           <h3 className="mr-2 mb-4 text-base font-bold text-secondary lg:mb-0 lg:w-[10%]">
             專長領域 *
           </h3>
-          <div className="flex flex-wrap justify-around lg:flex-nowrap lg:justify-between lg:space-x-3 lg:w-[80%]">
+          <div className="flex flex-wrap justify-around lg:w-[80%] lg:flex-nowrap lg:justify-between lg:space-x-3">
             <IButton
               text="職場議題"
               fontSize="text-[14px]"
@@ -384,18 +384,18 @@ function ClassInfo() {
           </div>
         </div>
         <div className="flex-row lg:flex">
-          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:border-none lg:pt-0 lg:w-[10%]">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
           {/* PC 課程方案 */}
-          <div className="hidden rounded-2xl bg-gray-200 pb-9 lg:block w-[90%]">
-            <ul className="flex border-b border-gray-400  py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center w-full">
+          <div className="hidden w-[90%] rounded-2xl bg-gray-200 pb-9 lg:block">
+            <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
               <li className="lg:w-[33.33%]">專長領域</li>
               <li className="lg:w-[33.33%]">定價</li>
               <li className="lg:w-[33.33%]">是否開放</li>
             </ul>
-            <ul className="space-y-4 px-3 pt-5 lg:px-0 lg:pt-7 w-full">
-              <li className="flex flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base w-full">
+            <ul className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
+              <li className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
                 <ConfigProvider
                   theme={{
                     token: {
@@ -413,7 +413,11 @@ function ClassInfo() {
                     form={form}
                     name="classInfo"
                     onFinish={onFinish}
-                    style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                    }}
                   >
                     {/* PC 課程方案＋定價 */}
                     <div className="flex w-full flex-col space-y-4">
@@ -575,7 +579,7 @@ function ClassInfo() {
                         </Form.Item>
                       </div>
                       <div className="flex items-center justify-between">
-                        <div className="w-[33.33%] text-center flex justify-center">
+                        <div className="flex w-[33.33%] justify-center text-center">
                           <p className="w-[42px]">體驗課 1 堂</p>
                         </div>
                         <Form.Item className="mb-0 w-[33.33%] text-center">
@@ -602,12 +606,12 @@ function ClassInfo() {
           </div>
         </div>
         <div className="flex-row lg:flex">
-          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:border-none lg:pt-0 lg:w-[10%]">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
             課程特色 *
           </h3>
           <div className="rounded-2xl bg-gray-200 pb-9 lg:w-[90%]">
-            <ul className="space-y-4 pt-5 lg:px-0 lg:pt-7 w-full">
-              <li className="flex flex-col items-center rounded-lg py-5 text-sm text-primary-heavy lg:space-x-10 lg:text-center lg:text-base w-full">
+            <ul className="w-full space-y-4 pt-5 lg:px-0 lg:pt-7">
+              <li className="flex w-full flex-col items-center rounded-lg py-5 text-sm text-primary-heavy lg:space-x-10 lg:text-center lg:text-base">
                 <ConfigProvider
                   theme={{
                     token: {
@@ -622,12 +626,16 @@ function ClassInfo() {
                   }}
                 >
                   {/* PC 課程特色 textarea */}
-                  <div className="hidden lg:block w-full">
+                  <div className="hidden w-full lg:block">
                     <Form
                       form={form}
                       name="classInfo"
                       onFinish={onFinish}
-                      style={{ width: '100%', display: 'flex', flexDirection: 'column' }}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
                     >
                       {/* 課程方案＋定價 */}
                       <Form.Item
@@ -729,7 +737,11 @@ function ClassInfo() {
                       form={form}
                       name="classInfo"
                       onFinish={onFinish}
-                      style={{ width: '100%', display: 'flex', flexDirection: 'column' }}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
                     >
                       {/* 課程方案＋定價 */}
                       <Form.Item
@@ -825,7 +837,7 @@ function ClassInfo() {
         <input
           type="button"
           value="刪除此專長領域"
-          className="mt-4 text-base text-gray-900 underline underline-offset-2"
+          className="mt-4 text-base text-gray-900 underline underline-offset-2 hover:text-red-500"
         />
       </div>
       <div className="mt-12 flex justify-end space-x-7">
@@ -851,7 +863,7 @@ function ClassInfo() {
 
 function TimeInfo() {
   return (
-    <div className="flex flex-col rounded-lg border bg-bg2 py-[42px] lg:flex-row">
+    <div className="flex flex-col rounded-lg border bg-gray-200 py-[42px] lg:flex-row">
       <div className="flex">
         <div>開始日期</div>
         <div>結束日期</div>
