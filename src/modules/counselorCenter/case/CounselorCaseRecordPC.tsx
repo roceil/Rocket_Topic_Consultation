@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { ConfigProvider, Input } from 'antd';
-import userImg from '../../../../public/images/User01.jpg';
 import CommonPagination from '@/common/components/CommonPagination';
+import userImg from '../../../../public/images/User01.jpg';
 
 const userInfo = [
   {
@@ -135,7 +135,7 @@ export default function CounselorCaseRecordPC() {
           ))}
         </ul>
       </div>
-      <CommonPagination />
+      <CommonPagination TotalPageNum={0} pageId="1" />
     </div>
   );
 }

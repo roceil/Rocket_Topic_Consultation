@@ -2,9 +2,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ConfigProvider, Tabs } from 'antd';
 import { InfoForm } from '@/modules/counselorCenter/personalInfo/InfoForm';
+import { ClassInfo } from '@/modules/counselorCenter/personalInfo/ClassInfo';
+import TimeInfo from '@/modules/counselorCenter/personalInfo/TimeInfo';
 import userImg from '../../../public/images/User01.jpg';
-import { ClassInfo } from '../../modules/counselorCenter/personalInfo/ClassInfo';
-import { TimeInfo } from './TimeInfo';
 
 const conselor1 = {
   name: '李森',

@@ -138,7 +138,7 @@ export default function CounselorCaseRecord() {
           ))}
         </ul>
       </div>
-      <CommonPagination />
+      <CommonPagination TotalPageNum={0} pageId="1" />
     </>
   );
 }

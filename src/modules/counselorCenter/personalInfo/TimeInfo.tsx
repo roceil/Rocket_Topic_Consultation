@@ -1,4 +1,4 @@
-export function TimeInfo() {
+export default function TimeInfo() {
   return (
     <div className="flex flex-col rounded-lg border bg-gray-200 py-[42px] lg:flex-row">
       <div className="flex">
