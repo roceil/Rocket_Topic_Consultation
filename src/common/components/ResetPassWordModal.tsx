@@ -4,23 +4,24 @@ import { getCookie } from 'cookies-next';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
-import { useResetPasswordPostApiMutation } from '../redux/service/resetPassword';
+import { useResetPasswordPostMutation } from '../redux/service/userCenter';
 
 export default function ResetPassWordModal({ showResetPassword, setShowResetPassword }: any) {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [resetPasswordPostApi] = useResetPasswordPostApiMutation();
+  const [resetPasswordPost] = useResetPasswordPostMutation();
   const token = getCookie('auth');
 
-  //! 待修改
+  // 送出表單函式
   const handleOk = async ({ Password, ConfirmPassword }: { Password: string; ConfirmPassword: string }) => {
-    const res = await resetPasswordPostApi({
+    const res = await resetPasswordPost({
       Password,
       ConfirmPassword,
       token,
     });
-    console.log('🚀 ~ file: ResetPassWordModal.tsx:18 ~ handleOk ~ res:', res);
+
+    // 攔截錯誤訊息
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: ResetPassWordModal.tsx:23 ~ handleOk ~ res:', res);
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
@@ -30,11 +31,10 @@ export default function ResetPassWordModal({ showResetPassword, setShowResetPass
     const { Message } = res.data as { Message: string };
     alert(Message);
 
-    setTimeout(() => {
-      setShowResetPassword(false);
-      setConfirmLoading(false);
-    }, 2000);
+    setShowResetPassword(false);
+    setConfirmLoading(false);
   };
+
   // 關閉modal函式
   const handleCancel = () => {
     setShowResetPassword(false);

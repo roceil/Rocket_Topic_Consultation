@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { IButton } from '@/common/components/IButton';
 import ResetPassWordModal from '../../common/components/ResetPassWordModal';
 
-export default function UserInformation({ save, edit, nameDisable, accountName, accountEmail, BirthDate, Sex, extraStyle, nameRef }: any) {
+export default function UserInformation({ save, edit, nameDisable, accountEmail, BirthDate, Sex, extraStyle, nameInput, setNameInput }: any) {
   const [showResetPassword, setShowResetPassword] = useState(false);
 
   return (
@@ -31,11 +31,13 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
         <label className="min-h-10 text-gray-900">
           <span>會員姓名：</span>
           <input
-            ref={nameRef}
             type="text"
             className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 disabled:border-gray-500 disabled:bg-inherit disabled:text-gray-500 disabled:placeholder:text-gray-500"
-            placeholder={accountName}
+            placeholder={nameInput}
             disabled={nameDisable}
+            onChange={(e) => {
+              setNameInput(e.target.value);
+            }}
           />
         </label>
 
@@ -51,8 +53,8 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
       </div>
 
       <div className="flex justify-center space-x-5 lg:justify-end">
-        <IButton text="儲存" fontSize="text-base" px="px-14 sm:px-[74px]" py="py-4" mode="dark" onClick={save} extraStyle={extraStyle} />
         <IButton text="編輯" fontSize="text-base" px="px-14 sm:px-[74px]" py="py-4" mode="light" onClick={edit} />
+        <IButton text="儲存" fontSize="text-base" mode="dark" onClick={save} extraStyle={extraStyle} />
       </div>
     </form>
   );

@@ -7,10 +7,10 @@ export const userCenter = createApi({
   }),
   endpoints: (builder) => ({
     editInformationPut: builder.mutation({
-      query: ({ token, value }) => ({
+      query: ({ token, nameInput }) => ({
         url: '/api/users',
         method: 'PUT',
-        body: { Name: value },
+        body: { Name: nameInput },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -20,10 +20,10 @@ export const userCenter = createApi({
       query: ({ token, Password, ConfirmPassword }) => ({
         url: '/api/resetPassword',
         method: 'POST',
-        body: { Password, ConfirmPassword },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        body: { Password, ConfirmPassword },
       }),
     }),
   }),
