@@ -1,12 +1,11 @@
 import Link from 'next/link';
+import { getCookie } from 'cookies-next';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import { selectHasToken } from '../redux/feature/hasToken';
 
 // 登入時，顯示『會員中心、通知』icons
 export default function HasLoginBtn() {
-  const { identity } = useSelector(selectHasToken);
-  const handleLink = identity === 'user' ? '/usercenter' : '/counselorcenter/1';
+  const getIdentity = getCookie('identity');
+  const handleLink = getIdentity === 'user' ? '/usercenter' : '/counselorcenter/1';
   return (
     <>
       <button type="button" className="btnHover h-10 w-10 group">

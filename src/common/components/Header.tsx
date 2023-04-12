@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ConfigProvider } from 'antd';
-import { useSelector } from 'react-redux';
-import { selectHasToken } from '../redux/feature/hasToken';
 import { IButton } from './IButton';
 import SearchCapsule from './SearchCapsule';
 import HamburgerModal from './HamburgerModal';
@@ -13,9 +12,10 @@ import LOGO from '../../../public/images/header/LOGO.svg';
 import LOGO_SM from '../../../public/images/header/LOGO_SM.svg';
 
 export default function Header() {
-  const { auth, identity } = useSelector(selectHasToken);
-  const hasCookie = auth !== undefined;
-  const handleDisplay = identity === 'counselor' ? 'hidden' : 'block';
+  const getToken = getCookie('auth');
+  const getIdentity = getCookie('identity');
+  const hasCookie = getToken !== undefined;
+  const handleDisplay = getIdentity === 'counselor' ? 'hidden' : 'block';
 
   return (
     <>
