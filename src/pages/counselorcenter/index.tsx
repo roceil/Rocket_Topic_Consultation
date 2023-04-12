@@ -1,14 +1,6 @@
 import { ConfigProvider } from 'antd';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
-// import { CounselorInfoTab } from './personalInfo';
 import CounselorInfoTab from './personalInfo';
-
-// interface CounselorProps {
-//   name: string;
-//   LicenseNum: number;
-//   slogan: string;
-//   introduce: string;
-// }
 
 export default function index() {
   return (

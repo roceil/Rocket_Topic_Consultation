@@ -45,7 +45,7 @@ function CounselorReservationTab() {
         <Tabs defaultActiveKey="待回覆" items={counselorReservationTabAry} onChange={onChange} />
       </ConfigProvider>
       <div className="mt-10">
-        <CommonPagination />
+        <CommonPagination TotalPageNum={0} pageId="1" />
       </div>
     </div>
   );
