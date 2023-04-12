@@ -21,12 +21,6 @@ import step1 from '../../public/images/home/reservationTour/step1.svg';
 import step2 from '../../public/images/home/reservationTour/Step2.svg';
 import step3 from '../../public/images/home/reservationTour/Step3.svg';
 import step4 from '../../public/images/home/reservationTour/Step4.svg';
-import counselor1 from '../../public/images/home/suggestCounselor/counselor1.jpg';
-import counselor2 from '../../public/images/home/suggestCounselor/counselor2.png';
-import counselor3 from '../../public/images/home/suggestCounselor/counselor3.svg';
-import counselor4 from '../../public/images/home/suggestCounselor/counselor4.svg';
-import counselor5 from '../../public/images/home/suggestCounselor/counselor5.svg';
-import counselor6 from '../../public/images/home/suggestCounselor/counselor6.svg';
 
 export const homeComponents = {
   Banner,
@@ -41,7 +35,7 @@ export const counselorRank = [
   {
     name: '家洋 1 號',
     rankTag: '熱門諮商師 TOP 1',
-    img: counselor1,
+    img: 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/dev/public/images/home/suggestCounselor/counselor1.svg',
     skillsAry: [
       {
         type: '職場議題',
@@ -84,7 +78,7 @@ export const counselorRank = [
   {
     name: '家洋 2 號',
     rankTag: '熱門諮商師 TOP 2',
-    img: counselor2,
+    img: 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/dev/public/images/home/suggestCounselor/counselor2.svg',
     skillsAry: [
       {
         type: '職場議題',
@@ -121,7 +115,7 @@ export const counselorRank = [
   {
     name: '家洋 3 號',
     rankTag: '熱門諮商師 TOP 3',
-    img: counselor3,
+    img: 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/dev/public/images/home/suggestCounselor/counselor3.svg',
     skillsAry: [
       {
         type: '職場議題',
@@ -152,7 +146,7 @@ export const counselorRank = [
   {
     name: '家洋 4 號',
     rankTag: '熱門諮商師 TOP 4',
-    img: counselor4,
+    img: 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/dev/public/images/home/suggestCounselor/counselor4.svg',
     skillsAry: [
       {
         type: '職場議題',
@@ -183,7 +177,7 @@ export const counselorRank = [
   {
     name: '家洋 5 號',
     rankTag: '熱門諮商師 TOP 5',
-    img: counselor5,
+    img: 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/dev/public/images/home/suggestCounselor/counselor5.svg',
     skillsAry: [
       {
         type: '人際關係',
@@ -214,7 +208,7 @@ export const counselorRank = [
   {
     name: '家洋 6 號',
     rankTag: '熱門諮商師 TOP 6',
-    img: counselor6,
+    img: 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/dev/public/images/home/suggestCounselor/counselor6.svg',
     skillsAry: [
       {
         type: '職場議題',

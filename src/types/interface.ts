@@ -10,7 +10,7 @@ export interface ITopicCardProps {
 export interface ISuggestCounselorCardProps {
   name: string;
   rankTag: string;
-  img: StaticImageData;
+  img: string;
   skillsAry: ITopicCardProps[];
 }
 

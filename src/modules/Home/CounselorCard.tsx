@@ -10,7 +10,7 @@ export default function CounselorCard({ name, rankTag, img, skillsAry }: ISugges
       <div className="max-w-[244px] lg:max-w-[280px]">
         {/* 這是圖片 */}
         <div className="relative h-[244px] w-[244px] lg:h-[280px] lg:w-[280px]">
-          <Image src={img} alt="stepPicture" width={280} height={280} className="object-fill transition duration-300 lg:group-hover:opacity-70" />
+          <Image src={img} alt="stepPicture" width={280} height={280} className="object-cover h-full transition duration-300 lg:group-hover:opacity-70 rounded-xl" />
           {/* 手機版連結裝飾按鈕 */}
           <button type="button" className="absolute bottom-3 right-3 h-7 w-7 rounded-full bg-white/70 text-gray-800 lg:hidden">
             <ArrowRightOutlined />

@@ -28,8 +28,7 @@ export default function SignUpTabs() {
           // Tab 被選取時的顏色
           borderRadius: 24,
           colorText: '#4A5364',
-          colorIcon: '#4A5364',
-          colorTextDescription: '#ff7f17',
+          colorError: '#D14D3C ',
         },
         components: {
           Select: {

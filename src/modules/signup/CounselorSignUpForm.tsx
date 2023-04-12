@@ -58,7 +58,7 @@ export default function CounselorSignUpForm() {
   const allowedSize = 2 * 1024 * 1024; // 2MB
 
   // 自定義 beforeUpload 函式，用於限制上傳的文件類型和大小
-  const beforeUpload = (file: { size: number; }) => {
+  const beforeUpload = (file: { size: number }) => {
     // 檢查文件大小是否符合要求
     const isAllowedSize = file.size <= allowedSize;
     if (!isAllowedSize) {
@@ -111,7 +111,7 @@ export default function CounselorSignUpForm() {
             ]}
           >
             <Upload listType="picture" maxCount={1} beforeUpload={beforeUpload} accept="image/png,image/jpg">
-              <Button className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full border-secondary bg-white sm:w-[180px]" icon={<PlusCircleOutlined className="text-xl" />}>
+              <Button className="flex h-[51px] w-[160px] flex-row-reverse items-center justify-between !rounded-full border-secondary bg-white text-base text-gray-500 sm:w-[180px]" icon={<PlusCircleOutlined className="text-xl text-secondary" />}>
                 License
               </Button>
             </Upload>
@@ -121,7 +121,7 @@ export default function CounselorSignUpForm() {
 
       {/* 證書字號 */}
       <Form.Item name="Certification" label="諮商師證書字號 Certification" rules={[{ required: true, message: '請輸入證書字號' }]}>
-        <Input placeholder="Certification" className="formInput border-secondary !shadow-none" />
+        <Input placeholder="Certification" className="formInput border-secondary !shadow-none placeholder:text-gray-500" />
       </Form.Item>
 
       {/* 帳號 Account */}
