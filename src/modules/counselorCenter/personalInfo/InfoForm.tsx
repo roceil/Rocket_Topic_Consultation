@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ConfigProvider, Form, Input, Switch, Upload, Button } from 'antd';
 import { useState } from 'react';
 import { IButton } from '@/common/components/IButton';
@@ -11,11 +9,11 @@ const { TextArea } = Input;
 
 export interface CounselorProps {
   name: string;
+  // eslint-disable-next-line react/no-unused-prop-types
   id: number;
   LicenseNum: number;
   slogan: string;
   introduce: string;
-  // counselorImage: ;
 }
 
 // 諮商師 > 個人資料 > 基本資料
@@ -57,14 +55,9 @@ export function InfoForm({
   };
 
   // 控制 disabled
-  const [editInfo, setEditInfo] = useState<boolean>(true);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const [form] = Form.useForm();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
-  const formItemLayout = formLayout === 'vertical'
-    ? { labelCol: { span: 24 }, wrapperCol: { offset: 0 } }
-    : null;
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -105,8 +98,7 @@ export function InfoForm({
             }}
           >
             <Form
-              {...formItemLayout}
-              layout={formLayout}
+              layout="vertical"
               form={form}
               name="conselorCenter"
               onFinish={onFinish}
@@ -124,8 +116,8 @@ export function InfoForm({
                 <Button
                   className="font-normal"
                   block
-                  style={{ height: 40 }}
-                  disabled={editInfo}
+                  style={{ height: 40, width: 124 }}
+                  disabled={isEdit}
                 >
                   點我重設密碼
                 </Button>
@@ -136,7 +128,7 @@ export function InfoForm({
                 className="font-bold lg:mx-[15px] lg:w-[584px]"
               >
                 <Input
-                  disabled={editInfo}
+                  disabled={isEdit}
                   placeholder={name}
                   className="font-normal"
                   style={{ height: 40 }}
@@ -162,7 +154,7 @@ export function InfoForm({
                         fileList={filelist}
                         onChange={uploadOnChange}
                         onPreview={onPreview}
-                        disabled={editInfo}
+                        disabled={isEdit}
                         id="CounselorLicense"
                       >
                         {filelist.length < 1 && '+ Upload'}
@@ -194,8 +186,7 @@ export function InfoForm({
             }}
           >
             <Form
-              {...formItemLayout}
-              layout={formLayout}
+              layout="vertical"
               form={form}
               name="conselorCenter"
               onFinish={onFinish}
@@ -221,7 +212,7 @@ export function InfoForm({
                         fileList={filelist}
                         onChange={uploadOnChange}
                         onPreview={onPreview}
-                        disabled={editInfo}
+                        disabled={isEdit}
                         id="CounselorImage"
                       >
                         {filelist.length < 1 && '+ Upload'}
@@ -245,7 +236,7 @@ export function InfoForm({
                   onChange={onChange}
                   placeholder={`${slogan}`}
                   className="font-normal"
-                  disabled={editInfo}
+                  disabled={isEdit}
                 />
               </Form.Item>
               <Form.Item
@@ -260,7 +251,7 @@ export function InfoForm({
                   onChange={onChange}
                   placeholder={`${introduce}`}
                   className="font-normal"
-                  disabled={editInfo}
+                  disabled={isEdit}
                 />
               </Form.Item>
               <div className="lg:mx-[15px]">
@@ -271,7 +262,7 @@ export function InfoForm({
                     <Input
                       placeholder="請輸入影片連結"
                       className="bg-primary-light h-10 w-[207px] border-none font-normal lg:w-[475px]"
-                      disabled={editInfo}
+                      disabled={isEdit}
                     />
                   </div>
                   <div className="flex">
@@ -279,7 +270,7 @@ export function InfoForm({
                     <Switch
                       defaultChecked
                       onChange={SwitchOnChange}
-                      disabled={editInfo}
+                      disabled={isEdit}
                     />
                   </div>
                 </div>
@@ -294,14 +285,15 @@ export function InfoForm({
           fontSize="text-[14px] lg:text-base"
           px="px-[66px] lg:px-[74px]"
           py="py-4"
-          onClick={() => setEditInfo(false)}
+          onClick={() => setIsEdit(false)}
         />
-        {!editInfo && (
+        {!isEdit && (
           <IButton
             text="儲存"
             fontSize="text-[14px] lg:text-base"
             px="px-[66px] lg:px-[74px]"
             py="py-4"
+            onClick={() => setIsEdit(true)}
           />
         )}
       </div>

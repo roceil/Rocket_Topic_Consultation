@@ -6,7 +6,7 @@ import { selectHasToken } from '../redux/feature/hasToken';
 // 登入時，顯示『會員中心、通知』icons
 export default function HasLoginBtn() {
   const { identity } = useSelector(selectHasToken);
-  const handleLink = identity === 'user' ? '/usercenter' : '/counselorcenter/1';
+  const handleLink = identity === 'user' ? '/usercenter' : '/counselorcenter';
   return (
     <>
       <button type="button" className="btnHover h-10 w-10 group">
