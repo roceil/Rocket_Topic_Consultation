@@ -12,10 +12,14 @@ export default function ForgetPasswordForm() {
   };
 
   // 重設密碼API 函式
-  const forgerPasswordPost = async (Email: string) => {
-    const res = await forgetPasswordPostApi({ Email });
+  const forgerPasswordPost = async (Account: string) => {
+    const res = await forgetPasswordPostApi({ Account });
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: ForgetPasswordForm.tsx:18 ~ forgerPasswordPost ~ res:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
@@ -24,8 +28,8 @@ export default function ForgetPasswordForm() {
   };
 
   // 表單送出函式
-  const onFinish = ({ Email }: { Email: string }) => {
-    forgerPasswordPost(Email);
+  const onFinish = ({ Account }: { Account: string }) => {
+    forgerPasswordPost(Account);
   };
   return (
     <ConfigProvider
@@ -34,31 +38,28 @@ export default function ForgetPasswordForm() {
           Button: {
             colorPrimaryHover: '#4A5364',
             colorPrimaryActive: '#4A5364',
-            colorTextDisabled: '#fff',
           },
         },
       }}
     >
-      <Form
-        layout="vertical"
-        form={form}
-        name="forgetPassword"
-        onFinish={onFinish}
-        labelAlign="left"
-      >
+      <Form layout="vertical" form={form} name="forgetPassword" onFinish={onFinish} labelAlign="left">
         {/* 信箱 */}
         <Form.Item
-          name="Email"
+          name="Account"
           label="信箱 Email Address"
           rules={[
             {
               required: true,
               message: '請輸入信箱',
             },
+            {
+              pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+              message: '請輸入正確的信箱格式',
+            },
           ]}
         >
           <div>
-            <Input placeholder="Email address" className="formInput border-secondary focus:border-secondary hover:border-secondary !shadow-none" />
+            <Input placeholder="Email address" className="formInput border-secondary !shadow-none hover:border-secondary focus:border-secondary" />
             <p className="absolute right-0">請輸入註冊時使用的信箱</p>
           </div>
         </Form.Item>

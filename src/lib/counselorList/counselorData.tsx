@@ -1,4 +1,3 @@
-import { SelectProps } from 'antd';
 import Link from 'next/link';
 import counselor03 from '../../../public/images/counselorList/Counselor 03  - lg.svg';
 
@@ -83,7 +82,7 @@ export const counselorBreadcrumb = [
   },
 ];
 
-export const selectOptions: SelectProps['options'] = [
+export const selectOptions: { label: string; value: string }[] = [
   {
     label: '職場議題',
     value: '職場議題',

@@ -8,7 +8,7 @@ export const resetPassword = createApi({
   endpoints: (builder) => ({
     resetPasswordPostApi: builder.mutation({
       query: (body) => ({
-        url: '/api/resetPassword',
+        url: '/api/resetPassword/guid',
         method: 'POST',
         body,
       }),

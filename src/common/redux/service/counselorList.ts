@@ -9,7 +9,10 @@ export const counselorList = createApi({
     getCounselorList: builder.query({
       query: () => '/api/counselorList',
     }),
+    getFilterList: builder.query({
+      query: ({ pageId, convertTopic }) => `/api/profiles?page=${pageId}&tag=${convertTopic}`,
+    }),
   }),
 });
 
-export const { useGetCounselorListQuery } = counselorList;
+export const { useGetCounselorListQuery, useGetFilterListQuery } = counselorList;
