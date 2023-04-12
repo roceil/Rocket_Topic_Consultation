@@ -47,6 +47,9 @@
   .fakeBorder {
     box-shadow: inset 0 0 0 1.5px #4a5364;
   }
+  .CounselorCenterNoDataBtn {
+    box-shadow: inset 0 0 0 1.5px #9E9E9E;
+  }
   .fakeBorderHover {
     box-shadow: inset 0 0 0 1.5px #fff;
   }

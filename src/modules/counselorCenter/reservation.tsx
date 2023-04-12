@@ -1,3 +1,4 @@
+import CommonPagination from '@/common/components/CommonPagination';
 import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 import CounselorHasCancel from '@/modules/counselorCenter/CounselorHasCancel';
 import CounselorHasSetUp from '@/modules/counselorCenter/CounselorHasSetUp';
@@ -34,8 +35,8 @@ function CounselorReservationTab() {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#767494',
-            colorText: '#767494',
+            colorPrimary: '#4A5364',
+            colorText: '#9E9E9E',
             fontSize: 16,
             margin: 32,
           },
@@ -43,6 +44,9 @@ function CounselorReservationTab() {
       >
         <Tabs defaultActiveKey="待回覆" items={counselorReservationTabAry} onChange={onChange} />
       </ConfigProvider>
+      <div className="mt-10">
+        <CommonPagination TotalPageNum={0} pageId="1" />
+      </div>
     </div>
   );
 }
@@ -51,12 +55,10 @@ export default function reservation() {
   return (
     <>
       {/* 手機版 預約管理 */}
-      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px]">
-        <div className="container">
-          <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
-            目前尚無預約
-          </div>
+      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] bg-white">
+        <div className="container mb-10">
           <h2 className="mb-12 text-center leading-loose lg:hidden">預約管理</h2>
+          <CounselorReservationTab />
         </div>
       </section>
 
