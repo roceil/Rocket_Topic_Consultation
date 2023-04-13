@@ -1,3 +1,5 @@
+import { ICoursesDataProps } from '../types/interface';
+
 export const classTopic:{ topicName:string; id:number }[] = [
   { topicName: '職場議題', id: 1 },
   { topicName: '伴侶關係', id: 2 },
@@ -6,7 +8,7 @@ export const classTopic:{ topicName:string; id:number }[] = [
   { topicName: '個人發展', id: 5 },
   { topicName: '家庭議題', id: 6 }];
 
-export const coursesData = {
+export const coursesData:ICoursesDataProps = {
   Success: true,
   Message: '成功取得課程資訊',
   Data: {
@@ -40,13 +42,9 @@ export const coursesData = {
             Availability: true,
           },
         ],
-        Feature: {
-          Feature1: 'a',
-          Feature2: 'aa',
-          Feature3: 'aaa',
-          Feature4: 'aaaa',
-          Feature5: 'aaaaa',
-        },
+        Feature: [
+          'a', 'aa', 'aaa', 'aaaa', 'aaaaa',
+        ],
       },
       {
         FieldId: 4,
@@ -76,13 +74,9 @@ export const coursesData = {
             Availability: true,
           },
         ],
-        Feature: {
-          Feature1: 'b',
-          Feature2: 'bb',
-          Feature3: 'bbb',
-          Feature4: '特色4',
-          Feature5: '特色5',
-        },
+        Feature: [
+          'b', 'bb', 'bbb', 'bbbb', 'bbbbb',
+        ],
       },
     ],
   },

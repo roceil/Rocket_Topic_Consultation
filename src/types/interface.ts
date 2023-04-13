@@ -64,3 +64,34 @@ export interface ICounselorListCardProps {
 export interface IUserDataProps {
   data: { Data: [{ Account: string; BirthDate: string; Name: string; Sex: string }]; Message: string; Success: boolean };
 }
+
+// 諮商師 > 會員中心 > 個人資料 > 課程資訊 API
+export interface ICoursesDataProps {
+  Success: boolean;
+  Message: string;
+  Data: {
+    FieldIds: number[];
+    Courses: ICourse[];
+  };
+}
+
+interface ICourse {
+  FieldId: number;
+  Course: ICourseItem[];
+  Feature: string[]
+}
+
+// interface IFeature {
+//   Feature1?: string;
+//   Feature2?: string;
+//   Feature3?: string;
+//   Feature4?: string;
+//   Feature5?: string;
+// }
+
+interface ICourseItem {
+  Item: string;
+  Quantity: number;
+  Price: number;
+  Availability: boolean;
+}
