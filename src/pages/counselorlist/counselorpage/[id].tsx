@@ -343,7 +343,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
 
                   <div className="flex justify-center space-x-4">
                     <IButton text="我有問題" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="light" />
-                    <IButton text="手刀預約" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="dark" />
+                    <IButton text="手刀預約" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="dark" onClick={addToCart} />
                   </div>
                 </div>
               </div>
