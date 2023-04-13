@@ -92,6 +92,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
   const FieldOptions = Fields.map(({ Field }: { Field: string }) => ({ label: Field, value: Field }));
   const [topicFeature, setTopicFeature] = useState(Fields[0].Features);
   const [chooseTopic, setChooseTopic] = useState(FieldOptions[0].value);
+  const [chooseCase, setChooseCase] = useState(null);
 
   // 課程方案篩選
   const filterCase = (value: string) => Fields.flatMap((item: { Courses: ICourses[]; Field: string }) => {
@@ -136,23 +137,23 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
     setTopicFeature(filterFeatureAry[0]);
   };
 
-  const [chooseCase, setChooseCase] = useState(null);
   // 選擇方案函式
   const onChange3 = ({ target: { value } }: RadioChangeEvent) => {
-    console.log(value);
     setChooseCase(value);
   };
 
   // 手刀預約（加入購物車）
   const addToCart = async () => {
-    if (!token) router.push('/login');
-    if (!chooseCase) return alert('請選擇方案');
+    if (!token) {
+      throw new Error('請先登入');
+    }
+
+    if (!chooseCase) {
+      throw new Error('請選擇方案');
+    }
+
     const FieldId = convertFieldId(chooseTopic);
     const CounselorId = Number(counselorId);
-    console.log('token', token);
-    console.log('諮商師ID', CounselorId);
-    console.log('主題ID', FieldId);
-    console.log('選擇的方案', chooseCase);
 
     const res = await addToCartPost({
       token,
@@ -160,8 +161,23 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
       FieldId,
       chooseCase,
     });
-    console.log(res);
-    return null;
+
+    if ('error' in res) {
+      console.log('🚀 ~ file: [id].tsx:167 ~ addToCart ~ res:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      alert(Message);
+    }
+
+    const { data: resData } = res as { data: { Success: boolean; Message: string } };
+
+    if (resData && resData.Success) {
+      router.push('/shoppingcart');
+      alert(resData.Message);
+    } else {
+      throw new Error(resData?.Message || '加入購物車失敗');
+    }
   };
 
   return (
