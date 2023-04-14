@@ -110,7 +110,6 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
   const deletedItem = async (CartId: number) => {
     const res = await deleteItemDelete({ token, CartId });
     if ('error' in res) {
-      console.log('🚀 ~ file: shoppingcart.tsx:96 ~ deletedItem ~ res:', res);
       alert('刪除失敗');
       return;
     }
@@ -138,7 +137,6 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
     }
     const res = await finishOrderPost({ token });
     if ('error' in res) {
-      console.log('🚀 ~ file: shoppingcart.tsx:96 ~ deletedItem ~ res:', res);
       const {
         data: { Message },
       } = res.error as unknown as { data: { Message: string } };
@@ -149,7 +147,8 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
     const {
       data: { Message },
     } = res as { data: { Message: string } };
-    router.push('/usercenter/reservation');
+    console.log('🚀 ~ file: shoppingcart.tsx:150 ~ finishOrder ~ res:', res);
+    // router.push('/usercenter/reservation');
     alert(Message);
   };
 
@@ -260,6 +259,23 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
           <IButton text="完成結帳" fontSize="text-base" py="py-4" extraStyle="w-full max-w-[180px]" mode="dark" onClick={finishOrder} />
         </div>
       </div>
+
+      <form name="Newebpay" method="post" action="https://ccore.newebpay.com/MPG/mpg_gateway">
+        {/* <!-- 藍新金流商店代號 --> */}
+        <input type="" id="MerchantID" name="MerchantID" value="MS148623457" />
+
+        {/* <!-- 交易資料透過 Key 及 IV 進行 AES 加密 --> */}
+        <input type="" id="TradeInfo" name="TradeInfo" value="" className="ring-1 " />
+
+        {/* <!-- 經過上述 AES 加密過的字串，透過商店 Key 及 IV 進行 SHA256 加密 --> */}
+        <input type="hiden" id="TradeSha" name="TradeSha" value="" className="ring-1" />
+
+        {/* <!-- 串接程式版本 --> */}
+        <input type="" id="Version" name="Version" value="2.0" />
+
+        {/* <!-- 直接執行送出 --> */}
+        <input type="submit" value="前往付款" onClick={() => console.log(123)} className="ring-1" />
+      </form>
     </section>
   );
 }
