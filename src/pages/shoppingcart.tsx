@@ -14,7 +14,7 @@ import 負面情緒 from 'public/images/home/customTopic/負面情緒.svg';
 import 個人發展 from 'public/images/home/customTopic/個人發展.svg';
 import 家庭議題 from 'public/images/home/customTopic/家庭議題.svg';
 import 職場議題 from 'public/images/home/customTopic/職場議題.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const breadcrumbTabs = [
   {
@@ -103,6 +103,9 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
   const [deleteItemDelete] = useDeleteItemDeleteMutation();
   const [finishOrderPost] = useFinishOrderPostMutation();
 
+  const [input1, setInput1] = useState('');
+  const [input2, setInput2] = useState('');
+
   // 確認付款方式
   const checkPayWay = confirmPayWay ? 'ring-2' : 'ring-0';
 
@@ -147,10 +150,18 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
     const {
       data: { Message },
     } = res as { data: { Message: string } };
-    console.log('🚀 ~ file: shoppingcart.tsx:150 ~ finishOrder ~ res:', res);
+    const { data } = res as { data: { Message: string } };
+    const { PaymentData } = data as any;
+    const { TradeInfo, TradeSha } = PaymentData;
+    setInput1(TradeInfo);
+    setInput2(TradeSha);
     // router.push('/usercenter/reservation');
     alert(Message);
   };
+
+  useEffect(() => {
+    console.log(input1, input2);
+  }, [input1, input2]);
 
   // 返回上一頁函式
   const goBack = () => {
@@ -265,10 +276,10 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
         <input type="" id="MerchantID" name="MerchantID" value="MS148623457" />
 
         {/* <!-- 交易資料透過 Key 及 IV 進行 AES 加密 --> */}
-        <input type="" id="TradeInfo" name="TradeInfo" value="" className="ring-1 " />
+        <input type="" id="TradeInfo" name="TradeInfo" value={input1} className="ring-1 " />
 
         {/* <!-- 經過上述 AES 加密過的字串，透過商店 Key 及 IV 進行 SHA256 加密 --> */}
-        <input type="hiden" id="TradeSha" name="TradeSha" value="" className="ring-1" />
+        <input type="hiden" id="TradeSha" name="TradeSha" value={input2} className="ring-1" />
 
         {/* <!-- 串接程式版本 --> */}
         <input type="" id="Version" name="Version" value="2.0" />
