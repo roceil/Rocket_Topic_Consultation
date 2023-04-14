@@ -46,38 +46,44 @@ function NoCourses() {
 // 諮商師 > 個人資料 > 課程資訊
 export function ClassInfo() {
   const token = getCookie('auth');
-  // 控制顯示哪個主題的課程資訊
-  const [getCoursesID, setGetCoursesID] = useState<number>(1);
   // 用 redux 打 API ，可以一次管理多種狀態
-  const { data = [], isLoading } = useCoursesDataGetQuery({ token, tab: '' });
+  const { data = [], isLoading } = useCoursesDataGetQuery({ token });
+
+  // 儲存 Get API 的狀態碼
+  const [statusCode, setStatusCode] = useState<number>();
+
   useEffect(() => {
     // axios 當測試，最後要用 redux 打 API ，才能一次管理多種狀態
-    // axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log('res',res);
-    //   });
-
-    // console.log(data);
-    // console.log(data.Data.Courses[0].Feature);
-    console.log(data);
+    // 因為 RTKQ 取 res.status 卡關，所以多寫了這個 get axios
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log('res', res);
+        const { status } = res;
+        setStatusCode(status);
+      });
   }, [isLoading]);
 
+  // 控制顯示哪個主題的課程資訊
+  const [getCoursesID, setGetCoursesID] = useState<number>(1);
   // 課程方案
   const coursesPriceAry = data?.Data?.Courses[getCoursesID - 1]?.Course;
   // 課程特色
-  const coursesFeature = data?.Data?.Courses[0].Feature;
+  const coursesFeature = data?.Data?.Courses[getCoursesID - 1]?.Feature;
 
   useEffect(() => {
-    // console.log(coursesPriceAry);
-  }, [isLoading, getCoursesID]);
+    console.log(data?.Data?.Courses[2]?.Feature);
+  }, [getCoursesID]);
 
   // 開啟編輯功能
   const [editInfo, setEditInfo] = useState<boolean>(true);
   const isHidden = editInfo ? '!opacity-0 transform duration-300' : '!opacity-100 transform duration-300';
+
+  // 判斷有無課程資料，渲染課程方案、課程特色
+  const renderNoCoursesSection = () => (statusCode === 400 ? <NoCourses /> : null);
 
   // Form
   const [form] = Form.useForm();
@@ -95,8 +101,6 @@ export function ClassInfo() {
   ) => {
     console.log('Change:', e.target.value);
   };
-  // 判斷有無課程資料，渲染課程方案、課程特色
-  const renderNoCoursesSection = () => (data.Success ? null : <NoCourses />);
 
   return (
     <>
@@ -170,7 +174,7 @@ export function ClassInfo() {
                       {/* PC 課程方案＋定價 */}
                       <div className="flex w-full flex-col space-y-4">
                         {/* 沒有資料時，點擊該主題，會顯示乾淨的input讓諮商師填寫 */}
-                        {/* {coursesPriceAry === undefined ? <EmptyCourses /> : null } */}
+                        {coursesPriceAry === undefined ? <NoCourses /> : null }
                         {coursesPriceAry?.map((item, i) => (
                           <li className="flex items-center" key={i}>
                             <div className="w-[33.33%]">{item.Item}</div>
@@ -224,6 +228,7 @@ export function ClassInfo() {
                     <Form form={form} name="classInfo" onFinish={onFinish}>
                       {/* 課程方案＋定價 */}
                       <ul className="flex flex-col space-y-4 pb-7">
+                        {coursesPriceAry === undefined ? <NoCourses /> : null }
                         {coursesPriceAry?.map((item, i) => (
                           <li className="flex items-center justify-between" key={i}>
                             <div className="w-[33.33%] text-center">{item.Item}</div>
@@ -285,7 +290,8 @@ export function ClassInfo() {
                           flexDirection: 'column',
                         }}
                       >
-                        {/* 課程方案＋定價 */}
+                        {/* 課程特色 */}
+                        {coursesFeature === undefined ? <NoCourses /> : null }
                         {coursesFeature?.map((item, i) => (
                           <Form.Item
                             name={i}
@@ -324,7 +330,8 @@ export function ClassInfo() {
                           flexDirection: 'column',
                         }}
                       >
-                        {/* 課程方案＋定價 */}
+                        {/* 課程特色 */}
+                        {coursesFeature === undefined ? <NoCourses /> : null }
                         {coursesFeature?.map((item, i) => (
                           <Form.Item
                             name={i}
