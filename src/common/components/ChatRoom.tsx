@@ -3,7 +3,6 @@ import Image from 'next/image';
 import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { useEffect, useRef, useState } from 'react';
-import * as signalR from '@microsoft/signalr';
 
 const fakeAry = Array(10).fill(1);
 const fakeMessageAry = [
@@ -33,17 +32,6 @@ const fakeMessageAry = [
   },
 ];
 export default function ChatRoom() {
-  const [connection, setConnection] = useState<signalR.HubConnection>();
-
-  useEffect(() => {
-    const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://pi.rocket-coding.com/signalr')
-      .withAutomaticReconnect()
-      .build();
-
-    setConnection(newConnection);
-  }, []);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChatRoomOpen, setIsChatRoomOpen] = useState(false);
   const chatMessageRef = useRef<HTMLInputElement>(null);
@@ -53,19 +41,11 @@ export default function ChatRoom() {
   // 開啟聊天室函式
   const showModal = () => {
     setIsModalOpen(true);
+    const connection = $.hubConnection('https://pi.rocket-coding.com/signalr');
+    const chat = connection.createHubProxy('chartHubb');
+
+    console.info('連線成功', chat);
   };
-
-  useEffect(() => {
-    if (connection) {
-      connection.start().then(() => {
-        console.log('Connection started');
-      });
-    } else {
-      console.log('Connection failed');
-    }
-  }, [connection]);
-
-  console.log(connection);
 
   // 關閉聊天室函式
   const handleCancel = () => {
