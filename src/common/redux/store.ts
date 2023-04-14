@@ -10,6 +10,7 @@ import { resetPassword } from './service/resetPassword';
 import { signUp } from './service/signUp';
 import { counselorList } from './service/counselorList';
 import { userCenter } from './service/userCenter';
+import { counselorCenter } from './service/counselorCenter';
 import counselorListSlice from './feature/counselorList';
 
 const reducers = combineReducers({
@@ -24,7 +25,10 @@ const reducers = combineReducers({
   [signUp.reducerPath]: signUp.reducer,
   [counselorList.reducerPath]: counselorList.reducer,
   [userCenter.reducerPath]: userCenter.reducer,
+  [counselorCenter.reducerPath]: counselorCenter.reducer,
 });
+
+// 註冊
 
 const store = configureStore({
   reducer: reducers,
@@ -34,7 +38,8 @@ const store = configureStore({
     .concat(resetPassword.middleware)
     .concat(signUp.middleware)
     .concat(counselorList.middleware)
-    .concat(userCenter.middleware),
+    .concat(userCenter.middleware)
+    .concat(counselorCenter.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });

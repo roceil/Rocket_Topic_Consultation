@@ -1,6 +1,19 @@
 import { ConfigProvider } from 'antd';
+import wrapper from '@/common/redux/store';
+import { getCookie } from 'cookies-next';
+import CounselorInfoTab from '../../modules/counselorCenter/personalInfo/CounselorInfoTab';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
-import CounselorInfoTab from './personalInfo';
+
+export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
+  const token = getCookie('auth', { req, res });
+  if (!token) {
+    res.writeHead(302, { Location: '/login' });
+    res.end();
+  }
+  return {
+    props: {},
+  };
+});
 
 export default function index() {
   return (

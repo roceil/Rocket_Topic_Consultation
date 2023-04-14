@@ -1,11 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ConfigProvider, Tabs } from 'antd';
 import { InfoForm } from '@/modules/counselorCenter/personalInfo/InfoForm';
 import { ClassInfo } from '@/modules/counselorCenter/personalInfo/ClassInfo';
 import TimeInfo from '@/modules/counselorCenter/personalInfo/TimeInfo';
-import userImg from '../../../public/images/User01.jpg';
+import userImg from '../../../../public/images/User01.jpg';
 
+// 假資料：測試『基本資料』
 const conselor1 = {
   name: '李森',
   id: 1,
@@ -15,7 +14,6 @@ const conselor1 = {
     '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關',
   image: userImg,
 };
-
 export interface CounselorProps {
   name: string;
   id: number;
@@ -52,12 +50,13 @@ const counselorInfoTabAry = [
   },
 ];
 
-// 控制右側選單函式
+// 控制『個人資料 3 Tabs』函式
 export default function CounselorInfoTab() {
   // 顯示分頁位置函式
   const onChange = (key: string) => {
     console.log('🚀 ~ file: reservation.tsx:23 ~ onChange ~ key:', key);
   };
+
   return (
     <div className="counselorTab">
       <ConfigProvider

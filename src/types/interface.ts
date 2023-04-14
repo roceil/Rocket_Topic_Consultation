@@ -71,27 +71,15 @@ export interface ICoursesDataProps {
   Message: string;
   Data: {
     FieldIds: number[];
-    Courses: ICourse[];
+    Courses: {
+      FieldId: number;
+      Course: {
+        Item: string;
+        Quantity: number;
+        Price: number;
+        Availability: boolean;
+      }[];
+      Feature: string[]
+    }[];
   };
-}
-
-interface ICourse {
-  FieldId: number;
-  Course: ICourseItem[];
-  Feature: string[]
-}
-
-// interface IFeature {
-//   Feature1?: string;
-//   Feature2?: string;
-//   Feature3?: string;
-//   Feature4?: string;
-//   Feature5?: string;
-// }
-
-interface ICourseItem {
-  Item: string;
-  Quantity: number;
-  Price: number;
-  Availability: boolean;
 }
