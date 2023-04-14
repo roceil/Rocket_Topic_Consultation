@@ -1,8 +1,8 @@
-/* eslint-disable react/no-array-index-key */
-import { IButton } from '@/common/components/IButton';
-import axios from 'axios';
-import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
+import { v4 as uuidv4 } from 'uuid';
+import { IButton } from '@/common/components/IButton';
+import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
 
 interface IWaiteReservationDetail {
   OrderId: number;
@@ -14,7 +14,6 @@ interface IWaiteReservationDetail {
 }
 
 export function Appointment({ appointment }: { appointment: IWaiteReservationDetail['Appointments'][0] }) {
-  console.log(appointment);
   const { AppointmentId, Counselor, Field } = appointment;
 
   return (
@@ -30,25 +29,19 @@ export function Appointment({ appointment }: { appointment: IWaiteReservationDet
 
 export default function WaitReservation() {
   const token = getCookie('auth');
+  const { data = [], isLoading } = useReservationDataGetQuery({ token, tab: '待預約' });
   const [renderData, setRenderData] = useState<IWaiteReservationDetail[]>([]);
 
   // 取得資料
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/appointmentRecords?status=%E5%BE%85%E9%A0%90%E7%B4%84`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const { Data } = res.data;
-        const AppoinmentsData = Data.map((item: { Appointments: { appointment: IWaiteReservationDetail['Appointments'][0] } }) => {
-          const { Appointments } = item;
-          return Appointments;
-        });
-        setRenderData(AppoinmentsData);
-      });
-  }, []);
+    const { Data = [] } = data;
+    console.log('🚀 ~ file: WaitReservation.tsx:38 ~ useEffect ~ Data:', Data);
+    const AppoinmentsData = Data.map((item: { Appointments: { appointment: IWaiteReservationDetail['Appointments'][0] } }) => {
+      const { Appointments } = item;
+      return Appointments;
+    });
+    setRenderData(AppoinmentsData);
+  }, [isLoading]);
 
   return (
     <div className=" w-full rounded-2xl bg-gray-200 text-center">
@@ -58,11 +51,11 @@ export default function WaitReservation() {
         <li className="w-[41.57894%] lg:w-[39.0316%]">選擇時段</li>
       </ul>
 
-      <ul className="scrollBAryHidden max-h-[467px] lg:max-h-[613px] overflow-y-scroll mt-5 flex flex-col space-y-4 px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:space-y-5 lg:px-7 lg:text-base">
-        {renderData.map((group: any, groupIndex) => (
-          <ul key={groupIndex} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-            {group.map((appointment: { AppointmentId: number; Counselor: string; Field: string }, appointmentIndex: number) => (
-              <Appointment key={appointmentIndex} appointment={appointment} />
+      <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
+        {renderData.map((group: any) => (
+          <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+            {group.map((appointment: { AppointmentId: number; Counselor: string; Field: string }) => (
+              <Appointment key={uuidv4()} appointment={appointment} />
             ))}
           </ul>
         ))}

@@ -19,14 +19,11 @@ export const shoppingCart = createApi({
       }),
     }),
     finishOrderPost: builder.mutation({
-      query: ({ token, ProductId }) => ({
+      query: ({ token }) => ({
         url: '/api/order',
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
-        },
-        body: {
-          ProductId,
         },
       }),
     }),

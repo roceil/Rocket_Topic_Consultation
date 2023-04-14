@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Breadcrumb, Collapse, ConfigProvider, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import Swal from 'sweetalert2';
 import { useAddToCartPostMutation } from '@/common/redux/service/counselorPage';
 import { IButton } from '@/common/components/IButton';
 import { counselorPageBreadcrumb } from '@/lib/counselorPage/CounselorPageData';
@@ -145,11 +146,13 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
   // 手刀預約（加入購物車）
   const addToCart = async () => {
     if (!token) {
-      throw new Error('請先登入');
+      router.push('/login');
+      return;
     }
 
     if (!chooseCase) {
-      throw new Error('請選擇方案');
+      alert('請選擇方案');
+      return;
     }
 
     const FieldId = convertFieldId(chooseTopic);
@@ -173,8 +176,18 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
     const { data: resData } = res as { data: { Success: boolean; Message: string } };
 
     if (resData && resData.Success) {
-      router.push('/shoppingcart');
-      alert(resData.Message);
+      Swal.fire({
+        title: resData.Message,
+        showCancelButton: true,
+        confirmButtonText: '立即結帳',
+        cancelButtonText: '繼續購物',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          router.push('/shoppingcart');
+        }
+      });
+      // alert(resData.Message);
     } else {
       throw new Error(resData?.Message || '加入購物車失敗');
     }
@@ -620,3 +633,4 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
     </>
   );
 }
+
