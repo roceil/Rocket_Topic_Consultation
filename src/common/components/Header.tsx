@@ -3,20 +3,26 @@ import Image from 'next/image';
 import { getCookie } from 'cookies-next';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ConfigProvider } from 'antd';
+import LOGO from 'public/images/header/LOGO.svg';
+import LOGO_SM from 'public/images/header/LOGO_SM.svg';
+import { useState, useEffect } from 'react';
 import { IButton } from './IButton';
 import SearchCapsule from './SearchCapsule';
 import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
-import LOGO from '../../../public/images/header/LOGO.svg';
-import LOGO_SM from '../../../public/images/header/LOGO_SM.svg';
 
 export default function Header() {
-  const getToken = getCookie('auth');
-  const getIdentity = getCookie('identity');
-  const hasCookie = getToken !== undefined;
-  const handleDisplay = getIdentity === 'counselor' ? 'hidden' : 'block';
+  const [isMounted, setIsMounted] = useState(false);
+  const getToken = isMounted ? getCookie('auth') : undefined;
+  const getIdentity = isMounted ? getCookie('identity') : undefined;
+  const hasCookie = isMounted && getToken !== undefined;
+  const handleDisplay = isMounted && getIdentity === 'counselor' ? 'hidden' : 'block';
 
+  // 避免兩端渲染不同，進入畫面後才更改狀態
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   return (
     <>
       <header className="fixed top-0 z-50 w-full border border-gray-200  bg-gray-100/80 py-[18px] backdrop-blur-2xl lg:py-[30px]">

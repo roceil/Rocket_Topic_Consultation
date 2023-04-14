@@ -41,10 +41,6 @@ export default function ChatRoom() {
   // 開啟聊天室函式
   const showModal = () => {
     setIsModalOpen(true);
-    const connection = $.hubConnection('https://pi.rocket-coding.com/signalr');
-    const chat = connection.createHubProxy('chartHubb');
-
-    console.info('連線成功', chat);
   };
 
   // 關閉聊天室函式
@@ -79,6 +75,13 @@ export default function ChatRoom() {
       chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
     }
   }, [isChatRoomOpen]);
+
+  // 點擊聊天室ICON，建立連線
+  useEffect(() => {
+    const connection = $.hubConnection('https://pi.rocket-coding.com/signalr');
+    const chat = connection.createHubProxy('chartHubb');
+    console.info('連線成功', chat);
+  }, []);
 
   return (
     <>
