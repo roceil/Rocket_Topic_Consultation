@@ -3,6 +3,7 @@ import Image from 'next/image';
 import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { useEffect, useRef, useState } from 'react';
+import * as signalR from '@microsoft/signalr';
 
 const fakeAry = Array(10).fill(1);
 const fakeMessageAry = [
@@ -31,8 +32,18 @@ const fakeMessageAry = [
     content: '嗨！我是陳千妤 ，關於您的問題回覆如下：課程定價以小時為單位收費',
   },
 ];
-
 export default function ChatRoom() {
+  const [connection, setConnection] = useState<signalR.HubConnection>();
+
+  useEffect(() => {
+    const newConnection = new signalR.HubConnectionBuilder()
+      .withUrl('https://pi.rocket-coding.com/signalr')
+      .withAutomaticReconnect()
+      .build();
+
+    setConnection(newConnection);
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChatRoomOpen, setIsChatRoomOpen] = useState(false);
   const chatMessageRef = useRef<HTMLInputElement>(null);
@@ -43,6 +54,18 @@ export default function ChatRoom() {
   const showModal = () => {
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    if (connection) {
+      connection.start().then(() => {
+        console.log('Connection started');
+      });
+    } else {
+      console.log('Connection failed');
+    }
+  }, [connection]);
+
+  console.log(connection);
 
   // 關閉聊天室函式
   const handleCancel = () => {
@@ -89,7 +112,6 @@ export default function ChatRoom() {
 
       {/* 聊天列表 */}
       <div className={`fixed bottom-0 right-0 z-50 h-0  w-full origin-bottom duration-300 lg:right-12 lg:bottom-0 lg:h-[-50px]  lg:w-[328px] ${isModalOpen && 'h-[calc(100%-70px)] lg:!bottom-12 lg:h-[500px]'} ease-in-out `}>
-
         {/* 表頭 */}
         <div className="flex w-full items-center justify-between rounded-t-xl bg-primary-heavy pl-5 text-right font-bold text-gray-900">
           <span>聊天室</span>
@@ -131,12 +153,10 @@ export default function ChatRoom() {
             <span className="ml-3 text-gray-900">Loading...</span>
           </div>
         </div>
-
       </div>
 
       {/* 個人聊天室 */}
       <div className={`fixed bottom-0 right-0 z-50 h-0  w-full origin-bottom duration-300 lg:right-12 lg:bottom-0 lg:h-[-50px]  lg:w-[328px] ${isChatRoomOpen && 'h-[calc(100%-70px)] lg:!bottom-12 lg:h-[500px]'} ease-in-out `}>
-
         {/* 表頭 */}
         <div className="flex w-full items-center justify-between rounded-t-xl bg-primary-heavy pl-5 text-right font-bold text-gray-900">
           <button
@@ -223,7 +243,6 @@ export default function ChatRoom() {
             }}
           />
         </div>
-
       </div>
     </>
   );
