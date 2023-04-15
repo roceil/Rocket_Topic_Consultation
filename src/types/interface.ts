@@ -91,3 +91,32 @@ export interface IFilterCases {
   label: string;
   value: number;
 }
+
+export interface ICartList {
+  CartId: number;
+  Counselor: string;
+  Field: string;
+  Item: string;
+  Price: number;
+}
+
+export interface IShoppingCartProps {
+  data: {
+    Data: { CartList: ICartList[]; TotalAmount: number };
+  };
+  token: string;
+}
+
+export interface ICartItem {
+  Counselor: string;
+  Field: string;
+  Item: string;
+  Price: number;
+  CartId: number;
+}
+
+export interface IShoppingFormProps {
+  renderDate: ICartItem[];
+  setRenderDate: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+  TotalAmount: number;
+}
