@@ -3,7 +3,7 @@ import RegisterSVG from '@/common/components/RegisterSVG';
 
 export default function signup() {
   return (
-    <div className="container z-20 flex justify-center pt-12 pb-[84px] lg:pt-[120px] lg:pb-[160px]">
+    <div className="container z-20 flex justify-start pt-12 pb-[84px] lg:pt-[120px] lg:pb-[160px]">
       {/* 圖片 */}
       <RegisterSVG />
       {/* 右側輸入區 */}

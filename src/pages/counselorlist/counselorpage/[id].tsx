@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unused-prop-types */
+
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Breadcrumb, Collapse, ConfigProvider, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import Swal from 'sweetalert2';
 import { useAddToCartPostMutation } from '@/common/redux/service/counselorPage';
 import { IButton } from '@/common/components/IButton';
 import { counselorPageBreadcrumb } from '@/lib/counselorPage/CounselorPageData';
@@ -85,35 +85,62 @@ interface IFilterCases {
   value: number;
 }
 
+// Server 渲染步驟 ＝ 渲染諮商師個人資料 => 渲染諮商師的專長領域選項 => 渲染專長領域的說明文字 => 渲染諮商師的課程方案
+// Client 互動步驟 ＝ 選擇專長領域 => 選擇課程方案 => 加入購物車
+
 export default function CounselorPage({ data, counselorId }: { data: ICounselorPageProps; counselorId: string }) {
+  const [addToCartPost] = useAddToCartPostMutation();
   const token = getCookie('auth');
   const router = useRouter();
-  const [addToCartPost] = useAddToCartPostMutation();
   const { Name, FieldTags, Photo, SelfIntroduction, Fields } = data.Data;
-  const FieldOptions = Fields.map(({ Field }: { Field: string }) => ({ label: Field, value: Field }));
-  const [topicFeature, setTopicFeature] = useState(Fields[0].Features);
-  const [chooseTopic, setChooseTopic] = useState(FieldOptions[0].value);
   const [chooseCase, setChooseCase] = useState(null);
+
+  // ====================Server 渲染畫面====================
+  // 取得專長領域的選項
+  const FieldOptions = Fields.map(({ Field }: { Field: string }) => ({ label: Field, value: Field }));
+
+  // 渲染專長領域
+  const [chooseTopic, setChooseTopic] = useState(FieldOptions[0].value);
+
+  // 渲染專長領域的說明文字
+  const [topicFeature, setTopicFeature] = useState(Fields[0].Features);
+
+  // 取得課程方案的選項 => 拿到資料後，再把資料依條件轉換成選項
+  const topicOptions = Fields.map(({ Courses }: { Courses: ICourses[] }) => {
+    const courseOptions = Courses.map(({ Item, Price }: { Item: string; Price: number }) => {
+      if (Item === '體驗課一堂') {
+        return { label: `體驗課 60分鐘 / ${Price.toLocaleString()} 元`, value: Item };
+      }
+      if (Item === '一堂') {
+        return { label: `${Item} 60分鐘 / ${Price.toLocaleString()} 元`, value: Item };
+      }
+      if (Item === '三堂') {
+        return { label: `${Item} 3小時 / ${Price.toLocaleString()} 元`, value: Item };
+      }
+      if (Item === '五堂') {
+        return { label: `${Item} 5小時 / ${Price.toLocaleString()} 元`, value: Item };
+      }
+      return { label: `${Item} / ${Price.toLocaleString()} 元`, value: Item };
+    });
+    return courseOptions;
+  });
+
+  // 渲染課程方案的選項
+  const [chooseCourse, setChooseCourse] = useState(topicOptions[0]);
+
+  // ====================Client 畫面互動====================
 
   // 課程方案篩選
   const filterCase = (value: string) => Fields.flatMap((item: { Courses: ICourses[]; Field: string }) => {
-    const convertData = item.Courses.filter(() => value === item.Field).map((item2: { Item: any; Price: any }) => ({ label: `${item2.Item} / ${item2.Price} 元`, value: item2.Item }));
+    const convertData = item.Courses.filter(() => value === item.Field).map((item2: { Item: string; Price: number }) => ({ label: `${item2.Item} / ${item2.Price} 元`, value: item2.Item }));
     return convertData;
   });
 
   // 課程特色篩選
   const filterFeature = (value: string) => Fields.filter((item: { Field: string }) => value === item.Field).map((item2: { Features: string }) => item2.Features);
 
-  // 取得課程方案的選項
-  const topicOptions = Fields.map(({ Courses }: { Courses: ICourses[] }) => {
-    const courseOptions = Courses.map(({ Item, Price }: { Item: string; Price: number }) => ({ label: `${Item} / ${Price} 元`, value: Item }));
-    return courseOptions;
-  });
-
-  const [chooseCourse, setChooseCourse] = useState(topicOptions[0]);
-
   // 手機更改主題函式
-  const changeTopic = (value: string) => {
+  const changeCase = (value: string) => {
     setChooseTopic(value);
 
     // 如果選擇的value跟Fields的Field相同，就回傳轉換後的Courses
@@ -126,7 +153,8 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
   };
 
   // 電腦更改主題函式
-  const changeTopicPC = ({ target: { value } }: RadioChangeEvent) => {
+  const changeCasePC = ({ target: { value } }: RadioChangeEvent) => {
+    // 更新選擇的專長領域 => 之後要用來轉成專長領域ID
     setChooseTopic(value);
 
     // 如果選擇的value跟Fields的Field相同，就回傳轉換後的Courses
@@ -176,20 +204,10 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
     const { data: resData } = res as { data: { Success: boolean; Message: string } };
 
     if (resData && resData.Success) {
-      Swal.fire({
-        title: resData.Message,
-        showCancelButton: true,
-        confirmButtonText: '立即結帳',
-        cancelButtonText: '繼續購物',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          router.push('/shoppingcart');
-        }
-      });
-      // alert(resData.Message);
+      router.push('/shoppingcart');
+      alert(resData.Message);
     } else {
-      throw new Error(resData?.Message || '加入購物車失敗');
+      alert(resData?.Message || '加入購物車失敗');
     }
   };
 
@@ -270,7 +288,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                         defaultValue={FieldOptions[0].label}
                         style={{ width: '100%' }}
                         options={FieldOptions}
-                        onChange={changeTopic}
+                        onChange={changeCase}
                         getPopupContainer={(node) => {
                           if (node) {
                             return node.parentNode;
@@ -297,7 +315,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                         },
                       }}
                     >
-                      <Radio.Group defaultValue={FieldOptions[0].label} buttonStyle="solid" onChange={changeTopicPC}>
+                      <Radio.Group defaultValue={FieldOptions[0].label} buttonStyle="solid" onChange={changeCasePC}>
                         {FieldOptions.map(({ value, label }: IFilterCases, index: number) => {
                           if (index === 0) {
                             return (
@@ -633,4 +651,3 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
     </>
   );
 }
-

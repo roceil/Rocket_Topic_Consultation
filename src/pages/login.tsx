@@ -1,7 +1,9 @@
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import LoginTab from '@/modules/login/LoginTab';
 import RegisterSVG from '@/common/components/RegisterSVG';
 
 export default function login() {
+  useCloseLoading();
   return (
     <div className="container z-20 flex pt-12 pb-[84px] lg:py-[120px] lg:min-h-[calc(100vh-110px-356px)]">
       {/* 圖片 */}
