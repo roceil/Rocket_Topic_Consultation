@@ -82,6 +82,8 @@
   border-left: none;
   width: 25%;
   justify-content: center;
+  color: #9e9e9e;
+  font-weight: 600;
 }
 .order .ant-tabs .ant-tabs-nav-list {
   width: 100%;
@@ -98,6 +100,7 @@
   margin: 0;
   width: 50%;
   justify-content: center;
+  color: #bdbdbd;
 }
 .loginForm .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
   margin: 0;
@@ -142,6 +145,7 @@
   margin: 0 !important;
   width: 50%;
   justify-content: center;
+  color: #bdbdbd;
 }
 .counselorTab .ant-tabs-nav-list .ant-tabs-tab {
   width: 33.33333%;
@@ -191,4 +195,28 @@
 .modalResetPassword .ant-input-affix-wrapper:hover {
   border-color: #4a5364 !important;
   box-shadow: none !important;
+}
+/* 這個會調整所有下拉選單的placeholder顏色 */
+.ant-select-selection-placeholder {
+  color: #bdbdbd !important;
+}
+
+/* 這個會調整所有日期選單的placeholder顏色 */
+#register-user_DatePicker::placeholder {
+  color: #bdbdbd !important;
+}
+
+/* 這個會調整所有錯誤訊息的邊框顏色 */
+.ant-input-status-error{
+  border-color: #D14D3C !important;
+}
+
+/* 這個會調整所有錯誤訊息的文字顏色 */
+.ant-form-item-explain-error{
+  color: #D14D3C !important;
+}
+
+/* 調整重新發送的底線樣式 */
+.resend span {
+  border-bottom: 1px solid #000;
 }

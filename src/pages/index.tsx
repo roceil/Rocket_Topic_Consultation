@@ -1,10 +1,13 @@
-/* eslint-disable max-len */
 import Head from 'next/head';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import { homeComponents } from '@/lib/homeFilesRoute';
 
 const { Banner, SuggestCounselor, CustomTopic, PlatformFeature, UserComment, ReservationTour } = homeComponents;
 
 export default function Home() {
+  // ==================== 關閉 loading ====================
+  useCloseLoading();
+
   return (
     <>
       <Head>

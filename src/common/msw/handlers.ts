@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/prefer-default-export */
 
-import { rest } from 'msw';
+// import { rest } from 'msw';
 
 export const handlers = [
   // 使用者登入 => POST =>已接通
@@ -45,15 +45,15 @@ export const handlers = [
   //   }),
   // )),
 
-  // 忘記密碼 => POST
-  rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgotPassword`, (req, res, ctx) => res(
-    ctx.status(200),
-    ctx.json({
-      Message: 'Email已發送，請檢查信箱',
-    }),
-  )),
+  // 忘記密碼 => POST =>已接通
+  // rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgotPassword`, (req, res, ctx) => res(
+  //   ctx.status(200),
+  //   ctx.json({
+  //     Message: 'Email已發送，請檢查信箱',
+  //   }),
+  // )),
 
-  // 重設密碼 => POST
+  // 重設密碼 => POST =>已接通
   // rest.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resetPassword`, (req, res, ctx) => res(
   //   ctx.status(200),
   //   ctx.json({

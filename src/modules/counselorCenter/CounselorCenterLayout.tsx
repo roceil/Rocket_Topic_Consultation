@@ -1,6 +1,7 @@
-import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { deleteCookie } from 'cookies-next';
+import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 
 interface IUserCenterLayoutProps {
   children: React.ReactNode;
@@ -13,28 +14,31 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
   const isReservation = pathname === '/counselorcenter/reservation' ? 'opacity-100' : 'opacity-70';
   const isCase = pathname === '/counselorcenter/case' ? 'opacity-100' : 'opacity-70';
 
-  // 登出函式 => 未完成 delete cookie
+  // 登出函式
   const logout = () => {
+    deleteCookie('auth');
+    deleteCookie('identity');
+    deleteCookie('userID');
     alert('登出成功');
     router.push('/');
   };
   return (
-    <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px]">
-      <div className="container min-h-[calc(100vh-330px)]">
-        <div className="hidden rounded-full bg-bg2 py-[13px] text-center font-bold text-[#767494] lg:mb-[72px] lg:block">
+    <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px] bg-white">
+      <div className="px-[109px] min-h-[calc(100vh-330px)]">
+        <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
           目前尚無預約
         </div>
 
         <div className="flex justify-between">
           <div className="w-[20%]">
-            <h3 className="mb-7 text-xl font-bold text-primary-heavy">會員中心</h3>
-            <ul className="flex flex-col space-y-4 text-primary-heavy">
+            <h3 className="mb-7 text-xl font-bold text-secondary">會員中心</h3>
+            <ul className="flex flex-col space-y-4 text-secondary">
               {/* 個人資料 */}
               <li className={`${isCounselorCenter} hover:opacity-100`}>
                 <Link href="/counselorcenter">
                   <button
                     type="button"
-                    className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                    className="border-l-2 border-secondary p-4 font-bold"
                   >
                     <UserOutlined className="mr-3 text-xl" />
                     個人資料
@@ -47,7 +51,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
                 <Link href="/counselorcenter/reservation">
                   <button
                     type="button"
-                    className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                    className="border-l-2 border-secondary p-4 font-bold"
                   >
                     <ProfileOutlined className="mr-3 text-xl" />
                     預約紀錄
@@ -60,7 +64,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
                 <Link href="/counselorcenter/case">
                   <button
                     type="button"
-                    className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                    className="border-l-2 border-secondary p-4 font-bold"
                   >
                     <EditOutlined className="mr-3 text-xl" />
                     個案記錄
@@ -72,7 +76,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
               <li className="opacity-70 hover:opacity-100">
                 <button
                   type="button"
-                  className="border-l-2 border-primary-heavy/70 p-4 font-bold"
+                  className="border-l-2 border-secondary p-4 font-bold"
                   onClick={logout}
                 >
                   <LogoutOutlined className="mr-3 text-xl" />

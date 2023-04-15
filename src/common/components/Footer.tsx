@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { getCookie } from 'cookies-next';
 import { ConfigProvider, Collapse } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import footerLOGO from '../../../public/images/footer/footerLOGO.svg';
+import footerLOGO from 'public/images/footer/footerLOGO.svg';
 
 // Footer - 折疊元件(Mobile)
 const { Panel } = Collapse;

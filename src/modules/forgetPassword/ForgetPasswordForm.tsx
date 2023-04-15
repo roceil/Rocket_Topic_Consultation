@@ -1,32 +1,38 @@
-import { ConfigProvider, Form, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Button, ConfigProvider, Form, Input } from 'antd';
 import { useForgetPasswordPostApiMutation } from '@/common/redux/service/forgetPassword';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 
 export default function ForgetPasswordForm() {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
   const [forgetPasswordPostApi] = useForgetPasswordPostApiMutation();
 
-  // 重新發送函式
-  const resendEmail = () => {
-    alert('Email已重新發送');
-  };
-
-  // 重設密碼API 函式
-  const forgerPasswordPost = async (Email: string) => {
-    const res = await forgetPasswordPostApi({ Email });
+  // ==================== 送出表單 API ====================
+  const forgerPasswordPost = async (Account: string) => {
+    const res = await forgetPasswordPostApi({ Account });
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: ForgetPasswordForm.tsx:18 ~ forgerPasswordPost ~ res:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      dispatch(loadingStatus('none'));
+      alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
+    dispatch(loadingStatus('none'));
     alert(Message);
     console.log(Message);
   };
 
-  // 表單送出函式
-  const onFinish = ({ Email }: { Email: string }) => {
-    forgerPasswordPost(Email);
+  // ==================== 送出表單函式 ====================
+  const onFinish = ({ Account }: { Account: string }) => {
+    dispatch(loadingStatus('isLoading'));
+    forgerPasswordPost(Account);
   };
+
   return (
     <ConfigProvider
       theme={{
@@ -34,42 +40,39 @@ export default function ForgetPasswordForm() {
           Button: {
             colorPrimaryHover: '#4A5364',
             colorPrimaryActive: '#4A5364',
-            colorTextDisabled: '#fff',
           },
         },
       }}
     >
-      <Form
-        layout="vertical"
-        form={form}
-        name="forgetPassword"
-        onFinish={onFinish}
-        labelAlign="left"
-      >
+      <Form layout="vertical" form={form} name="forgetPassword" onFinish={onFinish} labelAlign="left">
         {/* 信箱 */}
         <Form.Item
-          name="Email"
+          name="Account"
           label="信箱 Email Address"
           rules={[
             {
               required: true,
               message: '請輸入信箱',
             },
+            {
+              pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+              message: '請輸入正確的信箱格式',
+            },
           ]}
         >
           <div>
-            <Input placeholder="Email address" className="formInput border-secondary focus:border-secondary hover:border-secondary !shadow-none" />
+            <Input placeholder="Email address" className="formInput border-secondary !shadow-none hover:border-secondary focus:border-secondary" />
             <p className="absolute right-0">請輸入註冊時使用的信箱</p>
           </div>
         </Form.Item>
 
         {/* 重新發送 */}
         <Form.Item className="pt-[84px]">
-          <div className="flex items-center">
+          <div className="flex items-center resend">
             <p>未收到信件？</p>
-            <button type="button" onClick={resendEmail} className="ml-2 underline">
+            <Button htmlType="submit" className="ml-2 !border-b border-none border-red-500 shadow-none p-0">
               重新發送
-            </button>
+            </Button>
           </div>
         </Form.Item>
 

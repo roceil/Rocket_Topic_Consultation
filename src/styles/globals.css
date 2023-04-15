@@ -23,6 +23,17 @@
   textarea {
     font-size: initial !important;
   }
+
+  /* overflow 時不要顯示Y軸 */
+.scrollBAryHidden::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollBAryHidden {
+    -ms-overflow-style: none;
+    height: 100%;
+	overflow: auto;
+}
 }
 
 @layer components {
@@ -47,6 +58,9 @@
   .fakeBorder {
     box-shadow: inset 0 0 0 1.5px #4a5364;
   }
+  .CounselorCenterNoDataBtn {
+    box-shadow: inset 0 0 0 1.5px #9e9e9e;
+  }
   .fakeBorderHover {
     box-shadow: inset 0 0 0 1.5px #fff;
   }
@@ -63,6 +77,3 @@
     @apply relative z-20;
   }
 }
-
-
-

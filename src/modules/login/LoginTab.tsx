@@ -31,6 +31,7 @@ export default function LoginTab() {
           colorIcon: '#4A5364',
           colorPrimaryHover: '#4A5364',
           colorPrimaryActive: '#4A5364',
+          colorError: '#D14D3C ',
         },
         components: {
           Tabs: {

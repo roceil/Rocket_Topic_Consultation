@@ -1,8 +1,9 @@
+/* eslint-disable react/no-array-index-key */
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
-import star from '../../../public/images/star.svg';
+import star from 'public/images/star.svg';
 // import user01 from '../../../public/images/home/userComment/user01.png';
-import test from '../../../public/images/test.jpg';
+import test from 'public/images/test.jpg';
 
 const marqueeAry = Array(14).fill(1);
 
@@ -108,8 +109,8 @@ export default function UserComment() {
         <div className=" hidden flex-col items-center lg:block">
           {/* 第一條 */}
           <Marquee pauseOnHover gradient={false} speed={30}>
-            {marqueeAry.map(() => (
-              <div className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+            {marqueeAry.map((_, index) => (
+              <div key={index} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
                 <div className="flex items-center justify-center space-x-4">
                   {/* 這是圖片 */}
 
@@ -135,8 +136,8 @@ export default function UserComment() {
 
           {/* 第二條 */}
           <Marquee pauseOnHover gradient={false} speed={30} className="mt-14" direction="right">
-            {marqueeAry.map(() => (
-              <div className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+            {marqueeAry.map((_, index) => (
+              <div key={index} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
                 <div className="flex items-center justify-center space-x-4">
                   {/* 這是圖片 */}
 

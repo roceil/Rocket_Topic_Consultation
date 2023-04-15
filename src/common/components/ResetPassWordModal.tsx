@@ -4,9 +4,10 @@ import { getCookie } from 'cookies-next';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import { IResetPasswordModalProps } from '@/types/interface';
 import { useResetPasswordPostMutation } from '../redux/service/userCenter';
 
-export default function ResetPassWordModal({ showResetPassword, setShowResetPassword }: any) {
+export default function ResetPassWordModal({ showResetPassword, setShowResetPassword }: IResetPasswordModalProps) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [resetPasswordPost] = useResetPasswordPostMutation();
   const token = getCookie('auth');
@@ -39,8 +40,18 @@ export default function ResetPassWordModal({ showResetPassword, setShowResetPass
   const handleCancel = () => {
     setShowResetPassword(false);
   };
+
   return (
-    <Modal centered title="重設密碼" cancelText="取消" open={showResetPassword} confirmLoading={confirmLoading} footer={false} onCancel={handleCancel} className="modalResetPassword">
+    <Modal
+      centered
+      title="重設密碼"
+      cancelText="取消"
+      open={showResetPassword}
+      confirmLoading={confirmLoading}
+      footer={false}
+      onCancel={handleCancel}
+      className="modalResetPassword"
+    >
       <Form onFinish={handleOk} layout="vertical" className="mt-5">
         <FormPasswordInput
           needLink={false}

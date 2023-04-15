@@ -1,10 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCookie } from 'cookies-next';
 import { Form } from 'antd';
 import { useUserLoginPostApiMutation, useCounselorLoginPostApiMutation } from '@/common/redux/service/login';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormAccountInput from '@/common/components/form/FormAccountInput';
@@ -19,6 +20,7 @@ interface IUserLoginRes {
 function LogInForm() {
   const [form] = Form.useForm();
   const router = useRouter();
+  const dispatch = useDispatch();
   const [userLoginPostApi] = useUserLoginPostApiMutation();
   const [counselorLoginPostApi] = useCounselorLoginPostApiMutation();
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
@@ -30,20 +32,22 @@ function LogInForm() {
       Password,
     });
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
+      dispatch(loadingStatus('none'));
       alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
     const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
-    alert(Message);
+
     setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
+    alert(Message);
   };
 
   // 諮商師登入函式
@@ -57,20 +61,23 @@ function LogInForm() {
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
+      dispatch(loadingStatus('none'));
       alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
     const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
-    alert(Message);
+
     setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
+    alert(Message);
   };
 
   // 表單送出函式
   const onFinish = ({ Account, Password }: { Account: string; Password: string }) => {
+    dispatch(loadingStatus('isLoading'));
     if (value === '用戶') {
       userLoginPost(Account, Password);
     } else if (value === '諮商師') {

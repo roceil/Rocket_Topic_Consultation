@@ -24,6 +24,11 @@ export default function UserInformation({ save, edit, nameDisable, accountEmail,
           >
             點我重設密碼
           </button>
+          <label className=" ml-20 mt-[-132px] flex max-w-[204px]  scale-0 transform flex-col space-y-2 duration-300">
+            <input type="text" className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 " placeholder="請輸入新密碼" />
+            <input type="text" className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 " placeholder="請再次輸入新密碼" />
+            <IButton text="送出" fontSize="text-sm" py="py-2" />
+          </label>
         </label>
 
         <ResetPassWordModal showResetPassword={showResetPassword} setShowResetPassword={setShowResetPassword} />
