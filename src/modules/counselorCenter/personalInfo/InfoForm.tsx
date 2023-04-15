@@ -1,28 +1,32 @@
 import { ConfigProvider, Form, Input, Switch, Upload, Button } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IButton } from '@/common/components/IButton';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { useCounselorInfoGetQuery } from '@/common/redux/service/counselorCenter';
+import { getCookie } from 'cookies-next';
+import { ICounselorInfo, ICounselorInfoData } from '@/types/interface';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
 
-export interface CounselorProps {
-  name: string;
-  // eslint-disable-next-line react/no-unused-prop-types
-  id: number;
-  LicenseNum: number;
-  slogan: string;
-  introduce: string;
-}
-
 // 諮商師 > 個人資料 > 基本資料
-export function InfoForm({
-  name,
-  LicenseNum,
-  slogan,
-  introduce,
-}: CounselorProps) {
+export function InfoForm() {
+  const token = getCookie('auth');
+  // GET 基本資料
+  const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
+  const [renderData, setRenderData] = useState<ICounselorInfoData>([]);
+  useEffect(() => {
+    if (data.Data && data.Data.length > 0) {
+      setRenderData(data.Data[0]);
+    }
+    console.log(renderData, data.Data);
+  }, [data, isLoading]);
+
+  useEffect(() => {
+    console.log(renderData);
+  }, [renderData]);
+
   // Upload 諮商師執照＆頭貼圖檔
   const [filelist, setFilelist] = useState<UploadFile[]>([
     {
@@ -83,7 +87,7 @@ export function InfoForm({
           </div>
           <div className="space-y-[4.5px] text-gray-900 lg:mx-[15px]">
             <p className="text-sm font-bold ">會員帳號</p>
-            <p className="text-sm">hellohellohellohello@gamil.com</p>
+            <p className="text-sm">{renderData.Account}</p>
           </div>
           <ConfigProvider
             theme={{
@@ -129,14 +133,15 @@ export function InfoForm({
               >
                 <Input
                   disabled={isEdit}
-                  placeholder={name}
+                  placeholder={renderData.CounselorName}
                   className="font-normal"
                   style={{ height: 40 }}
+                  value={renderData.CounselorName}
                 />
               </Form.Item>
               <div className="mt-5 space-y-[4.5px] text-gray-900 lg:mx-[15px]">
                 <p className="text-sm font-bold ">諮商師證書字號</p>
-                <p className="text-sm">{LicenseNum}</p>
+                <p className="text-sm">{renderData.CertNumber}</p>
               </div>
               <Form.Item
                 name="upload"
@@ -149,7 +154,7 @@ export function InfoForm({
                   <div>
                     <ImgCrop>
                       <Upload
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        // action={infoData.Photo}
                         listType="picture-card"
                         fileList={filelist}
                         onChange={uploadOnChange}
@@ -234,9 +239,10 @@ export function InfoForm({
                   maxLength={12}
                   style={{ height: 40, resize: 'none' }}
                   onChange={onChange}
-                  placeholder={`${slogan}`}
+                  placeholder={renderData.SellingPoint ?? '您的諮商年資、特殊經歷等...'}
                   className="font-normal"
                   disabled={isEdit}
+                  value={renderData.SellingPoint}
                 />
               </Form.Item>
               <Form.Item
@@ -249,9 +255,10 @@ export function InfoForm({
                   maxLength={100}
                   style={{ height: 180, marginBottom: 4 }}
                   onChange={onChange}
-                  placeholder={`${introduce}`}
+                  placeholder={renderData.SelfIntroduction ?? '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關'}
                   className="font-normal"
                   disabled={isEdit}
+                  value={renderData.SelfIntroduction}
                 />
               </Form.Item>
               <div className="lg:mx-[15px]">
@@ -260,17 +267,18 @@ export function InfoForm({
                   <div className="flex">
                     <p className="mr-4 w-[56px]">Youtube影片連結</p>
                     <Input
-                      placeholder="請輸入影片連結"
-                      className="bg-primary-light h-10 w-[207px] border-none font-normal lg:w-[475px]"
+                      placeholder={renderData.VideoLink ?? '請輸入影片連結'}
+                      className="bg-gray-200 h-10 w-[207px] border-none font-normal lg:w-[475px]"
                       disabled={isEdit}
                     />
                   </div>
                   <div className="flex">
                     <p className="mr-4 w-[56px]">是否開放</p>
                     <Switch
-                      defaultChecked
+                      defaultChecked={renderData.IsVideoOpen}
                       onChange={SwitchOnChange}
                       disabled={isEdit}
+                      className="bg-gray-400"
                     />
                   </div>
                 </div>

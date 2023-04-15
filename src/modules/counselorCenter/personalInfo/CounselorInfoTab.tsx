@@ -2,40 +2,13 @@ import { ConfigProvider, Tabs } from 'antd';
 import { InfoForm } from '@/modules/counselorCenter/personalInfo/InfoForm';
 import { ClassInfo } from '@/modules/counselorCenter/personalInfo/ClassInfo';
 import TimeInfo from '@/modules/counselorCenter/personalInfo/TimeInfo';
-import userImg from '../../../../public/images/User01.jpg';
-
-// 假資料：測試『基本資料』
-const conselor1 = {
-  name: '李森',
-  id: 1,
-  LicenseNum: 12345678,
-  slogan: '您的諮商年資、特殊經歷等...',
-  introduce:
-    '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關',
-  image: userImg,
-};
-export interface CounselorProps {
-  name: string;
-  id: number;
-  LicenseNum: number;
-  slogan: string;
-  introduce: string;
-  // counselorImage: ;
-}
 
 const counselorInfoTabAry = [
   {
     key: '基本資料',
     label: '基本資料',
     children: (
-      <InfoForm
-        name={conselor1.name}
-        id={conselor1.id}
-        LicenseNum={conselor1.LicenseNum}
-        slogan={conselor1.slogan}
-        introduce={conselor1.introduce}
-        // counselorImage={conselor1.image}
-      />
+      <InfoForm />
     ),
   },
   {

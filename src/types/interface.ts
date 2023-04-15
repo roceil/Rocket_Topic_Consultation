@@ -83,3 +83,23 @@ export interface ICoursesDataProps {
     }[];
   };
 }
+
+// 諮商師 > 會員中心 > 個人資料 > 基本資料 API
+export interface ICounselorInfo {
+  Success: boolean;
+  Message: string;
+  Data: ICounselorInfoData[];
+}
+
+export interface ICounselorInfoData {
+  Account: string;
+  CounselorName: string;
+  LicenseImg: string;
+  CertNumber: string;
+  Photo: string | null;
+  SellingPoint: string | null;
+  SelfIntroduction: string | null;
+  VideoLink: string | null;
+  IsVideoOpen: boolean;
+  AccountStatus: boolean;
+}

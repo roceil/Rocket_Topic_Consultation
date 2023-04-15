@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { IButton } from '@/common/components/IButton';
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
-import { useCoursesDataGetQuery } from '@/common/redux/service/counselorCenter';
+import { useCoursesDataGetQuery, useCoursesDataPostMutation } from '@/common/redux/service/counselorCenter';
+import { NamePath } from 'antd/es/form/interface';
 import { classTopic } from '../../../lib/counselorCenterData';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -47,14 +48,204 @@ function NoCourses() {
 export function ClassInfo() {
   const token = getCookie('auth');
   // 用 redux 打 API ，可以一次管理多種狀態
+  // GET 上架課程
   const { data = [], isLoading } = useCoursesDataGetQuery({ token });
+  // POST 新增課程
+  const [CoursesDataPost] = useCoursesDataPostMutation();
+
+  // 新增課程 API 函式
+  // const CoursesDataPostApi = async (FieldId, Course[{Item,Quantity,Price,Availability}],Feature) => {
+  //   const res = await CoursesDataPost({
+  //     FieldId,
+  //     Course[{Item,Quantity,Price,Availability}],
+  //     Feature
+  //   });
+  //   if ('error' in res) {
+  //     const {
+  //       data: { Message },
+  //     } = res.error as { data: { Message: string } };
+  //     alert(Message);
+  //     return;
+  //   }
+  //   const { Message } = res.data as { Message: string };
+  //   alert(Message);
+  //   console.log(Message);
+  // };
+
+  // 新增課程 Axios POST
+  // useEffect(() => {
+  //   axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     data: {
+  //       FieldId: 3,
+  //       Course: [
+  //         {
+  //           Item: '一堂',
+  //           Quantity: 1,
+  //           Price: 1000,
+  //           Availability: true,
+  //         },
+  //         {
+  //           Item: '三堂',
+  //           Quantity: 3,
+  //           Price: 3000,
+  //           Availability: true,
+  //         },
+  //         {
+  //           Item: '五堂',
+  //           Quantity: 5,
+  //           Price: 5000,
+  //           Availability: true,
+  //         },
+  //         {
+  //           Item: '體驗課一堂',
+  //           Quantity: 1,
+  //           Price: 500,
+  //           Availability: false,
+  //         },
+  //       ],
+  //       Feature: ['string', 'string', 'string', 'string', 'string'],
+  //     },
+  //   });
+  // }, [isLoading]);
+
+  // const addCourses = { FieldId: 3,
+  //   Course: [
+  //     {
+  //       Item: '一堂',
+  //       Quantity: 1,
+  //       Price: 1000,
+  //       Availability: true,
+  //     },
+  //     {
+  //       Item: '三堂',
+  //       Quantity: 3,
+  //       Price: 3000,
+  //       Availability: true,
+  //     },
+  //     {
+  //       Item: '五堂',
+  //       Quantity: 5,
+  //       Price: 5000,
+  //       Availability: true,
+  //     },
+  //     {
+  //       Item: '體驗課一堂',
+  //       Quantity: 1,
+  //       Price: 500,
+  //       Availability: false,
+  //     },
+  //   ],
+  //   Feature: ['string', 'string', 'string', 'string', 'string'] };
+
+  // 新增課程 Axios POST
+  // useEffect(() => {
+  //   const postCourse = async () => {
+  //     try {
+  //       const response = await axios.post(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+  //         { FieldId: 3,
+  //           Course: [
+  //             {
+  //               Item: '一堂',
+  //               Quantity: 1,
+  //               Price: 1000,
+  //               Availability: true,
+  //             },
+  //             {
+  //               Item: '三堂',
+  //               Quantity: 3,
+  //               Price: 3000,
+  //               Availability: true,
+  //             },
+  //             {
+  //               Item: '五堂',
+  //               Quantity: 5,
+  //               Price: 5000,
+  //               Availability: true,
+  //             },
+  //             {
+  //               Item: '體驗課一堂',
+  //               Quantity: 1,
+  //               Price: 500,
+  //               Availability: false,
+  //             },
+  //           ],
+  //           Feature: ['string', 'string', 'string', 'string', 'string'] },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         },
+  //       );
+  //       console.log('Course added:', response.data);
+  //     } catch (error) {
+  //       console.log('API error:', error);
+  //     }
+  //   };
+  //   postCourse();
+  // }, [isLoading, token]);
+  // 新增課程 Axios POST
+  // useEffect(() => {
+  //   axios
+  //     .post(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+  //       {
+  //         FieldId: 3,
+  //         Course: [
+  //           {
+  //             Item: '一堂',
+  //             Quantity: 1,
+  //             Price: 1000,
+  //             Availability: true,
+  //           },
+  //           {
+  //             Item: '三堂',
+  //             Quantity: 3,
+  //             Price: 3000,
+  //             Availability: true,
+  //           },
+  //           {
+  //             Item: '五堂',
+  //             Quantity: 5,
+  //             Price: 5000,
+  //             Availability: true,
+  //           },
+  //           {
+  //             Item: '體驗課一堂',
+  //             Quantity: 1,
+  //             Price: 500,
+  //             Availability: false,
+  //           },
+  //         ],
+  //         Feature: ['string', 'string', 'string', 'string', 'string'],
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     )
+  //     .then((response) => {
+  //       console.log('Course added:', response.data);
+  //     })
+  //     .catch((error) => {
+  //       if (error.response && error.response.status === 401) {
+  //         console.log('Unauthorized');
+  //       } else {
+  //         console.log('Error adding course:', error);
+  //       }
+  //     });
+  // }, [isLoading, token]);
 
   // 儲存 Get API 的狀態碼
   const [statusCode, setStatusCode] = useState<number>();
 
+  // 因為 RTKQ 取 res.status 卡關，所以多寫了這個 get axios
   useEffect(() => {
     // axios 當測試，最後要用 redux 打 API ，才能一次管理多種狀態
-    // 因為 RTKQ 取 res.status 卡關，所以多寫了這個 get axios
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,6 +296,65 @@ export function ClassInfo() {
   return (
     <>
       <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
+        <button
+          type="button"
+          onClick={() => {
+            {
+              axios
+                .post(
+                  `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+                  {
+                    FieldId: 3,
+                    Course: [
+                      {
+                        Item: '一堂',
+                        Quantity: 1,
+                        Price: 1000,
+                        Availability: true,
+                      },
+                      {
+                        Item: '三堂',
+                        Quantity: 3,
+                        Price: 3000,
+                        Availability: true,
+                      },
+                      {
+                        Item: '五堂',
+                        Quantity: 5,
+                        Price: 5000,
+                        Availability: true,
+                      },
+                      {
+                        Item: '體驗課一堂',
+                        Quantity: 1,
+                        Price: 500,
+                        Availability: false,
+                      },
+                    ],
+                    Feature: ['string', 'string', 'string', 'string', 'string'],
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  },
+                )
+                .then((response) => {
+                  console.log('Course added:', response.data);
+                })
+                .catch((error) => {
+                  if (error.response && error.response.status === 401) {
+                    console.log('Unauthorized');
+                  } else {
+                    console.log('Error adding course:', error);
+                  }
+                });
+            }
+          }}
+        >
+          test
+
+        </button>
         <div className="flex-row lg:flex">
           <h3 className="mr-2 mb-4 text-base font-bold text-secondary lg:mb-0 lg:w-[10%]">
             專長領域 *
@@ -292,7 +542,7 @@ export function ClassInfo() {
                       >
                         {/* 課程特色 */}
                         {coursesFeature === undefined ? <NoCourses /> : null }
-                        {coursesFeature?.map((item, i) => (
+                        {coursesFeature?.map((item: string | number | readonly string[] | undefined, i: NamePath | undefined) => (
                           <Form.Item
                             name={i}
                             label={`特色 ${i + 1}`}
@@ -332,7 +582,7 @@ export function ClassInfo() {
                       >
                         {/* 課程特色 */}
                         {coursesFeature === undefined ? <NoCourses /> : null }
-                        {coursesFeature?.map((item, i) => (
+                        {coursesFeature?.map((item: string | number | readonly string[] | undefined, i: NamePath | undefined) => (
                           <Form.Item
                             name={i}
                             label={`特色 ${i + 1}`}
