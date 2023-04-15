@@ -189,3 +189,18 @@
 #register-user_DatePicker::placeholder {
   color: #bdbdbd !important;
 }
+
+/* 這個會調整所有錯誤訊息的邊框顏色 */
+.ant-input-status-error{
+  border-color: #D14D3C !important;
+}
+
+/* 這個會調整所有錯誤訊息的文字顏色 */
+.ant-form-item-explain-error{
+  color: #D14D3C !important;
+}
+
+/* 調整重新發送的底線樣式 */
+.resend span {
+  border-bottom: 1px solid #000;
+}

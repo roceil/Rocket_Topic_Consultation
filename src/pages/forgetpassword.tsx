@@ -3,7 +3,7 @@ import RegisterSVG from '@/common/components/RegisterSVG';
 
 export default function ForgetPassword() {
   return (
-    <div className="container z-20 flex justify-center items-center pt-12 pb-[84px] lg:min-h-[calc(100vh-110px-356px)] lg:py-[120px]">
+    <div className="container z-20 flex  items-center pt-12 pb-[84px] lg:min-h-[calc(100vh-110px-356px)] lg:py-[120px]">
       {/* 圖片 */}
       <RegisterSVG />
 

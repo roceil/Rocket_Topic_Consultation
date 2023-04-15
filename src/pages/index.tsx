@@ -1,6 +1,6 @@
-/* eslint-disable max-len */
 import Head from 'next/head';
 import { getCookies } from 'cookies-next';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import { hasToken } from '@/common/redux/feature/hasToken';
 import { homeComponents } from '@/lib/homeFilesRoute';
 import wrapper from '@/common/redux/store';
@@ -17,6 +17,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
 });
 
 export default function Home() {
+  // ==================== 關閉 loading ====================
+  useCloseLoading();
+
   return (
     <>
       <Head>

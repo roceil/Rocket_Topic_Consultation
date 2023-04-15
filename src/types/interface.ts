@@ -1,3 +1,4 @@
+import { ItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import { StaticImageData } from 'next/image';
 
 export interface ITopicCardProps {
@@ -63,4 +64,30 @@ export interface ICounselorListCardProps {
 
 export interface IUserDataProps {
   data: { Data: [{ Account: string; BirthDate: string; Name: string; Sex: string }]; Message: string; Success: boolean };
+}
+
+export interface ICounselorInformationProps {
+  counselorPageBreadcrumb: ItemType[];
+  Photo: string;
+  Name: string;
+  SelfIntroduction: string;
+  FieldTags: string[];
+}
+
+export interface ICounselorPageProps {
+  Data: {
+    Name: string;
+    FieldTags: string[];
+    Photo: string;
+    SelfIntroduction: string;
+    Fields: any;
+  };
+}
+export interface ICourses {
+  Item: string;
+  Price: number;
+}
+export interface IFilterCases {
+  label: string;
+  value: number;
 }

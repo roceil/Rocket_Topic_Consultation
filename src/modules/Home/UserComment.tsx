@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
-import star from '../../../public/images/star.svg';
+import star from 'public/images/star.svg';
 // import user01 from '../../../public/images/home/userComment/user01.png';
-import test from '../../../public/images/test.jpg';
+import test from 'public/images/test.jpg';
 
 const marqueeAry = Array(14).fill(1);
 

@@ -3,16 +3,18 @@ import Image from 'next/image';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ConfigProvider } from 'antd';
 import { useSelector } from 'react-redux';
+import LOGO from 'public/images/header/LOGO.svg';
+import LOGO_SM from 'public/images/header/LOGO_SM.svg';
+import useOpenLoading from '../hooks/useOpenLoading';
 import { selectHasToken } from '../redux/feature/hasToken';
 import { IButton } from './IButton';
 import SearchCapsule from './SearchCapsule';
 import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
-import LOGO from '../../../public/images/header/LOGO.svg';
-import LOGO_SM from '../../../public/images/header/LOGO_SM.svg';
 
 export default function Header() {
+  const openLoading = useOpenLoading();
   const { auth, identity } = useSelector(selectHasToken);
   const hasCookie = auth !== undefined;
   const handleDisplay = identity === 'counselor' ? 'hidden' : 'block';
@@ -43,7 +45,7 @@ export default function Header() {
             <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
             <Link href="/shoppingcart" className={handleDisplay}>
-              <button type="button" className="btnHover group h-10 w-10">
+              <button type="button" className="btnHover group h-10 w-10" onClick={openLoading}>
                 <span className="btnHoverText">
                   <ShoppingCartOutlined className="p-[10px] text-xl" />
                 </span>
@@ -54,7 +56,7 @@ export default function Header() {
             {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
             <Link href="/counselorlist/1" className="flex flex-shrink-0 justify-center">
-              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" />
+              <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" onClick={openLoading} />
             </Link>
           </ConfigProvider>
         </div>

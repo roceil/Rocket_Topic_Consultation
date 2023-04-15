@@ -1,17 +1,15 @@
-import { ConfigProvider, Form, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Button, ConfigProvider, Form, Input } from 'antd';
 import { useForgetPasswordPostApiMutation } from '@/common/redux/service/forgetPassword';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 
 export default function ForgetPasswordForm() {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
   const [forgetPasswordPostApi] = useForgetPasswordPostApiMutation();
 
-  // 重新發送函式
-  const resendEmail = () => {
-    alert('Email已重新發送');
-  };
-
-  // 重設密碼API 函式
+  // ==================== 送出表單 API ====================
   const forgerPasswordPost = async (Account: string) => {
     const res = await forgetPasswordPostApi({ Account });
     if ('error' in res) {
@@ -19,18 +17,22 @@ export default function ForgetPasswordForm() {
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
+      dispatch(loadingStatus('none'));
       alert(Message);
       return;
     }
     const { Message } = res.data as { Message: string };
+    dispatch(loadingStatus('none'));
     alert(Message);
     console.log(Message);
   };
 
-  // 表單送出函式
+  // ==================== 送出表單函式 ====================
   const onFinish = ({ Account }: { Account: string }) => {
+    dispatch(loadingStatus('isLoading'));
     forgerPasswordPost(Account);
   };
+
   return (
     <ConfigProvider
       theme={{
@@ -66,11 +68,11 @@ export default function ForgetPasswordForm() {
 
         {/* 重新發送 */}
         <Form.Item className="pt-[84px]">
-          <div className="flex items-center">
+          <div className="flex items-center resend">
             <p>未收到信件？</p>
-            <button type="button" onClick={resendEmail} className="ml-2 underline">
+            <Button htmlType="submit" className="ml-2 !border-b border-none border-red-500 shadow-none p-0">
               重新發送
-            </button>
+            </Button>
           </div>
         </Form.Item>
 

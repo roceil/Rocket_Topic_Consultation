@@ -18,7 +18,6 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
             type="button"
             className="rounded-[10px] border border-secondary py-[9px] px-5 text-sm hover:bg-primary-heavy hover:text-white"
             onClick={() => {
-              console.log(passwordVisible);
               setPasswordVisible(!passwordVisible);
             }}
           >

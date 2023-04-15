@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ConfigProvider, Breadcrumb, Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import { searchCounselorKeyWords } from '@/common/redux/feature/counselorList';
 import { useGetFilterListQuery } from '@/common/redux/service/counselorList';
 import { IButton } from '@/common/components/IButton';
@@ -39,6 +40,8 @@ interface ICounselorListProps {
 }
 
 export default function CounselorList({ data, pageId }: { data: ICounselorListProps; pageId: string }) {
+  // ======================== 關閉 loading ========================
+  useCloseLoading();
   const {
     Data: { CounselorsData, TotalPageNum },
   } = data;
