@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { Breadcrumb, ConfigProvider } from 'antd';
+import { useDispatch } from 'react-redux';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import { IButton } from '@/common/components/IButton';
 import wrapper from '@/common/redux/store';
 import { useDeleteItemDeleteMutation, useFinishOrderPostMutation } from '@/common/redux/service/shoppingCart';
@@ -94,6 +96,12 @@ interface IShoppingCartProps {
 }
 
 export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) {
+  const dispatch = useDispatch();
+  // =================== 關閉 loading ===================
+  useEffect(() => {
+    dispatch(loadingStatus('none'));
+  }, []);
+
   const { CartList = [], TotalAmount = 0 } = Data || {};
   const convertTotalPrice = TotalAmount.toLocaleString();
   const router = useRouter();
@@ -138,8 +146,10 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
       alert('請選擇付款方式');
       return;
     }
+    await dispatch(loadingStatus('isLoading '));
     const res = await finishOrderPost({ token });
     if ('error' in res) {
+      dispatch(loadingStatus('none'));
       const {
         data: { Message },
       } = res.error as unknown as { data: { Message: string } };

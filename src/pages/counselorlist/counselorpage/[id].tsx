@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unused-prop-types */
-
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Breadcrumb, Collapse, ConfigProvider, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import { useAddToCartPostMutation } from '@/common/redux/service/counselorPage';
 import { IButton } from '@/common/components/IButton';
 import { counselorPageBreadcrumb } from '@/lib/counselorPage/CounselorPageData';
@@ -89,6 +89,9 @@ interface IFilterCases {
 // Client 互動步驟 ＝ 選擇專長領域 => 選擇課程方案 => 加入購物車
 
 export default function CounselorPage({ data, counselorId }: { data: ICounselorPageProps; counselorId: string }) {
+  // ==================== 關閉 loading ====================
+  useCloseLoading();
+
   const [addToCartPost] = useAddToCartPostMutation();
   const token = getCookie('auth');
   const router = useRouter();

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { ICounselorListCardProps } from '@/types/interface';
 import convertDescription from '@/common/helpers/convertDescription';
 import { IButton } from '@/common/components/IButton';
@@ -10,6 +11,7 @@ const after = 'counselorCardShadow flex justify-between overflow-hidden bg-white
 
 export default function CounselorListCard({ className, counselorName, subtitle, img, description, id }: ICounselorListCardProps) {
   const isBefore = className === 'before' ? before : after;
+  const openLoading = useOpenLoading();
 
   return (
     <li className={isBefore}>
@@ -25,7 +27,7 @@ export default function CounselorListCard({ className, counselorName, subtitle, 
         <div className="flex justify-end space-x-3">
           <IButton text="我有問題" fontSize="text-xs lg:text-sm" mode="light" py="py-2" px="px-5" extraStyle="!hidden sm:!block" />
           <Link href={`/counselorlist/counselorpage/${id}`}>
-            <IButton text="立即預約" fontSize="text-xs lg:text-sm" mode="dark" py="py-2" px="px-5" extraStyle="flex" />
+            <IButton text="立即預約" fontSize="text-xs lg:text-sm" mode="dark" py="py-2" px="px-5" extraStyle="flex" onClick={openLoading} />
           </Link>
         </div>
       </div>

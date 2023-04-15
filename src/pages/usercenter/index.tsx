@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import wrapper from '@/common/redux/store';
 import { useEditInformationPutMutation } from '@/common/redux/service/userCenter';
 import { IUserDataProps } from '@/types/interface';
@@ -28,6 +29,8 @@ export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req,
 });
 
 export default function index({ data }: IUserDataProps) {
+  // ======================== 關閉 loading ========================
+  useCloseLoading();
   const { Account, BirthDate, Name, Sex } = data.Data[0];
   const nameRef = useRef(Name);
   const token = getCookie('auth');
