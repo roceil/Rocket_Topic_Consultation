@@ -17,8 +17,8 @@ export const userCenter = createApi({
       }),
     }),
     reservationDataGet: builder.query({
-      query: ({ token, tab }) => ({
-        url: `/api/apptRecords?status=${tab}`,
+      query: ({ token, tab, PageNum }) => ({
+        url: `/api/apptRecords?status=${tab}&page=${PageNum}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,7 +27,5 @@ export const userCenter = createApi({
   }),
 });
 
-export const {
-  useEditInformationPutMutation,
-  useReservationDataGetQuery,
-} = userCenter;
+export const { useEditInformationPutMutation, useReservationDataGetQuery } = userCenter;
+

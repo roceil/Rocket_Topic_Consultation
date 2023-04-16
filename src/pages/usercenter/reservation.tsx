@@ -6,6 +6,7 @@ import HasCancel from '@/modules/userCenter/HasCancel';
 import HasSetUp from '@/modules/userCenter/HasSetUp';
 import WaitReply from '@/modules/userCenter/WaitReply';
 import WaitReservation from '@/modules/userCenter/WaitReservation';
+import HasFinish from '@/modules/userCenter/HasFinish';
 import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 import { orderStatus, reservationTabs } from '@/lib/userCenterData';
 
@@ -15,7 +16,7 @@ export default function reservation() {
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
 
   // 辨識分頁位置函式
-  const checkTab = (tab2:string) => {
+  const checkTab = (tab2: string) => {
     switch (tab2) {
       case '待預約':
         setTable(<WaitReservation />);
@@ -27,14 +28,19 @@ export default function reservation() {
         dispatch(reservationTab('待回覆'));
         break;
 
-      case '已取消':
-        setTable(<HasCancel />);
-        dispatch(reservationTab('已取消'));
-        break;
-
       case '已成立':
         setTable(<HasSetUp />);
         dispatch(reservationTab('已成立'));
+        break;
+
+      case '已完成':
+        setTable(<HasFinish />);
+        dispatch(reservationTab('已完成'));
+        break;
+
+      case '已取消':
+        setTable(<HasCancel />);
+        dispatch(reservationTab('已取消'));
         break;
 
       default:

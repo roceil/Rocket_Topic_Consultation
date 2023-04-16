@@ -97,24 +97,13 @@ export default function WaitReply() {
             </ul>
 
             <ul className="mt-5 flex flex-col space-y-4 px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:space-y-5 lg:px-7 lg:text-base">
-              {renderData.map((group: IAppointment[], index: number) => {
-                if (index < renderData.length - 1) {
-                  return (
-                    <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-                      {group.map((appointment: IAppointment) => (
-                        <Appointment key={uuidv4()} appointment={appointment} />
-                      ))}
-                    </ul>
-                  );
-                }
-                return (
-                  <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
-                    {group.map((appointment: IAppointment) => (
-                      <Appointment key={uuidv4()} appointment={appointment} />
-                    ))}
-                  </ul>
-                );
-              })}
+              {renderData.map((group: any) => (
+                <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                  {group.map((appointment: { AppointmentId: number; Counselor: string; Field: string }) => (
+                    <Appointment key={uuidv4()} appointment={appointment} />
+                  ))}
+                </ul>
+              ))}
             </ul>
           </div>
           <div className="mt-12 flex w-full justify-center ring-1 lg:justify-end">
