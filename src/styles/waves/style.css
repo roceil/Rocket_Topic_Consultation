@@ -1,0 +1,26 @@
+.wavesTop {
+  width: 100%;
+  height: 100px;
+  background-image: url('/images/waves/waveTop.svg');
+  background-size: 600px 160px;
+  background-repeat: repeat-x;
+  animation: waves_move 7s linear infinite;
+  transform-origin: 0% 0%;
+}
+
+@keyframes waves_move {
+  0% {
+    background-position: 0px 0px;
+    transform: translate(0, 15px);
+  }
+
+  50% {
+    background-position: 600px 0px;
+    transform: translate(0, 0);
+  }
+
+  100% {
+    background-position: 1200px 0px;
+    transform: translate(0, 15px);
+  }
+}

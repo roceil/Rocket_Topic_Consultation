@@ -23,29 +23,27 @@ export default function SignUpTabs() {
     <ConfigProvider
       theme={{
         token: {
-          colorTextPlaceholder: '#5D5A88',
-          colorPrimary: '#5D5A88',
+          colorTextPlaceholder: '#4A5364',
+          colorPrimary: '#4A5364',
           // Tab 被選取時的顏色
           borderRadius: 24,
-          colorText: '#5D5A88',
-          colorIcon: '#5D5A88',
-          colorTextDescription: '#ff7f17',
-          colorBorder: '#D4D2E3',
+          colorText: '#4A5364',
+          colorError: '#D14D3C ',
         },
         components: {
           Select: {
             controlHeight: 48,
           },
           Tabs: {
-            colorText: '#D4D2E3',
+            colorText: '#4A5364',
           },
           Checkbox: {
             borderRadius: 0,
           },
           Button: {
-            colorPrimaryHover: '#5D5A88',
-            colorPrimaryActive: '#5D5A88',
-            colorText: '#5D5A88',
+            colorPrimaryHover: '#4A5364',
+            colorPrimaryActive: '#4A5364',
+            colorText: '#4A5364',
             colorTextDisabled: '#fff',
           },
         },

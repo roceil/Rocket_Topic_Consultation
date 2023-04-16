@@ -12,11 +12,25 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'fakeimg.pl',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com/',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pi.rocket-coding.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+      },
     ],
   },
   
 }
 
 module.exports = nextConfig
-
-

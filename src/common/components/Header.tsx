@@ -1,217 +1,80 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable react/button-has-type */
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {
-  ShoppingCartOutlined,
-  BellOutlined,
-  UserOutlined,
-  MenuOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
-import {
-  Button, ConfigProvider, Modal, Space,
-} from 'antd';
-import { useState } from 'react';
-import { IButton, darkBtn, lightBtn } from './IButton';
+import Image from 'next/image';
+import { getCookie } from 'cookies-next';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ConfigProvider } from 'antd';
+import LOGO from 'public/images/header/LOGO.svg';
+import LOGO_SM from 'public/images/header/LOGO_SM.svg';
+import { IButton } from './IButton';
 import SearchCapsule from './SearchCapsule';
-
-const isLogIn = false; // 判斷是否登入，控制 Nav 顯示內容
-
-// 登入時，顯示『會員中心、通知』icons
-const LogInIcons = (
-  <>
-    <Button
-      type="default"
-      shape="circle"
-      size="large"
-      icon={(
-        <BellOutlined
-          style={{
-            fontSize: '20px',
-            color: '#8D8BA7',
-          }}
-        />
-      )}
-    />
-    <Button
-      type="default"
-      shape="circle"
-      size="large"
-      icon={(
-        <UserOutlined
-          style={{
-            fontSize: '20px',
-            color: '#8D8BA7',
-          }}
-        />
-      )}
-    />
-  </>
-);
-
-// 未登入時，顯示『登入/註冊』Btn
-const YetLogInBtn = (
-  <Link href="/login">
-    <IButton
-      text="登入 / 註冊"
-      bgColor={lightBtn}
-      fontSize="text-[14px] lg:text-base"
-      px="px-6"
-      py="py-3"
-    />
-  </Link>
-);
+import HamburgerModal from './HamburgerModal';
+import HasLoginBtn from './HasLoginBtn';
+import NoLoginBtn from './NoLoginBtn';
+import useOpenLoading from '../hooks/useOpenLoading';
 
 export default function Header() {
-  // 漢堡選單開關
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const openLoading = useOpenLoading();
+  const [isMounted, setIsMounted] = useState(false);
+  const getToken = isMounted ? getCookie('auth') : undefined;
+  const getIdentity = isMounted ? getCookie('identity') : undefined;
+  const hasCookie = isMounted && getToken !== undefined;
+  const handleDisplay = isMounted && getIdentity === 'counselor' ? 'hidden' : 'block';
 
+  // 避免兩端渲染不同，進入畫面後才更改狀態
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   return (
-    <header className="my-[18px] lg:my-0 lg:py-[30px]">
-      <div className="container flex items-center justify-between">
-        <Link
-          href="/"
-          className="cursor-pointer text-2xl font-bold leading-normal text-[#5D5A88] hover:opacity-50"
-        >
-          Logo
-        </Link>
-        {/* 漢堡選單 */}
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#5D5A88',
-              colorLink: '#5D5A88',
-              colorLinkActive: '#8D8BA7',
-              colorLinkHover: '#8D8BA7',
-              colorIcon: '#5D5A88',
-            },
-          }}
-        >
-          <Button
-            onClick={showModal}
-            icon={<MenuOutlined />}
-            type="primary"
-            shape="round"
-            className="flexCenterCenter text-base text-primary-heavy shadow-none lg:hidden"
-          />
-          <Modal
-            width={348}
-            open={isModalOpen}
-            onCancel={handleCancel}
-            footer={null}
-            maskStyle={{
-              backgroundColor: '#EEECFA',
-              boxShadow: 'none',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-            className="hamburger-menu"
-          >
-            {/* 課程連結 */}
-            <div className="mt-12 mb-[52px] flex w-[276px] flex-col justify-center rounded-[10px] bg-[#EEECFA]">
-              <p className="my-3 text-center text-base font-bold text-primary-heavy">
-                目前尚無預約
-              </p>
-            </div>
-            <Space direction="vertical" style={{ width: 276 }}>
-              <Link href="/counselorlist">
-                <Button
-                  type="link"
-                  onClick={handleCancel}
-                  icon={<SearchOutlined />}
-                  className="text-lg font-bold "
-                >
-                  諮商師總覽
-                </Button>
-              </Link>
-              <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-              <Link href="/shoppingcart">
-                <Button
-                  type="link"
-                  icon={<ShoppingCartOutlined />}
-                  onClick={handleCancel}
-                  className="text-lg font-bold "
-                >
-                  購物車
-                </Button>
-              </Link>
-              <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-              <Button type="link" icon={<UserOutlined />} className="text-lg font-bold">
-                會員中心
-              </Button>
-              <Button type="link" className="ml-[26px] text-base">
-                個人資料
-              </Button>
-              <Button type="link" className="ml-[26px] text-base">
-                預約管理
-              </Button>
-              <Button type="link" className="ml-[26px] text-base">
-                個案記錄
-              </Button>
-              <div className="my-2 border border-t-[1px] border-[#D4D2E3]" />
-            </Space>
+    <>
+      <header className="fixed top-0 z-50 w-full border border-gray-200  bg-gray-100/80 py-[18px] backdrop-blur-2xl lg:py-[30px]">
+        <div className="container flex items-center justify-between">
+          <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
+            <Image src={LOGO} alt="LOGO" width={100} height={43} className="hidden lg:block" />
+          </Link>
 
-            <Button
-              type="primary"
-              shape="round"
-              htmlType="submit"
-              className="mt-20 h-[56px] w-[276px] bg-[#5D5A88] text-base text-white shadow-none"
-              onClick={() => alert('登出成功，應該吧')}
-            >
-              登出
-            </Button>
-          </Modal>
-        </ConfigProvider>
+          <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
+            <Image src={LOGO_SM} alt="LOGO" width={60} height={27} className="lg:hidden" />
+          </Link>
 
-        {/* PC 版導覽列 */}
-        <div className="hidden lg:block">
-          <ul className="flex items-center space-x-5">
+          {/* 漢堡選單 */}
+          <HamburgerModal />
+
+          {/* PC 版導覽列 */}
+          <div className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-5">
             <ConfigProvider
               theme={{
                 token: {
                   colorPrimary: '#D4D2E3',
                   borderRadiusLG: 100,
                   borderRadius: 100,
-                  colorBorder: '#D4D2E3',
-                  colorFillAlter: '#FFF',
+                  colorBorder: '#4A5364',
                 },
-                components: {},
               }}
             >
-              <SearchCapsule
-                colorPrimary="#5D5A88"
-                borderRadius={100}
-                controlHeight={40}
-                colorBgContainer="#fff"
-                placeholder=""
-              />
-              <Link href="/shoppingcart">
-                <button className="flexCenterCenter rounded-full border border-secondary p-[10px] text-xl text-primary-heavy hover:opacity-50">
-                  <ShoppingCartOutlined />
+              <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
+
+              <Link href="/shoppingcart" className={handleDisplay}>
+                <button type="button" className="btnHover group h-10 w-10" onClick={openLoading}>
+                  <span className="btnHoverText">
+                    <ShoppingCartOutlined className="p-[10px] text-xl" />
+                  </span>
                 </button>
               </Link>
-              {isLogIn && LogInIcons}
+
+              {/* 判斷是否有登入，有登入就顯示『會員中心、通知』icons，沒有登入就顯示『登入、註冊』icons */}
+              {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
+
+              <Link href="/counselorlist/1" className="flex flex-shrink-0 justify-center">
+                <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" onClick={openLoading} />
+              </Link>
             </ConfigProvider>
-            {!isLogIn && YetLogInBtn}
-            <Link href="/counselorlist">
-              <IButton
-                text="尋找諮商師"
-                bgColor={darkBtn}
-                fontSize="text-[14px] lg:text-base"
-                px="px-6"
-                py="py-3"
-              />
-            </Link>
-          </ul>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* header佔位格 */}
+      <div className="h-[70px] lg:h-[110px]" />
+    </>
   );
 }

@@ -1,8 +1,15 @@
 /* 篩選主題器膠囊 */
 .selectTopic .ant-select-selector {
-  padding: 2px 5px !important;
+  padding: 7px 8px !important;
+  border-width: 0px !important;
+  border-radius: 99999px !important;
+  box-shadow: inset 0 0 0 1.5px #4a5364 !important;
 }
 .selectTopic .ant-select-selection-search {
+  display: none;
+}
+.selectTopic .ant-select-arrow,
+.selectTopic .ant-select-clear {
   display: none;
 }
 
@@ -12,14 +19,17 @@
   align-items: center;
   justify-content: center;
 }
-.search .ant-input-affix-wrapper {
-  border: none;
-}
 .search .ant-input-affix-wrapper input {
   padding-left: 5px;
 }
 .search .ant-input-affix-wrapper .ant-input-suffix {
   padding-right: 5px;
+}
+.searchCapsule .ant-input-affix-wrapper:hover {
+  border-inline-end-width: none !important;
+}
+.searchCapsule .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-inline-end-width: 0px !important;
 }
 
 /* 搜尋元件(選單) */
@@ -27,14 +37,16 @@
   display: flex;
   align-items: center;
 }
-
-.search .ant-select .ant-select-arrow {
-  color: #767494;
+.search .ant-select .ant-select-selector {
+  border-width: 0px;
+  box-shadow: inset 0 0 0 1.5px #4a5364 !important;
 }
-/* .search .ant-select .ant-select-selector .ant-select-selection-item {
-  font-weight: bold;
-  color: #767494;
-} */
+.search .ant-select .ant-select-arrow {
+  color: #4a5364;
+}
+.ant-input-password input::placeholder {
+  color: #bdbdbd !important;
+}
 
 /* 分頁前後頁按鈕 */
 .ant-pagination-disabled .ant-pagination-item-link {
@@ -42,7 +54,7 @@
   border-radius: 100% !important;
 }
 .ant-pagination-item-link {
-  border: 1px solid #5d5a88 !important;
+  border: 1px solid #4a5364 !important;
   border-radius: 100% !important;
 }
 .ant-pagination-disabled .ant-pagination-item-link .anticon-left,
@@ -51,7 +63,7 @@
 }
 .anticon-left,
 .anticon-right {
-  color: #5d5a88 !important;
+  color: #4a5364 !important;
 }
 
 /* 分頁頁碼 */
@@ -59,37 +71,19 @@
   border: none !important;
 }
 .ant-pagination-item a {
-  color: #5d5a88 !important;
+  color: #4a5364 !important;
 }
 .ant-pagination-item-active a {
   text-decoration: underline !important;
 }
 
-/* Footer */
-.footer-shadow {
-  box-shadow: 0 -1px 5px 2px rgba(0, 0, 0, 0.06);
-}
-
 /* 會員中心 tab */
-/* .userCenterTab .ant-tabs-nav-list .ant-tabs-tab {
-padding: ;
-} */
-
-.userCenterTab .ant-tabs .ant-tabs-content-holder {
-  border-left: none;
-}
-
-.userCenterTab .ant-tabs .ant-tabs-tab {
-  border-left: 1px solid #d4d2e3;
-}
-.userCenterTab .ant-tabs .ant-tabs-ink-bar {
-  left: 1px;
-}
-
 .order .ant-tabs .ant-tabs-tab {
   border-left: none;
   width: 25%;
   justify-content: center;
+  color: #9e9e9e;
+  font-weight: 600;
 }
 .order .ant-tabs .ant-tabs-nav-list {
   width: 100%;
@@ -98,29 +92,18 @@ padding: ;
   width: 0px !important;
 }
 
-/* 忘記密碼、重設密碼底圖 */
-.log-in-box-height-xl {
-  height: calc(100vh - 225px);
-}
-
-.ant-radio-button-wrapper::before {
-  width: 0px !important;
-}
-
-/* 登入註冊底圖 */
-.log-in-box-height-xl {
-  height: calc(100vh - 105px);
-}
-
 /* 登入頁Tab */
 .loginForm .ant-tabs-nav-list {
   width: 100%;
 }
-
 .loginForm .ant-tabs-tab {
   margin: 0;
   width: 50%;
   justify-content: center;
+  color: #bdbdbd;
+}
+.loginForm .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin: 0;
 }
 
 /* 漢堡選單排列 */
@@ -128,6 +111,16 @@ padding: ;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  min-height: 400px;
+}
+.ant-modal-content {
+  padding: 72px 36px 44px 36px !important;
+  box-shadow: none !important;
+}
+.ant-modal-close-x {
+  font-size: 24px !important;
+  color: #424242 !important;
 }
 
 /* Footer 手機版字重 */
@@ -152,11 +145,89 @@ padding: ;
   margin: 0 !important;
   width: 50%;
   justify-content: center;
+  color: #bdbdbd;
 }
-
 .counselorTab .ant-tabs-nav-list .ant-tabs-tab {
   width: 33.33333%;
   justify-content: center;
   margin-left: 0;
   border: none;
+}
+
+/* 用戶註冊頁 */
+.UserSignUp .ant-select .ant-select-selector {
+  border: 1px solid #4a5364;
+  box-shadow: none !important;
+}
+.UserSignUp .ant-select .ant-select-arrow {
+  color: #4a5364;
+}
+
+/* 日曆右側ICON */
+.ant-picker .ant-picker-suffix {
+  color: #4a5364;
+}
+.ant-picker-focused {
+  box-shadow: none;
+}
+.CounselorSignUp .ant-upload-list-item {
+  background-color: white;
+  border: 1px solid #4a5364 !important;
+}
+
+/* 調整表單錯誤訊息位置 */
+.ant-form-item-explain-error {
+  padding-left: 9.453px;
+}
+
+.modalResetPassword .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+}
+.modalResetPassword .ant-modal-title {
+  color: #424242;
+  font-size: 24px;
+}
+.modalResetPassword .ant-input-affix-wrapper:focus {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
+.modalResetPassword .ant-input-affix-wrapper:hover {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
+/* 這個會調整所有下拉選單的placeholder顏色 */
+.ant-select-selection-placeholder {
+  color: #bdbdbd !important;
+}
+
+/* 這個會調整所有日期選單的placeholder顏色 */
+#register-user_DatePicker::placeholder {
+  color: #bdbdbd !important;
+}
+
+/* 這個會調整所有錯誤訊息的邊框顏色 */
+.ant-input-status-error{
+  border-color: #D14D3C !important;
+}
+
+/* 這個會調整所有錯誤訊息的文字顏色 */
+.ant-form-item-explain-error{
+  color: #D14D3C !important;
+}
+
+/* 調整重新發送的底線樣式 */
+.resend span {
+  border-bottom: 1px solid #000;
+}
+
+/* alert 顏色設定 */
+.ant-modal-confirm-btns .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+  border-radius: 20px !important;
+  width: 66px !important;
+  height: 36px !important;
+  font-weight: 600 !important;
+  outline: inherit !important;
 }

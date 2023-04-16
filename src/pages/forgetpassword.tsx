@@ -1,25 +1,17 @@
-import Image from 'next/image';
 import ForgetPasswordForm from '@/modules/forgetPassword/ForgetPasswordForm';
+import RegisterSVG from '@/common/components/RegisterSVG';
 
 export default function ForgetPassword() {
   return (
-    <div className="container z-20 flex justify-center pt-12 pb-[84px] lg:py-[120px]">
+    <div className="container z-20 flex  items-center pt-12 pb-[84px] lg:min-h-[calc(100vh-110px-356px)] lg:py-[120px]">
       {/* 圖片 */}
-      <Image
-        src="https://fakeimg.pl/492x492/F9F9FF/"
-        width={492}
-        height={492}
-        alt="picture"
-        className="mr-[176px] hidden h-[492px] w-[492px] rounded-[25px] bg-primary-light lg:block"
-      />
+      <RegisterSVG />
 
       {/* 右側輸入區 */}
       <div className="w-full max-w-[380px]">
         <div className="mb-12 flex flex-col items-center lg:items-start">
-          <p className="mb-1 hidden text-base font-bold text-primary-heavy lg:block">
-            FORGET PASSWORD
-          </p>
-          <h2>忘記密碼</h2>
+          <p className="mb-1 hidden text-base font-bold text-secondary lg:block">FORGET PASSWORD</p>
+          <h2 className="text-secondary">忘記密碼</h2>
         </div>
 
         <ForgetPasswordForm />

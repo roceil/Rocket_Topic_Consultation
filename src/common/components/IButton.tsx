@@ -1,23 +1,27 @@
-export const lightBtn = 'rounded-[50px] bg-white font-bold text-primary-heavy border-[1px] border-primary-heavy';
+/* eslint-disable react/button-has-type */
+/* eslint-disable max-len */
+export const lightBtn = 'rounded-[50px] bg-white font-bold text-secondary fakeBorder';
 
-export const darkBtn = 'rounded-[50px] bg-primary-heavy font-bold text-white ';
+export const darkBtn = 'rounded-[50px] bg-secondary font-bold text-white ';
 
-export interface IBtnStyle {
+export interface IButtonProps {
   text: string;
-  bgColor: string;
   fontSize: string;
   px?: string;
   py?: string;
+  mode?: 'light' | 'dark';
+  onClick?: () => void;
+  extraStyle?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
-export function IButton({
-  text, bgColor, fontSize, px, py,
-}: IBtnStyle) {
+export function IButton({ type, text, fontSize, px, py, mode, onClick, extraStyle }: IButtonProps) {
+  const btnStyle = mode === 'dark' ? 'btnHoverDark' : 'btnHover';
+  const textStyle = mode === 'dark' ? 'btnHoverTextDark' : 'btnHoverText';
+
   return (
-    <input
-      className={`${bgColor} ${fontSize} ${px} ${py} cursor-pointer hover:opacity-50`}
-      type="button"
-      value={text}
-    />
+    <button type={type || 'button'} className={`group ${btnStyle} ${px} ${py} ${extraStyle}`} onClick={onClick}>
+      <span className={`${fontSize} ${textStyle}`}>{text}</span>
+    </button>
   );
 }
