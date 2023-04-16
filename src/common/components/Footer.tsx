@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { getCookie } from 'cookies-next';
 import { ConfigProvider, Collapse } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import footerLOGO from '../../../public/images/footer/footerLOGO.svg';
+import footerLOGO from 'public/images/footer/footerLOGO.svg';
 
 // Footer - 折疊元件(Mobile)
 const { Panel } = Collapse;
@@ -57,18 +57,18 @@ const aboutUsChilds = (
 const followUsChilds = (
   <ul className="flex flex-col space-y-4 text-gray-900">
     <li className="text-sm">
-      <Link href="/">Facebook</Link>
+      <Link href="/success">Facebook</Link>
     </li>
     <li className="text-sm">
-      <Link href="/">Instagram</Link>
+      <Link href="/404">Instagram</Link>
     </li>
   </ul>
 );
 
 export default function Footer() {
-  const token = getCookie('auth');
-  const accessToUserCenter = token ? '/usercenter' : '/login';
-  const accessToReservation = token ? '/usercenter/reservation' : '/login';
+  const getToken = getCookie('auth');
+  const accessToUserCenter = getToken ? '/usercenter' : '/login';
+  const accessToReservation = getToken ? '/usercenter/reservation' : '/login';
 
   return (
     <footer className="bg-primary lg:py-[72px]">
@@ -128,8 +128,12 @@ export default function Footer() {
             <div>
               <h3 className="mb-6 text-base font-bold">追蹤我們</h3>
               <ul className="space-y-4 text-sm ">
-                <li className="">Facebook</li>
-                <li className="">Instagram</li>
+                <li className="">
+                  <Link href="/success">Facebook</Link>
+                </li>
+                <li className="">
+                  <Link href="/404">Instagram</Link>
+                </li>
               </ul>
             </div>
           </div>

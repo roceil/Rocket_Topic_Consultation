@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { Form, Space, Select, DatePicker, Checkbox } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { Form, Space, Select, DatePicker, Checkbox, Modal } from 'antd';
+import { Rule } from 'antd/es/form';
 import dayjs from 'dayjs';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import { useUserSignUpPostApiMutation } from '@/common/redux/service/signUp';
 import { IUserOnFinishProps } from '@/types/interface';
 import FormAccountInput from '@/common/components/form/FormAccountInput';
@@ -10,16 +13,18 @@ import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormNameInput from '@/common/components/form/FormNameInput';
+import customAlert from '@/common/helpers/customAlert';
 
 export default function UserSignUpForm() {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [modal, alertModal] = Modal.useModal();
   const { Option } = Select;
-  const inputStyle = 'py-3 px-5 rounded-[24px]';
   const { value: signUpTab } = useSelector((state: { signUpSlice: { value: string } }) => state.signUpSlice);
   const [userSignUpPostApi] = useUserSignUpPostApiMutation();
-  const router = useRouter();
 
-  // 使用者註冊API
+  // ==================== 用戶註冊API ====================
   const userSignUpPost = async (Name: string, Sex: string, BirthDate: string, Account: string, Password: string, ConfirmPassword: string) => {
     const res = await userSignUpPostApi({
       Name,
@@ -30,21 +35,35 @@ export default function UserSignUpForm() {
       ConfirmPassword,
     });
     if ('error' in res) {
-      console.log(res);
+      console.log('🚀 ~ file: UserSignUpForm.tsx:35 ~ userSignUpPost ~ res:', res);
+      const { Message } = (res.error as { data: { Message: string } }).data;
+      dispatch(loadingStatus('none'));
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
-    alert(`${Message}，請重新登入`);
-    router.push('/login');
-    console.log(res);
+
+    customAlert({ modal, Message: `${Message}，請重新登入`, type: 'success', router, link: '/login' });
   };
 
-  // 表單送出函式
+  // ==================== 送出註冊表單 ====================
   const onFinish = ({ Name, Sex, Account, Password, DatePicker: { $d: Date }, ConfirmPassword }: IUserOnFinishProps) => {
+    dispatch(loadingStatus('isLoading'));
     const BirthDate = dayjs(Date).format('YYYY-MM-DD');
 
     if (signUpTab !== '用戶') return;
     userSignUpPost(Name, Sex, BirthDate, Account, Password, ConfirmPassword);
+  };
+
+  // ==================== 出生日期驗證用 ====================
+  const [, setSelectedDate] = useState('');
+  const validateAge = (rule: Rule, value: string, callback: (error?: string) => void) => {
+    const age = dayjs().diff(dayjs(value), 'year');
+    if (age < 18) {
+      callback('需滿18歲才能進行註冊');
+    } else {
+      callback();
+    }
   };
 
   return (
@@ -86,9 +105,17 @@ export default function UserSignUpForm() {
             required: true,
             message: '請選擇日期',
           },
+          { validator: validateAge },
         ]}
       >
-        <DatePicker className={`${inputStyle} w-full border-secondary  focus:shadow-none`} placeholder="Select date" getPopupContainer={() => document.getElementById('DatePicker') || document.body} />
+        <DatePicker
+          placement="bottomLeft"
+          inputReadOnly // 避免手機上出現鍵盤
+          className="formInput w-full border-secondary  focus:shadow-none"
+          placeholder="Select date"
+          getPopupContainer={(trigger) => trigger.parentElement || document.body}
+          onChange={(date, dateString) => setSelectedDate(dateString)}
+        />
       </Form.Item>
 
       {/* 帳號 Account */}
@@ -142,6 +169,7 @@ export default function UserSignUpForm() {
 
       {/* 立即註冊 */}
       <FormSubmitBtn text="立即註冊" />
+      <div className="alert">{alertModal}</div>
     </Form>
   );
 }

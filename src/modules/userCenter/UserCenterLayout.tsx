@@ -3,20 +3,22 @@ import { useRouter } from 'next/router';
 import { deleteCookie } from 'cookies-next';
 import { LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { IUserCenterLayoutProps } from '@/types/interface';
+import customAlert from '@/common/helpers/customAlert';
+import { Modal } from 'antd';
 
 export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
   const router = useRouter();
+  const [modal, alertModal] = Modal.useModal();
   const { pathname } = router;
   const isUserCenter = pathname === '/usercenter' ? '!text-secondary !border-secondary !font-semibold' : '';
   const isReservation = pathname === '/usercenter/reservation' ? '!text-secondary !border-secondary !font-semibold' : '';
 
-  // 登出函式 => 未完成 delete cookie
+  // 登出函式
   const logout = () => {
-    alert('登出成功');
     deleteCookie('auth');
     deleteCookie('identity');
     deleteCookie('userID');
-    router.push('/');
+    customAlert({ modal, Message: '登出成功', type: 'success', router, link: '/' });
   };
   return (
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px]">
@@ -59,6 +61,7 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
           <div className="w-[80%]">{children}</div>
         </div>
       </div>
+      <div className="alert">{alertModal}</div>
     </section>
   );
 }

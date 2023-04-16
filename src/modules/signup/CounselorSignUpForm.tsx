@@ -1,27 +1,32 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { File } from 'buffer';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Form, Space, Input, Upload, Button, Checkbox, message } from 'antd';
+import { Form, Space, Input, Upload, Button, Checkbox, message, Modal } from 'antd';
 import { useCounselorSignUpPostApiMutation, useCounselorUploadImagePostApiMutation } from '@/common/redux/service/signUp';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import { ICounselorOnFinishProps } from '@/types/interface';
 import FormNameInput from '@/common/components/form/FormNameInput';
 import FormAccountInput from '@/common/components/form/FormAccountInput';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import customAlert from '@/common/helpers/customAlert';
 
 export default function CounselorSignUpForm() {
-  const [uploadImage, setUploadImage] = useState<File | null>(null);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [modal, alertModal] = Modal.useModal();
+  const [uploadImage, setUploadImage] = useState<File | null>(null);
   const { value: signUpTab } = useSelector((state: { signUpSlice: { value: string } }) => state.signUpSlice);
   const [counselorSignUpPostApi] = useCounselorSignUpPostApiMutation();
   const [counselorUploadImagePostApi] = useCounselorUploadImagePostApiMutation();
-  const router = useRouter();
 
-  // 諮商師註冊API
+  // ==================== 諮商師註冊API ====================
   const counselorSignUpPost = async (Name: string, name: string, Certification: string, Account: string, Password: string, ConfirmPassword: string) => {
     // 文字POST
     const res = await counselorSignUpPostApi({
@@ -33,8 +38,10 @@ export default function CounselorSignUpForm() {
       ConfirmPassword,
     });
     if ('error' in res) {
+      console.log('🚀 ~ file: CounselorSignUpForm.tsx:41 ~ counselorSignUpPost ~ res:', res);
       const { Message } = (res.error as { data: { Message: string } }).data;
-      alert(Message);
+      dispatch(loadingStatus('none'));
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
 
@@ -45,19 +52,20 @@ export default function CounselorSignUpForm() {
     });
     if ('error' in uploadImgRes) {
       const { Message } = (uploadImgRes.error as { data: { Message: string } }).data;
-      alert(Message);
+      dispatch(loadingStatus('none'));
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
 
     const { Message } = res.data as { Message: string };
-    alert(`${Message}，請重新登入`);
-    router.push('/login');
+    dispatch(loadingStatus('none'));
+    customAlert({ modal, Message: `${Message}，請重新登入`, type: 'success', router, link: '/login' });
   };
 
-  // 定義允許上傳的文件大小（以字節為單位）
+  // ==================== 允許上傳的文件大小（以字節為單位） ====================
   const allowedSize = 2 * 1024 * 1024; // 2MB
 
-  // 自定義 beforeUpload 函式，用於限制上傳的文件類型和大小
+  // ==================== 定義上傳文件前的檢查函式 ====================
   const beforeUpload = (file: { size: number }) => {
     // 檢查文件大小是否符合要求
     const isAllowedSize = file.size <= allowedSize;
@@ -69,7 +77,7 @@ export default function CounselorSignUpForm() {
     return false;
   };
 
-  // 檔案上傳函式
+  // ==================== 檔案上傳函式 ====================
   const normFile = (e: { fileList: { originFileObj: File }[] }) => {
     if (Array.isArray(e)) {
       return e;
@@ -81,8 +89,9 @@ export default function CounselorSignUpForm() {
     return e && e.fileList;
   };
 
-  // 表單送出函式
+  // ==================== 諮商師註冊表單 ====================
   const onFinish = ({ Name, License, Certification, Account, Password, ConfirmPassword }: ICounselorOnFinishProps) => {
+    dispatch(loadingStatus('isLoading'));
     const { name } = License[0];
     if (signUpTab !== '諮商師') return;
     counselorSignUpPost(Name, name, Certification, Account, Password, ConfirmPassword);
@@ -175,6 +184,7 @@ export default function CounselorSignUpForm() {
 
       {/* 立即註冊 */}
       <FormSubmitBtn text="立即註冊" />
+      <div className="alert">{alertModal}</div>
     </Form>
   );
 }

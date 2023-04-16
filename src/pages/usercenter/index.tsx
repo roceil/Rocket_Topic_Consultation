@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 import wrapper from '@/common/redux/store';
 import { useEditInformationPutMutation } from '@/common/redux/service/userCenter';
 import { IUserDataProps } from '@/types/interface';
@@ -28,30 +29,29 @@ export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req,
 });
 
 export default function index({ data }: IUserDataProps) {
+  // ======================== 關閉 loading ========================
+  useCloseLoading();
   const { Account, BirthDate, Name, Sex } = data.Data[0];
-  const nameRef = useRef(Name);
   const token = getCookie('auth');
   const transferDate = convertDate(BirthDate);
   const [nameDisable, setNameDisable] = useState(true);
-  const isHidden = nameDisable ? '!opacity-0 transform duration-300' : '!opacity-100 transform duration-300';
+  const [nameInput, setNameInput] = useState(Name);
+  const isHidden = nameDisable ? '!w-0 !h-14 transform duration-300' : '!w-[180px]  transform duration-300';
   const [editInformationPut] = useEditInformationPutMutation();
 
   // 開啟編輯功能函式
   const edit = () => setNameDisable(false);
 
   // 儲存資料並打PUT API函式
-  const save = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    const { value } = nameRef.current as unknown as { value: string };
-
+  const save = async () => {
     // 如果用戶沒有改變名字，則直接儲存
-    if (value === '') {
+    if (nameInput === '') {
       alert('儲存成功');
       setNameDisable(true);
       return;
     }
 
-    const res = await editInformationPut({ token, value });
+    const res = await editInformationPut({ token, nameInput });
 
     // 這裡會攔截錯誤訊息
     if ('error' in res) {
@@ -78,14 +78,14 @@ export default function index({ data }: IUserDataProps) {
             <div className="hidden h-[242px] w-[116px] ring-1 lg:block ">
               <h3 className="mb-8 font-bold text-primary-heavy">會員中心</h3>
             </div>
-            <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameRef={nameRef} />
+            <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameInput={nameInput} setNameInput={setNameInput} />
           </div>
         </div>
       </section>
 
       {/* 電腦版 */}
       <UserCenterLayout>
-        <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameRef={nameRef} />
+        <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameInput={nameInput} setNameInput={setNameInput} />
       </UserCenterLayout>
     </div>
   );

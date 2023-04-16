@@ -180,6 +180,22 @@
   padding-left: 9.453px;
 }
 
+.modalResetPassword .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+}
+.modalResetPassword .ant-modal-title {
+  color: #424242;
+  font-size: 24px;
+}
+.modalResetPassword .ant-input-affix-wrapper:focus {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
+.modalResetPassword .ant-input-affix-wrapper:hover {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
 /* 這個會調整所有下拉選單的placeholder顏色 */
 .ant-select-selection-placeholder {
   color: #bdbdbd !important;
@@ -188,4 +204,30 @@
 /* 這個會調整所有日期選單的placeholder顏色 */
 #register-user_DatePicker::placeholder {
   color: #bdbdbd !important;
+}
+
+/* 這個會調整所有錯誤訊息的邊框顏色 */
+.ant-input-status-error{
+  border-color: #D14D3C !important;
+}
+
+/* 這個會調整所有錯誤訊息的文字顏色 */
+.ant-form-item-explain-error{
+  color: #D14D3C !important;
+}
+
+/* 調整重新發送的底線樣式 */
+.resend span {
+  border-bottom: 1px solid #000;
+}
+
+/* alert 顏色設定 */
+.ant-modal-confirm-btns .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+  border-radius: 20px !important;
+  width: 66px !important;
+  height: 36px !important;
+  font-weight: 600 !important;
+  outline: inherit !important;
 }

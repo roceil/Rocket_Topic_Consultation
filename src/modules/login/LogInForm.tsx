@@ -1,29 +1,25 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCookie } from 'cookies-next';
-import { Form } from 'antd';
+import { Form, Modal } from 'antd';
 import { useUserLoginPostApiMutation, useCounselorLoginPostApiMutation } from '@/common/redux/service/login';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormAccountInput from '@/common/components/form/FormAccountInput';
-
-interface IUserLoginRes {
-  Message: string;
-  Authorization: string;
-  Identity: string;
-  UserID: string;
-}
+import CustomAlert from '@/common/helpers/customAlert';
+import { IUserLoginRes } from '@/types/interface';
 
 function LogInForm() {
   const [form] = Form.useForm();
   const router = useRouter();
-  const [userLoginPostApi] = useUserLoginPostApiMutation();
-  const [counselorLoginPostApi] = useCounselorLoginPostApiMutation();
+  const dispatch = useDispatch();
   const { value } = useSelector((state: { loginTabs: { value: string } }) => state.loginTabs);
+  const [modal, alertModal] = Modal.useModal();
 
-  // 使用者登入函式
+  // ==================== 用戶登入 API ====================
+  const [userLoginPostApi] = useUserLoginPostApiMutation();
   const userLoginPost = async (Account: string, Password: string) => {
     const res = await userLoginPostApi({
       Account,
@@ -34,19 +30,21 @@ function LogInForm() {
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
-      alert(Message);
+      dispatch(loadingStatus('none'));
+      CustomAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
     const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
-    alert(Message);
+
     setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
-    router.push('/');
+    CustomAlert({ modal, Message, type: 'success', router });
   };
 
-  // 諮商師登入函式
+  // ==================== 諮商師登入 API ====================
+  const [counselorLoginPostApi] = useCounselorLoginPostApiMutation();
   const counselorLoginPost = async (Account: string, Password: string) => {
     const res = await counselorLoginPostApi({
       Account,
@@ -57,20 +55,23 @@ function LogInForm() {
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
-      alert(Message);
+      dispatch(loadingStatus('none'));
+      CustomAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
     const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
-    alert(Message);
+
     setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
+    CustomAlert({ modal, Message, type: 'success', router });
   };
 
-  // 表單送出函式
+  // ==================== 登入表單 ====================
   const onFinish = ({ Account, Password }: { Account: string; Password: string }) => {
+    dispatch(loadingStatus('isLoading'));
     if (value === '用戶') {
       userLoginPost(Account, Password);
     } else if (value === '諮商師') {
@@ -94,6 +95,7 @@ function LogInForm() {
       </Form.Item>
 
       <FormSubmitBtn text="登入" />
+      <div className="alert">{alertModal}</div>
     </Form>
   );
 }

@@ -1,6 +1,7 @@
-import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { deleteCookie } from 'cookies-next';
+import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 
 interface IUserCenterLayoutProps {
   children: React.ReactNode;
@@ -13,8 +14,11 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
   const isReservation = pathname === '/counselorcenter/reservation' ? 'opacity-100' : 'opacity-70';
   const isCase = pathname === '/counselorcenter/case' ? 'opacity-100' : 'opacity-70';
 
-  // 登出函式 => 未完成 delete cookie
+  // 登出函式
   const logout = () => {
+    deleteCookie('auth');
+    deleteCookie('identity');
+    deleteCookie('userID');
     alert('登出成功');
     router.push('/');
   };

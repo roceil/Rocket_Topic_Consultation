@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ConfigProvider, Select, Tabs } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { reservationTab } from '@/common/redux/feature/userCenterReservation';
 import HasCancel from '@/modules/userCenter/HasCancel';
 import HasSetUp from '@/modules/userCenter/HasSetUp';
 import WaitReply from '@/modules/userCenter/WaitReply';
@@ -8,26 +10,31 @@ import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 import { orderStatus, reservationTabs } from '@/lib/userCenterData';
 
 export default function reservation() {
-  const [tab, setTab] = useState('待預約');
+  const dispatch = useDispatch();
   const [table, setTable] = useState(<WaitReservation />);
+  const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
 
   // 辨識分頁位置函式
-  const checkTab = () => {
-    switch (tab) {
+  const checkTab = (tab2:string) => {
+    switch (tab2) {
       case '待預約':
         setTable(<WaitReservation />);
+        dispatch(reservationTab('待預約'));
         break;
 
       case '待回覆':
         setTable(<WaitReply />);
+        dispatch(reservationTab('待回覆'));
         break;
 
       case '已取消':
         setTable(<HasCancel />);
+        dispatch(reservationTab('已取消'));
         break;
 
       case '已成立':
         setTable(<HasSetUp />);
+        dispatch(reservationTab('已成立'));
         break;
 
       default:
@@ -37,18 +44,13 @@ export default function reservation() {
 
   // 手機版改變分頁位置函式
   const handleChange = (value: string) => {
-    console.log('🚀 ~ file: reservation.tsx:40 ~ handleChange ~ value:', value);
-    setTab(value);
-    checkTab();
+    dispatch(reservationTab(value));
+    checkTab(value);
   };
-  // 監聽手機版是否改變分頁位置
-  useEffect(() => {
-    handleChange(tab);
-  }, [tab]);
 
   // 電腦版改變分頁位置函式
   const onChange = (key: string) => {
-    console.log('🚀 ~ file: reservation.tsx:47 ~ onChange ~ key:', key);
+    dispatch(reservationTab(key));
   };
 
   return (
@@ -73,7 +75,7 @@ export default function reservation() {
                 },
               }}
             >
-              <Select defaultValue="待預約" style={{ width: 152 }} onChange={handleChange} options={orderStatus} getPopupContainer={(trigger) => trigger.parentElement} />
+              <Select defaultValue={tab} style={{ width: 152 }} onChange={handleChange} options={orderStatus} getPopupContainer={(trigger) => trigger.parentElement} />
             </ConfigProvider>
           </div>
 
@@ -95,7 +97,7 @@ export default function reservation() {
               },
             }}
           >
-            <Tabs className=" w-full" defaultActiveKey="1" items={reservationTabs} onChange={onChange} />
+            <Tabs className=" w-full" defaultActiveKey={tab} items={reservationTabs} onChange={onChange} />
           </ConfigProvider>
         </div>
       </UserCenterLayout>

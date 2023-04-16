@@ -1,116 +1,118 @@
-/* eslint-disable react/no-array-index-key */
-import Link from 'next/link';
-import Image from 'next/image';
-import { Breadcrumb, ConfigProvider } from 'antd';
-import { IButton } from '@/common/components/IButton';
-import close from '../../public/images/Close.svg';
-import example from '../../public/images/shoppingCart/example.svg';
+import { useState } from 'react';
+import axios from 'axios';
+import { getCookie } from 'cookies-next';
+import { Breadcrumb, ConfigProvider, Modal } from 'antd';
+import { useDispatch } from 'react-redux';
+import { loadingStatus } from '@/common/redux/feature/loading';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
+import wrapper from '@/common/redux/store';
+import { useFinishOrderPostMutation } from '@/common/redux/service/shoppingCart';
+import { IShoppingCartProps } from '@/types/interface';
+import { breadcrumbTabs } from '@/lib/shoppingCart/shoppingCartData';
+import customAlert from '@/common/helpers/customAlert';
+import NewBPayForm from '../modules/shoppingCart/NewBPayForm';
+import Payment from '../modules/shoppingCart/Payment';
+import ShoppingForm from '../modules/shoppingCart/ShoppingForm';
 
-const breadcrumbTabs = [
-  {
-    title: (
-      <Link href="/" className="lg:text-base">
-        Home
-      </Link>
-    ),
-  },
-  {
-    title: <p className="text-secondary lg:text-base">購物車</p>,
-  },
-];
+export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
+  try {
+    const token = getCookie('auth', { req, res });
+    if (!token) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+      };
+    }
+    const resData = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/cart`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const { data } = resData;
+    return {
+      props: {
+        data,
+        token,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        data: { Data: { CartList: [], TotalAmount: 0 } },
+        token: '',
+      },
+    };
+  }
+});
 
-const fakeAry = Array(3).fill(1);
+export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) {
+  const [modal, alertModal] = Modal.useModal();
+  const dispatch = useDispatch();
+  // =================== 關閉 loading ===================
+  useCloseLoading();
+  const openLoading = useOpenLoading();
+  const { CartList = [], TotalAmount = 0 } = Data || {};
+  const [renderDate, setRenderDate] = useState(CartList);
 
-export default function ShopCart() {
+  // =================== 結帳 API ===================
+  const [TradeInfoInput, setTradeInfo] = useState('');
+  const [TradeShaInput, setTradeSha] = useState('');
+  const [finishOrderPost] = useFinishOrderPostMutation();
+  // ! 藍新表單跳轉 => 取值會有問題，先用setTimeout解決
+  const redirectFormAction = (url: string) => {
+    setTimeout(() => {
+      const form = document.getElementById('Newebpay') as HTMLFormElement;
+      dispatch(loadingStatus('none'));
+      form.action = url;
+      form.submit();
+    }, 500);
+  };
+  const finishOrder = async () => {
+    await openLoading();
+
+    const res = await finishOrderPost({ token });
+    if ('error' in res) {
+      dispatch(loadingStatus('none'));
+      const {
+        data: { Message },
+      } = res.error as unknown as { data: { Message: string } };
+      customAlert({ modal, Message, type: 'error' });
+      return;
+    }
+
+    const {
+      PaymentData: { TradeInfo, TradeSha },
+    } = (await res.data) as { PaymentData: { TradeInfo: string; TradeSha: string } };
+
+    await setTradeInfo(TradeInfo);
+    await setTradeSha(TradeSha);
+    await redirectFormAction('https://ccore.newebpay.com/MPG/mpg_gateway');
+  };
+
   return (
     <section className="bg-white pt-14 pb-28 lg:pt-[84px] lg:pb-[152px]">
       <div className="container text-center">
+        {/* 麵包屑 */}
         <div>
           <ConfigProvider>
             <Breadcrumb items={breadcrumbTabs} />
           </ConfigProvider>
         </div>
-
         <h2 className="relative mt-9 pb-3 after:absolute after:left-1/2 after:-bottom-1 after:h-1 after:w-10 after:-translate-x-1/2 after:bg-secondary lg:mt-[65px]">購物車</h2>
 
         {/* 表格 */}
-        <div className="mt-12 rounded-2xl border-2 border-gray-400 text-sm text-gray-700 lg:mt-[84px]">
-          <ul className="flex border-b-2 border-gray-400 py-5 font-bold lg:py-[29px] lg:text-left lg:text-base">
-            <li className="w-1/2 lg:pl-[130px]">預約項目</li>
-            <li className="w-1/4 lg:pl-[85px]">堂數</li>
-            <li className="w-1/4 lg:text-center">定價</li>
-          </ul>
-
-          <ul className="text-gray-900 lg:text-left lg:text-base">
-            {fakeAry.map((_, index) => (
-              <li key={index} className="flex items-center border-b border-gray-400 py-5">
-                <div className="flex w-1/2 pl-7 lg:items-center lg:pl-14">
-                  <button type="button">
-                    <Image src={close} alt="delete_icon" className="mr-6 lg:mr-0 lg:hover:opacity-50" />
-                  </button>
-
-                  <Image src={example} className="hidden rounded-2xl lg:ml-14 lg:block" alt="product-pic" width={100} height={100} priority />
-
-                  <div className="lg:ml-6">
-                    <p className="mb-1 font-bold">親密關係</p>
-                    <p className="text-left">誰跟誰</p>
-                  </div>
-                </div>
-
-                <div className="w-1/4 lg:pl-[84px]">
-                  <p>三堂</p>
-                </div>
-
-                <div className="w-1/4 lg:text-center">
-                  <p>$5,500</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className=" flex justify-end space-x-5 py-6 pr-[25px] text-gray-900 lg:space-x-9 lg:py-8 lg:pr-[123px] lg:text-base">
-            <p className="font-bold">總計</p>
-            <p>$11,000</p>
-          </div>
-        </div>
+        <ShoppingForm renderDate={renderDate} setRenderDate={setRenderDate} TotalAmount={TotalAmount} />
 
         {/* 內含付款跟須知 */}
-        <div className="lg:mt-12 lg:flex lg:justify-between">
-          {/* 付款 */}
-          <div className="mt-7 flex space-x-8 rounded-2xl border-2 border-gray-400 py-5 px-7 font-bold text-gray-900 lg:mt-0 lg:w-[38.3399%] lg:justify-between lg:py-7 lg:pl-7 lg:pr-[91px] lg:text-lg">
-            <p className="">進行付款</p>
-            <button type="button" className="flex w-[156px] items-center justify-center rounded-xl bg-primary py-5 text-xl ring-secondary focus:ring-2 lg:w-[188px] lg:py-[55px]">
-              信用卡
-            </button>
-          </div>
+        <Payment />
 
-          {/* 預約須知 */}
-          <div className="mt-7 rounded-2xl border-2 border-gray-400 py-4 px-5 text-left font-bold text-gray-900 lg:mt-0 lg:w-[58.7944%] lg:py-5 lg:px-7 lg:text-lg">
-            <p className="mb-2">預約須知</p>
-
-            <ol className="ml-4 list-decimal text-sm font-normal leading-[175%] text-gray-800 lg:text-base">
-              <li className="">請於結帳完成後，至會員中心選擇預約時段。</li>
-              <li>
-                預約成立後若要更改時段，請至
-                <Link href="UserCenter" className="underline lg:hover:opacity-50">
-                  {' '}
-                  會員中心 / 預約管理 / 已成立
-                  {' '}
-                </Link>
-                更改時段。
-              </li>
-              <li>為維護雙方權益，預約日前三天不可更改時段。</li>
-              <li>如需取消預約，請聯絡小幫手處理。</li>
-            </ol>
-          </div>
-        </div>
-
-        {/* 按鈕 */}
-        <div className="mt-7 flex space-x-5 text-base font-bold lg:mt-16 lg:justify-end lg:space-x-7 lg:text-base">
-          <IButton text="返回" fontSize="text-base" py="py-4" extraStyle="w-full max-w-[180px]" mode="light" />
-          <IButton text="完成結帳" fontSize="text-base" py="py-4" extraStyle="w-full max-w-[180px]" mode="dark" />
-        </div>
+        {/* 藍新表單 */}
+        <NewBPayForm TradeInfoInput={TradeInfoInput} TradeShaInput={TradeShaInput} finishOrder={finishOrder} />
       </div>
+      <div className="alert">{alertModal}</div>
     </section>
   );
 }
