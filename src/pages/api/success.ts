@@ -13,13 +13,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const router = useRouter();
 
   if (req.method === 'POST') {
-    const paymentResult = req.body as PaymentResult; // 將 req.body 強制轉換為 PaymentResult 類型
+    const paymentResult = req.body as PaymentResult;
     console.log('paymentResult', paymentResult);
-    // 在這裡進行付款結果的處理，例如將付款結果存入數據庫等操作
+    // 在这里处理付款结果，例如将付款结果存入数据库等操作
 
-    router.push('/success'); // 跳轉到付款成功的頁面
+    router.push('/success');
   } else {
     res.setHeader('Allow', ['POST']);
+    if (req.method !== 'POST') {
+      router.push('/success');
+    }
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+
