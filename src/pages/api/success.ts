@@ -12,7 +12,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
   const corsMiddleware = cors(corsOptions);
   corsMiddleware(req, res, () => {
     if (req.method !== 'GET') {
+      res.status(200);
       res.redirect('/success');
+      res.end();
       return;
     }
 
@@ -20,7 +22,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
     const tradeStatus = req.query.TradeStatus;
     if (tradeStatus !== 'SUCCESS') {
       // 交易狀態不是成功，重導向到錯誤頁面
+      res.status(200);
       res.redirect('/success');
+      res.end();
+      return;
       return;
     }
 
@@ -29,6 +34,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
     console.log('🚀 ~ file: success.ts:13 ~ handler ~ tradeInfo:', tradeInfo);
 
     // 處理完成後重導向到指定的成功頁面
+    res.status(200);
     res.redirect('/success');
+    res.end();
   });
 }
