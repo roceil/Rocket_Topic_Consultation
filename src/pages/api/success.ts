@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    return res.redirect('/success');
+  }
+  if (req.method === 'GET') {
+    return res.redirect('/success');
+  }
+
   // 確認藍新回傳的交易狀態為完成
   const tradeStatus = req.query.TradeStatus;
   if (tradeStatus !== 'SUCCESS') {
