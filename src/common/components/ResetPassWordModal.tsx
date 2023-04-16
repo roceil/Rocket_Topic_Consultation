@@ -5,16 +5,16 @@ import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswo
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 import { IResetPasswordModalProps } from '@/types/interface';
-import { useResetPasswordPostMutation } from '../redux/service/userCenter';
+import { useResetPasswordModalPostMutation } from '../redux/service/resetPassword';
 
 export default function ResetPassWordModal({ showResetPassword, setShowResetPassword }: IResetPasswordModalProps) {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [resetPasswordPost] = useResetPasswordPostMutation();
+  const [resetPasswordModalPost] = useResetPasswordModalPostMutation();
   const token = getCookie('auth');
 
   // 送出表單函式
   const handleOk = async ({ Password, ConfirmPassword }: { Password: string; ConfirmPassword: string }) => {
-    const res = await resetPasswordPost({
+    const res = await resetPasswordModalPost({
       Password,
       ConfirmPassword,
       token,

@@ -220,3 +220,14 @@
 .resend span {
   border-bottom: 1px solid #000;
 }
+
+/* alert 顏色設定 */
+.ant-modal-confirm-btns .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+  border-radius: 20px !important;
+  width: 66px !important;
+  height: 36px !important;
+  font-weight: 600 !important;
+  outline: inherit !important;
+}

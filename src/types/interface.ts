@@ -96,3 +96,10 @@ export interface IResetPasswordModalProps {
   showResetPassword: boolean;
   setShowResetPassword: (showResetPassword: boolean) => void;
 }
+
+export interface IUserLoginRes {
+  Message: string;
+  Authorization: string;
+  Identity: string;
+  UserID: string;
+}

@@ -1,14 +1,16 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { Breadcrumb, ConfigProvider } from 'antd';
+import { Breadcrumb, ConfigProvider, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import { IButton } from '@/common/components/IButton';
 import wrapper from '@/common/redux/store';
 import { useDeleteItemDeleteMutation, useFinishOrderPostMutation } from '@/common/redux/service/shoppingCart';
+import customAlert from '@/common/helpers/customAlert';
 import close from 'public/images/Close.svg';
 import 人際關係 from 'public/images/home/customTopic/人際關係.svg';
 import 伴侶關係 from 'public/images/home/customTopic/伴侶關係.svg';
@@ -16,7 +18,6 @@ import 負面情緒 from 'public/images/home/customTopic/負面情緒.svg';
 import 個人發展 from 'public/images/home/customTopic/個人發展.svg';
 import 家庭議題 from 'public/images/home/customTopic/家庭議題.svg';
 import 職場議題 from 'public/images/home/customTopic/職場議題.svg';
-import { useEffect, useState } from 'react';
 
 const breadcrumbTabs = [
   {
@@ -96,6 +97,7 @@ interface IShoppingCartProps {
 }
 
 export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) {
+  const [modal, alertModal] = Modal.useModal();
   const dispatch = useDispatch();
   // =================== 關閉 loading ===================
   useEffect(() => {
@@ -121,14 +123,14 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
   const deletedItem = async (CartId: number) => {
     const res = await deleteItemDelete({ token, CartId });
     if ('error' in res) {
-      alert('刪除失敗');
+      customAlert({ modal, Message: '刪除失敗', type: 'error' });
       return;
     }
 
     const {
       data: { Message },
     } = res as { data: { Message: string } };
-    alert(Message);
+    customAlert({ modal, Message, type: 'success' });
 
     // 刪除後重新渲染
     const newRenderDate = renderDate.filter((item) => item.CartId !== CartId);
@@ -143,7 +145,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
   // 結帳 API
   const finishOrder = async () => {
     if (!confirmPayWay) {
-      alert('請選擇付款方式');
+      customAlert({ modal, Message: '請選擇付款方式', type: 'error' });
       return;
     }
     await dispatch(loadingStatus('isLoading '));
@@ -153,7 +155,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
       const {
         data: { Message },
       } = res.error as unknown as { data: { Message: string } };
-      alert(Message);
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
 
@@ -166,7 +168,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
     setInput1(TradeInfo);
     setInput2(TradeSha);
     // router.push('/usercenter/reservation');
-    alert(Message);
+    customAlert({ modal, Message, type: 'success' });
   };
 
   useEffect(() => {
@@ -297,6 +299,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
         {/* <!-- 直接執行送出 --> */}
         <input type="submit" value="前往付款" onClick={() => console.log(123)} className="ring-1" />
       </form>
+      <div className="alert">{alertModal}</div>
     </section>
   );
 }

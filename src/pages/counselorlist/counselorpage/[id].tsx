@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ConfigProvider, Radio, RadioChangeEvent, Select } from 'antd';
+import { ConfigProvider, Modal, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
@@ -17,12 +17,13 @@ import CounselorVideo from '@/modules/counselorPage/CounselorVideo';
 import CounselorRate from '@/modules/counselorPage/CounselorRate';
 import CounselorInformation from '@/modules/counselorPage/CounselorInformation';
 import { ICounselorPageProps, ICourses, IFilterCases } from '@/types/interface';
+import customAlert from '@/common/helpers/customAlert';
 
 // 使用axios取得path
 export const getServerSidePaths = async () => {
   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=`);
   const { data } = res;
-  const paths = data.map((counselor: { id: { toString: () => any } }) => ({
+  const paths = data.map((counselor: { id: { toString: () => string } }) => ({
     params: { id: counselor.id.toString() },
   }));
   return {
@@ -50,6 +51,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
   // ==================== 關閉 loading ====================
   useCloseLoading();
 
+  const [modal, alertModal] = Modal.useModal();
   const openLoading = useOpenLoading();
   const [addToCartPost] = useAddToCartPostMutation();
   const token = getCookie('auth');
@@ -155,7 +157,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
     }
 
     if (!chooseCase) {
-      alert('請選擇方案');
+      customAlert({ modal, Message: '請選擇方案', type: 'error' });
       return;
     }
     openLoading();
@@ -175,17 +177,16 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
         data: { Message },
       } = res.error as { data: { Message: string } };
       useCloseLoading();
-      alert(Message);
+      customAlert({ modal, Message, type: 'error' });
     }
 
     const { data: resData } = res as { data: { Success: boolean; Message: string } };
 
     if (resData && resData.Success) {
-      router.push('/shoppingcart');
-      alert(resData.Message);
+      customAlert({ modal, Message: resData.Message, type: 'success', router, link: '/shoppingcart' });
     } else {
       useCloseLoading();
-      alert(resData?.Message || '加入購物車失敗');
+      customAlert({ modal, Message: resData?.Message || '加入購物車失敗', type: 'error' });
     }
   };
 
@@ -410,6 +411,8 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
 
       {/* 常見問題 */}
       <RegularQuestion />
+
+      <div className="alert">{alertModal}</div>
     </>
   );
 }

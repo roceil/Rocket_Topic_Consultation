@@ -1,12 +1,14 @@
 import { useDispatch } from 'react-redux';
-import { Button, ConfigProvider, Form, Input } from 'antd';
+import { Button, ConfigProvider, Form, Input, Modal } from 'antd';
 import { useForgetPasswordPostApiMutation } from '@/common/redux/service/forgetPassword';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import customAlert from '@/common/helpers/customAlert';
 
 export default function ForgetPasswordForm() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [modal, alertModal] = Modal.useModal();
   const [forgetPasswordPostApi] = useForgetPasswordPostApiMutation();
 
   // ==================== 送出表單 API ====================
@@ -18,13 +20,12 @@ export default function ForgetPasswordForm() {
         data: { Message },
       } = res.error as { data: { Message: string } };
       dispatch(loadingStatus('none'));
-      alert(Message);
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
     dispatch(loadingStatus('none'));
-    alert(Message);
-    console.log(Message);
+    customAlert({ modal, Message, type: 'success' });
   };
 
   // ==================== 送出表單函式 ====================
@@ -78,6 +79,7 @@ export default function ForgetPasswordForm() {
 
         {/* 發送密碼重設信 */}
         <FormSubmitBtn text="發送密碼重設信" extraStyle={{ marginTop: '-11px' }} />
+        <div className="alert">{alertModal}</div>
       </Form>
     </ConfigProvider>
   );

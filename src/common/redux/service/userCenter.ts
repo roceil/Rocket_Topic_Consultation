@@ -16,16 +16,6 @@ export const userCenter = createApi({
         },
       }),
     }),
-    resetPasswordPost: builder.mutation({
-      query: ({ token, Password, ConfirmPassword }) => ({
-        url: '/api/resetPassword',
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: { Password, ConfirmPassword },
-      }),
-    }),
     reservationDataGet: builder.query({
       query: ({ token, tab }) => ({
         url: `/api/apptRecords?status=${tab}`,
@@ -37,4 +27,4 @@ export const userCenter = createApi({
   }),
 });
 
-export const { useEditInformationPutMutation, useResetPasswordPostMutation, useReservationDataGetQuery } = userCenter;
+export const { useEditInformationPutMutation, useReservationDataGetQuery } = userCenter;
