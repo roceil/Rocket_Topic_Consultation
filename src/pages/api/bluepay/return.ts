@@ -11,10 +11,8 @@ const corsOptions = {
 export default function handler(req: NextApiRequest, res: NextApiResponse): void {
   const corsMiddleware = cors(corsOptions);
   corsMiddleware(req, res, () => {
-    if (req.method === 'POST') {
-      res.status(200);
-      res.redirect('/success');
-      res.end();
+    if (req.method !== 'POST') {
+      res.status(405).end();
       return;
     }
 
@@ -22,20 +20,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
     const tradeStatus = req.query.TradeStatus;
     if (tradeStatus !== 'SUCCESS') {
       // 交易狀態不是成功，重導向到錯誤頁面
-      res.status(200);
-      res.redirect('/success');
-      res.end();
-      return;
+      res.status(302).redirect('/success');
       return;
     }
 
     // 藍新回傳的交易資訊
     const tradeInfo = req.query.MerchantTradeNo;
-    console.log('🚀 ~ file: success.ts:13 ~ handler ~ tradeInfo:', tradeInfo);
+    console.log('🚀 ~ file: return.ts:13 ~ handler ~ tradeInfo:', tradeInfo);
 
     // 處理完成後重導向到指定的成功頁面
-    res.status(200);
-    res.redirect('/success');
-    res.end();
+    res.status(302).redirect('/success');
   });
 }
