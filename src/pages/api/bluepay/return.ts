@@ -11,12 +11,13 @@ const corsOptions = {
 export default function handler(req: NextApiRequest, res: NextApiResponse): void {
   const corsMiddleware = cors(corsOptions);
   corsMiddleware(req, res, () => {
+    console.log('method', req.method);
     if (req.method !== 'POST') {
-      res.status(302).redirect('/success');
+      res.redirect(302, '/success');
       return;
     }
     if (req.method === 'POST') {
-      res.status(302).redirect('/success');
+      res.redirect(302, '/success');
       return;
     }
 
