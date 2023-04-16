@@ -1,29 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { useRouter } from 'next/router';
-
-interface PaymentResult {
-  // 請根據您在藍新金流後台設定的 JSON 欄位名稱修改這裡的屬性名稱
-  Status: string; // 商店代號
-  MerchantID: string; // 加密資料
-  TradeInfo: string; // 交易檢查碼
-  Version: string; // 串接程式版本
-}
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const router = useRouter();
-
-  if (req.method === 'POST') {
-    const paymentResult = req.body as PaymentResult;
-    console.log('paymentResult', paymentResult);
-    // 在这里处理付款结果，例如将付款结果存入数据库等操作
-
-    router.push('/success');
-  } else {
-    res.setHeader('Allow', ['POST']);
-    if (req.method !== 'POST') {
-      router.push('/success');
-    }
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  // 確認藍新回傳的交易狀態為完成
+  const tradeStatus = req.query.TradeStatus;
+  if (tradeStatus !== 'SUCCESS') {
+    // 交易狀態不是成功，重導向到錯誤頁面
+    return res.redirect('/404');
   }
-}
 
+  // 藍新回傳的交易資訊
+  const tradeInfo = req.query.MerchantTradeNo;
+  console.log('🚀 ~ file: success.ts:13 ~ handler ~ tradeInfo:', tradeInfo);
+
+  // 處理完成後重導向到指定的成功頁面
+  return res.redirect('/success');
+}
