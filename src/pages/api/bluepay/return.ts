@@ -15,6 +15,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
       res.status(405).end();
       return;
     }
+    if (req.method === 'POST') {
+      res.status(302).redirect('/success');
+      return;
+    }
 
     // 確認藍新回傳的交易狀態為完成
     const tradeStatus = req.query.TradeStatus;
