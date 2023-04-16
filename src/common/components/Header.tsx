@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getCookie } from 'cookies-next';
@@ -5,14 +6,15 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ConfigProvider } from 'antd';
 import LOGO from 'public/images/header/LOGO.svg';
 import LOGO_SM from 'public/images/header/LOGO_SM.svg';
-import { useState, useEffect } from 'react';
 import { IButton } from './IButton';
 import SearchCapsule from './SearchCapsule';
 import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
+import useOpenLoading from '../hooks/useOpenLoading';
 
 export default function Header() {
+  const openLoading = useOpenLoading();
   const [isMounted, setIsMounted] = useState(false);
   const getToken = isMounted ? getCookie('auth') : undefined;
   const getIdentity = isMounted ? getCookie('identity') : undefined;
@@ -29,6 +31,9 @@ export default function Header() {
         <div className="container flex items-center justify-between">
           <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
             <Image src={LOGO} alt="LOGO" width={100} height={43} className="hidden lg:block" />
+          </Link>
+
+          <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
             <Image src={LOGO_SM} alt="LOGO" width={60} height={27} className="lg:hidden" />
           </Link>
 
@@ -50,7 +55,7 @@ export default function Header() {
               <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
 
               <Link href="/shoppingcart" className={handleDisplay}>
-                <button type="button" className="btnHover group h-10 w-10">
+                <button type="button" className="btnHover group h-10 w-10" onClick={openLoading}>
                   <span className="btnHoverText">
                     <ShoppingCartOutlined className="p-[10px] text-xl" />
                   </span>
@@ -61,7 +66,7 @@ export default function Header() {
               {hasCookie ? <HasLoginBtn /> : <NoLoginBtn />}
 
               <Link href="/counselorlist/1" className="flex flex-shrink-0 justify-center">
-                <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" />
+                <IButton text="尋找諮商師" fontSize="text-[14px] lg:text-base" px="px-6" py="py-3" mode="dark" onClick={openLoading} />
               </Link>
             </ConfigProvider>
           </div>
