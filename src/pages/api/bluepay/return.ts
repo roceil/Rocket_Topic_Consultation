@@ -11,7 +11,7 @@ const corsOptions = {
 export default function handler(req: NextApiRequest, res: NextApiResponse): void {
   const corsMiddleware = cors(corsOptions);
   corsMiddleware(req, res, () => {
-    if (req.method !== 'GET') {
+    if (req.method === 'POST') {
       res.status(200);
       res.redirect('/success');
       res.end();
