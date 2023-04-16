@@ -11,7 +11,6 @@ const corsOptions = {
 export default function handler(req: NextApiRequest, res: NextApiResponse): void {
   const corsMiddleware = cors(corsOptions);
   corsMiddleware(req, res, () => {
-    console.log('method', req.method);
     if (req.method !== 'POST') {
       res.redirect(302, '/success');
       return;
@@ -28,10 +27,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
       res.status(302).redirect('/success');
       return;
     }
-
-    // 藍新回傳的交易資訊
-    const tradeInfo = req.query.MerchantTradeNo;
-    console.log('🚀 ~ file: return.ts:13 ~ handler ~ tradeInfo:', tradeInfo);
 
     // 處理完成後重導向到指定的成功頁面
     res.status(302).redirect('/success');
