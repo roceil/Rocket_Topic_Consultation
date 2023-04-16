@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { Breadcrumb, ConfigProvider } from 'antd';
+import { Breadcrumb, ConfigProvider, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
@@ -10,6 +10,7 @@ import wrapper from '@/common/redux/store';
 import { useFinishOrderPostMutation } from '@/common/redux/service/shoppingCart';
 import { IShoppingCartProps } from '@/types/interface';
 import { breadcrumbTabs } from '@/lib/shoppingCart/shoppingCartData';
+import customAlert from '@/common/helpers/customAlert';
 import NewBPayForm from '../modules/shoppingCart/NewBPayForm';
 import Payment from '../modules/shoppingCart/Payment';
 import ShoppingForm from '../modules/shoppingCart/ShoppingForm';
@@ -48,6 +49,7 @@ export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req,
 });
 
 export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) {
+  const [modal, alertModal] = Modal.useModal();
   const dispatch = useDispatch();
   // =================== 關閉 loading ===================
   useCloseLoading();
@@ -77,7 +79,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
       const {
         data: { Message },
       } = res.error as unknown as { data: { Message: string } };
-      alert(Message);
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
 
@@ -110,6 +112,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
         {/* 藍新表單 */}
         <NewBPayForm TradeInfoInput={TradeInfoInput} TradeShaInput={TradeShaInput} finishOrder={finishOrder} />
       </div>
+      <div className="alert">{alertModal}</div>
     </section>
   );
 }

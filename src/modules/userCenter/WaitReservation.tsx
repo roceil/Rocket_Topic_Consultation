@@ -5,17 +5,14 @@ import { useSelector } from 'react-redux';
 import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
 
-interface IWaiteReservationDetail {
-  OrderId: number;
-  Appointments: {
-    AppointmentId: number;
-    Counselor: string;
-    Field: string;
-  }[];
+interface IAppointment {
+  AppointmentId: number;
+  Counselor: string;
+  Field: string;
 }
 
 // !這個要想辦法元件化
-export function Appointment({ appointment }: { appointment: IWaiteReservationDetail['Appointments'][0] }) {
+export function Appointment({ appointment }: { appointment: IAppointment }) {
   const { AppointmentId, Counselor, Field } = appointment;
 
   return (
@@ -31,14 +28,14 @@ export function Appointment({ appointment }: { appointment: IWaiteReservationDet
 
 export default function WaitReservation() {
   const token = getCookie('auth');
-  const [renderData, setRenderData] = useState<IWaiteReservationDetail[]>([]);
+  const [renderData, setRenderData] = useState([]);
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
   const { data = [], isLoading } = useReservationDataGetQuery({ token, tab });
 
   // 取得資料
   useEffect(() => {
     const { Data = [] } = data;
-    const AppoinmentsData = Data.map((item: { Appointments: { appointment: IWaiteReservationDetail['Appointments'][0] } }) => {
+    const AppoinmentsData = Data.map((item: { Appointments: { appointment: IAppointment } }) => {
       const { Appointments } = item;
       return Appointments;
     });
@@ -54,31 +51,26 @@ export default function WaitReservation() {
       </ul>
 
       <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
-        {renderData.map((group: any, index) => {
-          if (group.length === 0) {
+        <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
+          {renderData.map((group: IAppointment[], index: number) => {
+            if (index < renderData.length - 1) {
+              return (
+                <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                  {group.map((appointment: IAppointment) => (
+                    <Appointment key={uuidv4()} appointment={appointment} />
+                  ))}
+                </ul>
+              );
+            }
             return (
-              <div key={uuidv4()} className="flex h-full w-full items-center justify-center">
-                <p className="text-gray-400">目前沒有資料</p>
-              </div>
-            );
-          }
-          if (index < renderData.length - 1) {
-            return (
-              <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-                {group.map((appointment: { AppointmentId: number; Counselor: string; Field: string }) => (
+              <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
+                {group.map((appointment: IAppointment) => (
                   <Appointment key={uuidv4()} appointment={appointment} />
                 ))}
               </ul>
             );
-          }
-          return (
-            <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
-              {group.map((appointment: { AppointmentId: number; Counselor: string; Field: string }) => (
-                <Appointment key={uuidv4()} appointment={appointment} />
-              ))}
-            </ul>
-          );
-        })}
+          })}
+        </ul>
       </ul>
     </div>
   );

@@ -7,10 +7,10 @@ export const userCenter = createApi({
   }),
   endpoints: (builder) => ({
     editInformationPut: builder.mutation({
-      query: ({ token, value }) => ({
-        url: 'api/users',
+      query: ({ token, nameInput }) => ({
+        url: '/api/users',
         method: 'PUT',
-        body: { Name: value },
+        body: { Name: nameInput },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,7 +27,4 @@ export const userCenter = createApi({
   }),
 });
 
-export const {
-  useEditInformationPutMutation,
-  useReservationDataGetQuery,
-} = userCenter;
+export const { useEditInformationPutMutation, useReservationDataGetQuery } = userCenter;

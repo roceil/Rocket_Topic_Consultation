@@ -1,9 +1,10 @@
-import { IButton } from '@/common/components/IButton';
 import { useState } from 'react';
+import { IButton } from '@/common/components/IButton';
+import ResetPassWordModal from '../../common/components/ResetPassWordModal';
 
-export default function UserInformation({ save, edit, nameDisable, accountName, accountEmail, BirthDate, Sex, extraStyle, nameRef }: any) {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const show = passwordVisible ? '!scale-100 !mt-2 ' : '';
+export default function UserInformation({ save, edit, nameDisable, accountEmail, BirthDate, Sex, extraStyle, nameInput, setNameInput }: any) {
+  const [showResetPassword, setShowResetPassword] = useState(false);
+
   return (
     <form onSubmit={save} action="" className="flex w-full flex-col ">
       <div className="mb-12 flex flex-col space-y-6 border-y border-gray-400 py-8 lg:rounded-xl lg:border lg:py-10 lg:px-9 lg:shadow">
@@ -16,28 +17,32 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
           <span>修改密碼：</span>
           <button
             type="button"
-            className="rounded-[10px] border border-secondary py-[9px] px-5 text-sm hover:bg-primary-heavy hover:text-white"
+            className="rounded-[10px] border border-secondary py-[9px] px-5 text-sm active:scale-[0.8] lg:hover:opacity-80"
             onClick={() => {
-              setPasswordVisible(!passwordVisible);
+              setShowResetPassword(!showResetPassword);
             }}
           >
             點我重設密碼
           </button>
-          <label className={`${show} ml-20 mt-[-132px] flex max-w-[204px]  scale-0 transform flex-col space-y-2 duration-300`}>
-            <input ref={nameRef} type="text" className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 " placeholder="請輸入新密碼" />
-            <input ref={nameRef} type="text" className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 " placeholder="請再次輸入新密碼" />
+          <label className=" ml-20 mt-[-132px] flex max-w-[204px]  scale-0 transform flex-col space-y-2 duration-300">
+            <input type="text" className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 " placeholder="請輸入新密碼" />
+            <input type="text" className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 " placeholder="請再次輸入新密碼" />
             <IButton text="送出" fontSize="text-sm" py="py-2" />
           </label>
         </label>
 
+        <ResetPassWordModal showResetPassword={showResetPassword} setShowResetPassword={setShowResetPassword} />
+
         <label className="min-h-10 text-gray-900">
           <span>會員姓名：</span>
           <input
-            ref={nameRef}
             type="text"
             className="rounded-[10px] border border-secondary py-[9px] px-3 text-sm caret-secondary outline-none placeholder:text-gray-800 disabled:border-gray-500 disabled:bg-inherit disabled:text-gray-500 disabled:placeholder:text-gray-500"
-            placeholder={accountName}
+            placeholder={nameInput}
             disabled={nameDisable}
+            onChange={(e) => {
+              setNameInput(e.target.value);
+            }}
           />
         </label>
 
@@ -53,8 +58,8 @@ export default function UserInformation({ save, edit, nameDisable, accountName, 
       </div>
 
       <div className="flex justify-center space-x-5 lg:justify-end">
-        <IButton text="儲存" fontSize="text-base" px="px-14 sm:px-[74px]" py="py-4" mode="dark" onClick={save} extraStyle={extraStyle} />
         <IButton text="編輯" fontSize="text-base" px="px-14 sm:px-[74px]" py="py-4" mode="light" onClick={edit} />
+        <IButton text="儲存" fontSize="text-base" mode="dark" onClick={save} extraStyle={extraStyle} />
       </div>
     </form>
   );

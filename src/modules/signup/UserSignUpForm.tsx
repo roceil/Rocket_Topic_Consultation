@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Space, Select, DatePicker, Checkbox } from 'antd';
+import { Form, Space, Select, DatePicker, Checkbox, Modal } from 'antd';
+import { Rule } from 'antd/es/form';
 import dayjs from 'dayjs';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import { useUserSignUpPostApiMutation } from '@/common/redux/service/signUp';
@@ -11,12 +13,13 @@ import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormNameInput from '@/common/components/form/FormNameInput';
-import { useState } from 'react';
+import customAlert from '@/common/helpers/customAlert';
 
 export default function UserSignUpForm() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const router = useRouter();
+  const [modal, alertModal] = Modal.useModal();
   const { Option } = Select;
   const { value: signUpTab } = useSelector((state: { signUpSlice: { value: string } }) => state.signUpSlice);
   const [userSignUpPostApi] = useUserSignUpPostApiMutation();
@@ -35,13 +38,12 @@ export default function UserSignUpForm() {
       console.log('🚀 ~ file: UserSignUpForm.tsx:35 ~ userSignUpPost ~ res:', res);
       const { Message } = (res.error as { data: { Message: string } }).data;
       dispatch(loadingStatus('none'));
-      alert(Message);
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
-    alert(`${Message}，請重新登入`);
-    router.push('/login');
-    console.log(res);
+
+    customAlert({ modal, Message: `${Message}，請重新登入`, type: 'success', router, link: '/login' });
   };
 
   // ==================== 送出註冊表單 ====================
@@ -55,7 +57,7 @@ export default function UserSignUpForm() {
 
   // ==================== 出生日期驗證用 ====================
   const [, setSelectedDate] = useState('');
-  const validateAge = (rule: any, value: any, callback: any) => {
+  const validateAge = (rule: Rule, value: string, callback: (error?: string) => void) => {
     const age = dayjs().diff(dayjs(value), 'year');
     if (age < 18) {
       callback('需滿18歲才能進行註冊');
@@ -167,6 +169,7 @@ export default function UserSignUpForm() {
 
       {/* 立即註冊 */}
       <FormSubmitBtn text="立即註冊" />
+      <div className="alert">{alertModal}</div>
     </Form>
   );
 }
