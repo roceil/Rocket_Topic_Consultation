@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import useCloseLoading from '@/common/hooks/useCloseLoading';
-import wrapper from '@/common/redux/store';
-import { useEditInformationPutMutation } from '@/common/redux/service/userCenter';
-import { IUserDataProps } from '@/types/interface';
-import UserInformation from '@/modules/userCenter/UserInformation';
-import convertDate from '@/common/helpers/convertDate';
-import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
+import wrapper from '../../common/redux/store';
+import { useEditInformationPutMutation } from '../../common/redux/service/userCenter';
+import { IUserDataProps } from '../../types/interface';
+import UserInformation from '../../modules/userCenter/UserInformation';
+import convertDate from '../../common/helpers/convertDate';
+import UserCenterLayout from '../../modules/userCenter/UserCenterLayout';
+import useCloseLoading from '../../common/hooks/useCloseLoading';
 
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });

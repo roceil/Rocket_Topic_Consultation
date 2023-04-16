@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ConfigProvider, Select, Tabs } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { reservationTab } from '@/common/redux/feature/userCenterReservation';
-import HasCancel from '@/modules/userCenter/HasCancel';
-import HasSetUp from '@/modules/userCenter/HasSetUp';
-import WaitReply from '@/modules/userCenter/WaitReply';
-import WaitReservation from '@/modules/userCenter/WaitReservation';
-import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
-import { orderStatus, reservationTabs } from '@/lib/userCenterData';
+import HasCancel from '../../modules/userCenter/HasCancel';
+import HasSetUp from '../../modules/userCenter/HasSetUp';
+import WaitReply from '../../modules/userCenter/WaitReply';
+import WaitReservation from '../../modules/userCenter/WaitReservation';
+import UserCenterLayout from '../../modules/userCenter/UserCenterLayout';
+import { orderStatus, reservationTabs } from '../../lib/userCenterData';
+import { reservationTab } from '../../common/redux/feature/userCenterReservation';
 
 export default function reservation() {
   const dispatch = useDispatch();

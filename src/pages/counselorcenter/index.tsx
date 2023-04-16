@@ -1,6 +1,7 @@
 import { ConfigProvider } from 'antd';
-import wrapper from '@/common/redux/store';
 import { getCookie } from 'cookies-next';
+import React from 'react';
+import wrapper from '../../common/redux/store';
 import CounselorInfoTab from '../../modules/counselorCenter/personalInfo/CounselorInfoTab';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
 

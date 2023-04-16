@@ -1,11 +1,11 @@
 import { ConfigProvider, Form, Input, Switch, Upload, Button } from 'antd';
-import { useEffect, useState } from 'react';
-import { IButton } from '@/common/components/IButton';
+import React, { useEffect, useState } from 'react';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import { useCounselorInfoGetQuery } from '@/common/redux/service/counselorCenter';
 import { getCookie } from 'cookies-next';
-import { ICounselorInfo, ICounselorInfoData } from '@/types/interface';
+import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
+import { useCounselorInfoGetQuery } from '../../../common/redux/service/counselorCenter';
+import { IButton } from '../../../common/components/IButton';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
@@ -15,7 +15,7 @@ export function InfoForm() {
   const token = getCookie('auth');
   // GET 基本資料
   const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
-  const [renderData, setRenderData] = useState<ICounselorInfoData>([]);
+  const [renderData, setRenderData] = useState<ICounselorInfoData >([]);
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
@@ -242,7 +242,7 @@ export function InfoForm() {
                   placeholder={renderData.SellingPoint ?? '您的諮商年資、特殊經歷等...'}
                   className="font-normal"
                   disabled={isEdit}
-                  value={renderData.SellingPoint}
+                  // value={renderData.SellingPoint}
                 />
               </Form.Item>
               <Form.Item
@@ -258,7 +258,7 @@ export function InfoForm() {
                   placeholder={renderData.SelfIntroduction ?? '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關'}
                   className="font-normal"
                   disabled={isEdit}
-                  value={renderData.SelfIntroduction}
+                  // value={renderData.SelfIntroduction}
                 />
               </Form.Item>
               <div className="lg:mx-[15px]">

@@ -1,7 +1,8 @@
 import { ConfigProvider, Tabs } from 'antd';
-import { InfoForm } from '@/modules/counselorCenter/personalInfo/InfoForm';
-import { ClassInfo } from '@/modules/counselorCenter/personalInfo/ClassInfo';
-import TimeInfo from '@/modules/counselorCenter/personalInfo/TimeInfo';
+import React from 'react';
+import { ClassInfo } from './ClassInfo';
+import TimeInfo from './TimeInfo';
+import { InfoForm } from './InfoForm';
 
 const counselorInfoTabAry = [
   {

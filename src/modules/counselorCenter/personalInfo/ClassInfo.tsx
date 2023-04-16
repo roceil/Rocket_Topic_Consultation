@@ -1,10 +1,10 @@
 import { ConfigProvider, Form, Input, Switch } from 'antd';
-import { useEffect, useState } from 'react';
-import { IButton } from '@/common/components/IButton';
+import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
-import { useCoursesDataGetQuery, useCoursesDataPostMutation } from '@/common/redux/service/counselorCenter';
 import { NamePath } from 'antd/es/form/interface';
+import { useCoursesDataGetQuery, useCoursesDataPostMutation } from '../../../common/redux/service/counselorCenter';
+import { IButton } from '../../../common/components/IButton';
 import { classTopic } from '../../../lib/counselorCenterData';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
