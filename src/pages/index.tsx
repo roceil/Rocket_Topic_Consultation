@@ -12,7 +12,7 @@ export default function Home() {
   const [response, setResponse] = useState(null);
 
   const handleClick = async () => {
-    const res = await fetch('/api/success', {
+    const res = await fetch('https://pi-rocket-coding-1fro0rqmc-roceil.vercel.app/api/success', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
