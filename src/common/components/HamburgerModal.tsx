@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { deleteCookie } from 'cookies-next';
-import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Modal } from 'antd';
-import { useSelector } from 'react-redux';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { counselorListAry, userListAry, counselorCenterAry, userCenterAry } from '@/lib/hamburger/aryData';
-import { selectHasToken } from '../redux/feature/hasToken';
+import useOpenLoading from '../hooks/useOpenLoading';
 
 export default function HamburgerModal() {
-  const { identity, auth } = useSelector(selectHasToken);
+  const auth = getCookie('auth');
+  const identity = getCookie('identity');
+  const openLoading = useOpenLoading();
+
   const isLogin = auth !== undefined;
   const handleDisplay = isLogin ? 'block' : 'hidden';
   const handleText = isLogin ? '登出' : '登入 / 註冊';
@@ -16,21 +18,28 @@ export default function HamburgerModal() {
   const checkIdentity = identity === 'counselor' ? counselorListAry : userListAry;
   const checkCenter = identity === 'counselor' ? counselorCenterAry : userCenterAry;
 
-  // 漢堡選單開關
+  // ==================== 漢堡選單狀態 ====================
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 開啟漢堡選單函式
+  // ==================== 漢堡選單函式 ====================
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  // 關閉漢堡選單函式
+  // ==================== 關閉漢堡選單 ====================
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  // 登入登出用函式
+  // ==================== 跳轉畫面 ====================
+  const handleLinkPage = () => {
+    handleCancel();
+    openLoading();
+  };
+
+  // ==================== 登入 / 登出函式 ====================
   const loginLogout = () => {
+    // 登出條件
     if (isLogin) {
       deleteCookie('auth');
       deleteCookie('identity');
@@ -81,7 +90,7 @@ export default function HamburgerModal() {
             <li key={labelName} className="border-b-2 border-gray-400 py-5 ">
               <Link href={link} className="flex items-center justify-start space-x-5 text-gray-900">
                 {icon}
-                <button type="button" onClick={handleCancel} className="text-lg font-bold ">
+                <button type="button" onClick={handleLinkPage} className="text-lg font-bold ">
                   {labelName}
                 </button>
               </Link>
@@ -90,16 +99,16 @@ export default function HamburgerModal() {
 
           {/* 這裡會列出會員中心的子按鈕 */}
           <li className={`${handleDisplay} border-b-2 border-gray-400 py-5`}>
-            <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-gray-900">
+            <Link href="/usercenter" className="flex items-center justify-start space-x-5 text-gray-900">
               <UserOutlined className="text-lg" />
-              <button type="button" onClick={handleCancel} className="text-lg font-bold ">
+              <button type="button" onClick={handleLinkPage} className="text-lg font-bold ">
                 會員中心
               </button>
             </Link>
             <div className="mt-4 flex flex-col items-start space-y-4 text-secondary">
               {checkCenter.map(({ lableName, link }) => (
                 <Link key={lableName} href={link}>
-                  <button type="button" onClick={handleCancel} className="ml-[38px] text-base text-gray-900">
+                  <button type="button" onClick={handleLinkPage} className="ml-[38px] text-base text-gray-900">
                     {lableName}
                   </button>
                 </Link>
