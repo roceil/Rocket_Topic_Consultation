@@ -66,9 +66,9 @@ const followUsChilds = (
 );
 
 export default function Footer() {
-  const token = getCookie('auth');
-  const accessToUserCenter = token ? '/usercenter' : '/login';
-  const accessToReservation = token ? '/usercenter/reservation' : '/login';
+  const getToken = getCookie('auth');
+  const accessToUserCenter = getToken ? '/usercenter' : '/login';
+  const accessToReservation = getToken ? '/usercenter/reservation' : '/login';
 
   return (
     <footer className="bg-primary lg:py-[72px]">

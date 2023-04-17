@@ -92,6 +92,18 @@ export interface IFilterCases {
   value: number;
 }
 
+export interface IResetPasswordModalProps {
+  showResetPassword: boolean;
+  setShowResetPassword: (showResetPassword: boolean) => void;
+}
+
+export interface IUserLoginRes {
+  Message: string;
+  Authorization: string;
+  Identity: string;
+  UserID: string;
+}
+
 export interface ICartList {
   CartId: number;
   Counselor: string;

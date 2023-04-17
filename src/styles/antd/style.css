@@ -180,6 +180,22 @@
   padding-left: 9.453px;
 }
 
+.modalResetPassword .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+}
+.modalResetPassword .ant-modal-title {
+  color: #424242;
+  font-size: 24px;
+}
+.modalResetPassword .ant-input-affix-wrapper:focus {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
+.modalResetPassword .ant-input-affix-wrapper:hover {
+  border-color: #4a5364 !important;
+  box-shadow: none !important;
+}
 /* 這個會調整所有下拉選單的placeholder顏色 */
 .ant-select-selection-placeholder {
   color: #bdbdbd !important;
@@ -204,3 +220,39 @@
 .resend span {
   border-bottom: 1px solid #000;
 }
+
+/* alert 顏色設定 */
+.ant-modal-confirm-btns .ant-btn-primary {
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+  border-radius: 20px !important;
+  width: 66px !important;
+  height: 36px !important;
+  font-weight: 600 !important;
+  outline: inherit !important;
+}
+
+/* 評價 modal */
+.rateModal .ant-modal-content{
+  padding: 20px !important;
+}
+.rateModal .ant-btn-default{
+  border-radius: 24px;
+  border:1px solid #4a5364 ;
+}
+.rateModal .ant-btn-default span{
+  font-weight: 600;
+}
+.rateModal .ant-btn-primary {
+  border-radius: 24px;
+  background-color: #4a5364;
+  box-shadow: none;
+}
+.rateModal .ant-btn-primary:hover {
+opacity: 0.8;
+background-color: #4a5364;
+}
+.rateModal .ant-btn-primary span {
+font-weight: 600;
+}
+

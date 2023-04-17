@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Pagination } from 'antd';
 import { getCookie } from 'cookies-next';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
-import { reservationPageNum } from '@/common/redux/feature/userCenterReservationPosition';
+import UserReservationPagination from './UserReservationPagination';
 
 interface IAppointment {
   AppointmentId: number;
@@ -30,7 +29,7 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
   const { AppointmentId, Counselor, Field } = appointment;
 
   return (
-    <li key={AppointmentId} className="flex items-center rounded-lg bg-white py-3 lg:py-[18px]">
+    <li key={AppointmentId} className="flex items-center rounded-lg bg-white py-4 px-3  lg:py-[18px]">
       <p className="w-[23.5632%] lg:w-[27.615%]">{Counselor}</p>
       <p className="w-[35.6321%] lg:w-[36.82%]">{Field}</p>
       <div className="w-[40.8045%] lg:w-[35.5648%]">
@@ -50,7 +49,7 @@ export default function WaitReservation() {
 
   const { data = [], isLoading } = useReservationDataGetQuery({ token, tab, PageNum });
 
-  // 取得資料
+  // ==================== 取得資料  ====================
   useEffect(() => {
     if (data.length === 0) return;
     const {
@@ -84,43 +83,34 @@ export default function WaitReservation() {
               <li className="w-[41.57894%] lg:w-[39.0316%]">選擇時段</li>
             </ul>
 
-            <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
-              <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
-                {renderData.map((group: IAppointment[], index: number) => {
-                  if (index < renderData.length - 1) {
-                    return (
-                      <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-                        {group.map((appointment: IAppointment) => (
-                          <Appointment key={uuidv4()} appointment={appointment} />
-                        ))}
-                      </ul>
-                    );
-                  }
+            <ul className=" mt-5 flex px-4 flex-col space-y-4 pb-9 text-sm text-gray-900 lg:mt-7  lg:space-y-5 lg:px-7 lg:text-base">
+              {renderData.map((group: IAppointment[], index: number) => {
+                if (index < renderData.length - 1) {
                   return (
-                    <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
+                    <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
                       {group.map((appointment: IAppointment) => (
                         <Appointment key={uuidv4()} appointment={appointment} />
                       ))}
                     </ul>
                   );
-                })}
-              </ul>
+                }
+                return (
+                  <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
+                    {group.map((appointment: IAppointment) => (
+                      <Appointment key={uuidv4()} appointment={appointment} />
+                    ))}
+                  </ul>
+                );
+              })}
             </ul>
+
           </div>
 
-          <div className="mt-12 flex w-full justify-center lg:justify-end">
-            <Pagination
-              defaultCurrent={PageNum}
-              total={totalPageNum * 10}
-              onChange={(value) => {
-                console.log('頁數', value);
-                dispatch(reservationPageNum(value));
-                // dispatch(loadingStatus('flex'));
-              }}
-            />
-          </div>
+          {/* 分頁 */}
+          <UserReservationPagination totalPageNum={totalPageNum} PageNum={PageNum} />
         </div>
       )}
+
     </div>
   );
 }

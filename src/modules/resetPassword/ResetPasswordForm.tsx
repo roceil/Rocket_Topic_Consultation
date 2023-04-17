@@ -1,16 +1,18 @@
 import { useRouter } from 'next/router';
-import { ConfigProvider, Form } from 'antd';
+import { ConfigProvider, Form, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useResetPasswordPostApiMutation } from '@/common/redux/service/resetPassword';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import FormPasswordInput from '@/common/components/form/FormPasswordInput';
 import FormConfirmPasswordInput from '@/common/components/form/FormConfirmPasswordInput';
 import FormSubmitBtn from '@/common/components/form/FormSubmitBtn';
+import customAlert from '@/common/helpers/customAlert';
 
 export default function ResetPasswordForm() {
   const [form] = Form.useForm();
   const router = useRouter();
   const dispatch = useDispatch();
+  const [modal, alertModal] = Modal.useModal();
   const [resetPasswordPostApi] = useResetPasswordPostApiMutation();
 
   // ==================== 取得路由的 GUID ====================
@@ -29,12 +31,12 @@ export default function ResetPasswordForm() {
         data: { Message },
       } = res.error as { data: { Message: string } };
       dispatch(loadingStatus('none'));
-      alert(Message);
+      customAlert({ modal, Message, type: 'error' });
       return;
     }
+
     const { Message } = res.data as { Message: string };
-    alert(`${Message}，請重新登入`);
-    router.push('/login');
+    customAlert({ modal, Message: `${Message}，請重新登入`, type: 'success', router, link: '/login' });
   };
 
   // 表單送出函式
@@ -78,6 +80,7 @@ export default function ResetPasswordForm() {
 
         {/* 重設密碼按鈕 */}
         <FormSubmitBtn text="重設密碼" extraStyle={{ marginTop: '60px' }} />
+        <div className="alert">{alertModal}</div>
       </Form>
     </ConfigProvider>
   );

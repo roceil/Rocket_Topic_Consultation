@@ -3,10 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { getCookie } from 'cookies-next';
 import { IButton } from '@/common/components/IButton';
 import { useEffect, useState } from 'react';
-import { Pagination } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { reservationPageNum } from '@/common/redux/feature/userCenterReservationPosition';
 import { loadingStatus } from '@/common/redux/feature/loading';
+import UserReservationPagination from './UserReservationPagination';
 
 interface IAppointment {
   AppointmentId: number;
@@ -142,17 +141,9 @@ export default function HasSetUp() {
               })}
             </ul>
           </div>
-          <div className="mt-12 flex w-full justify-center ring-1 lg:justify-end">
-            <Pagination
-              defaultCurrent={PageNum}
-              total={totalPageNum * 10}
-              onChange={(value) => {
-                console.log('頁數', value);
-                dispatch(reservationPageNum(value));
-              // dispatch(loadingStatus('flex'));
-              }}
-            />
-          </div>
+
+          {/* 分頁 */}
+          <UserReservationPagination totalPageNum={totalPageNum} PageNum={PageNum} />
         </div>
       )}
     </div>

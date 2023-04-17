@@ -68,6 +68,14 @@ module.exports = {
           '50%': { transform: 'translateY(-30px)' },
           '100%': { transform: 'translateY(10px)' },
         },
+        chatRoomOpen: {
+          '0%': { transform: 'translateX(-10000px)' },
+          '100%': { transform: 'translateX(100px)' },
+        },
+        chatRoomClose: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        }
       },
       backgroundImage: {
         bannerBG: "url('/images/home/banner/BannerBG.svg')",
