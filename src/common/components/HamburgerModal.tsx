@@ -28,8 +28,13 @@ export default function HamburgerModal() {
 
   // ==================== 關閉漢堡選單 ====================
   const handleCancel = () => {
-    openLoading();
     setIsModalOpen(false);
+  };
+
+  // ==================== 跳轉畫面 ====================
+  const handleLinkPage = () => {
+    handleCancel();
+    openLoading();
   };
 
   // ==================== 登入 / 登出函式 ====================
@@ -85,7 +90,7 @@ export default function HamburgerModal() {
             <li key={labelName} className="border-b-2 border-gray-400 py-5 ">
               <Link href={link} className="flex items-center justify-start space-x-5 text-gray-900">
                 {icon}
-                <button type="button" onClick={handleCancel} className="text-lg font-bold ">
+                <button type="button" onClick={handleLinkPage} className="text-lg font-bold ">
                   {labelName}
                 </button>
               </Link>
@@ -96,14 +101,14 @@ export default function HamburgerModal() {
           <li className={`${handleDisplay} border-b-2 border-gray-400 py-5`}>
             <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-gray-900">
               <UserOutlined className="text-lg" />
-              <button type="button" onClick={handleCancel} className="text-lg font-bold ">
+              <button type="button" onClick={handleLinkPage} className="text-lg font-bold ">
                 會員中心
               </button>
             </Link>
             <div className="mt-4 flex flex-col items-start space-y-4 text-secondary">
               {checkCenter.map(({ lableName, link }) => (
                 <Link key={lableName} href={link}>
-                  <button type="button" onClick={handleCancel} className="ml-[38px] text-base text-gray-900">
+                  <button type="button" onClick={handleLinkPage} className="ml-[38px] text-base text-gray-900">
                     {lableName}
                   </button>
                 </Link>
