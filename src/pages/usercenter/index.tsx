@@ -12,8 +12,13 @@ import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });
   if (!token) {
-    res.writeHead(302, { Location: '/login' });
-    res.end();
+    // 沒有token，導回登入頁
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
   }
   const resData = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
     headers: {

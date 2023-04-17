@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { deleteCookie } from 'cookies-next';
-import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Modal } from 'antd';
-import { useSelector } from 'react-redux';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { counselorListAry, userListAry, counselorCenterAry, userCenterAry } from '@/lib/hamburger/aryData';
-import { selectHasToken } from '../redux/feature/hasToken';
+import useOpenLoading from '../hooks/useOpenLoading';
 
 export default function HamburgerModal() {
-  const { identity, auth } = useSelector(selectHasToken);
+  const auth = getCookie('auth');
+  const identity = getCookie('identity');
+  const openLoading = useOpenLoading();
+
   const isLogin = auth !== undefined;
   const handleDisplay = isLogin ? 'block' : 'hidden';
   const handleText = isLogin ? '登出' : '登入 / 註冊';
@@ -16,21 +18,23 @@ export default function HamburgerModal() {
   const checkIdentity = identity === 'counselor' ? counselorListAry : userListAry;
   const checkCenter = identity === 'counselor' ? counselorCenterAry : userCenterAry;
 
-  // 漢堡選單開關
+  // ==================== 漢堡選單狀態 ====================
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 開啟漢堡選單函式
+  // ==================== 漢堡選單函式 ====================
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  // 關閉漢堡選單函式
+  // ==================== 關閉漢堡選單 ====================
   const handleCancel = () => {
+    openLoading();
     setIsModalOpen(false);
   };
 
-  // 登入登出用函式
+  // ==================== 登入 / 登出函式 ====================
   const loginLogout = () => {
+    // 登出條件
     if (isLogin) {
       deleteCookie('auth');
       deleteCookie('identity');
