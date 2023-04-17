@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// import { QueryCache } from 'react-query';
 
 export const counselorCenter = createApi({
   reducerPath: 'counselorCenter',
@@ -23,6 +24,9 @@ export const counselorCenter = createApi({
           Authorization: `Bearer ${token}`,
         },
       }),
+      // onSuccess: () => {
+      //   QueryCache.invalidateQueries('CoursesDataGet');
+      // },
     }),
     CounselorInfoGet: builder.query({
       query: ({ token }) => ({
