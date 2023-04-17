@@ -13,27 +13,56 @@ import {
 import { IButton } from '../../../common/components/IButton';
 import { classTopic } from '../../../lib/counselorCenterData';
 import { RenderEmptyForm } from './RenderEmptyForm';
+import { NoCourses } from './NoCourses';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
-
-// 無課程資料時，顯示此 div
-function NoCourses() {
-  return (
-    <div className="container z-50 flex h-[338px] w-full items-center justify-center rounded-2xl bg-gray-200">
-      <h1 className="text-lg text-secondary">請先選擇專長領域</h1>
-    </div>
-  );
-}
 
 // 諮商師 > 個人資料 > 課程資訊
 export function ClassInfo() {
   const token = getCookie('auth');
   // 用 redux 打 API ，可以一次管理多種狀態
-  // GET 上架課程
-  const { data = [], isLoading } = useCoursesDataGetQuery({ token });
+  // GET 上架課程: data 先用 useState 存，當 setRenderData
+  const { data, isLoading } = useCoursesDataGetQuery({ token });
   // POST 新增課程
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
+
+  const [renderData, setRenderData] = useState<any>([]);
+  const [FieldIds2, setFieldIds] = useState(null);
+  useEffect(() => {
+    console.log(data);
+  }, []);
+  useEffect(() => {
+    if (!data) return;
+    const {
+      Data: { FieldIds, Courses },
+    } = data;
+    setRenderData(Courses);
+
+    setFieldIds(FieldIds);
+    console.log(isLoading);
+    console.log('isLoading:', data);
+  }, [isLoading, renderData]);
+
+  useEffect(() => {
+    console.log('renderData:', renderData);
+    console.log(renderData?.Course);
+  }, [renderData]);
+
+  const [renderForm, setRenderForm] = useState('hidden');
+  const [renderEmptyForm, setRenderEmptyForm] = useState('hidden');
+  // const [renderEmptyForm, setRenderEmptyForm] = useState('hidden');
+
+  // useEffect(()=>{
+  //   if(!data) return
+  //   setRenderData(data)
+  //   console.log(renderData);
+  // },[data,isLoading])
+
+  // POST 後，重新觸發 GET
+  useEffect(() => {
+    setRenderData(data);
+  }, [isLoading]);
 
   // onSuccess 屬性，這個屬性的值是一個回調函數，當 POST 請求成功時，這個函數就會被執行。在這個回調函數中，我們使用 queryCache.invalidateQueries 方法刷新了 CoursesDataGet 端點的數據。這樣一來，畫面就會重新渲染，並且顯示最新的課程數據。
   // const coursesDataPostMutation = useCoursesDataPostMutation(counselorCenter.CoursesDataPost, {
@@ -41,16 +70,6 @@ export function ClassInfo() {
   //     queryCache.invalidateQueries('CoursesDataGet');
   //   },
   // });
-
-  // RTKQ POST 課程資訊後，用 queryCache.invalidateQueries 方法刷新 CoursesDataGet 端點的數據。使畫面重新渲染，顯示最新的課程數據。
-  // const postCourse = async (courseContent: any) => {
-  //   try {
-  //     await coursesDataPostMutation.mutate({ courseContent, token });
-  //     queryCache.invalidateQueries('CoursesDataGet');
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   // 開啟編輯功能
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -66,9 +85,9 @@ export function ClassInfo() {
   // 判斷『單一主題』課程資訊，
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
 
-  useEffect(() => {
-    console.log(data?.Data?.Courses[getCoursesID]?.FieldId === undefined);
-  }, [isLoading, getCoursesID]);
+  // useEffect(() => {
+  //   console.log(data?.Data?.Courses[getCoursesID]?.FieldId === undefined);
+  // }, [isLoading, getCoursesID]);
 
   // POST 新增/修改課程 data
   const courseContent = {
@@ -109,26 +128,26 @@ export function ClassInfo() {
   };
   // 新增課程 Axios POST (async/await)
   const addCourse = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
-        courseContent,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log('Course added:', response.data);
-      setIsDisabled(true);
-      // alert(response.data.Message); // 換成 alert component
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized');
-      } else {
-        console.log('Error adding course:', error);
-      }
-    }
+    // try {
+    //   const response = await axios.post(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+    //     courseContent,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //   );
+    //   console.log('Course added:', response.data);
+    //   setIsDisabled(true);
+    //   // alert(response.data.Message); // 換成 alert component
+    // } catch (error) {
+    //   if (error.response && error.response.status === 401) {
+    //     console.log('Unauthorized');
+    //   } else {
+    //     console.log('Error adding course:', error);
+    //   }
+    // }
   };
 
   // 刪除課程 Axios DELETE (async/await)
@@ -216,22 +235,22 @@ export function ClassInfo() {
   // }, [isLoading, data]);
 
   // 儲存 Get API 的狀態碼
-  const [statusCode, setStatusCode] = useState<number>();
+  // const [statusCode, setStatusCode] = useState<number>();
   // 因為 RTKQ 取 res.status 卡關，所以多寫了這個 get axios
-  useEffect(() => {
-    // axios 當測試，最後要用 redux 打 API ，才能一次管理多種狀態
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log('res', res);
-        const { status } = res;
-        setStatusCode(status);
-      });
-  }, [isLoading]);
+  // useEffect(() => {
+  //   // axios 當測試，最後要用 redux 打 API ，才能一次管理多種狀態
+  //   axios
+  //     .get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log('res', res);
+  //       const { status } = res;
+  //       setStatusCode(status);
+  //     });
+  // }, [isLoading]);
 
   // 讓 GET 回傳的資料，根據 onClick 顯示在對應的膠囊頁面
   // 方法一：取陣列第[getCoursesID - 1]筆
@@ -279,7 +298,7 @@ export function ClassInfo() {
   }, [getCoursesID]);
 
   // 判斷有無課程資料，渲染課程方案、課程特色
-  const renderNoCoursesSection = () => (statusCode === 400 ? <NoCourses /> : null);
+  // const renderNoCoursesSection = () => (statusCode === 400 ? <NoCourses /> : null);
 
   // Form
   const [form] = Form.useForm();
@@ -296,6 +315,46 @@ export function ClassInfo() {
     console.log('Change:', e.target.value);
   };
 
+  // function changeRenderForm(id) {
+  //   if (FieldIds2?.includes(id)) {
+  //     // setRenderForm('block');
+  //     setRenderEmptyForm('hidden');
+  //     return;
+  //   }
+  //   if (!FieldIds2?.includes(id)) {
+  //     // setRenderForm('hidden');
+  //     console.log(123);
+
+  //     setRenderEmptyForm('block');
+  //   }
+  // }
+
+  function changeRenderForm(id) {
+    console.log(FieldIds2);
+
+    if (FieldIds2.includes(id)) {
+      setRenderForm('block');
+      setRenderEmptyForm('hidden');
+      return;
+    }
+    setRenderForm('hidden');
+    setRenderEmptyForm('block');
+    console.log(11);
+  }
+
+  // RTKQ POST 課程資訊後，用 queryCache.invalidateQueries 方法刷新 CoursesDataGet 端點的數據。使畫面重新渲染，顯示最新的課程數據。
+  const postCourse = async () => {
+    // try {
+    //   await coursesDataPostMutation.mutate({ courseContent, token });
+    //   queryCache.invalidateQueries('CoursesDataGet');
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+    const res = await coursesDataPostMutation({ courseContent, token });
+    console.log(res);
+  };
+
   return (
     <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
       <div className="flex-row lg:flex">
@@ -304,29 +363,27 @@ export function ClassInfo() {
         </h3>
         <div className="flex flex-wrap justify-around lg:w-[80%] lg:flex-nowrap lg:justify-between lg:space-x-3">
           {/* 判斷有無該課程資料，渲染膠囊 => 有資料藍色，無資料灰色 */}
-          {classTopic.map((item) => (data?.Data?.FieldIds.includes(item.id) ? (
+          {classTopic.map(({ topicName, id }) => (FieldIds2?.includes(id) ? (
             <IButton
-              text={item.topicName}
+              text={topicName}
               fontSize="text-[14px]"
               px="w-[104px] lg:w-[112px]"
               py="py-2 lg:py-[10px]"
-              key={item.id}
+              key={id}
               onClick={() => {
-                setGetCoursesID(item.id);
-                console.log(item.id);
+                changeRenderForm(id);
               }}
             />
           ) : (
             <IButton
-              text={item.topicName}
+              text={topicName}
               fontSize="text-[14px] !text-gray-600 "
               px="w-[104px] lg:w-[112px]"
               py="py-2 lg:py-[10px]"
               extraStyle="!CounselorCenterNoDataBtn"
-              key={item.id}
+              key={id}
               onClick={() => {
-                setGetCoursesID(item.id);
-                console.log(item.id);
+                changeRenderForm(id);
               }}
             />
           )))}
@@ -358,15 +415,13 @@ export function ClassInfo() {
             })} */}
         </div>
       </div>
-      {renderNoCoursesSection()}
-      <div
-        className={`space-y-10 lg:space-y-12 ${data.Success ? '' : 'hidden'}`}
-      >
+      <div className="space-y-10 lg:space-y-12 ">
         <div className="flex-row lg:flex">
           <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
           {/* PC 課程方案 */}
+          <NoCourses text="請選擇專業領域" height={'h-[338px]'} />
           <div className="hidden w-[90%] rounded-2xl bg-gray-200 pb-9 lg:block">
             <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
               <li className="lg:w-[33.33%]">專長領域</li>
@@ -374,9 +429,10 @@ export function ClassInfo() {
               <li className="lg:w-[33.33%]">是否開放</li>
             </ul>
             <div className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
-              {/* 無『該筆』課程資料時，顯示此 div */}
-              {courseNotExist ? <RenderEmptyForm /> : null}
-              <ul className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+              <RenderEmptyForm renderEmptyForm={renderEmptyForm} />
+              <ul
+                className={`flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base ${renderForm} `}
+              >
                 <ConfigProvider
                   theme={{
                     token: {
@@ -393,7 +449,7 @@ export function ClassInfo() {
                   <Form
                     form={form}
                     name="classInfo"
-                    onFinish={addCourse}
+                    onFinish={postCourse}
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -404,7 +460,7 @@ export function ClassInfo() {
                     {/* PC 課程方案＋定價 */}
                     <div className="flex w-full flex-col space-y-4">
                       {/* 沒有資料時，點擊該主題，會顯示乾淨的input讓諮商師填寫 */}
-                      {coursesPriceAry?.map((item: { Item: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; Price: string | number | readonly string[] | undefined; Availability: boolean | undefined; }, i: React.Key | null | undefined) => (
+                      {renderData?.Course?.map((item, i) => (
                         <li className="flex items-center" key={i}>
                           <div className="w-[33.33%]">{item.Item}</div>
                           <Form.Item className="mb-0 lg:w-[33.33%]">

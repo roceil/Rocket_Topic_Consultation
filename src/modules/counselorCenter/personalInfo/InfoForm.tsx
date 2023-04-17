@@ -15,12 +15,13 @@ export function InfoForm() {
   const token = getCookie('auth');
   // GET 基本資料
   const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
+  // 處理非同步，資料初次寫入 =undefined 時設為 []，等資料回傳再渲染
   const [renderData, setRenderData] = useState<ICounselorInfoData >([]);
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
     }
-    console.log(renderData, data.Data);
+    // console.log(renderData, data.Data);
   }, [data, isLoading]);
 
   useEffect(() => {

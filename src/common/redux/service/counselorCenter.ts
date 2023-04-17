@@ -16,10 +16,46 @@ export const counselorCenter = createApi({
       }),
     }),
     CoursesDataPost: builder.mutation({
-      query: ({ token, body }) => ({
+      query: ({ token , id, }) => ({
         url: 'api/courses',
         method: 'POST',
-        body,
+        body: {
+          FieldId,
+          Courses: [
+            {
+              Item: '一堂',
+              Quantity: 1,
+              Price: 2000,
+              Availability: false,
+            },
+            {
+              Item: '三堂',
+              Quantity: 3,
+              Price: 6000,
+              Availability: false,
+            },
+            {
+              Item: '五堂',
+              Quantity: 5,
+              Price: 9000,
+              Availability: false,
+            },
+            {
+              Item: '體驗課一堂',
+              Quantity: 1,
+              Price: 800,
+              Availability: true,
+            },
+          ],
+          Features:
+            {
+              Feature1: '2000',
+              Feature2: '菲菲2',
+              Feature3: '菲菲3',
+              Feature4: 'ccccc',
+              Feature5: 'bbbbb',
+            },
+        },
         headers: {
           Authorization: `Bearer ${token}`,
         },

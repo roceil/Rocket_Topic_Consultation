@@ -12,8 +12,10 @@ export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
 
 // 無『該筆』課程資料時，顯示此 div
-export function RenderEmptyForm() {
+export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) {
   const token = getCookie('auth');
+  console.log(renderEmptyForm);
+  
   // 開啟編輯功能
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const isHidden = isDisabled
@@ -98,119 +100,121 @@ export function RenderEmptyForm() {
     console.log('Change:', e.target.value);
   };
   return (
-    <ul className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
-      <ConfigProvider
-        theme={{
-          token: {
-            colorTextPlaceholder: '#9E9E9E',
-            colorText: '#424242',
-            colorBorder: '#BDBDBD',
-            colorIcon: '#5D5A88',
-            fontSize: 14,
-            borderRadius: 10,
-            controlHeight: 40,
-          },
-        }}
-      >
-        <Form
-          form={form}
-          name="classInfo"
-          onFinish={addCourse}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            width: '100%',
+    <div className={`relative z-50 ${renderEmptyForm}`}>
+      <ul className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+        <ConfigProvider
+          theme={{
+            token: {
+              colorTextPlaceholder: '#9E9E9E',
+              colorText: '#424242',
+              colorBorder: '#BDBDBD',
+              colorIcon: '#5D5A88',
+              fontSize: 14,
+              borderRadius: 10,
+              controlHeight: 40,
+            },
           }}
         >
-          {/* PC 課程方案＋定價 */}
-          <div className="flex w-full flex-col space-y-4">
-            {fakePriceAry.map((item, i) => (
-              <li className="flex items-center" key={i}>
-                <div className="w-[33.33%]">{item}</div>
-                <Form.Item className="mb-0 lg:w-[33.33%]">
-                  <Input
-                    disabled={isDisabled}
-                    placeholder="請填寫價格"
-                    className="font-normal"
-                    style={{ height: 40, width: 124 }}
-                  />
-                </Form.Item>
-                <Form.Item className="mb-0 lg:w-[33.33%]">
-                  <Switch
-                    onChange={SwitchOnChange}
-                    disabled={isDisabled}
-                    defaultChecked
-                    className="bg-gray-400"
-                  />
-                </Form.Item>
-              </li>
-            ))}
-          </div>
-          <div className="mt-20">
-            {fakeFeatureAry?.map(
-              (
-                item: string | number | readonly string[] | undefined,
-                i: number,
-              ) => (
-                <Form.Item
-                  name={i}
-                  label={`特色 ${i + 1}`}
-                  className={`mb-8 px-5 lg:px-[56px] ${i > 2 && 'ml-[10px]'}`}
-                  rules={[
-                    {
-                      required: i <= 2,
-                      message: '此項為必填',
-                      whitespace: true,
-                    },
-                  ]}
-                >
-                  <TextArea
-                    showCount
-                    maxLength={25}
-                    style={{ height: 45, resize: 'none' }}
-                    onChange={onChange}
-                    placeholder="請輸入課程特色"
-                    disabled={isDisabled}
-                  />
-                </Form.Item>
-              ),
-            )}
-          </div>
-          <Form.Item>
-            <div className="mt-10 flex justify-between space-x-5 px-14">
-              <input
-                type="button"
-                value="刪除此專長領域"
-                className={`text-base text-gray-900 underline underline-offset-2 ${
-                  !isDisabled ? 'hover:text-red-500' : ''
-                }`}
-                onClick={() => deleteCourse(getCoursesID)}
-                disabled={isDisabled}
-              />
-              <div>
-                <Button
-                  type="primary"
-                  shape="round"
-                  htmlType="submit"
-                  className={`btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base ${isHidden}`}
-                >
-                  儲存
-                </Button>
-                <Button
-                  type="primary"
-                  shape="round"
-                  htmlType="button"
-                  onClick={() => setIsDisabled(false)}
-                  className=" btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base"
-                >
-                  編輯
-                </Button>
-              </div>
+          <Form
+            form={form}
+            name="classInfo"
+            onFinish={addCourse}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            {/* PC 課程方案＋定價 */}
+            <div className="flex w-full flex-col space-y-4">
+              {fakePriceAry.map((item, i) => (
+                <li className="flex items-center" key={i}>
+                  <div className="w-[33.33%]">{item}</div>
+                  <Form.Item className="mb-0 lg:w-[33.33%]">
+                    <Input
+                      disabled={isDisabled}
+                      placeholder="請填寫價格"
+                      className="font-normal"
+                      style={{ height: 40, width: 124 }}
+                    />
+                  </Form.Item>
+                  <Form.Item className="mb-0 lg:w-[33.33%]">
+                    <Switch
+                      onChange={SwitchOnChange}
+                      disabled={isDisabled}
+                      defaultChecked
+                      className="bg-gray-400"
+                    />
+                  </Form.Item>
+                </li>
+              ))}
             </div>
-          </Form.Item>
-        </Form>
-      </ConfigProvider>
-    </ul>
+            <div className="mt-20">
+              {fakeFeatureAry?.map(
+                (
+                  item: string | number | readonly string[] | undefined,
+                  i: number,
+                ) => (
+                  <Form.Item
+                    name={i}
+                    label={`特色 ${i + 1}`}
+                    className={`mb-8 px-5 lg:px-[56px] ${i > 2 && 'ml-[10px]'}`}
+                    rules={[
+                      {
+                        required: i <= 2,
+                        message: '此項為必填',
+                        whitespace: true,
+                      },
+                    ]}
+                  >
+                    <TextArea
+                      showCount
+                      maxLength={25}
+                      style={{ height: 45, resize: 'none' }}
+                      onChange={onChange}
+                      placeholder="請輸入課程特色"
+                      disabled={isDisabled}
+                    />
+                  </Form.Item>
+                ),
+              )}
+            </div>
+            <Form.Item>
+              <div className="mt-10 flex justify-between space-x-5 px-14">
+                <input
+                  type="button"
+                  value="刪除此專長領域"
+                  className={`text-base text-gray-900 underline underline-offset-2 ${
+                    !isDisabled ? 'hover:text-red-500' : ''
+                  }`}
+                  onClick={() => deleteCourse(getCoursesID)}
+                  disabled={isDisabled}
+                />
+                <div>
+                  <Button
+                    type="primary"
+                    shape="round"
+                    htmlType="submit"
+                    className={`btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base ${isHidden}`}
+                  >
+                    儲存
+                  </Button>
+                  <Button
+                    type="primary"
+                    shape="round"
+                    htmlType="button"
+                    onClick={() => setIsDisabled(false)}
+                    className=" btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base"
+                  >
+                    編輯
+                  </Button>
+                </div>
+              </div>
+            </Form.Item>
+          </Form>
+        </ConfigProvider>
+      </ul>
+    </div>
   );
 }
