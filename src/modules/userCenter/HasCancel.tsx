@@ -1,32 +1,17 @@
-/* eslint-disable react/no-array-index-key */
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
 import { v4 as uuidv4 } from 'uuid';
 import { getCookie } from 'cookies-next';
 import { useState, useEffect } from 'react';
-import { Pagination } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { reservationPageNum } from '@/common/redux/feature/userCenterReservationPosition';
 import { loadingStatus } from '@/common/redux/feature/loading';
-
-interface IAppointment {
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-}
-
-type OrderIdMap<T> = {
-  [orderId: number]: T[];
-};
-
-type ListItem = {
-  OrderId: number;
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-};
+import dayjs from 'dayjs';
+import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import UserReservationPagination from './UserReservationPagination';
 
 export function Appointment({ appointment }: { appointment: IAppointment }) {
-  const { AppointmentId, Counselor, Field } = appointment;
+  const { AppointmentId, Counselor, Field, Time } = appointment;
+  const convertTime = dayjs(Time).format('HH:mm');
+  const convertDate = dayjs(Time).format('YYYY / MM / DD');
 
   return (
     <li key={AppointmentId} className="flex  rounded-lg bg-white lg:py-6">
@@ -41,16 +26,16 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
       </div>
 
       <div className="hidden lg:block lg:w-[23.3263%]">
-        <p>2023 / 03 / 05</p>
+        <p>{convertDate}</p>
       </div>
 
       <div className="hidden lg:block lg:w-[26.046%]">
-        <p>09:00</p>
+        <p>{convertTime}</p>
       </div>
       <div className="flex w-[55.7471%] flex-col items-start justify-start pt-4 pl-8 lg:hidden">
         <div className="flex flex-col items-start space-y-3 sm:flex-row sm:space-y-0 sm:space-x-2">
-          <p>2023 / 03 / 05</p>
-          <p>09:00</p>
+          <p>{convertDate}</p>
+          <p>{convertTime}</p>
         </div>
       </div>
     </li>
@@ -60,19 +45,22 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
 export default function HasCancel() {
   const token = getCookie('auth');
   const dispatch = useDispatch();
-  const [totalPageNum, setTotalPageNum] = useState(0);
-  const [renderData, setRenderData] = useState<ListItem[][]>([]);
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
   const PageNum = useSelector((state: { userCenterReservationPosition: { value: number } }) => state.userCenterReservationPosition.value);
 
+  const [totalPageNum, setTotalPageNum] = useState(0);
+  const [renderData, setRenderData] = useState<ListItem[][]>([]);
+
   const { data = [], isLoading } = useReservationDataGetQuery({ token, tab, PageNum });
+
   // 取得資料
   useEffect(() => {
+    dispatch(loadingStatus('none'));
     if (data.length === 0) return;
+
     const {
       Data: { List, TotalPageNum },
     } = data;
-    console.log('🚀 ~ file: WaitReply.tsx:71 ~ useEffect ~ data:', data);
 
     const convertRenderData: ListItem[][] = Object.values(
       List.reduce((acc: OrderIdMap<ListItem>, curr: ListItem) => {
@@ -85,7 +73,6 @@ export default function HasCancel() {
     );
     setRenderData(convertRenderData);
     setTotalPageNum(TotalPageNum);
-    dispatch(loadingStatus('none'));
   }, [isLoading, data]);
 
   return (
@@ -104,26 +91,28 @@ export default function HasCancel() {
             </ul>
 
             <ul className="mt-5 flex flex-col space-y-4 px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:space-y-5 lg:px-7 lg:text-base">
-              {renderData.map((group: any) => (
-                <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-                  {group.map((appointment: { AppointmentId: number; Counselor: string; Field: string }) => (
-                    <Appointment key={uuidv4()} appointment={appointment} />
-                  ))}
-                </ul>
-              ))}
+              {renderData.map((group: IAppointment[], index: number) => {
+                if (index < renderData.length - 1) {
+                  return (
+                    <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                      {group.map((appointment: IAppointment) => (
+                        <Appointment key={uuidv4()} appointment={appointment} />
+                      ))}
+                    </ul>
+                  );
+                }
+                return (
+                  <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
+                    {group.map((appointment: IAppointment) => (
+                      <Appointment key={uuidv4()} appointment={appointment} />
+                    ))}
+                  </ul>
+                );
+              })}
             </ul>
           </div>
-          <div className="mt-12 flex w-full justify-center ring-1 lg:justify-end">
-            <Pagination
-              defaultCurrent={PageNum}
-              total={totalPageNum * 10}
-              onChange={(value) => {
-                console.log('頁數', value);
-                dispatch(reservationPageNum(value));
-              // dispatch(loadingStatus('flex'));
-              }}
-            />
-          </div>
+          {/* 分頁 */}
+          <UserReservationPagination totalPageNum={totalPageNum} PageNum={PageNum} />
         </div>
       )}
     </div>

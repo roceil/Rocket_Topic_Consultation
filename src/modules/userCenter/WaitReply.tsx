@@ -3,30 +3,16 @@ import { IButton } from '@/common/components/IButton';
 import { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { v4 as uuidv4 } from 'uuid';
-import { Pagination } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { reservationPageNum } from '@/common/redux/feature/userCenterReservationPosition';
 import { loadingStatus } from '@/common/redux/feature/loading';
-
-interface IAppointment {
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-}
-
-type OrderIdMap<T> = {
-  [orderId: number]: T[];
-};
-
-type ListItem = {
-  OrderId: number;
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-};
+import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import dayjs from 'dayjs';
+import UserReservationPagination from './UserReservationPagination';
 
 export function Appointment({ appointment }: { appointment: IAppointment }) {
-  const { AppointmentId, Counselor, Field } = appointment;
+  const { AppointmentId, Counselor, Field, Time } = appointment;
+  const convertTime = dayjs(Time).format('HH:mm');
+  const convertDate = dayjs(Time).format('YYYY / MM / DD');
 
   return (
     <li key={AppointmentId} className="flex items-center rounded-lg bg-white ">
@@ -42,8 +28,8 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
 
       <div className="flex w-[54.5977%] flex-col items-start py-5 pl-5 lg:w-[56.4853%] lg:flex-row lg:items-center lg:justify-center lg:space-x-10">
         <div className="mb-3 flex space-x-2 lg:mb-0 lg:space-x-5">
-          <p>2023 / 03 / 05</p>
-          <p>09:00</p>
+          <p>{convertDate}</p>
+          <p>{convertTime}</p>
         </div>
         <IButton text="選擇預約時段" fontSize="text-xs lg:text-sm" px="px-4 lg:px-5" py="py-1 lg:py-2" mode="light" />
       </div>
@@ -117,17 +103,9 @@ export default function WaitReply() {
               })}
             </ul>
           </div>
-          <div className="mt-12 flex w-full justify-center ring-1 lg:justify-end">
-            <Pagination
-              defaultCurrent={PageNum}
-              total={totalPageNum * 10}
-              onChange={(value) => {
-                console.log('頁數', value);
-                dispatch(reservationPageNum(value));
-              // dispatch(loadingStatus('flex'));
-              }}
-            />
-          </div>
+
+          {/* 分頁 */}
+          <UserReservationPagination totalPageNum={totalPageNum} PageNum={PageNum} />
         </div>
       )}
     </div>

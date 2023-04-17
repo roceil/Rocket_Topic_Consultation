@@ -4,42 +4,35 @@ import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import { useSelector, useDispatch } from 'react-redux';
 import { IButton } from '@/common/components/IButton';
-import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
+import { useReservationDataGetQuery, useReservationRateGetQuery } from '@/common/redux/service/userCenter';
 import { loadingStatus } from '@/common/redux/feature/loading';
+import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
 import RateModal from './RateModal';
 import UserReservationPagination from './UserReservationPagination';
 
-interface IAppointment {
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-  Time?: string;
-}
-
-type OrderIdMap<T> = {
-  [orderId: number]: T[];
-};
-
-type ListItem = {
-  OrderId: number;
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-};
-
 export function Appointment({ appointment }: { appointment: IAppointment }) {
   const { AppointmentId, Counselor, Field, Time } = appointment;
-  const convertDate = dayjs(Time).format('YYYY / MM / DD');
+  const token = getCookie('auth');
   const convertTime = dayjs(Time).format('HH:mm');
+  const convertDate = dayjs(Time).format('YYYY / MM / DD');
+  const { data, isLoading } = useReservationRateGetQuery({ token, AppointmentId });
 
-  const [comment, setComment] = useState('寫下這次晤談的收穫或感想吧！');
+  const [comment, setComment] = useState('');
+  const [rateLevel, setRateLevel] = useState(5);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // ==================== 評價 modal 開關 ====================
   const showModal = () => {
     setIsModalOpen(true);
-
-    // 等接到GET API後，再把Comment的值帶入
-    setComment('API Comment');
   };
+
+  // ==================== 資料回來後傳給RateModal ====================
+  useEffect(() => {
+    if (isLoading) return;
+    const { Comment, Star } = data.Data;
+    setRateLevel(Star);
+    setComment(Comment);
+  }, [data, isLoading]);
 
   return (
     <li key={AppointmentId} className="flex items-center rounded-lg bg-white lg:py-6">
@@ -73,7 +66,7 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
         <IButton text="編輯評價" fontSize="text-xs" px="px-3" py="py-1" mode="light" extraStyle="w-full" onClick={showModal} />
       </div>
 
-      <RateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} comment={comment} />
+      <RateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} comment={comment} AppointmentId={AppointmentId} rate={rateLevel} setRateLevel={setRateLevel} setComment={setComment} />
     </li>
   );
 }

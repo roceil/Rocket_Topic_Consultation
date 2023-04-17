@@ -26,7 +26,6 @@ export default function reservation() {
       case '待預約':
         setTable(<WaitReservation />);
         dispatch(reservationTab('待預約'));
-
         break;
 
       case '待回覆':
