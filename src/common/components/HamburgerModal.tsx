@@ -99,7 +99,7 @@ export default function HamburgerModal() {
 
           {/* 這裡會列出會員中心的子按鈕 */}
           <li className={`${handleDisplay} border-b-2 border-gray-400 py-5`}>
-            <Link href="/UserCenter" className="flex items-center justify-start space-x-5 text-gray-900">
+            <Link href="/usercenter" className="flex items-center justify-start space-x-5 text-gray-900">
               <UserOutlined className="text-lg" />
               <button type="button" onClick={handleLinkPage} className="text-lg font-bold ">
                 會員中心
