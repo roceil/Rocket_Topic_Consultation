@@ -2,6 +2,9 @@ import { Button, ConfigProvider, Form, Input, Switch } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import React, { useEffect, useState } from 'react';
+import {
+  useCoursesDataPostMutation,
+} from '../../../common/redux/service/counselorCenter';
 
 // Render Empty Form map
 const emptyFeatureAry = Array(5).fill('請輸入課程特色');
@@ -13,6 +16,8 @@ const { TextArea } = Input;
 // 無『該筆』課程資料時，顯示此 div
 export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:string, clickId:number }) {
   const token = getCookie('auth');
+  // POST 新增課程
+  const [coursesDataPostMutation] = useCoursesDataPostMutation();
   useEffect(() => {
     console.log(clickId);
   }, [clickId]);
@@ -121,7 +126,10 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
         Availability: Availability3,
       },
     ];
-    await addCourse(clickId, Courses, Features);
+    const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
+    setIsDisabled(true);
+    alert(res.data.Message);
+    console.log(res);
   };
 
   // Antd Form
@@ -258,3 +266,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     </div>
   );
 }
+function coursesDataPostMutation(arg0: { token: import("cookies-next").CookieValueTypes; clickId: number; Courses: { Item: string; Quantity: number; Price: number; Availability: any; }[]; Features: { Feature1: any; Feature2: any; Feature3: any; Feature4: any; Feature5: any; }; }) {
+  throw new Error('Function not implemented.');
+}
+

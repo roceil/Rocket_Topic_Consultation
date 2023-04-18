@@ -16,21 +16,30 @@ export const counselorCenter = createApi({
       }),
     }),
     CoursesDataPost: builder.mutation({
-      query: ({ token, FieldId, Courses, Features }) => ({
+      query: ({ token, clickId, Courses, Features }) => ({
         url: 'api/courses',
         method: 'POST',
         body: {
-          FieldId,
+          FieldId: clickId,
           Courses,
           Features,
         },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        // onSuccess: () => {
+        //   QueryCache.invalidateQueries('CoursesDataGet');
+        // },
       }),
-      // onSuccess: () => {
-      //   QueryCache.invalidateQueries('CoursesDataGet');
-      // },
+    }),
+    CourseDataDelete: builder.mutation({
+      query: ({ token, clickId }) => ({
+        url: `api/courses?${clickId}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
     }),
     CounselorInfoGet: builder.query({
       query: ({ token }) => ({
@@ -43,7 +52,5 @@ export const counselorCenter = createApi({
   }),
 });
 
-export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery } = counselorCenter;
+export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation } = counselorCenter;
 
-// get -> query，其他 mutation，裡面補上 method
-// 寫完 slice -> store 註冊 -> 接 API (繪出要的API到指定頁面)
