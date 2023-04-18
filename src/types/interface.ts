@@ -132,3 +132,16 @@ export interface IShoppingFormProps {
   setRenderDate: React.Dispatch<React.SetStateAction<ICartItem[]>>;
   TotalAmount: number;
 }
+
+export interface IChatList {
+  Content: string;
+  CounselorId: number;
+  CounselorRead: boolean;
+  Id: number;
+  InitDate: string;
+  OutName: string;
+  Photo: string;
+  Type: string;
+  UserId: number;
+  UserRead: boolean;
+}

@@ -1,66 +1,82 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
 import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
-import { useEffect, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { IChatList } from '@/types/interface';
+import { useGetChatRoomListQuery, useGetChatMessageQuery } from '../redux/service/chatRoom';
 
-const fakeAry = Array(10).fill(1);
-const fakeMessageAry = [
-  {
-    type: 'user',
-    content: '我覺得我可能不適合當前端工程師....',
-  },
-  {
-    type: 'counselor',
-    content: '嗨！我是陳千妤 ，關於您的問題回覆如下：課程定價以小時為單位收費',
-  },
-  {
-    type: 'user',
-    content: '我覺得我可能不適合當前端工程師....',
-  },
-  {
-    type: 'counselor',
-    content: '嗨！我是陳千妤 ，關於您的問題回覆如下：課程定價以小時為單位收費',
-  },
-  {
-    type: 'user',
-    content: '我覺得我可能不適合當前端工程師....',
-  },
-  {
-    type: 'counselor',
-    content: '嗨！我是陳千妤 ，關於您的問題回覆如下：課程定價以小時為單位收費',
-  },
-];
 export default function ChatRoom() {
+  const token = getCookie('auth');
+  const id = getCookie('userID');
+  const type = getCookie('identity');
+
+  // ====================== state ======================
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChatRoomOpen, setIsChatRoomOpen] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  const [chatList, setChatList] = useState<IChatList[]>([]);
+  const [chatRoomData, setChatRoomData] = useState<any>([]);
+  const [clickCounselor, setClickCounselor] = useState<number | null>(null);
+  const [chatCounselorName, setChatCounselorName] = useState<string | null>(null);
+  // const [renderCounselorRead, setRenderCounselorRead] = useState<boolean>(false);
+  const [renderChatRoomPhoto, setRenderChatRoomPhoto] = useState<string>('https://pi.rocket-coding.com/upload/headshot/user_profile.svg');
+
+  // ====================== ref ======================
   const chatMessageRef = useRef<HTMLInputElement>(null);
   const chatRoomRef = useRef<HTMLUListElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // 開啟聊天室函式
+  // ====================== query ======================
+  const { data, isLoading } = useGetChatRoomListQuery({ token, id, type });
+  const { data: chatMessageData, isLoading: chatMessageIsLoading } = useGetChatMessageQuery({
+    token,
+    CounselorId: clickCounselor,
+    UserId: id,
+    type,
+  });
+
+  // ====================== 獲取聊天室列表 ======================
+  useEffect(() => {
+    if (data) {
+      const { userChatTargetList } = data.Data;
+      setChatList(userChatTargetList);
+      console.log(data);
+    }
+  }, [data, isLoading]);
+
+  // ====================== 獲取單一聊天室訊息 ======================
+  useEffect(() => {
+    if (chatMessageData) {
+      const { ChatlogList, Photo: ChatRoomPhoto } = chatMessageData.Data;
+      setChatRoomData(ChatlogList);
+      setRenderChatRoomPhoto(ChatRoomPhoto);
+    }
+  }, [chatMessageData, chatMessageIsLoading, clickCounselor]);
+
+  // ====================== 開啟聊天室列表 ======================
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  // 關閉聊天室函式
+  // ====================== 關閉聊天室 ======================
   const handleCancel = () => {
+    console.log('已清空聊天室');
     setIsModalOpen(false);
-    setIsLoading(true);
+    setChatRoomData([]);
   };
 
-  // 模擬loading＆監聽營幕寬度
-  useEffect(() => {
-    // 模擬loading
-    if (!isModalOpen) {
-      setIsLoading(true);
-    }
-    if (isModalOpen) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
-    }
+  // ====================== 開啟聊天室 ======================
+  const handleChatRoom = (CounselorId: number, OutName:string) => {
+    console.log('counselorId', CounselorId);
+    setIsChatRoomOpen(true);
+    setClickCounselor(CounselorId);
+    setChatCounselorName(OutName);
+  };
 
+  // ====================== 監聽營幕寬度息 ======================
+  useEffect(() => {
     // 判斷是否為手機版，避免滾動時，背景也跟著滾動
     if (isModalOpen && window.innerWidth < 1280) {
       document.body.style.overflow = 'hidden';
@@ -69,18 +85,17 @@ export default function ChatRoom() {
     }
   }, [isModalOpen]);
 
-  // 打開chatRoom後，chatRoom會自動滾到最底部
+  // ====================== 聊天室自動滾到底部 ======================
   useEffect(() => {
     if (chatRoomRef.current) {
       chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
     }
   }, [isChatRoomOpen]);
 
-  // 點擊聊天室ICON，建立連線
+  // ====================== SignalR連線 ======================
   useEffect(() => {
     const connection = $.hubConnection('https://pi.rocket-coding.com/signalr');
-    const chat = connection.createHubProxy('chartHubb');
-    console.info('連線成功', chat);
+    connection.createHubProxy('chartHubb');
   }, []);
 
   return (
@@ -105,29 +120,43 @@ export default function ChatRoom() {
 
         {/* 內容 */}
         <ul className={`flex h-[calc(100%-48px)] flex-col overflow-y-auto bg-white px-5 py-2 lg:h-[452px] lg:rounded-b-xl ${isLoading ? 'hidden' : 'block'}`}>
-          {fakeAry.map((_, index) => (
-            <li key={index}>
-              <button
-                type="button"
-                className="flex w-full cursor-pointer  items-center justify-between border-b border-gray-400  pt-4 pb-[22px] lg:w-[288px] lg:hover:opacity-80"
-                onClick={() => {
-                  setIsChatRoomOpen(true);
-                }}
-              >
-                {/* 用戶圖片 */}
-                <div className="h-10 w-10 rounded-full bg-red-400" />
+          {chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead }:IChatList) => {
+            const convertTime = dayjs(InitDate).format('HH:mm');
+            // 如果用戶是user，因為要看諮商師是否已讀，所以回傳相對身份的已讀狀態
+            const userType = type === 'user' ? UserRead : CounselorRead;
 
-                {/* 用戶名稱 */}
-                <div className="ml-3 flex flex-col items-start space-y-1 text-sm text-gray-900">
-                  <p className="font-bold">我覺得</p>
-                  <p className="w-[235px] text-left lg:w-[196px]">我可能不適合當前端工程師....</p>
-                </div>
+            return (
+              <li key={CounselorId}>
+                <button
+                  type="button"
+                  className="flex w-full cursor-pointer  items-center justify-between border-b border-gray-400  pt-4 pb-[22px] lg:w-[288px] lg:hover:opacity-80"
+                  onClick={() => {
+                    handleChatRoom(CounselorId, OutName);
+                    // setClickCounselor(CounselorId);
+                  }}
+                >
 
-                {/* 時間 */}
-                <span className="ml-[10px] h-full text-xs text-gray-600">21:06</span>
-              </button>
-            </li>
-          ))}
+                  {/* 用戶資訊 */}
+                  <div className="flex justify-between">
+                    {/* 用戶圖片 */}
+                    <Image src={`https://pi.rocket-coding.com/upload/headshot/${Photo}`} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />
+
+                    {/* 用戶名稱 */}
+                    <div className="ml-3 flex flex-col items-start space-y-1 text-sm text-gray-900">
+                      <p className="font-bold">{OutName}</p>
+                      <p className="w-[235px] text-left lg:w-[196px]">{Content}</p>
+                    </div>
+                  </div>
+
+                  {/* 時間 */}
+                  <div className="flex flex-col h-full text-xs text-gray-600 ">
+                    <span>{userType ? '' : '未讀'}</span>
+                    <span>{convertTime}</span>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
         </ul>
 
         {/* loading時在內容區塊顯示loading */}
@@ -147,11 +176,13 @@ export default function ChatRoom() {
             className="underline underline-offset-4 hover:opacity-80"
             onClick={() => {
               setIsChatRoomOpen(false);
+              setChatRoomData([]);
+              console.log('清空聊天室');
             }}
           >
             返回
           </button>
-          <span>諮商師</span>
+          <span>{chatCounselorName}</span>
           <button
             type="button"
             onClick={() => {
@@ -167,48 +198,33 @@ export default function ChatRoom() {
         {/* 內容 */}
         <ul ref={chatRoomRef} className="flex h-[calc(100%-120px)] flex-col space-y-10 overflow-y-auto bg-white px-5 py-6 lg:h-[390px] ">
           {/* 聊天室內容依據type渲染左右邊 */}
-          {fakeMessageAry.map(({ type, content }, index) => {
+          {chatRoomData.map(({ Content, CounselorId, InitDate, Type, UserId }:any) => {
+            const convertTime = dayjs(InitDate).format('HH:mm');
             // 用戶訊息
-            if (type === 'user') {
+            if (Type === 'send') {
               return (
-                <li key={index} className="flex justify-end text-sm">
+                <li key={convertTime} className="flex justify-end text-sm">
                   {/* 時間  */}
-                  <span className="mr-2 flex h-full  items-end text-xs text-gray-600">21:06</span>
+                  <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
-                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{content}</div>
+                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{Content}</div>
                 </li>
               );
             }
             // 諮商師訊息
             return (
-              <li key={index} className="flex justify-start space-x-2 text-sm">
+              <li key={convertTime} className="flex justify-start space-x-2 text-sm">
                 {/* 圖片 */}
-                <div className="h-10 w-10 rounded-full bg-red-400" />
+                <Image src={`https://pi.rocket-coding.com/upload/headshot/${renderChatRoomPhoto}`} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />
                 {/* 內容 */}
-                <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">嗨！我是陳千妤 ，關於您的問題回覆如下：課程定價以小時為單位收費</div>
+                <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{Content}</div>
                 {/* 時間 */}
-                <span className="flex h-full  items-end text-xs text-gray-600">21:06</span>
+                <div className="flex h-full justify-center  text-xs text-gray-600 items-end">
+                  <span>{convertTime}</span>
+                </div>
               </li>
             );
           })}
-
-          {/* 用戶訊息 */}
-          <li className="flex justify-end text-sm">
-            {/* 時間 */}
-            <span className="mr-2 flex h-full  items-end text-xs text-gray-600">21:06</span>
-            {/* 內容 */}
-            <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">嗨！有幾個問題想請教</div>
-          </li>
-
-          {/* 諮商師訊息 */}
-          <li className="flex justify-start space-x-2 text-sm">
-            {/* 圖片 */}
-            <div className="h-10 w-10 rounded-full bg-red-400" />
-            {/* 內容 */}
-            <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">嗨！我是陳千妤 ，關於您的問題回覆如下：課程定價以小時為單位收費</div>
-            {/* 時間 */}
-            <span className="flex h-full  items-end text-xs text-gray-600">21:06</span>
-          </li>
         </ul>
 
         {/* 表尾 */}
