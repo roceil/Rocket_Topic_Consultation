@@ -1,8 +1,8 @@
+import { useCoursesDataGetQuery } from '@/common/redux/service/counselorCenter';
 import { Button, ConfigProvider, Form, Input, Switch } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import React, { useState } from 'react';
-// import { NamePath } from 'antd/es/form/interface';
 
 // Render Empty Form map
 const fakeFeatureAry = Array(5).fill(1);
@@ -14,15 +14,20 @@ const { TextArea } = Input;
 // 無『該筆』課程資料時，顯示此 div
 export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) {
   const token = getCookie('auth');
-  console.log(renderEmptyForm);
-  
-  // 開啟編輯功能
+  // GET 上架課程
+  const { data, isLoading } = useCoursesDataGetQuery({ token });
+  // 開關編輯功能
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const isHidden = isDisabled
     ? '!opacity-0 transform duration-300'
     : '!opacity-100 transform duration-300';
   // Render 『單一主題』的課程資訊
   const [getCoursesID, setGetCoursesID] = useState<number>(1);
+  const [featureStates, setFeatureStates] = useState(fakeFeatureAry || []);
+  const [featuresAry, SetFeaturesAry] = useState(featureStates);
+    // 課程資料
+    const [renderData, setRenderData] = useState<any>([]);
+    
 
   // POST 新增/修改課程 data
   const courseContent = {
@@ -64,6 +69,24 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
     // 新增課程 Axios POST (async/await)
   const addCourse = async () => {
     try {
+      // const Features = {
+      //   Feature1: '',
+      //   Feature2: '',
+      //   Feature3: '',
+      //   Feature4: '',
+      //   Feature5: '',
+      // };
+
+      // for (let i = 0; i < featureStates.length; i + 1) {
+      //   const feature_key = `Feature${i + 1}`;
+      //   Features[feature_key] = featuresAry[i];
+      // }
+
+      // const courseContentWithFeatures = {
+      //   ...courseContent,
+      //   Features,
+      // };
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
         courseContent,
@@ -75,6 +98,7 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
       );
       console.log('Course added:', response.data);
       setIsDisabled(true);
+      console.log(featuresAry);
       // alert(response.data.Message); // 換成 alert component
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -172,9 +196,14 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
                       showCount
                       maxLength={25}
                       style={{ height: 45, resize: 'none' }}
-                      onChange={onChange}
-                      placeholder="請輸入課程特色"
+                      onChange={(e) => {
+                        const newFeatures = [...featureStates];
+                        newFeatures[i] = e.target.value; // 將新輸入的值儲存
+                        setFeatureStates(newFeatures);
+                      }}
+                      placeholder={featureStates[i] ?? '請輸入課程特色'} // 如果 featureStates[i] 是 undefined 或 null，則將 placeholder 設為預設值
                       disabled={isDisabled}
+                      value={featureStates[i]}
                     />
                   </Form.Item>
                 ),
@@ -197,6 +226,7 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
                     shape="round"
                     htmlType="submit"
                     className={`btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base ${isHidden}`}
+                    onClick={() => addCourse}
                   >
                     儲存
                   </Button>

@@ -30,7 +30,7 @@ export function InfoForm() {
 
   // Upload 諮商師執照＆頭貼圖檔
   const [filelist, setFilelist] = useState<UploadFile[]>([
-    {
+    { // 圖片要改成 base64，才能符合 antd Img src=
       uid: '-1',
       name: 'image.png',
       status: 'done',
@@ -155,11 +155,11 @@ export function InfoForm() {
                   <div>
                     <ImgCrop>
                       <Upload
-                        // action={infoData.Photo}
+                        // action=""
                         listType="picture-card"
                         fileList={filelist}
-                        onChange={uploadOnChange}
-                        onPreview={onPreview}
+                        onChange={uploadOnChange} // 不同 function
+                        onPreview={onPreview} // 不同 function
                         disabled={isEdit}
                         id="CounselorLicense"
                       >
