@@ -4,8 +4,7 @@ import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { getCookie } from 'cookies-next';
 import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
-import { useCounselorInfoGetQuery } from '../../../common/redux/service/counselorCenter';
-import { IButton } from '../../../common/components/IButton';
+import { useCounselorInfoGetQuery, useCounselorInfoPutMutation } from '../../../common/redux/service/counselorCenter';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
@@ -13,9 +12,13 @@ const { TextArea } = Input;
 // 諮商師 > 個人資料 > 基本資料
 export function InfoForm() {
   const token = getCookie('auth');
-  // GET 基本資料
+  // ==================== 取得基本資料 API ====================
   const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
-  // 處理非同步，資料初次寫入 =undefined 時設為 []，等資料回傳再渲染
+
+  // ==================== 修改基本資料 API ====================
+  const [CounselorInfoPutMutation] = useCounselorInfoPutMutation();
+
+  // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >([]);
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
@@ -23,16 +26,14 @@ export function InfoForm() {
     }
   }, [data, isLoading]);
 
-  useEffect(() => {
-    console.log(renderData);
-  }, [renderData]);
-
-  // 開啟編輯功能
+  // ==================== 編輯 btn ====================
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const isHidden = isDisabled
     ? '!opacity-0 transform duration-300'
     : '!opacity-100 transform duration-300';
 
+  // ==================== Antd ====================
+  const [form] = Form.useForm();
   // Upload 諮商師執照＆頭貼圖檔
   const [filelist, setFilelist] = useState<UploadFile[]>([
     { // 圖片要改成 base64，才能符合 antd Img src=
@@ -42,7 +43,6 @@ export function InfoForm() {
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },
   ]);
-
   const LicenseImgUploadOnChange: UploadProps['onChange'] = ({
     fileList: newFilelist,
   }) => {
@@ -53,7 +53,6 @@ export function InfoForm() {
   }) => {
     setFilelist(newFilelist);
   };
-
   const LicenseImgOnPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -82,27 +81,47 @@ export function InfoForm() {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-
-  const [form] = Form.useForm();
-
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    setIsDisabled(true);
-  };
-
   // 個人簡介
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     console.log('Change:', e.target.value);
   };
-
   // Switch
   const SwitchOnChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
+
+  // ==================== 送出表單 ====================
+  const onFinish = async (values: any) => {
+    console.log(values);
+
+    // 取出現有資源屬性值
+    const currentValues = renderData;
+
+    // 更新需要更新的屬性值，並將其他屬性值保持不變
+    const updatedValues = {
+      ...currentValues,
+      ...(values.Name && { Name: values.Name }),
+      ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
+      ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
+      ...(values.VideoLink && { VideoLink: values.VideoLink }),
+      ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
+    };
+
+    // 提交更新後的完整資源內容
+    const res = await CounselorInfoPutMutation({
+      token,
+      ...updatedValues,
+    });
+
+    setIsDisabled(true);
+    console.log(res);
+    alert(res.data.Message);
+  };
+
   return (
-    <div className="w-full space-y-12 px-4 pb-12 lg:border-b">
+    <div className="w-full space-y-12 px-4 pb-12">
       <div className="space-y-5">
         <div className="rounded-lg bg-primary py-2 text-center text-base font-bold">
           <h3 className="text-gray-900">會員資料</h3>
@@ -149,7 +168,7 @@ export function InfoForm() {
               </Button>
             </Form.Item>
             <Form.Item
-              name="會員姓名"
+              name="Name"
               label="會員姓名"
               className="font-bold lg:mx-[15px] lg:w-[584px]"
             >
@@ -254,7 +273,7 @@ export function InfoForm() {
                 disabled={isDisabled}
               />
             </Form.Item>
-            <div className="lg:mx-[15px]">
+            <div className="lg:mx-[15px] pb-12 lg:border-b">
               <h3 className="mb-3 text-sm font-bold">介紹影片</h3>
               <div className="space-y-5 rounded-[10px] border border-[#D4D2E3] p-4 lg:w-[584px]">
                 <Form.Item className="flex" name="VideoLink">
@@ -277,42 +296,26 @@ export function InfoForm() {
               </div>
             </div>
             {/* ClassInfo btn */}
-            <div>
-              <Button
-                type="primary"
-                shape="round"
-                htmlType="submit"
-                className={`btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base ${isHidden}`}
-              >
-                儲存
-              </Button>
-              <Button
-                type="primary"
-                shape="round"
-                htmlType="button"
-                onClick={() => setIsDisabled(false)}
-                className=" btnHoverDark w-[168px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base"
-              >
-                {isDisabled ? '編輯' : '取消編輯'}
-              </Button>
-            </div>
-            <div className="mt-12 flex justify-end space-x-7">
-              <IButton
-                text="編輯"
-                fontSize="text-[14px] lg:text-base"
-                px="px-[66px] lg:px-[74px]"
-                py="py-4"
-                onClick={() => setIsDisabled(false)}
-              />
-              {!isDisabled && (
-              <IButton
-                text="儲存"
-                fontSize="text-[14px] lg:text-base"
-                px="px-[66px] lg:px-[74px]"
-                py="py-4"
-                onClick={() => setIsDisabled(true)}
-              />
-              )}
+            <div className="flex justify-end">
+              <div className="space-x-5 mt-5">
+                <Button
+                  type="primary"
+                  shape="round"
+                  htmlType="submit"
+                  className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
+                >
+                  儲存
+                </Button>
+                <Button
+                  type="primary"
+                  shape="round"
+                  htmlType="button"
+                  onClick={() => setIsDisabled(false)}
+                  className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
+                >
+                  {isDisabled ? '編輯' : '取消編輯'}
+                </Button>
+              </div>
             </div>
           </Form>
         </ConfigProvider>

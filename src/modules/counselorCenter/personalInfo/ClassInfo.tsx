@@ -27,7 +27,7 @@ export function ClassInfo() {
   // ==================== 新增/修改課程 API RTKQ ====================
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
 
-  // ==================== 新增/修改課程 API RTKQ ====================
+  // ==================== 刪除課程 API RTKQ ====================
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
   const deleteCourse1 = async (token:any, clickId:number) => {
     const res = await CourseDataDeleteMutation({ token, clickId });

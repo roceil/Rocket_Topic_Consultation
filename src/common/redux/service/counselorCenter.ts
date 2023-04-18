@@ -49,8 +49,32 @@ export const counselorCenter = createApi({
         },
       }),
     }),
+    CounselorInfoPut: builder.mutation({
+      query: ({ token, Name,
+        LicenseImg,
+        Photo,
+        SellingPoint,
+        SelfIntroduction,
+        VideoLink,
+        IsVideoOpen }) => ({
+        url: '/api/counselors',
+        method: 'PUT',
+        body: {
+          Name,
+          LicenseImg,
+          Photo,
+          SellingPoint,
+          SelfIntroduction,
+          VideoLink,
+          IsVideoOpen,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation } = counselorCenter;
+export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation } = counselorCenter;
 
