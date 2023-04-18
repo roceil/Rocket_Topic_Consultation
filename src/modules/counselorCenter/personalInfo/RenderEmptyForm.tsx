@@ -1,21 +1,21 @@
-import { useCoursesDataGetQuery } from '@/common/redux/service/counselorCenter';
 import { Button, ConfigProvider, Form, Input, Switch } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Render Empty Form map
-const fakeFeatureAry = Array(5).fill(1);
-const fakePriceAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
+const emptyFeatureAry = Array(5).fill('請輸入課程特色');
+const emptyPriceAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
 
 // 無『該筆』課程資料時，顯示此 div
-export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) {
+export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:string, clickId:number }) {
   const token = getCookie('auth');
-  // GET 上架課程
-  const { data, isLoading } = useCoursesDataGetQuery({ token });
+  useEffect(() => {
+    console.log(clickId);
+  }, [clickId]);
   // 開關編輯功能
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const isHidden = isDisabled
@@ -23,82 +23,23 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
     : '!opacity-100 transform duration-300';
   // Render 『單一主題』的課程資訊
   const [getCoursesID, setGetCoursesID] = useState<number>(1);
-  const [featureStates, setFeatureStates] = useState(fakeFeatureAry || []);
+  const [featureStates, setFeatureStates] = useState(emptyFeatureAry || []);
   const [featuresAry, SetFeaturesAry] = useState(featureStates);
-    // 課程資料
-    const [renderData, setRenderData] = useState<any>([]);
-    
+  // 課程資料
+  const [renderData, setRenderData] = useState<any>([]);
 
-  // POST 新增/修改課程 data
-  const courseContent = {
-    FieldId: 4,
-    Courses: [
-      {
-        Item: '一堂',
-        Quantity: 1,
-        Price: 2000,
-        Availability: false,
-      },
-      {
-        Item: '三堂',
-        Quantity: 3,
-        Price: 6000,
-        Availability: false,
-      },
-      {
-        Item: '五堂',
-        Quantity: 5,
-        Price: 9000,
-        Availability: false,
-      },
-      {
-        Item: '體驗課一堂',
-        Quantity: 1,
-        Price: 800,
-        Availability: true,
-      },
-    ],
-    Features: {
-      Feature1: `useEffect 取得的 CoursesID：${getCoursesID}`,
-      Feature2: '菲菲2',
-      Feature3: '菲菲3',
-      Feature4: 'ccccc',
-      Feature5: 'bbbbb',
-    },
-  };
-    // 新增課程 Axios POST (async/await)
-  const addCourse = async () => {
+  // ==================== 刪除課程 API Axios DELETE ====================
+  const deleteCourse = async (courseId: number) => {
     try {
-      // const Features = {
-      //   Feature1: '',
-      //   Feature2: '',
-      //   Feature3: '',
-      //   Feature4: '',
-      //   Feature5: '',
-      // };
-
-      // for (let i = 0; i < featureStates.length; i + 1) {
-      //   const feature_key = `Feature${i + 1}`;
-      //   Features[feature_key] = featuresAry[i];
-      // }
-
-      // const courseContentWithFeatures = {
-      //   ...courseContent,
-      //   Features,
-      // };
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
-        courseContent,
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/courses?id=${courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      console.log('Course added:', response.data);
-      setIsDisabled(true);
-      console.log(featuresAry);
+      console.log('delete Course :', response.data);
       // alert(response.data.Message); // 換成 alert component
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -109,14 +50,86 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
     }
   };
 
+  
+  // ==================== 新增/修改課程 API Axios POST ====================
+  const addCourse = async (clickId, Courses, Features) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+        {
+          FieldId: clickId,
+          Courses,
+          Features,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      console.log('Course added:', response.data);
+      setIsDisabled(true);
+      // alert(response.data.Message); // 換成 alert component
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log('Unauthorized');
+      } else {
+        console.log('Error adding course:', error);
+      }
+    }
+  };
+
+  // ==================== 新增/修改課程表單 ====================
+  const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
+  const courseQuantityAry = [1, 3, 5, 1];
+
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+    const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
+    // 組成 POST 用的 Features
+    const Features = {
+      Feature1,
+      Feature2,
+      Feature3,
+      Feature4,
+      Feature5,
+    };
+
+    // 組成 POST 用的 Courses
+    const Courses = [
+      {
+        Item: courseItemAry[0],
+        Quantity: courseQuantityAry[0],
+        Price: parseInt(Price0),
+        Availability: Availability0,
+      },
+      {
+        Item: courseItemAry[1],
+        Quantity: courseQuantityAry[1],
+        Price: parseInt(Price1),
+        Availability: Availability1,
+      }, {
+        Item: courseItemAry[2],
+        Quantity: courseQuantityAry[2],
+        Price: parseInt(Price2),
+        Availability: Availability2,
+      },
+      {
+        Item: courseItemAry[3],
+        Quantity: courseQuantityAry[3],
+        Price: parseInt(Price3),
+        Availability: Availability3,
+      },
+    ];
+    await addCourse(clickId, Courses, Features);
+  };
+
   // Antd Form
   const [form] = Form.useForm();
-
   // Antd Switch
   const SwitchOnChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
-
   // Antd form 課程特色
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -142,7 +155,7 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
           <Form
             form={form}
             name="classInfo"
-            onFinish={addCourse}
+            onFinish={handleSubmit}
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -152,10 +165,10 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
           >
             {/* PC 課程方案＋定價 */}
             <div className="flex w-full flex-col space-y-4">
-              {fakePriceAry.map((item, i) => (
+              {emptyPriceAry.map((item, i) => (
                 <li className="flex items-center" key={i}>
                   <div className="w-[33.33%]">{item}</div>
-                  <Form.Item className="mb-0 lg:w-[33.33%]">
+                  <Form.Item className="mb-0 lg:w-[33.33%]" name={`Price${i}`}>
                     <Input
                       disabled={isDisabled}
                       placeholder="請填寫價格"
@@ -163,7 +176,7 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
                       style={{ height: 40, width: 124 }}
                     />
                   </Form.Item>
-                  <Form.Item className="mb-0 lg:w-[33.33%]">
+                  <Form.Item className="mb-0 lg:w-[33.33%]" name={`Availability${i}`}>
                     <Switch
                       onChange={SwitchOnChange}
                       disabled={isDisabled}
@@ -175,13 +188,10 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
               ))}
             </div>
             <div className="mt-20">
-              {fakeFeatureAry?.map(
-                (
-                  item: string | number | readonly string[] | undefined,
-                  i: number,
-                ) => (
+              {emptyFeatureAry?.map(
+                (item, i) => (
                   <Form.Item
-                    name={i}
+                    name={`Feature${i + 1}`}
                     label={`特色 ${i + 1}`}
                     className={`mb-8 px-5 lg:px-[56px] ${i > 2 && 'ml-[10px]'}`}
                     rules={[
@@ -217,7 +227,7 @@ export function RenderEmptyForm({ renderEmptyForm }:{ renderEmptyForm:string }) 
                   className={`text-base text-gray-900 underline underline-offset-2 ${
                     !isDisabled ? 'hover:text-red-500' : ''
                   }`}
-                  onClick={() => deleteCourse(getCoursesID)}
+                  onClick={() => deleteCourse(clickId)}
                   disabled={isDisabled}
                 />
                 <div>

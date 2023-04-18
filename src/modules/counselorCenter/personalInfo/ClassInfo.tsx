@@ -1,6 +1,5 @@
 // GET => POST / DELETE 後要重新 GET 渲染畫面 => GPT 建議在 POST RTKQ 加上 onSuccess 屬性刷新
-// POST => 資料寫死，還沒綁上 form
-import { Button, ConfigProvider, Form, Input, Switch, Modal } from 'antd';
+import { Button, ConfigProvider, Form, Input, Switch } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
@@ -58,7 +57,7 @@ export function ClassInfo() {
     setIsSuccess(data.Success);
     setCourses(renderData?.Course);
     // console.log('isLoading:', data);
-    console.log('renderData:', renderData);
+    // console.log('renderData:', renderData);
   }, [isLoading, renderData]);
 
   // Render『單一主題』的課程資訊
@@ -73,14 +72,22 @@ export function ClassInfo() {
     // console.log(renderData?.Data?.Courses);
     console.log('所有課程:', getCoursesID); // 所有課程物件
     // console.log(featureAry); // 單一課程特色 Ary => 要綁上 fieldId
-    console.log('點擊的膠囊 id:', clickId); //  點擊的膠囊 id
-    console.log(clickId, clickFilterAry);
-    console.log(clickId, clickFeaturesFilterAry);
-  }, [isLoading, renderData, getCoursesID, featureAry, clickId, clickFilterAry, clickFeaturesFilterAry]);
+    // console.log('點擊的膠囊 id:', clickId); //  點擊的膠囊 id
+    // console.log(clickId, clickFilterAry);
+    // console.log(clickId, clickFeaturesFilterAry);
+  }, [
+    isLoading,
+    renderData,
+    getCoursesID,
+    featureAry,
+    clickId,
+    clickFilterAry,
+    clickFeaturesFilterAry,
+  ]);
 
   useEffect(() => {
     getCoursesID?.filter((item, i) => {
-      console.log('點擊取得相應課程ID data：', item);
+      // console.log('點擊取得相應課程ID data：', item);
       SetFeatureAry(item.Feature);
     });
   }, [renderData, getCoursesID, featureAry, clickId]);
@@ -91,68 +98,7 @@ export function ClassInfo() {
   // 判斷『單一主題』課程資訊，
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
 
-  // POST 新增/修改課程 data
-  const courseContent = {
-    FieldId: clickId,
-    Courses: [
-      {
-        Item: '一堂',
-        Quantity: 1,
-        Price: 2000,
-        Availability: false,
-      },
-      {
-        Item: '三堂',
-        Quantity: 3,
-        Price: 6000,
-        Availability: false,
-      },
-      {
-        Item: '五堂',
-        Quantity: 5,
-        Price: 9000,
-        Availability: false,
-      },
-      {
-        Item: '體驗課一堂',
-        Quantity: 1,
-        Price: 800,
-        Availability: true,
-      },
-    ],
-    Features: {
-      Feature1: `課程ID：${clickId}`,
-      Feature2: '菲菲2',
-      Feature3: '菲菲3',
-      Feature4: 'ccccc',
-      Feature5: 'bbbbb',
-    },
-  };
-  // 新增課程 Axios POST (async/await)
-  const addCourse = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
-        courseContent,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log('Course added:', response.data);
-      setIsDisabled(true);
-      // alert(response.data.Message); // 換成 alert component
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized');
-      } else {
-        console.log('Error adding course:', error);
-      }
-    }
-  };
-
-  // 刪除課程 Axios DELETE (async/await)
+  // ==================== 刪除課程 API Axios DELETE ====================
   const deleteCourse = async (courseId: number) => {
     try {
       const response = await axios.delete(
@@ -271,11 +217,11 @@ export function ClassInfo() {
 
   // 判斷膠囊id，控制表格渲染
   function changeRenderForm(id) {
-    if (FieldIds2.includes(id)) {
+    if (FieldIds2?.includes(id)) {
       setRenderForm('block');
       setRenderEmptyForm('hidden');
       setClickId(id);
-      console.log(clickId);
+      console.log('clickId:', clickId);
       return;
     }
     setRenderForm('hidden');
@@ -284,7 +230,35 @@ export function ClassInfo() {
     console.log(clickId);
   }
 
-  // ==================== 新增/修改課程 API ====================
+  // ==================== 新增/修改課程 API Axios POST ====================
+  const addCourse = async (clickId, Courses, Features) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+        {
+          FieldId: clickId,
+          Courses,
+          Features,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      console.log('Course added:', response.data);
+      setIsDisabled(true);
+      // alert(response.data.Message); // 換成 alert component
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log('Unauthorized');
+      } else {
+        console.log('Error adding course:', error);
+      }
+    }
+  };
+
+  // ==================== 新增/修改課程 API RTKQ ====================
   // const postCourse = async (token, FieldId, Courses, Features) => {
   //   const res = await coursesDataPostMutation({
   //     token,
@@ -302,13 +276,52 @@ export function ClassInfo() {
   // };
 
   // ==================== 新增/修改課程表單 ====================
-  // const onFinish = ({ token, FieldId, Courses, Features }) => {
-  //   postCourse(token, FieldId, Courses, Features);
-  // };
+  const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
+  const courseQuantityAry = [1, 3, 5, 1];
+
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+    const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
+    // 組成 POST 用的 Features
+    const Features = {
+      Feature1,
+      Feature2,
+      Feature3,
+      Feature4,
+      Feature5,
+    };
+
+    // 組成 POST 用的 Courses
+    const Courses = [
+      {
+        Item: courseItemAry[0],
+        Quantity: courseQuantityAry[0],
+        Price: parseInt(Price0),
+        Availability: Availability0,
+      },
+      {
+        Item: courseItemAry[1],
+        Quantity: courseQuantityAry[1],
+        Price: parseInt(Price1),
+        Availability: Availability1,
+      }, {
+        Item: courseItemAry[2],
+        Quantity: courseQuantityAry[2],
+        Price: parseInt(Price2),
+        Availability: Availability2,
+      },
+      {
+        Item: courseItemAry[3],
+        Quantity: courseQuantityAry[3],
+        Price: parseInt(Price3),
+        Availability: Availability3,
+      },
+    ];
+    await addCourse(clickId, Courses, Features);
+  };
 
   return (
     <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
-      <input type="button" value="add" onClick={addCourse} />
       <div className="flex-row lg:flex">
         <h3 className="mr-2 mb-4 text-base font-bold text-secondary lg:mb-0 lg:w-[10%]">
           專長領域 *
@@ -324,9 +337,13 @@ export function ClassInfo() {
               key={id}
               onClick={() => {
                 changeRenderForm(id);
-                console.log(getCoursesID);
-                const filterAry = getCoursesID.filter((item) => item.FieldId === id);
-                const featuersfilterAry = getCoursesID.filter((item) => item.FieldId === id);
+                console.log('取clickID筆資料：', getCoursesID);
+                const filterAry = getCoursesID.filter(
+                  (item) => item.FieldId === id,
+                );
+                const featuersfilterAry = getCoursesID.filter(
+                  (item) => item.FieldId === id,
+                );
                 const { Course } = filterAry[0];
                 const { Feature } = featuersfilterAry[0];
                 setIsSuccess(false);
@@ -351,23 +368,31 @@ export function ClassInfo() {
         </div>
       </div>
       <div className="space-y-10 lg:space-y-12 ">
-        <div className="flex-row lg:flex relative">
+        <div className="relative flex-row lg:flex">
           <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
           {/* PC 課程方案 */}
           {/* 判斷有無課程資料，渲染課程方案、課程特色 */}
-          {statusCode === 400 && (<NoCourses text="請先選擇專長領域" height="h-[338px]" />)}
+          {statusCode === 400 && (
+            <NoCourses text="請先選擇專長領域" height="h-[338px]" />
+          )}
           {/* 點擊膠囊前，渲染初始畫面 */}
-          {isSuccess && (<NoCourses text="請先選擇專長領域" height="h-[338px]" />)}
-          <div className={`w-[90%] rounded-2xl bg-gray-200 pb-9 ${isSuccess ? 'hidden' : ''}`}>
+          {isSuccess && (
+            <NoCourses text="請先選擇專長領域" height="h-[338px]" />
+          )}
+          <div
+            className={`w-[90%] rounded-2xl bg-gray-200 pb-9 ${
+              isSuccess ? 'hidden' : ''
+            }`}
+          >
             <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
               <li className="lg:w-[33.33%]">課程方案</li>
               <li className="lg:w-[33.33%]">定價</li>
               <li className="lg:w-[33.33%]">是否開放</li>
             </ul>
             <div className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
-              <RenderEmptyForm renderEmptyForm={renderEmptyForm} />
+              <RenderEmptyForm renderEmptyForm={renderEmptyForm} clickId={clickId} />
               <ul
                 className={`flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base ${renderForm} `}
               >
@@ -387,7 +412,7 @@ export function ClassInfo() {
                   <Form
                     form={form}
                     name="classInfo"
-                    // onFinish={onFinish}
+                    onFinish={handleSubmit}
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -396,34 +421,40 @@ export function ClassInfo() {
                     }}
                   >
                     <div className="flex w-full flex-col space-y-4">
-                      {clickFilterAry?.map(({ Item, Price, Availability }, i) => (
-                        <li className="flex items-center" key={i}>
-                          <Form.Item name="Item" className="w-[33.33%]">
-                            <div>{Item}</div>
-                          </Form.Item>
-                          <Form.Item className="mb-0 lg:w-[33.33%]" name="Price">
-                            <Input
-                              disabled={isDisabled}
-                              placeholder={Price ?? '請填寫價格'}
-                              className="font-normal"
-                              style={{ height: 40, width: 124 }}
-                            />
-                          </Form.Item>
-                          <Form.Item className="mb-0 lg:w-[33.33%]" name="Availability">
-                            <Switch
-                              onChange={SwitchOnChange}
-                              disabled={isDisabled}
-                              defaultChecked={Availability}
-                              className="bg-gray-400"
-                            />
-                          </Form.Item>
-                        </li>
-                      ))}
+                      {clickFilterAry?.map(
+                        ({ Item, Price, Availability }, i) => (
+                          <li className="flex items-center" key={i}>
+                            <div className="w-[33.33%]">{Item}</div>
+                            <Form.Item
+                              className="mb-0 lg:w-[33.33%]"
+                              name={`Price${i}`}
+                            >
+                              <Input
+                                disabled={isDisabled}
+                                placeholder={Price ?? '請填寫價格'}
+                                className="font-normal"
+                                style={{ height: 40, width: 124 }}
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              className="mb-0 lg:w-[33.33%]"
+                              name={`Availability${i}`}
+                            >
+                              <Switch
+                                onChange={SwitchOnChange}
+                                disabled={isDisabled}
+                                defaultChecked={Availability}
+                                className="bg-gray-400"
+                              />
+                            </Form.Item>
+                          </li>
+                        ),
+                      )}
                     </div>
                     <div className="mt-20">
                       {clickFeaturesFilterAry?.map((item, i) => (
                         <Form.Item
-                          name="Features"
+                          name={`Feature${i + 1}`}
                           label={`特色 ${i + 1}`}
                           className={`mb-8 px-5 lg:px-[56px] ${
                             i > 2 && 'ml-[10px]'
@@ -436,15 +467,6 @@ export function ClassInfo() {
                             },
                           ]}
                         >
-                          {/* <TextArea
-                            showCount
-                            maxLength={25}
-                            style={{ height: 45, resize: 'none' }}
-                            onChange={(e) => setFeatureStates(e.target.value)}
-                            placeholder={item ?? '請輸入課程特色'}
-                            disabled={isDisabled}
-                            value={item}
-                          /> */}
                           <TextArea
                             showCount
                             maxLength={25}
@@ -454,19 +476,6 @@ export function ClassInfo() {
                             disabled={isDisabled}
                             value={item}
                           />
-                          {/* <TextArea
-                            showCount
-                            maxLength={25}
-                            style={{ height: 45, resize: 'none' }}
-                            onChange={(e) => {
-                              const newFeatures = [...featureStates];
-                              newFeatures[i] = e.target.value; // 將新輸入的值儲存
-                              setFeatureStates(newFeatures);
-                            }}
-                            placeholder={featureStates[i] ?? '請輸入課程特色'} // 如果 featureStates[i] 是 undefined 或 null，則將 placeholder 設為預設值
-                            disabled={isDisabled}
-                            value={featureStates[i]}
-                          /> */}
                         </Form.Item>
                       ))}
                     </div>
@@ -496,7 +505,7 @@ export function ClassInfo() {
                             shape="round"
                             htmlType="button"
                             onClick={() => setIsDisabled(false)}
-                            className=" btnHoverDark border-none !px-[66px] text-base text-[14px] font-bold w-[168px] text-white shadow-none lg:text-base"
+                            className=" btnHoverDark w-[168px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base"
                           >
                             {isDisabled ? '編輯' : '取消編輯'}
                           </Button>
@@ -566,4 +575,3 @@ export function ClassInfo() {
     </div>
   );
 }
-
