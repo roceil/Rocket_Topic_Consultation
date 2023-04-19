@@ -10,9 +10,9 @@ interface ICustomHeadProps {
 export default function CustomHead({ pageTitle, pageDescription, pageImage, pageCanonicalUrl }: ICustomHeadProps) {
   const defaultTitle = '拍拍｜線上心理諮商平台';
   const defaultDescription = '歡迎來到拍拍！拍拍是個線上心理諮商平台，致力於在線上提供高品質、專業的心理諮商服務，幫助人們克服各種情緒和心理上的困難，改善他們的生活品質。';
-  const defaultImage = 'https://pi-rocket-coding.vercel.app/images/default-image.jpg';
+
   const defaultCanonicalUrl = 'https://pi-rocket-coding.vercel.app/';
-  const defaultLDMImage = 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/Feat/AddHead/public/images/head/LDM.png';
+  const defaultImage = 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/Feat/AddHead/public/images/head/LDM.png';
 
   return (
     <Head>
@@ -24,7 +24,7 @@ export default function CustomHead({ pageTitle, pageDescription, pageImage, page
       {/* Line */}
       <meta property="line:app_id" content="LINE_APP_ID" />
       <meta property="line:multi_share" content="true" />
-      <meta property="og:image" content={pageImage || defaultLDMImage} />
+      <meta property="og:image" content={pageImage || defaultImage} />
 
       {/* Discord */}
       <meta property="discord:site" content="Discord" />
@@ -37,7 +37,7 @@ export default function CustomHead({ pageTitle, pageDescription, pageImage, page
       <meta property="discord:invite_id" content="DISCORD_INVITE_ID" />
       <meta property="discord:invite_code" content="DISCORD_INVITE_CODE" />
       <meta property="discord:invite_name" content="DISCORD_INVITE_NAME" />
-      <meta property="discord:invite_image" content={defaultLDMImage} />
+      <meta property="discord:invite_image" content={defaultImage} />
       <meta property="discord:invite_image:width" content="1200" />
       <meta property="discord:invite_image:height" content="630" />
 
@@ -47,7 +47,7 @@ export default function CustomHead({ pageTitle, pageDescription, pageImage, page
       <meta property="og:url" content={pageCanonicalUrl || 'https://pi-rocket-coding.vercel.app/'} />
       <meta property="og:title" content={pageTitle || defaultTitle} />
       <meta property="og:description" content={pageDescription || defaultDescription} />
-      <meta property="og:image" content={pageImage || defaultLDMImage} />
+      <meta property="og:image" content={pageImage || defaultImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="zh_TW" />
