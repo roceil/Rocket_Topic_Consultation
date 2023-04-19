@@ -8,51 +8,47 @@ interface ICustomHeadProps {
 }
 
 export default function CustomHead({ pageTitle, pageDescription, pageImage, pageCanonicalUrl }: ICustomHeadProps) {
-  const defaultTitle = '拍拍｜火箭隊 11T';
-  const defaultDescription = '這是一個關於火箭隊 11T的網站，提供了相關的產品介紹、使用心得和最新消息等內容。';
-  const defaultImage = 'https://pi-rocket-coding.vercel.app/images/default-image.jpg';
+  const defaultTitle = '拍拍｜線上心理諮商平台';
+  const defaultDescription = '歡迎來到拍拍！拍拍是個線上心理諮商平台，致力於在線上提供高品質、專業的心理諮商服務，幫助人們克服各種情緒和心理上的困難，改善他們的生活品質。';
+
+  const defaultCanonicalUrl = 'https://pi-rocket-coding.vercel.app/';
+  const defaultImage = 'https://raw.githubusercontent.com/roceil/Rocket_Topic_Consultation/Feat/AddHead/public/images/head/LDM.png';
 
   return (
-    <Head>
-      <title>{pageTitle ? `${pageTitle} - ${defaultTitle}` : defaultTitle}</title>
-      <meta name="description" content={pageDescription || defaultDescription} />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="/favicon.ico" />
+    <>
+      <Head>
+        <title>{pageTitle ? `${pageTitle} - ${defaultTitle}` : defaultTitle}</title>
+        <meta name="description" content={pageDescription || defaultDescription} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
 
-      {/* Facebook */}
-      <meta property="og:site_name" content="拍拍" />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={pageCanonicalUrl || 'https://pi-rocket-coding.vercel.app/'} />
-      <meta property="og:title" content={pageTitle || defaultTitle} />
-      <meta property="og:description" content={pageDescription || defaultDescription} />
-      <meta property="og:image" content={pageImage || defaultImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:locale" content="zh_TW" />
+        {/* Line */}
+        <meta property="line:app_id" content="LINE_APP_ID" />
+        <meta property="line:multi_share" content="true" />
+        <meta property="og:image" content={pageImage || defaultImage} />
 
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@YourTwitterHandle" />
-      <meta name="twitter:title" content={pageTitle || defaultTitle} />
-      <meta name="twitter:description" content={pageDescription || defaultDescription} />
-      <meta name="twitter:image" content={pageImage || defaultImage} />
+        {/* Discord */}
+        <meta property="discord:invite_image" content={defaultImage} />
+        <meta property="discord:invite_image:width" content="1200" />
+        <meta property="discord:invite_image:height" content="630" />
 
-      {/* Line */}
-      <meta property="line:app_id" content="LINE_APP_ID" />
-      <meta property="line:multi_share" content="true" />
+        {/* Facebook */}
+        <meta property="og:site_name" content="拍拍" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageCanonicalUrl || 'https://pi-rocket-coding.vercel.app/'} />
+        <meta property="og:title" content={pageTitle || defaultTitle} />
+        <meta property="og:description" content={pageDescription || defaultDescription} />
+        <meta property="og:image" content={pageImage || defaultImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="zh_TW" />
 
-      {/* Discord */}
-      <meta property="discord:site" content="Discord" />
-      <meta property="discord:site_id" content="1096931336016633916" />
-      <meta property="discord:owner" content="DISCORD_OWNER_ID" />
-      <meta property="discord:owner_id" content="DISCORD_OWNER_ID" />
-      <meta property="discord:bot" content="DISCORD_BOT_ID" />
-      <meta property="discord:bot_id" content="DISCORD_BOT_ID" />
-      <meta property="discord:invite" content="DISCORD_INVITE_LINK" />
+        {/* Google */}
+        <link rel="canonical" href={pageCanonicalUrl || defaultCanonicalUrl} />
+      </Head>
 
-      {/* Google */}
-      <link rel="canonical" href={pageCanonicalUrl || 'https://pi-rocket-coding.vercel.app/'} />
-      <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_CODE" />
-    </Head>
+      <h1 className="hidden">{pageTitle ? `${pageTitle} - ${defaultTitle}` : defaultTitle}</h1>
+    </>
+
   );
 }

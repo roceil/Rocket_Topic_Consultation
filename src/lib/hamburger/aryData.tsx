@@ -4,15 +4,15 @@ import { ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
 export const counselorCenterAry = [
   {
     lableName: '個人資料',
-    link: '/UserCenter',
+    link: '/counselorcenter',
   },
   {
     lableName: '預約管理',
-    link: '/UserCenter',
+    link: '/counselorcenter/reservation',
   },
   {
     lableName: '個案記錄',
-    link: '/UserCenter',
+    link: '/counselorcenter/case',
   },
 ];
 
