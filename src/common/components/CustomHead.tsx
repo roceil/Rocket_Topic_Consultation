@@ -8,8 +8,8 @@ interface ICustomHeadProps {
 }
 
 export default function CustomHead({ pageTitle, pageDescription, pageImage, pageCanonicalUrl }: ICustomHeadProps) {
-  const defaultTitle = '拍拍｜火箭隊 11T';
-  const defaultDescription = '這是一個關於火箭隊 11T的網站，提供了相關的產品介紹、使用心得和最新消息等內容。';
+  const defaultTitle = '拍拍｜線上心理諮商平台';
+  const defaultDescription = '歡迎來到拍拍！拍拍是個線上心理諮商平台，致力於在線上提供高品質、專業的心理諮商服務，幫助人們克服各種情緒和心理上的困難，改善他們的生活品質。';
   const defaultImage = 'https://pi-rocket-coding.vercel.app/images/default-image.jpg';
 
   return (
@@ -29,13 +29,6 @@ export default function CustomHead({ pageTitle, pageDescription, pageImage, page
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="zh_TW" />
-
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@YourTwitterHandle" />
-      <meta name="twitter:title" content={pageTitle || defaultTitle} />
-      <meta name="twitter:description" content={pageDescription || defaultDescription} />
-      <meta name="twitter:image" content={pageImage || defaultImage} />
 
       {/* Line */}
       <meta property="line:app_id" content="LINE_APP_ID" />
