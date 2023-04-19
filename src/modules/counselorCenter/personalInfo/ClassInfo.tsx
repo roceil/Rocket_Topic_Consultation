@@ -39,6 +39,20 @@ export function ClassInfo() {
     console.log(classTopic);
   }, []);
 
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+
+  // function isNoCourses() {
+  //   if (FieldIds2?.length === 0) {
+  //     return (
+  //       <NoCourses
+  //         text="尚未新增課程資訊"
+  //         height="h-[338px]"
+  //         extraStyle={`${isOpen} ? '!hidden' : ''`}
+  //       />
+  //     );
+  //   }
+  // }
+
   return (
     <>
       <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
@@ -64,7 +78,15 @@ export function ClassInfo() {
             課程方案 *
           </h3>
           {/* PC 課程方案 */}
-          <div className="hidden w-[90%] rounded-2xl bg-gray-200 pb-9 lg:block">
+          {/* 判斷有無課程資料，渲染課程方案、課程特色 */}
+          {/* {isNoCourses(isSuccess)} */}
+          {/* 點擊膠囊前，初始畫面 */}
+          {/* isSuccess && (
+            <NoCourses text="請先選擇專長領域" height="h-[338px]" />
+          ) */}
+          <div
+            className="w-[90%] rounded-2xl bg-gray-200 pb-9"
+          >
             <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
               <li className="lg:w-[33.33%]">專長領域</li>
               <li className="lg:w-[33.33%]">定價</li>
