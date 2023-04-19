@@ -95,7 +95,7 @@ function LogInForm() {
       </Form.Item>
 
       <FormSubmitBtn text="登入" />
-      <div className="alert">{alertModal}</div>
+      <div id="customAlert" className="alert">{alertModal}</div>
     </Form>
   );
 }

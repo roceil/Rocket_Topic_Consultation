@@ -1,7 +1,8 @@
-import { ConfigProvider } from 'antd';
-import { loadingStatus } from '@/common/redux/feature/loading';
 import { useEffect } from 'react';
+import { ConfigProvider } from 'antd';
 import { useDispatch } from 'react-redux';
+import CustomHead from '@/common/components/CustomHead';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorInfoTab from './personalInfo';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
 
@@ -13,6 +14,7 @@ export default function index() {
   }, []);
   return (
     <>
+      <CustomHead pageTitle="會員中心" />
       {/* 手機版 */}
       <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] bg-white">
         <div className="container">
