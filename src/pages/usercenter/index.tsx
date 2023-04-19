@@ -13,10 +13,11 @@ import CustomHead from '@/common/components/CustomHead';
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });
   if (!token) {
+    // 沒有token，導回登入頁
     return {
       redirect: {
-        permanent: false,
         destination: '/login',
+        permanent: false,
       },
     };
   }

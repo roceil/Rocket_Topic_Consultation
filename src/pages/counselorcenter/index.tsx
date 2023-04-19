@@ -1,9 +1,17 @@
+import { useEffect } from 'react';
 import { ConfigProvider } from 'antd';
+import { useDispatch } from 'react-redux';
 import CustomHead from '@/common/components/CustomHead';
-import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorInfoTab from './personalInfo';
+import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
 
 export default function index() {
+  // ==================== 載入後關閉 Loading ====================
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadingStatus('none'));
+  }, []);
   return (
     <>
       <CustomHead pageTitle="會員中心" />
