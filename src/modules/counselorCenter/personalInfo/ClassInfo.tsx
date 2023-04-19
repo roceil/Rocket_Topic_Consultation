@@ -181,50 +181,124 @@ export function ClassInfo() {
     console.log(clickId);
   }
 
-  // ==================== 送出表單 ====================
+  // ==================== 待修改：送出表單 ====================
+  // const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
+  // const courseQuantityAry = [1, 3, 5, 1];
+  // const handleSubmit = async (values: any) => {
+  //   console.log(values);
+  //   const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
+  //   // 組成 POST 用的 Features
+  //   const Features = {
+  //     Feature1,
+  //     Feature2,
+  //     Feature3,
+  //     Feature4,
+  //     Feature5,
+  //   };
+
+  //   // 組成 POST 用的 Courses
+  //   const Courses = [
+  //     {
+  //       Item: courseItemAry[0],
+  //       Quantity: courseQuantityAry[0],
+  //       Price: parseInt(Price0),
+  //       Availability: Availability0,
+  //     },
+  //     {
+  //       Item: courseItemAry[1],
+  //       Quantity: courseQuantityAry[1],
+  //       Price: parseInt(Price1),
+  //       Availability: Availability1,
+  //     }, {
+  //       Item: courseItemAry[2],
+  //       Quantity: courseQuantityAry[2],
+  //       Price: parseInt(Price2),
+  //       Availability: Availability2,
+  //     },
+  //     {
+  //       Item: courseItemAry[3],
+  //       Quantity: courseQuantityAry[3],
+  //       Price: parseInt(Price3),
+  //       Availability: Availability3,
+  //     },
+  //   ];
+
+  //   // 取出的資料回傳 POST
+  //   const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
+  //   setIsDisabled(true);
+  //   alert(res.data.Message);
+  //   console.log(res);
+  // };
+
   const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
   const courseQuantityAry = [1, 3, 5, 1];
-  const handleSubmit = async (values: any) => {
+
+  // 更新 Features
+  const updateFeatures = (values: any, originalFeatures: any) => {
+    const updatedFeatures = { ...originalFeatures };
+    if (values.Feature1) updatedFeatures.Feature1 = values.Feature1;
+    if (values.Feature2) updatedFeatures.Feature2 = values.Feature2;
+    if (values.Feature3) updatedFeatures.Feature3 = values.Feature3;
+    if (values.Feature4) updatedFeatures.Feature4 = values.Feature4;
+    if (values.Feature5) updatedFeatures.Feature5 = values.Feature5;
+    return updatedFeatures;
+  };
+
+  // 更新 Courses
+  const updateCourses = (values: any, originalCourses: any) => {
+    if (!originalCourses || typeof originalCourses[Symbol.iterator] !== 'function') {
+      originalCourses = []; // 如果不是可迭代對象，則初始化為空陣列
+    }
+    const updatedCourses = [...originalCourses];
+    if (values.Course0) {
+      updatedCourses[0] = {
+        ...originalCourses[0],
+        Quantity: values.Course0.Quantity || originalCourses[0].Quantity,
+        Price: values.Course0.Price || originalCourses[0].Price,
+        Availability: values.Course0.Availability || originalCourses[0].Availability,
+      };
+    }
+    if (values.Course1) {
+      updatedCourses[1] = {
+        ...originalCourses[1],
+        Quantity: values.Course1.Quantity || originalCourses[1].Quantity,
+        Price: values.Course1.Price || originalCourses[1].Price,
+        Availability: values.Course1.Availability || originalCourses[1].Availability,
+      };
+    }
+    if (values.Course2) {
+      updatedCourses[2] = {
+        ...originalCourses[2],
+        Quantity: values.Course2.Quantity || originalCourses[2].Quantity,
+        Price: values.Course2.Price || originalCourses[2].Price,
+        Availability: values.Course2.Availability || originalCourses[2].Availability,
+      };
+    }
+    if (values.Course3) {
+      updatedCourses[3] = {
+        ...originalCourses[3],
+        Quantity: values.Course3.Quantity || originalCourses[3].Quantity,
+        Price: values.Course3.Price || originalCourses[3].Price,
+        Availability: values.Course3.Availability || originalCourses[3].Availability,
+      };
+    }
+    return updatedCourses;
+  };
+  // ==================== 送出表單 ====================
+  const handleSubmit = async (values: any, originalFeatures: any, originalCourses: any) => {
     console.log(values);
-    const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
-    // 組成 POST 用的 Features
-    const Features = {
-      Feature1,
-      Feature2,
-      Feature3,
-      Feature4,
-      Feature5,
-    };
+    const { Feature1, Feature2, Feature3, Feature4, Feature5 } = values;
+    const Features = updateFeatures(values, originalFeatures);
 
-    // 組成 POST 用的 Courses
-    const Courses = [
-      {
-        Item: courseItemAry[0],
-        Quantity: courseQuantityAry[0],
-        Price: parseInt(Price0),
-        Availability: Availability0,
-      },
-      {
-        Item: courseItemAry[1],
-        Quantity: courseQuantityAry[1],
-        Price: parseInt(Price1),
-        Availability: Availability1,
-      }, {
-        Item: courseItemAry[2],
-        Quantity: courseQuantityAry[2],
-        Price: parseInt(Price2),
-        Availability: Availability2,
-      },
-      {
-        Item: courseItemAry[3],
-        Quantity: courseQuantityAry[3],
-        Price: parseInt(Price3),
-        Availability: Availability3,
-      },
-    ];
+    const Courses = updateCourses(values, originalCourses);
 
-    // 取出的資料回傳 POST
-    const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
+    // 取出的資料回傳 PUT
+    const res = await coursesDataPostMutation({
+      token,
+      clickId,
+      Courses,
+      Features,
+    });
     setIsDisabled(true);
     alert(res.data.Message);
     console.log(res);
@@ -390,23 +464,14 @@ export function ClassInfo() {
                       ))}
                     </div>
                     <Form.Item className={!courseNotExist ? 'hidden' : ''}>
-                      <div className="mt-10 flex justify-between space-x-5 px-14">
-                        <input
-                          type="button"
-                          value="刪除此專長領域"
-                          className={`text-base text-gray-900 underline underline-offset-2 ${
-                            !isDisabled ? 'hover:text-red-500' : ''
-                          }`}
-                          onClick={() => deleteCourse(clickId)}
-                          // onClick={() => { deleteCourse1(token, clickId); }}
-                          disabled={isDisabled}
-                        />
-                        <div>
+                      {/* btns */}
+                      <div className="flex justify-end">
+                        <div className="space-x-5 mt-5">
                           <Button
                             type="primary"
                             shape="round"
                             htmlType="submit"
-                            className={`btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base ${isHidden}`}
+                            className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
                           >
                             儲存
                           </Button>
@@ -415,7 +480,7 @@ export function ClassInfo() {
                             shape="round"
                             htmlType="button"
                             onClick={() => setIsDisabled(false)}
-                            className=" btnHoverDark w-[168px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base"
+                            className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
                           >
                             {isDisabled ? '編輯' : '取消編輯'}
                           </Button>

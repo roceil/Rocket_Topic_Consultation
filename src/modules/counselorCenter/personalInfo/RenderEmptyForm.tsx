@@ -55,7 +55,6 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     }
   };
 
-  
   // ==================== 新增/修改課程 API Axios POST ====================
   const addCourse = async (clickId, Courses, Features) => {
     try {
@@ -228,23 +227,14 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
               )}
             </div>
             <Form.Item>
-              <div className="mt-10 flex justify-between space-x-5 px-14">
-                <input
-                  type="button"
-                  value="刪除此專長領域"
-                  className={`text-base text-gray-900 underline underline-offset-2 ${
-                    !isDisabled ? 'hover:text-red-500' : ''
-                  }`}
-                  onClick={() => deleteCourse(clickId)}
-                  disabled={isDisabled}
-                />
-                <div>
+              {/* btns */}
+              <div className="flex justify-end">
+                <div className="space-x-5 mt-5">
                   <Button
                     type="primary"
                     shape="round"
                     htmlType="submit"
-                    className={`btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base ${isHidden}`}
-                    onClick={() => addCourse}
+                    className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
                   >
                     儲存
                   </Button>
@@ -253,9 +243,9 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
                     shape="round"
                     htmlType="button"
                     onClick={() => setIsDisabled(false)}
-                    className=" btnHoverDark !lg:px-[74px] border-none !px-[66px] text-base text-[14px] font-bold text-white shadow-none lg:text-base"
+                    className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
                   >
-                    編輯
+                    {isDisabled ? '編輯' : '取消編輯'}
                   </Button>
                 </div>
               </div>
@@ -266,7 +256,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     </div>
   );
 }
-function coursesDataPostMutation(arg0: { token: import("cookies-next").CookieValueTypes; clickId: number; Courses: { Item: string; Quantity: number; Price: number; Availability: any; }[]; Features: { Feature1: any; Feature2: any; Feature3: any; Feature4: any; Feature5: any; }; }) {
+function coursesDataPostMutation(arg0: { token: import('cookies-next').CookieValueTypes; clickId: number; Courses: { Item: string; Quantity: number; Price: number; Availability: any; }[]; Features: { Feature1: any; Feature2: any; Feature3: any; Feature4: any; Feature5: any; }; }) {
   throw new Error('Function not implemented.');
 }
 

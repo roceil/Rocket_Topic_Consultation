@@ -295,7 +295,7 @@ export function InfoForm() {
                 </Form.Item>
               </div>
             </div>
-            {/* ClassInfo btn */}
+            {/* btns */}
             <div className="flex justify-end">
               <div className="space-x-5 mt-5">
                 <Button
