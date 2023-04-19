@@ -117,7 +117,7 @@ export function InfoForm() {
 
     setIsDisabled(true);
     console.log(res);
-    alert(res.data.Message);
+    // alert(res.data.Message);
   };
 
   return (

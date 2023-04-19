@@ -465,6 +465,18 @@ export function ClassInfo() {
                     </div>
                     <Form.Item className={!courseNotExist ? 'hidden' : ''}>
                       {/* btns */}
+                      <div className="mt-10 flex justify-between space-x-5 px-14">
+                        <input
+                          type="button"
+                          value="刪除此專長領域"
+                          className={`text-base text-gray-900 underline underline-offset-2 ${
+                            !isDisabled ? 'hover:text-red-500' : ''
+                          }`}
+                          onClick={() => deleteCourse(clickId)}
+                          // onClick={() => { deleteCourse1(token, clickId); }}
+                          disabled={isDisabled}
+                        />
+                      </div>
                       <div className="flex justify-end">
                         <div className="space-x-5 mt-5">
                           <Button

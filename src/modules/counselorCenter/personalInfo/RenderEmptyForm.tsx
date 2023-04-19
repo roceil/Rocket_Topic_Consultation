@@ -127,7 +127,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     ];
     const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
     setIsDisabled(true);
-    alert(res.data.Message);
+    // alert(res.data.Message);
     console.log(res);
   };
 
@@ -229,6 +229,18 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
             <Form.Item>
               {/* btns */}
               <div className="flex justify-end">
+                <div className="mt-10 flex justify-between space-x-5 px-14">
+                  <input
+                    type="button"
+                    value="刪除此專長領域"
+                    className={`text-base text-gray-900 underline underline-offset-2 ${
+                      !isDisabled ? 'hover:text-red-500' : ''
+                    }`}
+                    onClick={() => deleteCourse(clickId)}
+                          // onClick={() => { deleteCourse1(token, clickId); }}
+                    disabled={isDisabled}
+                  />
+                </div>
                 <div className="space-x-5 mt-5">
                   <Button
                     type="primary"
@@ -255,8 +267,5 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
       </ul>
     </div>
   );
-}
-function coursesDataPostMutation(arg0: { token: import('cookies-next').CookieValueTypes; clickId: number; Courses: { Item: string; Quantity: number; Price: number; Availability: any; }[]; Features: { Feature1: any; Feature2: any; Feature3: any; Feature4: any; Feature5: any; }; }) {
-  throw new Error('Function not implemented.');
 }
 
