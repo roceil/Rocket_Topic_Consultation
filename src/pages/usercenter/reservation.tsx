@@ -8,8 +8,10 @@ import WaitReply from '@/modules/userCenter/WaitReply';
 import WaitReservation from '@/modules/userCenter/WaitReservation';
 import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 import { orderStatus, reservationTabs } from '@/lib/userCenterData';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 
 export default function reservation() {
+  useCloseLoading();
   const dispatch = useDispatch();
   const [table, setTable] = useState(<WaitReservation />);
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);

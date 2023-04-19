@@ -29,12 +29,12 @@ export default function Header() {
     <>
       <header className="fixed top-0 z-50 w-full border border-gray-200  bg-gray-100/80 py-[18px] backdrop-blur-2xl lg:py-[30px]">
         <div className="container flex items-center justify-between">
-          <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
-            <Image src={LOGO} alt="LOGO" width={100} height={43} className="hidden lg:block" />
+          <Link href="/" className="hidden lg:block cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8] ">
+            <Image src={LOGO} alt="LOGO" width={100} height={43} />
           </Link>
 
-          <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8]">
-            <Image src={LOGO_SM} alt="LOGO" width={60} height={27} className="lg:hidden" />
+          <Link href="/" className="cursor-pointer text-2xl font-bold leading-normal text-secondary active:scale-[0.8] lg:hidden">
+            <Image src={LOGO_SM} alt="LOGO" width={60} height={27} />
           </Link>
 
           {/* 漢堡選單 */}
