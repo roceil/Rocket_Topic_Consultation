@@ -35,15 +35,22 @@ export default function ChatRoom() {
     CounselorId: clickCounselor,
     UserId: id,
     type,
+  }, {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
   });
 
   // ====================== 獲取聊天室列表 ======================
   useEffect(() => {
-    if (data) {
-      const { userChatTargetList } = data.Data;
-      setChatList(userChatTargetList);
-      console.log(data);
+    if (!data) return;
+    if (!data.Data) {
+      setChatList([]);
+      return;
     }
+
+    const { userChatTargetList } = data.Data;
+    setChatList(userChatTargetList);
+    console.log(data);
   }, [data, isLoading]);
 
   // ====================== 獲取單一聊天室訊息 ======================
@@ -51,9 +58,10 @@ export default function ChatRoom() {
     if (chatMessageData) {
       const { ChatlogList, Photo: ChatRoomPhoto } = chatMessageData.Data;
       setChatRoomData(ChatlogList);
-      setRenderChatRoomPhoto(ChatRoomPhoto);
+      setRenderChatRoomPhoto(`https://pi.rocket-coding.com/upload/headshot/${ChatRoomPhoto}`);
+      console.log('聊天室記錄', chatMessageData.Data);
     }
-  }, [chatMessageData, chatMessageIsLoading, clickCounselor]);
+  }, [chatMessageData]);
 
   // ====================== 開啟聊天室列表 ======================
   const showModal = () => {
@@ -64,7 +72,7 @@ export default function ChatRoom() {
   const handleCancel = () => {
     console.log('已清空聊天室');
     setIsModalOpen(false);
-    setChatRoomData([]);
+    // setChatRoomData([]);
   };
 
   // ====================== 開啟聊天室 ======================
@@ -176,7 +184,7 @@ export default function ChatRoom() {
             className="underline underline-offset-4 hover:opacity-80"
             onClick={() => {
               setIsChatRoomOpen(false);
-              setChatRoomData([]);
+              // setChatRoomData([]);
               console.log('清空聊天室');
             }}
           >
@@ -215,7 +223,7 @@ export default function ChatRoom() {
             return (
               <li key={convertTime} className="flex justify-start space-x-2 text-sm">
                 {/* 圖片 */}
-                <Image src={`https://pi.rocket-coding.com/upload/headshot/${renderChatRoomPhoto}`} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />
+                <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />
                 {/* 內容 */}
                 <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{Content}</div>
                 {/* 時間 */}

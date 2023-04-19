@@ -5,6 +5,7 @@ export const chatRoom = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
   }),
+  tagTypes: ['ChatLogs'],
   endpoints: (builder) => ({
     getChatRoomList: builder.query({
       query: ({ token, id, type }) => ({
@@ -14,17 +15,18 @@ export const chatRoom = createApi({
         },
       }),
     }),
+
     getChatMessage: builder.query({
       query: ({ token, CounselorId, UserId, UserType }) => ({
         url: `/api/chatroom/GetChatlogs?CounselorId=${CounselorId}&UserId=${UserId}&UserType=${UserType}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        keepUnusedDataFor: 1,
-
+        overrideExisting: false,
       }),
-
+      providesTags: (result, error, { CounselorId }) => [{ type: 'ChatLogs', CounselorId }],
     }),
+
     postChatMessage: builder.mutation({
       query: ({ token, CounselorId, UserId, UserType }) => ({
         url: `/api/chatroom/GetChatlogs?CounselorId=${CounselorId}&UserId=${UserId}&UserType=${UserType}`,
