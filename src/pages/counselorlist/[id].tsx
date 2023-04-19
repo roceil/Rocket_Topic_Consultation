@@ -10,6 +10,7 @@ import { counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselo
 import SearchCapsule from '@/common/components/SearchCapsule';
 import CounselorListCard from '@/modules/counselorList/CounselorListCard';
 import CommonPagination from '@/common/components/CommonPagination';
+import CustomHead from '@/common/components/CustomHead';
 
 export const getServerSideProps = async ({ query: { id } }: { query: { id: string } }) => {
   try {
@@ -129,6 +130,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
 
   return (
     <>
+      <CustomHead pageTitle="諮商師總覽" />
       {/* 分頁標題 */}
       <section className="my-14 lg:mt-[84px] ">
         <div className="container">

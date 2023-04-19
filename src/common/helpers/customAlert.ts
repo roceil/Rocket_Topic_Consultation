@@ -9,10 +9,11 @@ type CustomAlertProps = {
   type: CountDownType;
   router?: NextRouter;
   link?: string;
+  contentKeyWord?: string;
 };
 
-const CustomAlert = ({ modal, Message: message, type, router, link }: CustomAlertProps): void => {
-  let secondsToGo = 5;
+const CustomAlert = ({ modal, Message: message, type, router, link, contentKeyWord }: CustomAlertProps): void => {
+  let secondsToGo = 3;
   let instance: ReturnType<typeof modal.error> | ReturnType<typeof modal.success>;
   let timer: NodeJS.Timeout;
 
@@ -28,7 +29,7 @@ const CustomAlert = ({ modal, Message: message, type, router, link }: CustomAler
       secondsToGo -= 1;
       if (type === 'success') {
         instance.update({
-          content: `畫面將於 ${secondsToGo} 秒後跳轉`,
+          content: `畫面將於 ${secondsToGo} 秒後${contentKeyWord || '跳轉'}`,
         });
       } else {
         instance.update({
@@ -44,6 +45,7 @@ const CustomAlert = ({ modal, Message: message, type, router, link }: CustomAler
       okText: '確定',
       cancelText: '取消',
       centered: true,
+      footer: null,
       onOk: () => {
         clearInterval(timer);
         instance.destroy();
@@ -58,6 +60,7 @@ const CustomAlert = ({ modal, Message: message, type, router, link }: CustomAler
       title: `${message}`,
       okText: '確定',
       centered: true,
+      footer: null,
       onOk: () => {
         clearInterval(timer);
         instance.destroy();

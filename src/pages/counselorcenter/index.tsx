@@ -1,10 +1,12 @@
 import { ConfigProvider } from 'antd';
+import CustomHead from '@/common/components/CustomHead';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
 import CounselorInfoTab from './personalInfo';
 
 export default function index() {
   return (
     <>
+      <CustomHead pageTitle="會員中心" />
       {/* 手機版 */}
       <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] bg-white">
         <div className="container">

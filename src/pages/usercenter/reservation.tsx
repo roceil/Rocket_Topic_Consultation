@@ -8,6 +8,7 @@ import WaitReply from '@/modules/userCenter/WaitReply';
 import WaitReservation from '@/modules/userCenter/WaitReservation';
 import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 import { orderStatus, reservationTabs } from '@/lib/userCenterData';
+import CustomHead from '@/common/components/CustomHead';
 
 export default function reservation() {
   const dispatch = useDispatch();
@@ -54,53 +55,57 @@ export default function reservation() {
   };
 
   return (
-    <div className="bg-white">
-      {/* 手機版 */}
-      <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] ">
-        <div className="container">
-          <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-secondary lg:mb-[72px] lg:block">目前尚無預約</div>
-          <h2 className="mb-5 text-center leading-loose lg:hidden">預約管理</h2>
 
-          <div className="mb-8 flex items-center space-x-5">
-            <span className="text-sm text-secondary">訂單狀態</span>
+    <>
+      <CustomHead pageTitle="預約管理" />
+      <div className="bg-white">
+        {/* 手機版 */}
+        <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] ">
+          <div className="container">
+            <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-secondary lg:mb-[72px] lg:block">目前尚無預約</div>
+            <h2 className="mb-5 text-center leading-loose lg:hidden">預約管理</h2>
+
+            <div className="mb-8 flex items-center space-x-5">
+              <span className="text-sm text-secondary">訂單狀態</span>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#4A5364',
+                    colorText: '#4A5364',
+                    colorBorder: '#4A5364',
+                    colorTextQuaternary: '#4A5364',
+                    controlHeight: 36,
+                    borderRadius: 10,
+                  },
+                }}
+              >
+                <Select defaultValue={tab} style={{ width: 152 }} onChange={handleChange} options={orderStatus} getPopupContainer={(trigger) => trigger.parentElement} />
+              </ConfigProvider>
+            </div>
+
+            {/* 表格顯示區塊 */}
+            {table}
+          </div>
+        </section>
+
+        {/* 電腦版 */}
+        <UserCenterLayout>
+          <div className="order">
             <ConfigProvider
               theme={{
                 token: {
+                  margin: 48,
                   colorPrimary: '#4A5364',
                   colorText: '#4A5364',
-                  colorBorder: '#4A5364',
-                  colorTextQuaternary: '#4A5364',
-                  controlHeight: 36,
-                  borderRadius: 10,
+                  fontSize: 16,
                 },
               }}
             >
-              <Select defaultValue={tab} style={{ width: 152 }} onChange={handleChange} options={orderStatus} getPopupContainer={(trigger) => trigger.parentElement} />
+              <Tabs className=" w-full" defaultActiveKey={tab} items={reservationTabs} onChange={onChange} />
             </ConfigProvider>
           </div>
-
-          {/* 表格顯示區塊 */}
-          {table}
-        </div>
-      </section>
-
-      {/* 電腦版 */}
-      <UserCenterLayout>
-        <div className="order">
-          <ConfigProvider
-            theme={{
-              token: {
-                margin: 48,
-                colorPrimary: '#4A5364',
-                colorText: '#4A5364',
-                fontSize: 16,
-              },
-            }}
-          >
-            <Tabs className=" w-full" defaultActiveKey={tab} items={reservationTabs} onChange={onChange} />
-          </ConfigProvider>
-        </div>
-      </UserCenterLayout>
-    </div>
+        </UserCenterLayout>
+      </div>
+    </>
   );
 }

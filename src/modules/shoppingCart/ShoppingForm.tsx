@@ -8,8 +8,11 @@ import { getCookie } from 'cookies-next';
 import close from 'public/images/Close.svg';
 import { useState } from 'react';
 import { IShoppingFormProps, ICartItem } from '@/types/interface';
+import { Modal } from 'antd';
+import customAlert from '@/common/helpers/customAlert';
 
 export default function ShoppingForm({ renderDate, setRenderDate, TotalAmount }: IShoppingFormProps) {
+  const [modal, alertModal] = Modal.useModal();
   const openLoading = useOpenLoading();
   const dispatch = useDispatch();
   const token = getCookie('auth');
@@ -22,8 +25,9 @@ export default function ShoppingForm({ renderDate, setRenderDate, TotalAmount }:
   const deletedItem = async (CartId: number) => {
     const res = await deleteItemDelete({ token, CartId });
     if ('error' in res) {
+      console.log('🚀 ~ file: ShoppingForm.tsx:28 ~ deletedItem ~ res:', res);
       dispatch(loadingStatus('none'));
-      alert('刪除失敗');
+      customAlert({ modal, Message: '刪除失敗', type: 'error' });
       return;
     }
 
@@ -31,7 +35,7 @@ export default function ShoppingForm({ renderDate, setRenderDate, TotalAmount }:
       data: { Message },
     } = res as { data: { Message: string } };
     dispatch(loadingStatus('none'));
-    alert(Message);
+    customAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
 
     // 刪除後重新渲染
     const newRenderDate = renderDate.filter((item: { CartId: number }) => item.CartId !== CartId);
@@ -89,6 +93,7 @@ export default function ShoppingForm({ renderDate, setRenderDate, TotalAmount }:
         <p className="font-bold">總計</p>
         <p>{`$ ${TotalPrice}`}</p>
       </div>
+      <div className="alert">{alertModal}</div>
     </div>
   );
 }
