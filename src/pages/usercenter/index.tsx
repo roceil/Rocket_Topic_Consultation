@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import useCloseLoading from '@/common/hooks/useCloseLoading';

@@ -66,6 +66,45 @@ export interface IUserDataProps {
   data: { Data: [{ Account: string; BirthDate: string; Name: string; Sex: string }]; Message: string; Success: boolean };
 }
 
+// 諮商師 > 會員中心 > 個人資料 > 課程資訊 API
+export interface ICoursesDataProps {
+  Success: boolean;
+  Message: string;
+  Data: {
+    FieldIds: number[];
+    Courses: {
+      FieldId: number;
+      Course: {
+        Item: string;
+        Quantity: number;
+        Price: number;
+        Availability: boolean;
+      }[];
+      Feature: string[]
+    }[];
+  };
+}
+
+// 諮商師 > 會員中心 > 個人資料 > 基本資料 API
+export interface ICounselorInfo {
+  Success: boolean;
+  Message: string;
+  Data: ICounselorInfoData[];
+}
+
+export interface ICounselorInfoData {
+  Account: string;
+  CounselorName: string;
+  LicenseImg: string;
+  CertNumber: string;
+  Photo: string | null;
+  SellingPoint: string | null;
+  SelfIntroduction: string | null;
+  VideoLink: string | null;
+  IsVideoOpen: boolean;
+  AccountStatus: boolean;
+}
+
 export interface ICounselorInformationProps {
   counselorPageBreadcrumb: ItemType[];
   Photo: string;
