@@ -19,7 +19,7 @@ export function InfoForm() {
   const [CounselorInfoPutMutation] = useCounselorInfoPutMutation();
 
   // ==================== 儲存回傳資料 ====================
-  const [renderData, setRenderData] = useState<ICounselorInfoData >([]);
+  const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);

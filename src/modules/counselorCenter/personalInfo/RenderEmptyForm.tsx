@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, ConfigProvider, Form, Input, Switch } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
@@ -46,7 +47,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
       );
       console.log('delete Course :', response.data);
       // alert(response.data.Message); // 換成 alert component
-    } catch (error) {
+    } catch (error:any) {
       if (error.response && error.response.status === 401) {
         console.log('Unauthorized');
       } else {
@@ -56,32 +57,32 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
   };
 
   // ==================== 新增/修改課程 API Axios POST ====================
-  const addCourse = async (clickId, Courses, Features) => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
-        {
-          FieldId: clickId,
-          Courses,
-          Features,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log('Course added:', response.data);
-      setIsDisabled(true);
-      // alert(response.data.Message); // 換成 alert component
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized');
-      } else {
-        console.log('Error adding course:', error);
-      }
-    }
-  };
+  // const addCourse = async (clickId:any, Courses:[], Features:{}) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/courses`,
+  //       {
+  //         FieldId: clickId,
+  //         Courses,
+  //         Features,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
+  //     console.log('Course added:', response.data);
+  //     setIsDisabled(true);
+  //     // alert(response.data.Message); // 換成 alert component
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 401) {
+  //       console.log('Unauthorized');
+  //     } else {
+  //       console.log('Error adding course:', error);
+  //     }
+  //   }
+  // };
 
   // ==================== 新增/修改課程表單 ====================
   const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
@@ -100,31 +101,57 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     };
 
     // 組成 POST 用的 Courses
+    // const Courses = [
+    //   {
+    //     Item: courseItemAry[0],
+    //     Quantity: courseQuantityAry[0],
+    //     Price: parseInt(Price0),
+    //     Availability: Availability0,
+    //   },
+    //   {
+    //     Item: courseItemAry[1],
+    //     Quantity: courseQuantityAry[1],
+    //     Price: parseInt(Price1),
+    //     Availability: Availability1,
+    //   }, {
+    //     Item: courseItemAry[2],
+    //     Quantity: courseQuantityAry[2],
+    //     Price: parseInt(Price2),
+    //     Availability: Availability2,
+    //   },
+    //   {
+    //     Item: courseItemAry[3],
+    //     Quantity: courseQuantityAry[3],
+    //     Price: parseInt(Price3),
+    //     Availability: Availability3,
+    //   },
+    // ];
     const Courses = [
       {
         Item: courseItemAry[0],
         Quantity: courseQuantityAry[0],
-        Price: parseInt(Price0),
+        Price: parseInt(Price0, 10),
         Availability: Availability0,
       },
       {
         Item: courseItemAry[1],
         Quantity: courseQuantityAry[1],
-        Price: parseInt(Price1),
+        Price: parseInt(Price1, 10),
         Availability: Availability1,
       }, {
         Item: courseItemAry[2],
         Quantity: courseQuantityAry[2],
-        Price: parseInt(Price2),
+        Price: parseInt(Price2, 10),
         Availability: Availability2,
       },
       {
         Item: courseItemAry[3],
         Quantity: courseQuantityAry[3],
-        Price: parseInt(Price3),
+        Price: parseInt(Price3, 10),
         Availability: Availability3,
       },
     ];
+
     const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
     setIsDisabled(true);
     // alert(res.data.Message);
@@ -173,6 +200,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
             {/* PC 課程方案＋定價 */}
             <div className="flex w-full flex-col space-y-4">
               {emptyPriceAry.map((item, i) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <li className="flex items-center" key={i}>
                   <div className="w-[33.33%]">{item}</div>
                   <Form.Item className="mb-0 lg:w-[33.33%]" name={`Price${i}`}>

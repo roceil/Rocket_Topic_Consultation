@@ -1,7 +1,9 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // GET => POST / DELETE 後要重新 GET 渲染畫面 => GPT 建議在 POST RTKQ 加上 onSuccess 屬性刷新
 // POST 改 RTKQ
 // 調整手機版
-import { Button, ConfigProvider, Form, Input, Switch } from 'antd';
+import { Button, ConfigProvider, Form, Input, Switch, FormInstance } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
@@ -29,11 +31,11 @@ export function ClassInfo() {
 
   // ==================== 刪除課程 API RTKQ ====================
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
-  const deleteCourse1 = async (token:any, clickId:number) => {
-    const res = await CourseDataDeleteMutation({ token, clickId });
-    alert(res.data.Message);
-    console.log(res);
-  };
+  // const deleteCourse1 = async (token:any, clickId:number) => {
+  //   const res = await CourseDataDeleteMutation({ token, clickId });
+  //   // alert(res.data.Message);
+  //   console.log(res);
+  // };
 
   // 課程資料
   const [renderData, setRenderData] = useState<any>([]);
@@ -47,7 +49,7 @@ export function ClassInfo() {
   const [renderForm, setRenderForm] = useState('hidden');
   const [renderEmptyForm, setRenderEmptyForm] = useState('hidden');
   //  點擊的膠囊 id
-  const [clickId, setClickId] = useState();
+  const [clickId, setClickId] = useState<number>();
   //  篩選出指定 id 的課程方案、價錢
   const [clickFilterAry, setClickFilterAry] = useState([]);
   const [clickFeaturesFilterAry, setClickFeaturesFilterAry] = useState([]);
@@ -101,14 +103,14 @@ export function ClassInfo() {
   }, [isLoading, data]);
 
   useEffect(() => {
-    getCoursesID?.filter((item, i) => {
+    getCoursesID?.filter((item:any) =>
       // console.log('點擊取得相應課程ID data：', item);
-      SetFeatureAry(item.Feature);
-    });
+      // eslint-disable-next-line implicit-arrow-linebreak
+      SetFeatureAry(item.Feature));
   }, [renderData, getCoursesID, featureAry, clickId]);
 
   // 『課程特色』保留 placeholder 的值
-  const [featureStates, setFeatureStates] = useState(featureAry || []);
+  // const [featureStates, setFeatureStates] = useState(featureAry || []);
 
   // 判斷『單一主題』課程資訊，
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
@@ -126,7 +128,7 @@ export function ClassInfo() {
       );
       console.log('delete Course :', response.data);
       // alert(response.data.Message); // 換成 alert component
-    } catch (error) {
+    } catch (error:any) {
       if (error.response && error.response.status === 401) {
         console.log('Unauthorized');
       } else {
@@ -167,8 +169,8 @@ export function ClassInfo() {
   };
 
   // ==================== 判斷膠囊id，控制表格渲染 ====================
-  function changeRenderForm(id:number) {
-    if (FieldIds2?.includes(id)) {
+  function changeRenderForm(id: number): void {
+    if ((FieldIds2 as unknown as number[])?.includes(id)) {
       setRenderForm('block');
       setRenderEmptyForm('hidden');
       setClickId(id);
@@ -178,7 +180,7 @@ export function ClassInfo() {
     setRenderForm('hidden');
     setRenderEmptyForm('block');
     setClickId(id);
-    console.log(clickId);
+    console.log('clickId:', clickId);
   }
 
   // ==================== 待修改：送出表單 ====================
@@ -247,6 +249,7 @@ export function ClassInfo() {
   // 更新 Courses
   const updateCourses = (values: any, originalCourses: any) => {
     if (!originalCourses || typeof originalCourses[Symbol.iterator] !== 'function') {
+      // eslint-disable-next-line no-param-reassign
       originalCourses = []; // 如果不是可迭代對象，則初始化為空陣列
     }
     const updatedCourses = [...originalCourses];
@@ -285,14 +288,11 @@ export function ClassInfo() {
     return updatedCourses;
   };
   // ==================== 送出表單 ====================
-  const handleSubmit = async (values: any, originalFeatures: any, originalCourses: any) => {
-    console.log(values);
+  const handleSubmit = async (values: any) => {
     const { Feature1, Feature2, Feature3, Feature4, Feature5 } = values;
-    const Features = updateFeatures(values, originalFeatures);
+    const Features = updateFeatures(values, form.getFieldValue('Features'));
+    const Courses = updateCourses(values, form.getFieldValue('Courses'));
 
-    const Courses = updateCourses(values, originalCourses);
-
-    // 取出的資料回傳 PUT
     const res = await coursesDataPostMutation({
       token,
       clickId,
@@ -300,7 +300,6 @@ export function ClassInfo() {
       Features,
     });
     setIsDisabled(true);
-    alert(res.data.Message);
     console.log(res);
   };
 
@@ -312,7 +311,7 @@ export function ClassInfo() {
         </h3>
         <div className="flex flex-wrap justify-around lg:w-[80%] lg:flex-nowrap lg:justify-between lg:space-x-3">
           {/* 渲染膠囊 => 有資料藍色，無資料灰色 */}
-          {classTopic.map(({ topicName, id }) => (FieldIds2?.includes(id) ? (
+          {classTopic.map(({ topicName, id }) => ((FieldIds2 as unknown as number[])?.includes(id) ? (
             <IButton
               text={topicName}
               fontSize="text-[14px]"
@@ -323,10 +322,10 @@ export function ClassInfo() {
                 changeRenderForm(id);
                 console.log('取clickID筆資料：', getCoursesID);
                 const filterAry = getCoursesID.filter(
-                  (item) => item.FieldId === id,
+                  (item:any) => item.FieldId === id,
                 );
                 const featuersfilterAry = getCoursesID.filter(
-                  (item) => item.FieldId === id,
+                  (item:any) => item.FieldId === id,
                 );
                 const { Course } = filterAry[0];
                 const { Feature } = featuersfilterAry[0];
@@ -358,7 +357,7 @@ export function ClassInfo() {
           </h3>
           {/* PC 課程方案 */}
           {/* 判斷有無課程資料，渲染課程方案、課程特色 */}
-          {FieldIds2?.length === 0 && (
+          {(FieldIds2 as unknown as number[])?.length === 0 && (
             <NoCourses text="尚未新增課程資訊" height="h-[338px]" />
           )}
           {/* 點擊膠囊前，初始畫面 */}
@@ -376,7 +375,7 @@ export function ClassInfo() {
               <li className="lg:w-[33.33%]">是否開放</li>
             </ul>
             <div className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
-              <RenderEmptyForm renderEmptyForm={renderEmptyForm} clickId={clickId} />
+              <RenderEmptyForm renderEmptyForm={renderEmptyForm} clickId={clickId as unknown as number} />
               <ul
                 className={`flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base ${renderForm} `}
               >
@@ -472,7 +471,7 @@ export function ClassInfo() {
                           className={`text-base text-gray-900 underline underline-offset-2 ${
                             !isDisabled ? 'hover:text-red-500' : ''
                           }`}
-                          onClick={() => deleteCourse(clickId)}
+                          onClick={() => deleteCourse(clickId as unknown as number)}
                           // onClick={() => { deleteCourse1(token, clickId); }}
                           disabled={isDisabled}
                         />
