@@ -1,10 +1,12 @@
 import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
+import CustomHead from '@/common/components/CustomHead';
 import CounselorCaseRecordPC from '../../../modules/counselorCenter/case/CounselorCaseRecordPC';
 import CounselorCaseRecord from '../../../modules/counselorCenter/case/CounselorCaseRecord';
 
 export default function reservation() {
   return (
     <>
+      <CustomHead pageTitle="預約管理" />
       {/* 手機版 個案記錄 */}
       <section className="pt-12 pb-28 lg:hidden bg-white">
         <div className="container">

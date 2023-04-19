@@ -18,6 +18,7 @@ import CounselorRate from '@/modules/counselorPage/CounselorRate';
 import CounselorInformation from '@/modules/counselorPage/CounselorInformation';
 import { ICounselorPageProps, ICourses, IFilterCases } from '@/types/interface';
 import customAlert from '@/common/helpers/customAlert';
+import CustomHead from '@/common/components/CustomHead';
 
 // 使用axios取得path
 export const getServerSidePaths = async () => {
@@ -48,6 +49,7 @@ export const getServerSideProps = async ({ params }: { params: { id: string } })
 // Client 互動步驟 ＝ 選擇專長領域 => 選擇課程方案 => 加入購物車
 
 export default function CounselorPage({ data, counselorId }: { data: ICounselorPageProps; counselorId: string }) {
+  console.log('🚀 ~ file: [id].tsx:52 ~ CounselorPage ~ data:', data);
   // ==================== 關閉 loading ====================
   useCloseLoading();
 
@@ -192,6 +194,8 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
 
   return (
     <>
+      <CustomHead pageTitle={Name} pageImage={Photo} pageDescription={SelfIntroduction} />
+
       {/* 諮商師資料 */}
       <CounselorInformation counselorPageBreadcrumb={counselorPageBreadcrumb} Photo={Photo} Name={Name} SelfIntroduction={SelfIntroduction} FieldTags={FieldTags} />
 
@@ -307,7 +311,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                         },
                       }}
                     >
-                      <Radio.Group buttonStyle="solid" onChange={onChange3}>
+                      <Radio.Group buttonStyle="solid" onChange={onChange3} style={{ width: '100%' }}>
                         {chooseCourse.map(({ value, label }: IFilterCases, index: number) => {
                           if (index === 0) {
                             return (

@@ -11,6 +11,7 @@ import { useFinishOrderPostMutation } from '@/common/redux/service/shoppingCart'
 import { IShoppingCartProps } from '@/types/interface';
 import { breadcrumbTabs } from '@/lib/shoppingCart/shoppingCartData';
 import customAlert from '@/common/helpers/customAlert';
+import CustomHead from '@/common/components/CustomHead';
 import NewBPayForm from '../modules/shoppingCart/NewBPayForm';
 import Payment from '../modules/shoppingCart/Payment';
 import ShoppingForm from '../modules/shoppingCart/ShoppingForm';
@@ -93,26 +94,29 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
   };
 
   return (
-    <section className="bg-white pt-14 pb-28 lg:pt-[84px] lg:pb-[152px]">
-      <div className="container text-center">
-        {/* 麵包屑 */}
-        <div>
-          <ConfigProvider>
-            <Breadcrumb items={breadcrumbTabs} />
-          </ConfigProvider>
+    <>
+      <CustomHead pageTitle="購物車" />
+      <section className="bg-white pt-14 pb-28 lg:pt-[84px] lg:pb-[152px]">
+        <div className="container text-center">
+          {/* 麵包屑 */}
+          <div>
+            <ConfigProvider>
+              <Breadcrumb items={breadcrumbTabs} />
+            </ConfigProvider>
+          </div>
+          <h2 className="relative mt-9 pb-3 after:absolute after:left-1/2 after:-bottom-1 after:h-1 after:w-10 after:-translate-x-1/2 after:bg-secondary lg:mt-[65px]">購物車</h2>
+
+          {/* 表格 */}
+          <ShoppingForm renderDate={renderDate} setRenderDate={setRenderDate} TotalAmount={TotalAmount} />
+
+          {/* 內含付款跟須知 */}
+          <Payment />
+
+          {/* 藍新表單 */}
+          <NewBPayForm TradeInfoInput={TradeInfoInput} TradeShaInput={TradeShaInput} finishOrder={finishOrder} />
         </div>
-        <h2 className="relative mt-9 pb-3 after:absolute after:left-1/2 after:-bottom-1 after:h-1 after:w-10 after:-translate-x-1/2 after:bg-secondary lg:mt-[65px]">購物車</h2>
-
-        {/* 表格 */}
-        <ShoppingForm renderDate={renderDate} setRenderDate={setRenderDate} TotalAmount={TotalAmount} />
-
-        {/* 內含付款跟須知 */}
-        <Payment />
-
-        {/* 藍新表單 */}
-        <NewBPayForm TradeInfoInput={TradeInfoInput} TradeShaInput={TradeShaInput} finishOrder={finishOrder} />
-      </div>
-      <div className="alert">{alertModal}</div>
-    </section>
+        <div className="alert">{alertModal}</div>
+      </section>
+    </>
   );
 }

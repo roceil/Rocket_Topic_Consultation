@@ -7,7 +7,7 @@ import useOpenLoading from '../hooks/useOpenLoading';
 export default function HasLoginBtn() {
   const getIdentity = getCookie('identity');
   const openLoading = useOpenLoading();
-  const handleLink = getIdentity === 'user' ? '/usercenter' : '/counselorcenter/1';
+  const handleLink = getIdentity === 'user' ? '/usercenter' : '/counselorcenter';
   return (
     <>
       <button type="button" className="btnHover h-10 w-10 group">
