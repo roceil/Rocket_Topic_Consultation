@@ -18,12 +18,16 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
   const [weekData, setWeekData] = useState([]);
   // 打包本週全時段
   const [renderWeek, setRenderWeek] = useState([]);
+  const [checkPageNum, setCheckPageNum] = useState(null);
+  const [renderPageNum, setRenderPageNum] = useState(null);
+  const [isHidden, setIsHidden] = useState('hidden');
 
   useEffect(() => {
     if (data && data?.Data) {
       setWeekData(data?.Data?.Pagination);
       setRenderWeek(data?.Data?.Pagination);
       setRenderToday(data?.Data?.Pagination[0]);
+      setRenderPageNum(data?.Data?.PageNum);
     }
   }, [data]);
   // 當 renderToday 變更時，同步更新 todayData
@@ -33,16 +37,9 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
     console.log('renderToday:', renderToday);
     setWeekData(renderWeek);
     console.log('renderWeek:', renderWeek);
-  }, [renderToday, renderWeek]);
-
-  useEffect(() => {
-    console.log('pageNum:', pageNum);
-  }, [pageNum]);
-
-  // ==================== renderWeek 載入時預設 ====================
-  if (renderWeek.length === 0) {
-    return <div className="w-[340px] h-[487px] lg:h-[451px] lg:w-[480px] bg-primary-tint flex items-center justify-center text-lg"><p>Loading...</p></div>;
-  }
+    setCheckPageNum(renderPageNum);
+    console.log('renderPageNum:', renderPageNum);
+  }, [renderToday, renderWeek, renderPageNum]);
 
   // ==================== 月份轉中文 ====================
   const monthDict: { [key: string]: string } = {
@@ -63,26 +60,34 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
   const chineseMonth = monthDict[Month];
 
   // ==================== 計算週數 ====================
-
-  // 點擊按鈕時，取得下週所有時段
   const getNextWeek = () => {
-    setPageNum((prev) => prev + 1);
+    setIsHidden('block');
+    setTimeout(() => {
+      setPageNum((prev) => prev + 1);
+      setIsHidden('hidden');
+    }, 500);
   };
 
-  // 點擊按鈕時，取得上週所有時段
   const getPreviousWeek = () => {
     if (pageNum > 0) {
-      setPageNum((prev) => prev - 1);
+      setIsHidden('block');
+      setTimeout(() => {
+        setPageNum((prev) => prev - 1);
+        setIsHidden('hidden');
+      }, 500);
     }
   };
 
   return (
     <div className="container ">
-      <div className="border-y border-secondary py-20 lg:py-14 px-3">
+      <div className="border-y border-secondary py-20 lg:py-14 px-3 relative">
         <h2 className="mb-7 text-center lg:mb-4 lg:text-left lg:text-lg">
           可預約時段
         </h2>
         {/* Calender */}
+        <div className={`${isHidden} bg-primary-tint absolute z-20 h-[550px] lg:h-[500px]`}>
+          <div className="w-[340px] h-[487px] lg:h-[451px] lg:w-[480px] flex items-center justify-center text-lg"><p>Loading...</p></div>
+        </div>
         <div className="space-y-4 flex flex-col items-center">
           <div className="w-[340px] lg:w-[480px] flex items-start">
             <h3 className="px-2 text-base text-gray-900 text-center border-b-gray-900 mb-3">{`${renderToday?.Year} ${chineseMonth}`}</h3>
@@ -116,16 +121,20 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
           </ul>
           <div className="flex justify-between w-[332px] lg:w-[480px] ">
             <Button
-              className="text-sm text-[#424242] w-[160px] lg:w-[230px] rounded-[10px] border-[1.5px] border-[#424242] font-semibold"
+              className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
               onClick={getPreviousWeek}
+              disabled={pageNum === 1}
+              style={{ border: pageNum === 1 ? '1.5px solid #BDBDBD' : 'none' }}
             >
-              上一週
+              <span className="btnHoverText">上一週</span>
             </Button>
             <Button
-              className="text-sm text-[#424242] w-[160px] lg:w-[230px] rounded-[10px] border-[1.5px] border-[#424242] font-semibold"
+              className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
               onClick={getNextWeek}
+              disabled={pageNum === renderPageNum}
+              style={{ border: pageNum === renderPageNum ? '1.5px solid #BDBDBD' : 'none' }}
             >
-              下一週
+              <span className="btnHoverText">下一週</span>
             </Button>
           </div>
         </div>
