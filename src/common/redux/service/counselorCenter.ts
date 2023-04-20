@@ -73,22 +73,9 @@ export const counselorCenter = createApi({
         },
       }),
     }),
-    CounselorReservationDataGet: builder.query({
-      query: ({ token, tab, page }) => ({
-        url: `/api/usersAppts?status=${tab}&page=${page}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        providesTags: (result: { id:number; }[]) => (result
-          ? [
-            ...result.map(({ id }) => ({ type: 'CounselorReservationData', id })),
-            { type: 'CounselorReservationData', id: 'LIST' },
-          ]
-          : [{ type: 'CounselorReservationData', id: 'LIST' }]),
-      }),
-    }),
+
   }),
 });
 
-export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation, useCounselorReservationDataGetQuery } = counselorCenter;
+export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation } = counselorCenter;
 

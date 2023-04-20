@@ -1,41 +1,10 @@
-import { IButton } from '@/common/components/IButton';
-import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorCenter';
-import { getCookie } from 'cookies-next';
-import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
+import { getCookie } from 'cookies-next';
+import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorReservation';
 import CounselorPagination from './CounselorPagination';
-
-interface ICounselorAppointment {
-  AppointmentId: number;
-  Field: string;
-  OrderId: number;
-  Time: string;
-  User: string;
-}
-
-// !這個要想辦法元件化
-export function Appointment({ appointment }: { appointment: ICounselorAppointment }) {
-  const { AppointmentId, Field, Time, User } = appointment;
-  const convertTime = dayjs(Time).format('HH:mm');
-  const convertDate = dayjs(Time).format('YYYY / MM / DD');
-
-  return (
-    <li key={AppointmentId} className="flex items-center rounded-lg bg-white py-5  text-center text-sm text-gray-900 lg:text-base">
-      <div className="w-1/5">{User}</div>
-      <div className="w-1/5 ">{Field}</div>
-      <div className="w-1/5 ">{convertDate}</div>
-      <div className="w-1/5">{convertTime}</div>
-      <div className="w-1/5">
-        <IButton text="加入" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-      </div>
-      <div className="w-1/5">
-        <IButton text="查看" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-      </div>
-    </li>
-  );
-}
+import { ICounselorAppointment, Appointment } from './layout/HasSetUpListLayout';
 
 export default function CounselorHasSetUp() {
   const token = getCookie('auth');
@@ -66,6 +35,7 @@ export default function CounselorHasSetUp() {
     setRenderData(convertRenderData);
     setTotalPageNum(TotalPageNum);
   }, [data, isLoading]);
+
   return (
     <div>
       {renderData.length === 0 ? (<div className="flex h-[467px] w-full items-center justify-center rounded-2xl bg-gray-200 font-bold text-gray-900 lg:h-[519px]">尚無訂單記錄</div>) : (

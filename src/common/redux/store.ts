@@ -1,44 +1,47 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
-import userCenterSlice from './feature/userCenter';
-import loginTabs from './feature/loginTabs';
+
 import signUpSlice from './feature/signUp';
-import hasTokenSlice from './feature/hasToken';
-import userCenterReservation from './feature/userCenterReservation';
+import loginTabs from './feature/loginTabs';
 import loadingSlice from './feature/loading';
-import counselorReservationPage from './feature/counselorReservationPage';
+import hasTokenSlice from './feature/hasToken';
+import userCenterSlice from './feature/userCenter';
+import counselorListSlice from './feature/counselorList';
+import userCenterReservation from './feature/userCenterReservation';
 import counselorReservationTab from './feature/counselorReservationTab';
+import counselorReservationPage from './feature/counselorReservationPage';
 
 import { login } from './service/login';
-import { forgetPassword } from './service/forgetPassword';
-import { resetPassword } from './service/resetPassword';
 import { signUp } from './service/signUp';
-import { counselorList } from './service/counselorList';
 import { userCenter } from './service/userCenter';
-import { counselorCenter } from './service/counselorCenter';
-import counselorListSlice from './feature/counselorList';
-import { counselorPage } from './service/counselorPage';
 import { shoppingCart } from './service/shoppingCart';
+import { counselorList } from './service/counselorList';
+import { counselorPage } from './service/counselorPage';
+import { resetPassword } from './service/resetPassword';
+import { forgetPassword } from './service/forgetPassword';
+import { counselorCenter } from './service/counselorCenter';
+import { counselorReservation } from './service/counselorReservation';
 
 const reducers = combineReducers({
-  userCenterSlice,
-  signUpSlice,
   loginTabs,
+  signUpSlice,
+  loadingSlice,
   hasTokenSlice,
+  userCenterSlice,
   counselorListSlice,
   userCenterReservation,
-  loadingSlice,
-  counselorReservationPage,
   counselorReservationTab,
+  counselorReservationPage,
   [login.reducerPath]: login.reducer,
-  [forgetPassword.reducerPath]: forgetPassword.reducer,
-  [resetPassword.reducerPath]: resetPassword.reducer,
   [signUp.reducerPath]: signUp.reducer,
-  [counselorList.reducerPath]: counselorList.reducer,
   [userCenter.reducerPath]: userCenter.reducer,
-  [counselorCenter.reducerPath]: counselorCenter.reducer,
-  [counselorPage.reducerPath]: counselorPage.reducer,
   [shoppingCart.reducerPath]: shoppingCart.reducer,
+  [counselorPage.reducerPath]: counselorPage.reducer,
+  [counselorList.reducerPath]: counselorList.reducer,
+  [resetPassword.reducerPath]: resetPassword.reducer,
+  [forgetPassword.reducerPath]: forgetPassword.reducer,
+  [counselorCenter.reducerPath]: counselorCenter.reducer,
+  [counselorReservation.reducerPath]: counselorReservation.reducer,
 });
 
 // 註冊
@@ -47,14 +50,15 @@ const store = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(login.middleware)
-    .concat(forgetPassword.middleware)
-    .concat(resetPassword.middleware)
     .concat(signUp.middleware)
-    .concat(counselorList.middleware)
     .concat(userCenter.middleware)
-    .concat(counselorCenter.middleware)
+    .concat(shoppingCart.middleware)
+    .concat(resetPassword.middleware)
     .concat(counselorPage.middleware)
-    .concat(shoppingCart.middleware),
+    .concat(counselorList.middleware)
+    .concat(forgetPassword.middleware)
+    .concat(counselorCenter.middleware)
+    .concat(counselorReservation.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });

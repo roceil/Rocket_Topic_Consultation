@@ -171,3 +171,21 @@ export interface IShoppingFormProps {
   setRenderDate: React.Dispatch<React.SetStateAction<ICartItem[]>>;
   TotalAmount: number;
 }
+
+export interface ICaseRenderData {
+  Name: string;
+  Field: string;
+  AppointmentDate: string;
+  AppointmentId: number;
+  AppointmentTime: string;
+}
+
+export interface IRecordRenderData {
+  AppointmentDate: string;
+  AppointmentId: number;
+  CounsellingRecord: string;
+  Field: string;
+  LastRecordDate: string;
+  Name: string;
+  RecordDate: string;
+}

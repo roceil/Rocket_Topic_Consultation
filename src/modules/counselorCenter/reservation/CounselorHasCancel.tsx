@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IButton } from '@/common/components/IButton';
-import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorCenter';
+import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorReservation';
 import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
