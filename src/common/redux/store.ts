@@ -12,6 +12,7 @@ import { resetPassword } from './service/resetPassword';
 import { signUp } from './service/signUp';
 import { counselorList } from './service/counselorList';
 import { userCenter } from './service/userCenter';
+import { counselorCenter } from './service/counselorCenter';
 import counselorListSlice from './feature/counselorList';
 import { counselorPage } from './service/counselorPage';
 import { shoppingCart } from './service/shoppingCart';
@@ -31,10 +32,13 @@ const reducers = combineReducers({
   [signUp.reducerPath]: signUp.reducer,
   [counselorList.reducerPath]: counselorList.reducer,
   [userCenter.reducerPath]: userCenter.reducer,
+  [counselorCenter.reducerPath]: counselorCenter.reducer,
   [counselorPage.reducerPath]: counselorPage.reducer,
   [shoppingCart.reducerPath]: shoppingCart.reducer,
   [timetableBrowser.reducerPath]: timetableBrowser.reducer,
 });
+
+// 註冊
 
 const store = configureStore({
   reducer: reducers,
@@ -45,6 +49,7 @@ const store = configureStore({
     .concat(signUp.middleware)
     .concat(counselorList.middleware)
     .concat(userCenter.middleware)
+    .concat(counselorCenter.middleware)
     .concat(counselorPage.middleware)
     .concat(shoppingCart.middleware)
     .concat(timetableBrowser.middleware),
