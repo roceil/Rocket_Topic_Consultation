@@ -1,4 +1,6 @@
 import { IButton } from '@/common/components/IButton';
+import { Button, Input, Modal } from 'antd';
+import { useState } from 'react';
 
 const userInfo = [
   {
@@ -39,38 +41,87 @@ const userInfo = [
 ];
 
 export default function CounselorWaitReply() {
+  const { TextArea } = Input;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [value, setValue] = useState('');
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+    console.log('更改時間原因的值：', value);
+    setValue('');
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="overflow-x-auto rounded-2xl bg-gray-200 pb-9 lg:pb-12">
-      <ul className="flex w-[624px] border-b border-gray-400  py-5 pl-[29px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
-        <li className="lg:w-[19.5889%] lg:pl-[100px] xl:pl-[80px] lg:text-center">個案姓名</li>
-        <li className="ml-[33px] lg:ml-0 lg:w-[16.996%] lg:pl-0">諮商議題</li>
-        <li className="ml-[57px] lg:ml-0  lg:w-[17.7865%]">諮商日期</li>
-        <li className="ml-[47px] lg:ml-0  lg:w-[14.4268%]">諮商時間</li>
-        <li className="ml-[72px] lg:ml-0  lg:w-[33.2015%] lg:pl-[100px] lg:text-left">
-          確認預約時段
-        </li>
-      </ul>
-
-      <ul className="w-[624px] space-y-4 px-3 pt-5 lg:w-auto lg:px-7 lg:pt-7">
-        {userInfo.map((item) => (
-          <li key={item.id} className="flex  items-center space-x-10 rounded-lg bg-white py-5 px-4 text-sm text-gray-900 lg:space-x-0 lg:text-center lg:text-base">
-            <div className="lg:w-[16.5271%] lg:pl-[64px] lg:text-left">{item.name}</div>
-
-            <div className="lg:w-[16.3179%]">{item.topic}</div>
-
-            <div className="lg:w-[20.3974%]">{item.date}</div>
-
-            <div className="lg:w-[13.9121%]">{item.time}</div>
-
-            <div className=" flex space-x-2 text-xs lg:w-[32.8451%] lg:space-x-3 lg:pl-[46px] lg:text-left lg:text-sm">
-              <IButton text="我想更改時段" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-              <IButton text="接受" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-            </div>
+    <>
+      <div className="overflow-x-auto rounded-2xl bg-gray-200 pb-9 lg:pb-12">
+        <ul className="flex w-[624px] border-b border-gray-400  py-5 pl-[29px] text-sm font-bold text-gray-700 lg:w-auto lg:px-0 lg:text-center">
+          <li className="lg:w-[19.5889%] lg:pl-[100px] xl:pl-[80px] lg:text-center">個案姓名</li>
+          <li className="ml-[33px] lg:ml-0 lg:w-[16.996%] lg:pl-0">諮商議題</li>
+          <li className="ml-[57px] lg:ml-0  lg:w-[17.7865%]">諮商日期</li>
+          <li className="ml-[47px] lg:ml-0  lg:w-[14.4268%]">諮商時間</li>
+          <li className="ml-[72px] lg:ml-0  lg:w-[33.2015%] lg:pl-[100px] lg:text-left">
+            確認預約時段
           </li>
+        </ul>
 
-        )) }
+        <ul className="w-[624px] space-y-4 px-3 pt-5 lg:w-auto lg:px-7 lg:pt-7">
+          {userInfo.map((item) => (
+            <li key={item.id} className="flex  items-center space-x-10 rounded-lg bg-white py-5 px-4 text-sm text-gray-900 lg:space-x-0 lg:text-center lg:text-base">
+              <div className="lg:w-[16.5271%] lg:pl-[64px] lg:text-left">{item.name}</div>
 
-      </ul>
-    </div>
+              <div className="lg:w-[16.3179%]">{item.topic}</div>
+
+              <div className="lg:w-[20.3974%]">{item.date}</div>
+
+              <div className="lg:w-[13.9121%]">{item.time}</div>
+
+              <div className=" flex space-x-2 text-xs lg:w-[32.8451%] lg:space-x-3 lg:pl-[46px] lg:text-left lg:text-sm">
+                <IButton text="我想更改時段" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
+                <IButton text="接受" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
+              </div>
+            </li>
+
+          )) }
+
+        </ul>
+      </div>
+
+      <>
+        <Button type="primary" onClick={showModal}>
+          Open Modal
+        </Button>
+        <Modal
+          title={
+            <p className="text-gray-900 mb-2">請說明更改原因</p>
+        }
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="送出"
+          cancelText="返回"
+          centered
+        >
+          <TextArea
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder="請寫下更改時間的原因"
+            autoSize={{ minRows: 7, maxRows: 14 }}
+            className="bg-gray-200 text-gray-900 rounded-lg placeholder:text-gray-600 border-none focus:shadow-none p-3 mb-2"
+          />
+
+          <p className="text-gray-900 text-sm mb-3">* 系統會將此訊息傳送給個案，送出後可至聊天室確認</p>
+
+        </Modal>
+      </>
+    </>
   );
 }
