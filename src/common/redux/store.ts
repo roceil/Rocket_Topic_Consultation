@@ -6,6 +6,9 @@ import signUpSlice from './feature/signUp';
 import hasTokenSlice from './feature/hasToken';
 import userCenterReservation from './feature/userCenterReservation';
 import loadingSlice from './feature/loading';
+import counselorReservationPage from './feature/counselorReservationPage';
+import counselorReservationTab from './feature/counselorReservationTab';
+
 import { login } from './service/login';
 import { forgetPassword } from './service/forgetPassword';
 import { resetPassword } from './service/resetPassword';
@@ -25,6 +28,8 @@ const reducers = combineReducers({
   counselorListSlice,
   userCenterReservation,
   loadingSlice,
+  counselorReservationPage,
+  counselorReservationTab,
   [login.reducerPath]: login.reducer,
   [forgetPassword.reducerPath]: forgetPassword.reducer,
   [resetPassword.reducerPath]: resetPassword.reducer,

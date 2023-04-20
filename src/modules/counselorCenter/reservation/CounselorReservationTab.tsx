@@ -1,0 +1,30 @@
+import { ConfigProvider, Tabs } from 'antd';
+import { useDispatch } from 'react-redux';
+import { counselorReservationTab } from '@/common/redux/feature/counselorReservationTab';
+import counselorReservationTabAry from '@/lib/counselorCenter/reservation/reservationData';
+
+export default function CounselorReservationTab() {
+  const dispatch = useDispatch();
+  // ====================== tab 切換 ======================
+  const onChange = (key: string) => {
+    dispatch(counselorReservationTab(key));
+  };
+
+  return (
+    <div className="counselorTab">
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#4A5364',
+            colorText: '#9E9E9E',
+            fontSize: 16,
+            margin: 32,
+          },
+        }}
+      >
+        <Tabs defaultActiveKey="待回覆" items={counselorReservationTabAry} onChange={onChange} />
+      </ConfigProvider>
+
+    </div>
+  );
+}
