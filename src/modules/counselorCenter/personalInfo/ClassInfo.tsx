@@ -39,7 +39,21 @@ export function ClassInfo() {
     console.log(classTopic);
   }, []);
 
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  // const [isOpen, setIsOpen] = useState<boolean>(true);
+
+  // function isNoCourses() {
+  //   if (FieldIds2?.length === 0) {
+  //     return (
+  //       <NoCourses
+  //         text="尚未新增課程資訊"
+  //         height="h-[338px]"
+  //         extraStyle={`${isOpen} ? '!hidden' : ''`}
+  //       />
+  //     );
+  //   }
+  // }
+
+  // const [isOpen, setIsOpen] = useState<boolean>(true);
 
   // function isNoCourses() {
   //   if (FieldIds2?.length === 0) {

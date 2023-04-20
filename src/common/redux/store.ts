@@ -15,6 +15,7 @@ import { userCenter } from './service/userCenter';
 import counselorListSlice from './feature/counselorList';
 import { counselorPage } from './service/counselorPage';
 import { shoppingCart } from './service/shoppingCart';
+import { timetableBrowser } from './service/timetableBrowser';
 
 const reducers = combineReducers({
   userCenterSlice,
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   [userCenter.reducerPath]: userCenter.reducer,
   [counselorPage.reducerPath]: counselorPage.reducer,
   [shoppingCart.reducerPath]: shoppingCart.reducer,
+  [timetableBrowser.reducerPath]: timetableBrowser.reducer,
 });
 
 const store = configureStore({
@@ -44,7 +46,8 @@ const store = configureStore({
     .concat(counselorList.middleware)
     .concat(userCenter.middleware)
     .concat(counselorPage.middleware)
-    .concat(shoppingCart.middleware),
+    .concat(shoppingCart.middleware)
+    .concat(timetableBrowser.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });
