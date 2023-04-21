@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import { Button } from 'antd';
@@ -34,12 +35,16 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
   useEffect(() => {
     if (!renderToday) return; // 為了判斷型別，如果沒資料，出現 null 就 return
     setTodayData(renderToday);
-    console.log('renderToday:', renderToday);
+    // console.log('renderToday:', renderToday);
     setWeekData(renderWeek);
-    console.log('renderWeek:', renderWeek);
+    // console.log('renderWeek:', renderWeek);
     setCheckPageNum(renderPageNum);
-    console.log('renderPageNum:', renderPageNum);
+    // console.log('renderPageNum:', renderPageNum);
   }, [renderToday, renderWeek, renderPageNum]);
+
+  useEffect(() => {
+    console.log('New pageNum:', pageNum);
+  }, [pageNum]);
 
   // ==================== 月份轉中文 ====================
   const monthDict: { [key: string]: string } = {
@@ -62,10 +67,12 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
   // ==================== 計算週數 ====================
   const getNextWeek = () => {
     setIsHidden('block');
-    setTimeout(() => {
-      setPageNum((prev) => prev + 1);
-      setIsHidden('hidden');
-    }, 500);
+    if (pageNum <= renderPageNum) {
+      setTimeout(() => {
+        setPageNum((prev) => prev + 1);
+        setIsHidden('hidden');
+      }, 500);
+    }
   };
 
   const getPreviousWeek = () => {
@@ -94,8 +101,7 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
           </div>
           <ul className="hour-scrollbar flex w-[340px] h-[487px] lg:h-[451px] lg:w-[480px] space-x-1 lg:space-x-3 overflow-auto  text-center">
             {renderWeek.map((item: IPagination, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <li className="relative" key={i}>
+              <li className="relative" key={`${pageNum}-${i}`}>
                 <div className="space-y-1 bg-primary-tint sticky top-0 flex">
                   <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-[#424242] py-3 mb-[10px]">
                     <p className="text-sm lg:text-lg">{item.WeekDay}</p>
@@ -103,11 +109,11 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
                   </div>
                 </div>
                 <div className="flex flex-col items-center space-x-1">
-                  {item?.Hours.map((hoursItem: IHours) => (
+                  {item?.Hours.map((hoursItem: IHours, hoursI) => (
                     <input
                       type="button"
                       value={hoursItem.Time}
-                      key={hoursItem.AppointmentTimeId}
+                      key={`${hoursI}${hoursItem.AppointmentTimeId}`}
                       className={`my-[5px] lg:w-[52px] w-[40px] lg:text-sm mobile-calendar ${
                         hoursItem.Availability
                           ? 'text-[#424242]'
