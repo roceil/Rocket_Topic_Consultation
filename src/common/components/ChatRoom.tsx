@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -7,13 +8,16 @@ import axios from 'axios';
 import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { IChatList } from '@/types/interface';
-import * as signalR from '@microsoft/signalr';
+import { useDispatch, useSelector } from 'react-redux';
+import { chatRoomAlert } from '../redux/feature/chatRoom';
 import { useGetChatRoomListQuery, useGetChatMessageQuery } from '../redux/service/chatRoom';
 
 export default function ChatRoom() {
   const token = getCookie('auth');
   const id = getCookie('userID');
   const type = getCookie('identity');
+  const dispatch = useDispatch();
+  const chatRoomAlertState = useSelector((state: { chatRoomSlice:{ value:string } }) => state.chatRoomSlice.value);
 
   // ====================== state ======================
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +28,8 @@ export default function ChatRoom() {
   const [clickCounselor, setClickCounselor] = useState<number | null>(null);
   const [chatCounselorName, setChatCounselorName] = useState<string | null>(null);
   // const [renderCounselorRead, setRenderCounselorRead] = useState<boolean>(false);
-  const [renderChatRoomPhoto, setRenderChatRoomPhoto] = useState<string>('https://pi.rocket-coding.com/upload/headshot/user_profile.svg');
+  const [renderChatRoomPhoto, setRenderChatRoomPhoto] = useState<string>('');
+  const [readStatus, setReadStatus] = useState<boolean>(false);
 
   // ====================== ref ======================
   const chatMessageRef = useRef<HTMLInputElement>(null);
@@ -48,9 +53,10 @@ export default function ChatRoom() {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('list', data.Data.userChatTargetList);
     if (!data) return;
     setChatList(data.Data.userChatTargetList);
+    const { isRead } = data.Data;
+    dispatch(chatRoomAlert(isRead));
   };
 
   const getChatMessage = async (CounselorId: number) => {
@@ -78,24 +84,27 @@ export default function ChatRoom() {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
     if (!data) return;
     chatMessageRef.current.value = '';
-    // getChatMessage(clickCounselor);
+  };
+
+  // ======================= 返回時更改成已讀狀態 ======================
+  const handlerReadStatus = async () => {
+    const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/chatroom/PostReadChatRoom`, {
+      CounselorId: clickCounselor,
+      UserId: Number(id),
+      MyType: type,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(chatRoomAlert(data.Success));
   };
 
   // ====================== 獲取聊天室列表 ======================
   useEffect(() => {
     if (!id || !type || !token) return;
-    // if (!data) return;
-    // if (!data.Data) {
-    //   setChatList([]);
-    //   return;
-    // }
-
-    // const { userChatTargetList } = data.Data;
-    // setChatList(userChatTargetList);
-    // console.log(data);
     getChatList();
   }, [id, type, token]);
 
@@ -116,17 +125,18 @@ export default function ChatRoom() {
 
   // ====================== 關閉聊天室 ======================
   const handleCancel = () => {
-    console.log('已清空聊天室');
     setIsModalOpen(false);
     // setChatRoomData([]);
   };
 
   // ====================== 開啟聊天室 ======================
-  const handleChatRoom = (CounselorId: number, OutName:string) => {
+  const handleChatRoom = (CounselorId: number, OutName:string, Photo:string) => {
     setIsChatRoomOpen(true);
     setClickCounselor(() => CounselorId);
     setChatCounselorName(() => OutName);
+    setRenderChatRoomPhoto(() => Photo);
     getChatMessage(CounselorId);
+    // getChatList();
   };
 
   // ====================== 監聽營幕寬度息 ======================
@@ -147,53 +157,57 @@ export default function ChatRoom() {
   }, [isChatRoomOpen]);
 
   // ====================== SignalR連線 ======================
-
-  type Message = {
-    id: number;
-    message: string;
-    userType: string;
-  };
-
-  const [messages, setMessages] = useState<Message[]>([]);
-  const connectionRef = useRef<SignalR.Hub.Connection | null>(null);
-  const chatRef = useRef<SignalR.Hub.Proxy | null>(null);
+  const [chatRoomsServer, setChatRoomsServer] = useState<any>(null);
 
   useEffect(() => {
-    const ws = new WebSocket('wss://pi.rocket-coding.com/signalr');
+    // 建立連線
+    $.connection.hub.url = 'https://pi.rocket-coding.com/signalr';
+    // @ts-ignore
+    const chat = $.connection.chartHubb;
+    setChatRoomsServer(chat);
 
-    ws.onopen = () => {
-      console.log('WebSocket連線成功');
+    // 註冊用戶身份
+    setTimeout(() => {
+      $.connection.hub.start()
+        .done(() => {
+          chat.server.setUserId(id, type);
+          console.log('連線成功');
+        })
+        .fail((error) => {
+          console.log(`连接失败: ${error}`);
+        });
+    }, 300);
+
+    // 監聽訊息
+    chat.client.showIconUnread = function (data: any) {
+      console.log('有新訊息');
+      console.log(data);
+      getChatList();
     };
 
-    ws.onmessage = (event) => {
-      const message = event.data;
-      console.log('接收到訊息：', message);
+    // 如果傳送訊息，會將新訊息回傳回來
+    chat.client.showMessage = function (userType:string, data:any) {
+      if (userType !== type) {
+        dispatch(chatRoomAlert('false'));
+      }
+      console.log(data);
+      setChatRoomData((prev: any) => [...prev, data]);
     };
 
-    ws.onclose = () => {
-      console.log('WebSocket連線已關閉');
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket連線錯誤：', error);
+    return () => {
+      $.connection.hub.stop();
+      console.log('logout');
     };
   }, []);
 
-  const handleSendMessage = () => {
-    if (chatMessageRef.current?.value) {
-      chatRef.current?.invoke('sendTo', 5, chatMessageRef.current.value, 'user');
-      chatMessageRef.current.value = '';
-    }
+  // ====================== 聊天室發送訊息 ======================
+  const handleSend = () => {
+    if (!chatMessageRef.current) return;
+    if (!chatMessageRef.current.value) return;
+    if (!chatRoomsServer) return;
+    chatRoomsServer.server.sendTo(clickCounselor, chatMessageRef.current.value, type);
+    chatMessageRef.current.value = '';
   };
-  // const handleSendMessage = () => {
-    //   console.log('訊息送出');
-
-  //   chatConnection.invoke('sendTo', 5, chatMessageRef.current.value, 'user');
-  //   chatMessageRef.current.value = '';
-  //   console.log('跑完囉');
-  // };
-
-  // ====================== signalR ======================
 
   return (
     <>
@@ -201,9 +215,12 @@ export default function ChatRoom() {
       <div className={`fixed top-0 z-50 hidden h-screen w-screen  bg-black opacity-70 ${isModalOpen && '!block'} transform duration-300 ease-in-out lg:!hidden `} />
 
       {/* 聊天室Icon */}
-      <button type="button" onClick={showModal} className="fixed  bottom-6 right-6 z-40 rounded-full ring-2 ring-secondary lg:bottom-[50px] lg:right-[50px] lg:hover:opacity-80">
-        <Image src={chatRoomIcon} alt="chatRoomIcon" width={60} height={60} />
-      </button>
+      <div className="fixed bottom-6 right-6 z-40  lg:bottom-[50px] lg:right-[50px] lg:hover:opacity-80">
+        <button type="button" onClick={showModal} className=" relative ring-2 ring-secondary rounded-full ">
+          <Image src={chatRoomIcon} alt="chatRoomIcon" width={60} height={60} />
+          <div className={`absolute w-4 h-4 bg-[#D14D3C] right-0 top-0 rounded-full ${chatRoomAlertState}`} />
+        </button>
+      </div>
 
       {/* 聊天列表 */}
       <div className={`fixed bottom-0 right-0 z-50 h-0  w-full origin-bottom duration-300 lg:right-12 lg:bottom-0 lg:h-[-50px]  lg:w-[328px] ${isModalOpen && 'h-[calc(100%-70px)] lg:!bottom-12 lg:h-[500px]'} ease-in-out `}>
@@ -219,7 +236,7 @@ export default function ChatRoom() {
         <ul className="flex h-[calc(100%-48px)] flex-col overflow-y-auto bg-white px-5 py-2 lg:h-[452px] lg:rounded-b-xl">
           {chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead }:IChatList) => {
             const convertTime = dayjs(InitDate).format('HH:mm');
-            // 如果用戶是user，因為要看諮商師是否已讀，所以回傳相對身份的已讀狀態
+            // 如果用戶是user，因為要提示自己有沒有看過，所以要判斷userRead，反之則是counselorRead
             const userType = type === 'user' ? UserRead : CounselorRead;
 
             return (
@@ -228,8 +245,8 @@ export default function ChatRoom() {
                   type="button"
                   className="flex w-full cursor-pointer  items-center justify-between border-b border-gray-400  pt-4 pb-[22px] lg:w-[288px] lg:hover:opacity-80"
                   onClick={() => {
-                    handleChatRoom(CounselorId, OutName);
-                    // setClickCounselor(CounselorId);
+                    handleChatRoom(CounselorId, OutName, Photo);
+                    getChatList();
                   }}
                 >
 
@@ -255,13 +272,6 @@ export default function ChatRoom() {
             );
           })}
         </ul>
-
-        {/* loading時在內容區塊顯示loading */}
-        <div className="flex h-[calc(100%-48px)] flex-col overflow-y-auto bg-white px-5 py-2 lg:h-[452px] lg:rounded-b-xl ">
-          <div className="flex h-full items-center justify-center">
-            <span className="ml-3 text-gray-900">Loading...</span>
-          </div>
-        </div>
       </div>
 
       {/* 個人聊天室 */}
@@ -274,6 +284,7 @@ export default function ChatRoom() {
             onClick={() => {
               setIsChatRoomOpen(false);
               setChatRoomData([]);
+              handlerReadStatus();
               console.log('清空聊天室');
             }}
           >
@@ -285,6 +296,7 @@ export default function ChatRoom() {
             onClick={() => {
               handleCancel();
               setIsChatRoomOpen(false);
+              dispatch(chatRoomAlert(true));
             }}
             className="py-4 px-5 hover:opacity-70 active:scale-[0.8]"
           >
@@ -333,10 +345,8 @@ export default function ChatRoom() {
             placeholder="請在此輸入訊息"
             onKeyDown={(e) => {
               if (e.keyCode === 13) {
-                // 送出的訊息，清空輸入框
-                // if (!chatMessageRef.current) return;
                 sendChatMessage();
-                handleSendMessage();
+                handleSend();
               }
             }}
           />
