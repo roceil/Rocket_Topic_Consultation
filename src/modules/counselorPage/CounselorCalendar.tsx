@@ -67,6 +67,7 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
   // ==================== 計算週數 ====================
   const getNextWeek = () => {
     setIsHidden('block');
+    if (!renderPageNum) return;
     if (pageNum <= renderPageNum) {
       setTimeout(() => {
         setPageNum((prev) => prev + 1);
