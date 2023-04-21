@@ -195,3 +195,31 @@ export interface IPagination {
   WeekDay: string;
   Hours: IHours[];
 }
+
+export interface IRateModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
+  comment?: string;
+  AppointmentId: number;
+  rate: number;
+  setRateLevel: (value: number) => void;
+  setComment: (value: string) => void;
+}
+
+export interface IAppointment {
+  AppointmentId: number;
+  Counselor: string;
+  Field: string;
+  Time?: string;
+}
+
+export interface OrderIdMap<T> {
+  [orderId: number]: T[];
+}
+
+export interface ListItem {
+  OrderId: number;
+  AppointmentId: number;
+  Counselor: string;
+  Field: string;
+}

@@ -20,7 +20,7 @@ export function IButton({ type, text, fontSize, px, py, mode, onClick, extraStyl
   const textStyle = mode === 'dark' ? 'btnHoverTextDark' : 'btnHoverText';
 
   return (
-    <button type={type || 'button'} className={`group ${btnStyle} ${px} ${py} ${extraStyle}`} onClick={onClick}>
+    <button type={type || 'button'} className={`group ${btnStyle} ${px} ${py} ${extraStyle} outline-none`} onClick={onClick}>
       <span className={`${fontSize} ${textStyle}`}>{text}</span>
     </button>
   );

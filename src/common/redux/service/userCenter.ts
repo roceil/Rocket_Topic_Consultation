@@ -17,22 +17,30 @@ export const userCenter = createApi({
       }),
     }),
     reservationDataGet: builder.query({
-      query: ({ token, tab, pageNum }) => ({
-        url: `/api/apptRecords?status=${tab}&page=${pageNum}`,
+      query: ({ token, tab, PageNum }) => ({
+        url: `/api/apptRecords?status=${tab}&page=${PageNum}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
     }),
-    userAppointmentPost: builder.mutation({
-      query: ({ token, AppointmentId, AppointmentTimeId, DateTimeValue }) => ({
-        url: '/api/apptTime',
+    reservationRatePost: builder.mutation({
+      query: ({ token, AppointmentId, Comment, Star }) => ({
+        url: '/api/PostAppointmentsComment',
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: {
           AppointmentId,
-          AppointmentTimeId,
-          DateTimeValue,
+          Comment,
+          Star,
         },
+      }),
+    }),
+    reservationRateGet: builder.query({
+      query: ({ token, AppointmentId }) => ({
+        url: `/api/GetAppointmentsCommit?AppointmentId=${AppointmentId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -41,4 +49,6 @@ export const userCenter = createApi({
   }),
 });
 
-export const { useEditInformationPutMutation, useReservationDataGetQuery, useUserAppointmentPostMutation } = userCenter;
+export const { useEditInformationPutMutation, useReservationDataGetQuery, useReservationRatePostMutation, useReservationRateGetQuery } = userCenter;
+
+// /api/GetAppointmentsCommit?AppointmentId=171

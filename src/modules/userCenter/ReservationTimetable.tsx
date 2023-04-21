@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import { useTimetableBrowserGetQuery } from '@/common/redux/service/timetableBrowser';
 import { IAppointmentTime, IPagination, IHours } from '@/types/interface';
-import { useUserAppointmentPostMutation } from '@/common/redux/service/userCenter';
 
 export default function ReservationTimetable({ counselorId }: { counselorId: number }) {
   const [pageNum, setPageNum] = useState(1);
@@ -13,7 +12,6 @@ export default function ReservationTimetable({ counselorId }: { counselorId: num
   const { data = {} as IAppointmentTime } = useTimetableBrowserGetQuery({ counselorId, pageNum });
 
   // ==================== 選擇/變更預約時段 API ====================
-  const [userAppointmentPost] = useUserAppointmentPostMutation({});
 
   //   Header 帶個案的 token
   // {

@@ -231,3 +231,35 @@
   font-weight: 600 !important;
   outline: inherit !important;
 }
+
+/* 評價 modal */
+.rateModal .ant-modal-content{
+  padding: 20px !important;
+}
+.rateModal .ant-btn-default{
+  border-radius: 24px;
+  border:1px solid #4a5364 ;
+  color: #4a5364;
+}
+.rateModal .ant-btn-default:hover{
+  border-radius: 24px;
+  border:1px solid #4a5364 ;
+  opacity: 0.8;
+  color: #4a5364;
+}
+.rateModal .ant-btn-default span{
+  font-weight: 600;
+}
+.rateModal .ant-btn-primary {
+  border-radius: 24px;
+  background-color: #4a5364;
+  box-shadow: none;
+}
+.rateModal .ant-btn-primary:hover {
+opacity: 0.8;
+background-color: #4a5364;
+}
+.rateModal .ant-btn-primary span {
+font-weight: 600;
+}
+
