@@ -16,6 +16,7 @@ import { counselorCenter } from './service/counselorCenter';
 import counselorListSlice from './feature/counselorList';
 import { counselorPage } from './service/counselorPage';
 import { shoppingCart } from './service/shoppingCart';
+import { timetableBrowser } from './service/timetableBrowser';
 
 const reducers = combineReducers({
   userCenterSlice,
@@ -34,6 +35,7 @@ const reducers = combineReducers({
   [counselorCenter.reducerPath]: counselorCenter.reducer,
   [counselorPage.reducerPath]: counselorPage.reducer,
   [shoppingCart.reducerPath]: shoppingCart.reducer,
+  [timetableBrowser.reducerPath]: timetableBrowser.reducer,
 });
 
 // 註冊
@@ -49,7 +51,8 @@ const store = configureStore({
     .concat(userCenter.middleware)
     .concat(counselorCenter.middleware)
     .concat(counselorPage.middleware)
-    .concat(shoppingCart.middleware),
+    .concat(shoppingCart.middleware)
+    .concat(timetableBrowser.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });
