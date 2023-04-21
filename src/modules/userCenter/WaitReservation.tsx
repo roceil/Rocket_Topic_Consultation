@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
+import ReservationTimetable from '@/modules/userCenter/ReservationTimetable';
 
 interface IAppointment {
   AppointmentId: number;
@@ -29,18 +30,27 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
 export default function WaitReservation() {
   const token = getCookie('auth');
   const [renderData, setRenderData] = useState([]);
+  const pageNum = 1;
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
-  const { data = [], isLoading } = useReservationDataGetQuery({ token, tab });
+  const { data = [], isLoading } = useReservationDataGetQuery({ token, tab, pageNum });
 
   // 取得資料
   useEffect(() => {
     const { Data = [] } = data;
-    const AppoinmentsData = Data.map((item: { Appointments: { appointment: IAppointment } }) => {
+    console.log(Data?.List);
+
+    const AppoinmentsData = Data?.List?.map((item: { Appointments: { appointment: IAppointment } }) => {
       const { Appointments } = item;
       return Appointments;
     });
     setRenderData(AppoinmentsData);
+    console.log(renderData);
+    console.log('111:', AppoinmentsData);
   }, [isLoading]);
+
+  useEffect(() => {
+    console.log(renderData);
+  }, [renderData]);
 
   return (
     <div className=" w-full rounded-2xl bg-gray-200 text-center">
@@ -49,10 +59,10 @@ export default function WaitReservation() {
         <li className="w-[31.5789%] lg:w-[29.3478%]">諮商議題</li>
         <li className="w-[41.57894%] lg:w-[39.0316%]">選擇時段</li>
       </ul>
-
+      {/* <ReservationTimetable counselorId={5} /> */}
       <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
         <ul className="scrollBAryHidden mt-5 flex max-h-[467px] flex-col space-y-4 overflow-y-scroll px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:max-h-[613px] lg:space-y-5 lg:px-7 lg:text-base">
-          {renderData.map((group: IAppointment[], index: number) => {
+          {/* {renderData.map((group: IAppointment[], index: number) => {
             if (index < renderData.length - 1) {
               return (
                 <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
@@ -69,7 +79,7 @@ export default function WaitReservation() {
                 ))}
               </ul>
             );
-          })}
+          })} */}
         </ul>
       </ul>
     </div>
