@@ -11,7 +11,7 @@ import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
 import UserReservationPagination from './UserReservationPagination';
 
 // !這個要想辦法元件化
-export function Appointment({ appointment, token, refetch }: { appointment: IAppointment, token:string, refetch:any }) {
+export function Appointment({ appointment, token, refetch }: { appointment: IAppointment, token:string, refetch:()=>void }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -30,7 +30,7 @@ export function Appointment({ appointment, token, refetch }: { appointment: IApp
       <p className="w-[35.6321%] lg:w-[36.82%]">{Field}</p>
       <div className="w-[40.8045%] lg:w-[35.5648%]">
         <IButton text="選擇預約時段" fontSize="text-xs lg:text-sm" px="px-[19px] lg:px-5" py="py-1 lg:py-2" mode="light" onClick={showModal} />
-        <Modal open={isModalOpen} onCancel={handleCancel} footer={null} className="!p-0 lg:w-[550px] bg-white rounded-[10px] border-4 lg:pt-10 lg:pb-11 py-6 userCenter">
+        <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null} className="!p-0 lg:w-[550px] bg-white rounded-[10px] border-4 lg:pt-10 lg:pb-11 py-6 userCenter">
           <ReservationTimetable counselorId={CounselorId} token={token} AppointmentId={AppointmentId} refetch={refetch} />
         </Modal>
       </div>

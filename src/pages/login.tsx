@@ -1,7 +1,7 @@
-import useCloseLoading from '@/common/hooks/useCloseLoading';
 import LoginTab from '@/modules/login/LoginTab';
 import RegisterSVG from '@/common/components/RegisterSVG';
 import CustomHead from '@/common/components/CustomHead';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 
 export default function login() {
   useCloseLoading();

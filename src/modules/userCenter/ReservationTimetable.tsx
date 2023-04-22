@@ -8,7 +8,7 @@ import { IAppointmentTime, IPagination, IHours } from '@/types/interface';
 import { useUserAppointmentPostMutation } from '@/common/redux/service/userCenter';
 import CustomAlert from '@/common/helpers/customAlert';
 
-export default function ReservationTimetable({ counselorId, token, AppointmentId, refetch }: { counselorId: number, token:string, AppointmentId:number, refetch:any }) {
+export default function ReservationTimetable({ counselorId, token, AppointmentId, refetch }: { counselorId: number, token:string, AppointmentId:number, refetch:()=>void }) {
   const [modal, alertModal] = Modal.useModal();
   const router = useRouter();
   const [pageNum, setPageNum] = useState(1);
@@ -151,7 +151,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
             renderWeek.map((item: IPagination, i) => (
               <li className="relative h-full" key={`${pageNum}-${i}`}>
                 <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
-                  <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-[#424242] py-3 mb-[10px]">
+                  <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-gray-900 py-3 mb-[10px]">
                     <p className="text-sm lg:text-lg">{item.WeekDay}</p>
                     <p className="text-sm lg:text-base">{item.Date}</p>
                   </div>
@@ -165,8 +165,8 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
                       <Button
                         className={`flex justify-center items-center border-none lg:w-[52px] w-[38px] lg:text-sm text-[10px] mobile-calendar shadow-none my-1 ${
                           hoursItem.Availability
-                            ? 'text-[#424242]'
-                            : 'text-[#D0D0D0]'
+                            ? 'text-gray-900'
+                            : 'text-gray-500'
                         }`}
                         disabled={!hoursItem.Availability}
                         style={{ backgroundColor: hoursItem.Availability ? '#ECECEC' : '#FFF', border: hoursItem.AppointmentTimeId === clickId ? '1px solid #333' : '' }}
@@ -185,7 +185,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
         <div>
           <div className="flex justify-between w-full">
             <Button
-              className="group text-sm text-[#424242] w-[48%]  !rounded-[10px]  font-semibold  btnHoverTimeTable"
+              className="group text-sm text-gray-900 w-[48%]  !rounded-[10px]  font-semibold  btnHoverTimeTable"
               onClick={getPreviousWeek}
               disabled={pageNum === 1}
               style={{ border: pageNum === 1 ? '1.5px solid #BDBDBD' : 'none' }}
@@ -193,7 +193,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
               <span className="btnHoverText">上一週</span>
             </Button>
             <Button
-              className="group text-sm text-[#424242] w-[48%] !rounded-[10px]  font-semibold  btnHoverTimeTable"
+              className="group text-sm text-gray-900 w-[48%] !rounded-[10px]  font-semibold  btnHoverTimeTable"
               onClick={getNextWeek}
               disabled={pageNum === renderPageNum}
               style={{ border: pageNum === renderPageNum ? '1.5px solid #BDBDBD' : 'none' }}
@@ -205,7 +205,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
         <div>
           <Button
             htmlType="button"
-            className="group text-sm text-[#424242] w-full !rounded-[10px] font-semibold  btnHoverTimeTable"
+            className="group text-sm text-gray-900 w-full !rounded-[10px] font-semibold  btnHoverTimeTable"
             disabled={!clickId}
             style={{ border: !clickId ? '1.5px solid #BDBDBD' : 'none' }}
             onClick={handleClick}
