@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getCookie } from 'cookies-next';
 import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorReservation';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorPagination from './CounselorPagination';
 import { ICounselorAppointment, Appointment } from './layout/HasSetUpListLayout';
 
 export default function CounselorHasSetUp() {
+  const dispatch = useDispatch();
   const token = getCookie('auth');
   const PageNum = useSelector((state:{ counselorReservationPage:{ value:number } }) => state.counselorReservationPage.value);
   const tab = useSelector((state:{ counselorReservationTab:{ value:string } }) => state.counselorReservationTab.value);
@@ -21,7 +23,11 @@ export default function CounselorHasSetUp() {
 
   // ====================== 取得資料並渲染 ======================
   useEffect(() => {
-    if (!data) return;
+    console.log('已完成', isLoading);
+    if (!data) {
+      dispatch(loadingStatus('none'));
+      return;
+    }
     const { List, TotalPageNum } = data.Data;
     const convertRenderData: ICounselorAppointment[][] = Object.values(
       List.reduce((acc: { [key: number]: ICounselorAppointment[] }, curr: ICounselorAppointment) => {

@@ -1,7 +1,7 @@
-import useCloseLoading from '@/common/hooks/useCloseLoading';
 import SignUpTabs from '@/modules/signup/SignUpTabs';
 import RegisterSVG from '@/common/components/RegisterSVG';
 import CustomHead from '@/common/components/CustomHead';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 
 export default function signup() {
   // ======================== 關閉 loading ========================

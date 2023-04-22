@@ -2,12 +2,14 @@ import { ConfigProvider, Tabs } from 'antd';
 import { useDispatch } from 'react-redux';
 import { counselorReservationTab } from '@/common/redux/feature/counselorReservationTab';
 import counselorReservationTabAry from '@/lib/counselorCenter/reservation/reservationData';
+import { counselorReservationPage } from '@/common/redux/feature/counselorReservationPage';
 
 export default function CounselorReservationTab() {
   const dispatch = useDispatch();
   // ====================== tab 切換 ======================
   const onChange = (key: string) => {
     dispatch(counselorReservationTab(key));
+    dispatch(counselorReservationPage(1));
   };
 
   return (

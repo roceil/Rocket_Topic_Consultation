@@ -189,3 +189,11 @@ export interface IRecordRenderData {
   Name: string;
   RecordDate: string;
 }
+
+export interface ICounselorWaitReplyProps {
+  AppointmentId: number;
+  Field: string;
+  OrderId: number;
+  Time: string;
+  User: string;
+}

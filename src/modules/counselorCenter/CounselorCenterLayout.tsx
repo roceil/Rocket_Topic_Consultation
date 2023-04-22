@@ -2,12 +2,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { deleteCookie } from 'cookies-next';
 import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
 
 interface IUserCenterLayoutProps {
   children: React.ReactNode;
 }
 
 export default function CounselorCenterLayout({ children }: IUserCenterLayoutProps) {
+  const openLoading = useOpenLoading();
   const router = useRouter();
   const { pathname } = router;
   const isCounselorCenter = pathname === '/counselorcenter' ? 'opacity-100' : 'opacity-70';
@@ -39,6 +41,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
                   <button
                     type="button"
                     className="border-l-2 border-secondary p-4 font-bold"
+                    onClick={() => openLoading()}
                   >
                     <UserOutlined className="mr-3 text-xl" />
                     個人資料
@@ -52,6 +55,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
                   <button
                     type="button"
                     className="border-l-2 border-secondary p-4 font-bold"
+                    onClick={() => openLoading()}
                   >
                     <ProfileOutlined className="mr-3 text-xl" />
                     預約紀錄
@@ -65,6 +69,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
                   <button
                     type="button"
                     className="border-l-2 border-secondary p-4 font-bold"
+                    onClick={() => openLoading()}
                   >
                     <EditOutlined className="mr-3 text-xl" />
                     個案記錄

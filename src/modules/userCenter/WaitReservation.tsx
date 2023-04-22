@@ -13,6 +13,7 @@ interface IAppointment {
 
 // !這個要想辦法元件化
 export function Appointment({ appointment }: { appointment: IAppointment }) {
+  console.log('🚀 ~ file: WaitReservation.tsx:16 ~ Appointment ~ appointment:', appointment);
   const { AppointmentId, Counselor, Field } = appointment;
 
   return (

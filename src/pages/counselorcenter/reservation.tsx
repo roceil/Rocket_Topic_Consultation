@@ -1,7 +1,11 @@
 import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 import CounselorReservationTab from '@/modules/counselorCenter/reservation/CounselorReservationTab';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 
 export default function reservation() {
+  // ====================== 關閉 loading ======================
+  useCloseLoading();
+
   return (
     <>
       {/* 手機版 預約管理 */}

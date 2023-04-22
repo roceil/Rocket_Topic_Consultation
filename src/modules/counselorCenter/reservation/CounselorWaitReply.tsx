@@ -1,63 +1,41 @@
-import { getCookie } from 'cookies-next';
-import { IButton } from '@/common/components/IButton';
-import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorReservation';
-import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
+import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import dayjs from 'dayjs';
+import { ICounselorWaitReplyProps } from '@/types/interface';
+import { useCounselorReservationDataGetQuery } from '@/common/redux/service/counselorReservation';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorPagination from './CounselorPagination';
-
-interface ICounselorAppointment {
-  AppointmentId: number;
-  Field: string;
-  OrderId: number;
-  Time: string;
-  User: string;
-}
-
-// !這個要想辦法元件化
-export function Appointment({ appointment }: { appointment: ICounselorAppointment }) {
-  const { AppointmentId, Field, Time, User } = appointment;
-  const convertTime = dayjs(Time).format('HH:mm');
-  const convertDate = dayjs(Time).format('YYYY / MM / DD');
-
-  return (
-    <li key={AppointmentId} className="flex  items-center space-x-10 rounded-lg bg-white py-5 px-4 text-sm text-gray-900 lg:space-x-0 lg:text-center lg:text-base">
-      <div className="lg:w-[16.5271%] lg:pl-[64px] lg:text-left">{User}</div>
-
-      <div className="lg:w-[16.3179%]">{Field}</div>
-
-      <div className="lg:w-[20.3974%]">{convertDate}</div>
-
-      <div className="lg:w-[13.9121%]">{convertTime}</div>
-
-      <div className=" flex space-x-2 text-xs lg:w-[32.8451%] lg:space-x-3 lg:pl-[46px] lg:text-left lg:text-sm">
-        <IButton text="我想更改時段" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-        <IButton text="接受" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-      </div>
-    </li>
-  );
-}
+import WaitReplyListLayout from './layout/WaitReplyListLayout';
 
 export default function CounselorWaitReply() {
+  const dispatch = useDispatch();
   const token = getCookie('auth');
   const PageNum = useSelector((state:{ counselorReservationPage:{ value:number } }) => state.counselorReservationPage.value);
   const tab = useSelector((state:{ counselorReservationTab:{ value:string } }) => state.counselorReservationTab.value);
 
+  // ====================== 關閉 loading ======================
+  useCloseLoading();
+
   // ====================== state ======================
-  const [renderData, setRenderData] = useState<ICounselorAppointment[][]>([]);
+  const [renderData, setRenderData] = useState<ICounselorWaitReplyProps[][]>([]);
   const [totalPageNum, setTotalPageNum] = useState(0);
 
   // ====================== 取得諮商師預約資料 ======================
-  const { data, isLoading } = useCounselorReservationDataGetQuery({ token, tab, page: PageNum }, { refetchOnMountOrArgChange: true,
+  const { data, isLoading, refetch } = useCounselorReservationDataGetQuery({ token, tab, page: PageNum }, { refetchOnMountOrArgChange: true,
     refetchOnFocus: true });
 
   // ====================== 取得資料並渲染 ======================
   useEffect(() => {
-    if (!data) return;
+    console.log('待回覆', isLoading);
+    if (!data) {
+      dispatch(loadingStatus('none'));
+      return;
+    }
     const { List, TotalPageNum } = data.Data;
-    const convertRenderData: ICounselorAppointment[][] = Object.values(
-      List.reduce((acc: { [key: number]: ICounselorAppointment[] }, curr: ICounselorAppointment) => {
+    const convertRenderData: ICounselorWaitReplyProps[][] = Object.values(
+      List.reduce((acc: { [key: number]: ICounselorWaitReplyProps[] }, curr: ICounselorWaitReplyProps) => {
         if (!acc[curr.OrderId]) {
           acc[curr.OrderId] = [];
         }
@@ -67,6 +45,7 @@ export default function CounselorWaitReply() {
     );
     setRenderData(convertRenderData);
     setTotalPageNum(TotalPageNum);
+    dispatch(loadingStatus('none'));
   }, [data, isLoading]);
 
   return (
@@ -85,20 +64,20 @@ export default function CounselorWaitReply() {
               </li>
             </ul>
             <ul className="w-[624px] space-y-4 px-3 pt-5 lg:w-auto lg:px-7 lg:pt-7">
-              {renderData.map((group: ICounselorAppointment[], index: number) => {
+              {renderData.map((group: ICounselorWaitReplyProps[], index: number) => {
                 if (index < renderData.length - 1) {
                   return (
                     <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-                      {group.map((appointment:ICounselorAppointment) => (
-                        <Appointment key={uuidv4()} appointment={appointment} />
+                      {group.map((appointment:ICounselorWaitReplyProps) => (
+                        <WaitReplyListLayout key={uuidv4()} appointment={appointment} refetch={refetch} />
                       ))}
                     </ul>
                   );
                 }
                 return (
                   <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
-                    {group.map((appointment: ICounselorAppointment) => (
-                      <Appointment key={uuidv4()} appointment={appointment} />
+                    {group.map((appointment: ICounselorWaitReplyProps) => (
+                      <WaitReplyListLayout key={uuidv4()} appointment={appointment} refetch={refetch} />
                     ))}
                   </ul>
                 );
@@ -114,4 +93,3 @@ export default function CounselorWaitReply() {
     </div>
   );
 }
-

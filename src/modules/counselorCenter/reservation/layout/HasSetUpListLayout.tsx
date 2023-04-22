@@ -15,7 +15,7 @@ export interface ICounselorAppointment {
 
 // !這個要想辦法元件化
 
-export function Appointment({ appointment }: { appointment: ICounselorAppointment; }) {
+export function Appointment({ appointment }: { appointment: ICounselorAppointment }) {
   const token = getCookie('auth');
   const { AppointmentId, Field, Time, User } = appointment;
   const convertTime = dayjs(Time).format('HH:mm');
@@ -41,10 +41,10 @@ export function Appointment({ appointment }: { appointment: ICounselorAppointmen
       console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
       return;
     }
+    if (res.data.Data === null) return;
+    console.log(res.data.Data);
 
-    const {
-      appointmentLogsList,
-    } = res.data.Data;
+    const { appointmentLogsList } = res.data.Data;
     setCaseRenderData(appointmentLogsList);
   };
 

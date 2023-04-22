@@ -21,7 +21,6 @@ export const counselorReservation = createApi({
         invalidatesTags: [{ type: 'CounselorReservationData', id: 'LIST' }],
       }),
     }),
-
     CounselorCaseRecordPost: builder.mutation({
       query: ({ token, User }) => ({
         url: '/api/AppointmentsRecordLogs',
@@ -46,6 +45,31 @@ export const counselorReservation = createApi({
         },
       }),
     }),
+    CounselorAcceptOrderPost: builder.mutation({
+      query: ({ token, AppointmentId }) => ({
+        url: '/api/acceptAppt',
+        method: 'POST',
+        body: {
+          AppointmentId,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+    CounselorChangeOrderPost: builder.mutation({
+      query: ({ token, AppointmentId, Reason }) => ({
+        url: '/api/reAppt',
+        method: 'POST',
+        body: {
+          AppointmentId,
+          Reason,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -53,5 +77,7 @@ export const {
   useCounselorReservationDataGetQuery,
   useCounselorCaseRecordPostMutation,
   useCounselorCaseFormDataPostMutation,
+  useCounselorAcceptOrderPostMutation,
+  useCounselorChangeOrderPostMutation,
 } = counselorReservation;
 
