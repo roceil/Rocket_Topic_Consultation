@@ -30,7 +30,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
   const { data = {} as IAppointmentTime } = useTimetableBrowserGetQuery({ counselorId, pageNum });
 
   // ==================== 選擇/變更預約時段 API ====================
-  const [userAppointmentPost] = useUserAppointmentPostMutation({ token, AppointmentId, AppointmentTimeId, DateTimeValue });
+  const [userAppointmentPost] = useUserAppointmentPostMutation();
 
   // ==================== 接初始資料 ====================
   // 接今日全時段
