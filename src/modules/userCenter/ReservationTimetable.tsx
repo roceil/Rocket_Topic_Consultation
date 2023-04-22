@@ -137,7 +137,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
   return (
     <div className="relative">
       {/* Loading */}
-      <div className={`absolute z-30 h-[550px] lg:h-[520px] w-full bg-white ${isHidden}`}>
+      <div className={`absolute z-50 h-[550px] lg:h-[520px] w-full bg-white ${isHidden}`}>
         <div className="h-full w-full flex items-center justify-center text-lg"><p className="w-full text-center text-secondary">Loading...</p></div>
       </div>
       {/* Calendar */}
@@ -147,8 +147,8 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
         </div>
         <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-2 overflow-auto  text-center">
           {renderWeek.map((item: IPagination, i) => (
-            <li className="relative" key={`${pageNum}-${i}`}>
-              <div className="space-y-1 bg-white z-20 sticky top-0 flex  w-[44px] lg:w-[56px]">
+            <li className="relative h-full" key={`${pageNum}-${i}`}>
+              <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
                 <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-[#424242] py-3 mb-[10px]">
                   <p className="text-sm lg:text-lg">{item.WeekDay}</p>
                   <p className="text-sm lg:text-base">{item.Date}</p>
@@ -161,7 +161,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
                     className="mb-0"
                   >
                     <Button
-                      className={`flex justify-center items-center border-none lg:w-[52px] w-[40px] lg:text-sm text-xs mobile-calendar shadow-none my-1 ${
+                      className={`flex justify-center items-center border-none lg:w-[52px] w-[38px] lg:text-sm text-[10px] mobile-calendar shadow-none my-1 ${
                         hoursItem.Availability
                           ? 'text-[#424242]'
                           : 'text-[#D0D0D0]'
