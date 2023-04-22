@@ -8,7 +8,7 @@ import { IAppointmentTime, IPagination, IHours } from '@/types/interface';
 import { useUserAppointmentPostMutation } from '@/common/redux/service/userCenter';
 import CustomAlert from '@/common/helpers/customAlert';
 
-export default function ReservationTimetable({ counselorId, token, AppointmentId }: { counselorId: number, token:string, AppointmentId:number }) {
+export default function ReservationTimetable({ counselorId, token, AppointmentId, refetch }: { counselorId: number, token:string, AppointmentId:number, refetch:any }) {
   const [modal, alertModal] = Modal.useModal();
   const router = useRouter();
   const [pageNum, setPageNum] = useState(1);
@@ -126,7 +126,8 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
         DateTimeValue,
       });
       const { Message } = (response as { data: { Message: any } }).data;
-      CustomAlert({ modal, Message, type: 'success', router });
+      refetch();
+      CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
       setIsHidden('hidden');
     } catch (error) {
       console.error(error);

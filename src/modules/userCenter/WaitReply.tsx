@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import UserReservationPagination from './UserReservationPagination';
 import ReservationTimetable from './ReservationTimetable';
 
-export function Appointment({ appointment, token }: { appointment: IAppointment, token:string }) {
+export function Appointment({ appointment, token, refetch }: { appointment: IAppointment, token:string, refetch:any }) {
   const { AppointmentId, Counselor, Field, Time, CounselorId } = appointment;
   const convertTime = dayjs(Time).format('HH:mm');
   const convertDate = dayjs(Time).format('YYYY / MM / DD');
@@ -44,7 +44,7 @@ export function Appointment({ appointment, token }: { appointment: IAppointment,
         </div>
         <IButton text="更改預約時段" fontSize="text-xs lg:text-sm" px="px-4 lg:px-5" py="py-1 lg:py-2" mode="light" onClick={showModal} />
         <Modal open={isModalOpen} onCancel={handleCancel} footer={null} className="!p-0 lg:w-[550px] bg-white rounded-[10px] border-4 lg:pt-10 lg:pb-11 py-6 userCenter">
-          <ReservationTimetable counselorId={CounselorId} token={token} AppointmentId={AppointmentId} />
+          <ReservationTimetable counselorId={CounselorId} token={token} AppointmentId={AppointmentId} refetch={refetch} />
         </Modal>
       </div>
     </li>
@@ -59,7 +59,7 @@ export default function WaitReply() {
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
   const PageNum = useSelector((state: { userCenterReservationPosition: { value: number } }) => state.userCenterReservationPosition.value);
 
-  const { data = [], isLoading } = useReservationDataGetQuery({ token, tab, PageNum });
+  const { data = [], isLoading, refetch } = useReservationDataGetQuery({ token, tab, PageNum });
 
   // 取得資料
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function WaitReply() {
                     return (
                       <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
                         {group.map((appointment: IAppointment) => (
-                          <Appointment key={uuidv4()} appointment={appointment} token={token} />
+                          <Appointment key={uuidv4()} appointment={appointment} token={token} refetch={refetch} />
                         ))}
                       </ul>
                     );
@@ -111,7 +111,7 @@ export default function WaitReply() {
                   return (
                     <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
                       {group.map((appointment: IAppointment) => (
-                        <Appointment key={uuidv4()} appointment={appointment} token={token} />
+                        <Appointment key={uuidv4()} appointment={appointment} token={token} refetch={refetch} />
                       ))}
                     </ul>
                   );
