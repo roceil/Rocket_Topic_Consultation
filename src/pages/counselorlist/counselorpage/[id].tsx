@@ -13,15 +13,19 @@ import checkCircle from 'public/images/check-circle.svg';
 import convertFieldId from '@/common/helpers/convertFieldId';
 import RegularQuestion from '@/modules/counselorPage/RegularQuestion';
 import UserComment from '@/modules/counselorPage/UserComment';
+import CounsleorCalendar from '@/modules/counselorPage/CounselorCalendar';
 import CounselorVideo from '@/modules/counselorPage/CounselorVideo';
 import CounselorRate from '@/modules/counselorPage/CounselorRate';
 import CounselorInformation from '@/modules/counselorPage/CounselorInformation';
 import { ICounselorPageProps, ICourses, IFilterCases } from '@/types/interface';
 import customAlert from '@/common/helpers/customAlert';
+import CustomHead from '@/common/components/CustomHead';
 
 // 使用axios取得path
 export const getServerSidePaths = async () => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=`);
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=`,
+  );
   const { data } = res;
   const paths = data.map((counselor: { id: { toString: () => string } }) => ({
     params: { id: counselor.id.toString() },
@@ -33,8 +37,14 @@ export const getServerSidePaths = async () => {
 };
 
 // 使用axios取得props
-export const getServerSideProps = async ({ params }: { params: { id: string } }) => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profile?id=${params.id}`);
+export const getServerSideProps = async ({
+  params,
+}: {
+  params: { id: string };
+}) => {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/profile?id=${params.id}`,
+  );
   const { data } = res;
   return {
     props: {
@@ -47,7 +57,14 @@ export const getServerSideProps = async ({ params }: { params: { id: string } })
 // Server 渲染步驟 ＝ 渲染諮商師個人資料 => 渲染諮商師的專長領域選項 => 渲染專長領域的說明文字 => 渲染諮商師的課程方案
 // Client 互動步驟 ＝ 選擇專長領域 => 選擇課程方案 => 加入購物車
 
-export default function CounselorPage({ data, counselorId }: { data: ICounselorPageProps; counselorId: string }) {
+export default function CounselorPage({
+  data,
+  counselorId,
+}: {
+  data: ICounselorPageProps;
+  counselorId: string;
+}) {
+  console.log('🚀 ~ file: [id].tsx:52 ~ CounselorPage ~ data:', data);
   // ==================== 關閉 loading ====================
   useCloseLoading();
 
@@ -61,7 +78,10 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
 
   // ==================== Server 渲染畫面 ====================
   // 取得專長領域的選項
-  const FieldOptions = Fields.map(({ Field }: { Field: string }) => ({ label: Field, value: Field }));
+  const FieldOptions = Fields.map(({ Field }: { Field: string }) => ({
+    label: Field,
+    value: Field,
+  }));
 
   // 渲染專長領域
   const [chooseTopic, setChooseTopic] = useState(FieldOptions[0].value);
@@ -71,21 +91,35 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
 
   // 取得課程方案的選項 => 拿到資料後，再把資料依條件轉換成選項
   const topicOptions = Fields.map(({ Courses }: { Courses: ICourses[] }) => {
-    const courseOptions = Courses.map(({ Item, Price }: { Item: string; Price: number }) => {
-      if (Item === '體驗課一堂') {
-        return { label: `體驗課 60分鐘 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      if (Item === '一堂') {
-        return { label: `${Item} 60分鐘 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      if (Item === '三堂') {
-        return { label: `${Item} 3小時 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      if (Item === '五堂') {
-        return { label: `${Item} 5小時 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      return { label: `${Item} / ${Price.toLocaleString()} 元`, value: Item };
-    });
+    const courseOptions = Courses.map(
+      ({ Item, Price }: { Item: string; Price: number }) => {
+        if (Item === '體驗課一堂') {
+          return {
+            label: `體驗課 60分鐘 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        if (Item === '一堂') {
+          return {
+            label: `${Item} 60分鐘 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        if (Item === '三堂') {
+          return {
+            label: `${Item} 3小時 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        if (Item === '五堂') {
+          return {
+            label: `${Item} 5小時 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        return { label: `${Item} / ${Price.toLocaleString()} 元`, value: Item };
+      },
+    );
     return courseOptions;
   });
 
@@ -95,27 +129,46 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
   // ==================== Client 畫面互動 ====================
 
   // 課程方案篩選
-  const filterCase = (value: string) => Fields.flatMap((item: { Courses: ICourses[]; Field: string }) => {
-    const convertData = item.Courses.filter(() => value === item.Field).map(({ Item, Price }) => {
-      if (Item === '體驗課一堂') {
-        return { label: `體驗課 60分鐘 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      if (Item === '一堂') {
-        return { label: `${Item} 60分鐘 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      if (Item === '三堂') {
-        return { label: `${Item} 3小時 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      if (Item === '五堂') {
-        return { label: `${Item} 5小時 / ${Price.toLocaleString()} 元`, value: Item };
-      }
-      return { label: `${Item} / ${Price.toLocaleString()} 元`, value: Item };
-    });
+  const filterCase = (value: string) => Fields?.flatMap((item: { Courses: ICourses[]; Field: string }) => {
+    const convertData = item.Courses.filter(() => value === item.Field).map(
+      ({ Item, Price }) => {
+        if (Item === '體驗課一堂') {
+          return {
+            label: `體驗課 60分鐘 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        if (Item === '一堂') {
+          return {
+            label: `${Item} 60分鐘 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        if (Item === '三堂') {
+          return {
+            label: `${Item} 3小時 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        if (Item === '五堂') {
+          return {
+            label: `${Item} 5小時 / ${Price.toLocaleString()} 元`,
+            value: Item,
+          };
+        }
+        return {
+          label: `${Item} / ${Price.toLocaleString()} 元`,
+          value: Item,
+        };
+      },
+    );
     return convertData;
   });
 
   // 課程特色篩選
-  const filterFeature = (value: string) => Fields.filter((item: { Field: string }) => value === item.Field).map((item2: { Features: string }) => item2.Features);
+  const filterFeature = (value: string) => Fields.filter((item: { Field: string }) => value === item.Field).map(
+    (item2: { Features: string }) => item2.Features,
+  );
 
   // 手機更改主題函式
   const changeCase = (value: string) => {
@@ -180,20 +233,44 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
       customAlert({ modal, Message, type: 'error' });
     }
 
-    const { data: resData } = res as { data: { Success: boolean; Message: string } };
+    const { data: resData } = res as {
+      data: { Success: boolean; Message: string };
+    };
 
     if (resData && resData.Success) {
-      customAlert({ modal, Message: resData.Message, type: 'success', router, link: '/shoppingcart' });
+      customAlert({
+        modal,
+        Message: resData.Message,
+        type: 'success',
+        router,
+        link: '/shoppingcart',
+      });
     } else {
       useCloseLoading();
-      customAlert({ modal, Message: resData?.Message || '加入購物車失敗', type: 'error' });
+      customAlert({
+        modal,
+        Message: resData?.Message || '加入購物車失敗',
+        type: 'error',
+      });
     }
   };
 
   return (
     <>
+      <CustomHead
+        pageTitle={Name}
+        pageImage={Photo}
+        pageDescription={SelfIntroduction}
+      />
+
       {/* 諮商師資料 */}
-      <CounselorInformation counselorPageBreadcrumb={counselorPageBreadcrumb} Photo={Photo} Name={Name} SelfIntroduction={SelfIntroduction} FieldTags={FieldTags} />
+      <CounselorInformation
+        counselorPageBreadcrumb={counselorPageBreadcrumb}
+        Photo={Photo}
+        Name={Name}
+        SelfIntroduction={SelfIntroduction}
+        FieldTags={FieldTags}
+      />
 
       {/* 預約課程 */}
       <section className="lg:container lg:flex lg:justify-between lg:py-[148px]">
@@ -207,7 +284,9 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
               {/* 課程內容 */}
               <div className="flex flex-col items-center ">
                 <div className="mb-9 flex w-full items-center justify-start lg:mb-10 lg:flex-col lg:items-start">
-                  <span className="font-bold text-secondary lg:mb-3">我想了解：</span>
+                  <span className="font-bold text-secondary lg:mb-3">
+                    我想了解：
+                  </span>
 
                   {/* 手機版 topic下拉選單 */}
                   <div className="w-[151px] lg:hidden">
@@ -253,21 +332,35 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                         },
                       }}
                     >
-                      <Radio.Group defaultValue={FieldOptions[0].label} buttonStyle="solid" onChange={changeCasePC}>
-                        {FieldOptions.map(({ value, label }: IFilterCases, index: number) => {
-                          if (index === 0) {
+                      <Radio.Group
+                        defaultValue={FieldOptions[0].label}
+                        buttonStyle="solid"
+                        onChange={changeCasePC}
+                      >
+                        {FieldOptions.map(
+                          ({ value, label }: IFilterCases, index: number) => {
+                            if (index === 0) {
+                              return (
+                                <Radio.Button
+                                  key={value}
+                                  className="!fakeBorder w-[112px] !rounded-full !text-center !font-semibold"
+                                  value={value}
+                                >
+                                  {label}
+                                </Radio.Button>
+                              );
+                            }
                             return (
-                              <Radio.Button key={value} className="!fakeBorder w-[112px] !rounded-full !text-center !font-semibold" value={value}>
+                              <Radio.Button
+                                key={value}
+                                className="!fakeBorder ml-4 w-[112px] !rounded-full !text-center !font-semibold"
+                                value={value}
+                              >
                                 {label}
                               </Radio.Button>
                             );
-                          }
-                          return (
-                            <Radio.Button key={value} className="!fakeBorder ml-4 w-[112px] !rounded-full !text-center !font-semibold" value={value}>
-                              {label}
-                            </Radio.Button>
-                          );
-                        })}
+                          },
+                        )}
                       </Radio.Group>
                     </ConfigProvider>
                   </div>
@@ -279,7 +372,12 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                     if (featureTxt) {
                       return (
                         <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
-                          <Image src={checkCircle} alt="checkCircle_icon" width={17.5} height={17.5} />
+                          <Image
+                            src={checkCircle}
+                            alt="checkCircle_icon"
+                            width={17.5}
+                            height={17.5}
+                          />
                           <p className="text-gray-900">{featureTxt}</p>
                         </li>
                       );
@@ -292,7 +390,9 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                 <div className=" relative w-full max-w-[340px] rounded-2xl border-2 border-gray-700 bg-white px-11 pt-[60px] pb-12 lg:hidden">
                   <div className="mb-9">
                     {/* 課程主題 */}
-                    <div className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-center font-bold text-gray-900">{chooseTopic}</div>
+                    <div className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-center font-bold text-gray-900">
+                      {chooseTopic}
+                    </div>
                     <ConfigProvider
                       theme={{
                         token: {
@@ -307,28 +407,55 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                         },
                       }}
                     >
-                      <Radio.Group buttonStyle="solid" onChange={onChange3}>
-                        {chooseCourse.map(({ value, label }: IFilterCases, index: number) => {
-                          if (index === 0) {
+                      <Radio.Group
+                        buttonStyle="solid"
+                        onChange={onChange3}
+                        style={{ width: '100%' }}
+                      >
+                        {chooseCourse.map(
+                          ({ value, label }: IFilterCases, index: number) => {
+                            if (index === 0) {
+                              return (
+                                <Radio.Button
+                                  key={value}
+                                  className="w-[252px] !rounded-xl !border-0 !text-center !font-bold !text-gray-900"
+                                  value={value}
+                                >
+                                  {label}
+                                </Radio.Button>
+                              );
+                            }
                             return (
-                              <Radio.Button key={value} className="w-[252px] !rounded-xl !border-0 !text-center !font-bold !text-gray-900" value={value}>
+                              <Radio.Button
+                                key={value}
+                                className="mt-5 w-[252px] !rounded-xl !border-0  !text-center !font-bold !text-gray-900"
+                                value={value}
+                              >
                                 {label}
                               </Radio.Button>
                             );
-                          }
-                          return (
-                            <Radio.Button key={value} className="mt-5 w-[252px] !rounded-xl !border-0  !text-center !font-bold !text-gray-900" value={value}>
-                              {label}
-                            </Radio.Button>
-                          );
-                        })}
+                          },
+                        )}
                       </Radio.Group>
                     </ConfigProvider>
                   </div>
 
                   <div className="flex justify-center space-x-4">
-                    <IButton text="我有問題" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="light" />
-                    <IButton text="手刀預約" fontSize="text-sm" py="py-3" extraStyle="w-[104px]" mode="dark" onClick={addToCart} />
+                    <IButton
+                      text="我有問題"
+                      fontSize="text-sm"
+                      py="py-3"
+                      extraStyle="w-[104px]"
+                      mode="light"
+                    />
+                    <IButton
+                      text="手刀預約"
+                      fontSize="text-sm"
+                      py="py-3"
+                      extraStyle="w-[104px]"
+                      mode="dark"
+                      onClick={addToCart}
+                    />
                   </div>
                 </div>
               </div>
@@ -336,15 +463,7 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
           </div>
 
           {/* 可預約時段 */}
-          <div className="container ">
-            <div className="border-y border-secondary py-20 lg:py-14">
-              <h2 className="mb-7 text-center lg:mb-4 lg:text-left lg:text-lg">可預約時段</h2>
-
-              <Image className="rounded-2xl lg:hidden" src="http://fakeimg.pl/380x487/F9F9FF/?text=calendar" alt="手機版假圖片" width={380} height={487} />
-
-              <Image className="hidden rounded-2xl lg:block" src="http://fakeimg.pl/464x572/F9F9FF/?text=PC calendar" alt="電腦版假圖片" width={464} height={572} />
-            </div>
-          </div>
+          <CounsleorCalendar counselorId={Number(counselorId)} />
 
           {/* 影片區塊 */}
           <CounselorVideo />
@@ -380,27 +499,50 @@ export default function CounselorPage({ data, counselorId }: { data: ICounselorP
                 }}
               >
                 <Radio.Group buttonStyle="solid" onChange={onChange3}>
-                  {chooseCourse.map(({ value, label }: IFilterCases, index: number) => {
-                    if (index === 0) {
+                  {chooseCourse.map(
+                    ({ value, label }: IFilterCases, index: number) => {
+                      if (index === 0) {
+                        return (
+                          <Radio.Button
+                            key={value}
+                            className="w-full !rounded-xl !border-0 !text-center !font-bold !text-gray-900"
+                            value={value}
+                          >
+                            {label}
+                          </Radio.Button>
+                        );
+                      }
                       return (
-                        <Radio.Button key={value} className="w-full !rounded-xl !border-0 !text-center !font-bold !text-gray-900" value={value}>
+                        <Radio.Button
+                          key={value}
+                          className="mt-5 w-full !rounded-xl !border-0 !text-center !font-bold !text-gray-900 lg:mt-[25px]"
+                          value={value}
+                        >
                           {label}
                         </Radio.Button>
                       );
-                    }
-                    return (
-                      <Radio.Button key={value} className="mt-5 w-full !rounded-xl !border-0 !text-center !font-bold !text-gray-900 lg:mt-[25px]" value={value}>
-                        {label}
-                      </Radio.Button>
-                    );
-                  })}
+                    },
+                  )}
                 </Radio.Group>
               </ConfigProvider>
             </div>
 
             <div className="flex justify-center space-x-4 px-10">
-              <IButton text="我有問題" fontSize="text-base" py="py-4" extraStyle="w-[144px]" mode="light" />
-              <IButton text="手刀預約" fontSize="text-base" py="py-4" extraStyle="w-[144px]" mode="dark" onClick={addToCart} />
+              <IButton
+                text="我有問題"
+                fontSize="text-base"
+                py="py-4"
+                extraStyle="w-[144px]"
+                mode="light"
+              />
+              <IButton
+                text="手刀預約"
+                fontSize="text-base"
+                py="py-4"
+                extraStyle="w-[144px]"
+                mode="dark"
+                onClick={addToCart}
+              />
             </div>
           </div>
         </div>

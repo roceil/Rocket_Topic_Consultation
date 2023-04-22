@@ -1,10 +1,33 @@
+import React, { useEffect } from 'react';
 import { ConfigProvider } from 'antd';
+import { getCookie } from 'cookies-next';
+import { useDispatch } from 'react-redux';
+import CustomHead from '@/common/components/CustomHead';
+import { loadingStatus } from '@/common/redux/feature/loading';
+import CounselorInfoTab from '@/modules/counselorCenter/personalInfo/CounselorInfoTab';
+import wrapper from '../../common/redux/store';
 import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
-import CounselorInfoTab from './personalInfo';
+
+export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
+  const token = getCookie('auth', { req, res });
+  if (!token) {
+    res.writeHead(302, { Location: '/login' });
+    res.end();
+  }
+  return {
+    props: {},
+  };
+});
 
 export default function index() {
+  // ==================== 載入後關閉 Loading ====================
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadingStatus('none'));
+  }, []);
   return (
     <>
+      <CustomHead pageTitle="會員中心" />
       {/* 手機版 */}
       <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] bg-white">
         <div className="container">
