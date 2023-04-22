@@ -197,3 +197,27 @@ export interface ICounselorWaitReplyProps {
   Time: string;
   User: string;
 }
+
+export interface IAppointmentTime {
+  Success: boolean;
+  Message: string;
+  Data: {
+    PageNum: number;
+    Pagination: IPagination[];
+    Hours: IHours[];
+  };
+}
+
+export interface IHours {
+  AppointmentTimeId: number;
+  Time: string;
+  Availability: boolean;
+}
+
+export interface IPagination {
+  Year: string;
+  Month: string;
+  Date: string;
+  WeekDay: string;
+  Hours: IHours[];
+}

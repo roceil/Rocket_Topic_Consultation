@@ -2,9 +2,16 @@ import { useState } from 'react';
 import { Input, Modal } from 'antd';
 import { getCookie } from 'cookies-next';
 import { useCounselorChangeOrderPostMutation } from '@/common/redux/service/counselorReservation';
+import CustomAlert from '@/common/helpers/customAlert';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
+import { useDispatch } from 'react-redux';
+import { loadingStatus } from '@/common/redux/feature/loading';
 
 export default function CounselorChangeTimeModal({ isModalOpen, setIsModalOpen, AppointmentId }: { isModalOpen: boolean; setIsModalOpen: (value: boolean) => void, AppointmentId:number }) {
+  const dispatch = useDispatch();
+  const openLoading = useOpenLoading();
   const { TextArea } = Input;
+  const [modal, alertModal] = Modal.useModal();
   const token = getCookie('auth');
   const [CounselorChangeOrderPost] = useCounselorChangeOrderPostMutation();
 
@@ -17,7 +24,8 @@ export default function CounselorChangeTimeModal({ isModalOpen, setIsModalOpen, 
   // ====================== 更改預約 API ======================
   const handleCounselorChangeOrderPost = async () => {
     if (value === '') {
-      alert('請輸入更改原因');
+      dispatch(loadingStatus('none'));
+      CustomAlert({ modal, Message: '請輸入更改原因', type: 'error' });
       return;
     }
     const res = await CounselorChangeOrderPost({
@@ -26,18 +34,21 @@ export default function CounselorChangeTimeModal({ isModalOpen, setIsModalOpen, 
       Reason: value,
     });
     if ('error' in res) {
+      dispatch(loadingStatus('none'));
       console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
-      alert(Message);
+      CustomAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
-    alert(Message);
+    dispatch(loadingStatus('none'));
+    CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
   const handleOk = () => {
-    // setIsModalOpen(false);
+    openLoading();
+    setIsModalOpen(false);
     handleCounselorChangeOrderPost();
   };
 
@@ -54,6 +65,7 @@ export default function CounselorChangeTimeModal({ isModalOpen, setIsModalOpen, 
         className="border-none bg-gray-200 p-3 focus:shadow-none active:shadow-none text-gray-900"
       />
       <p className="text-xs text-gray-900 mt-2 mb-3">* 系統會將此訊息傳送給個案，送出後可至聊天室確認</p>
+      <div id="customAlert" className="alert">{alertModal}</div>
     </Modal>
   );
 }

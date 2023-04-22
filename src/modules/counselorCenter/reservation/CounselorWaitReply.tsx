@@ -28,7 +28,6 @@ export default function CounselorWaitReply() {
 
   // ====================== 取得資料並渲染 ======================
   useEffect(() => {
-    console.log('待回覆', isLoading);
     if (!data) {
       dispatch(loadingStatus('none'));
       return;

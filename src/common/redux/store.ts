@@ -21,6 +21,7 @@ import { resetPassword } from './service/resetPassword';
 import { forgetPassword } from './service/forgetPassword';
 import { counselorCenter } from './service/counselorCenter';
 import { counselorReservation } from './service/counselorReservation';
+import { timetableBrowser } from './service/timetableBrowser';
 
 const reducers = combineReducers({
   loginTabs,
@@ -42,6 +43,7 @@ const reducers = combineReducers({
   [forgetPassword.reducerPath]: forgetPassword.reducer,
   [counselorCenter.reducerPath]: counselorCenter.reducer,
   [counselorReservation.reducerPath]: counselorReservation.reducer,
+  [timetableBrowser.reducerPath]: timetableBrowser.reducer,
 });
 
 // 註冊
@@ -58,7 +60,9 @@ const store = configureStore({
     .concat(counselorList.middleware)
     .concat(forgetPassword.middleware)
     .concat(counselorCenter.middleware)
-    .concat(counselorReservation.middleware),
+    .concat(counselorReservation.middleware)
+    .concat(shoppingCart.middleware)
+    .concat(timetableBrowser.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });

@@ -4,12 +4,20 @@ import { getCookie } from 'cookies-next';
 import { IButton } from '@/common/components/IButton';
 import { ICounselorWaitReplyProps } from '@/types/interface';
 import { useCounselorAcceptOrderPostMutation } from '@/common/redux/service/counselorReservation';
+import CustomAlert from '@/common/helpers/customAlert';
+import { Modal } from 'antd';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
+import { useDispatch } from 'react-redux';
+import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorChangeTimeModal from '../CounselorChangeTimeModal';
 
 // !這個要想辦法元件化
 
 export default function Appointment({ appointment, refetch }: { appointment: ICounselorWaitReplyProps;refetch:()=>void }) {
+  const dispatch = useDispatch();
+  const openLoading = useOpenLoading();
   const token = getCookie('auth');
+  const [modal, alertModal] = Modal.useModal();
   const { AppointmentId, Field, Time, User } = appointment;
   const convertTime = dayjs(Time).format('HH:mm');
   const convertDate = dayjs(Time).format('YYYY / MM / DD');
@@ -23,20 +31,23 @@ export default function Appointment({ appointment, refetch }: { appointment: ICo
 
   // ====================== 接受預約 API ======================
   const handleAcceptOrderPost = async () => {
+    openLoading();
     const res = await CounselorAcceptOrderPost({
       token,
       AppointmentId,
     });
     if ('error' in res) {
+      dispatch(loadingStatus('none'));
       console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
-      alert(Message);
+      CustomAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
-    alert(Message);
+    dispatch(loadingStatus('none'));
+    CustomAlert({ modal, Message, type: 'success' });
     refetch();
   };
 
@@ -56,6 +67,7 @@ export default function Appointment({ appointment, refetch }: { appointment: ICo
       </div>
 
       <CounselorChangeTimeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} AppointmentId={AppointmentId} />
+      <div id="customAlert" className="alert">{alertModal}</div>
     </li>
   );
 }
