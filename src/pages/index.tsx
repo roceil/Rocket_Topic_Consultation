@@ -1,6 +1,6 @@
-import useCloseLoading from '@/common/hooks/useCloseLoading';
 import { homeComponents } from '@/lib/homeFilesRoute';
 import CustomHead from '@/common/components/CustomHead';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 
 const { Banner, SuggestCounselor, CustomTopic, PlatformFeature, UserComment, ReservationTour } = homeComponents;
 
