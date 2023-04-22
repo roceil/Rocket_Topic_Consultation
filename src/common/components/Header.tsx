@@ -12,6 +12,7 @@ import HamburgerModal from './HamburgerModal';
 import HasLoginBtn from './HasLoginBtn';
 import NoLoginBtn from './NoLoginBtn';
 import useOpenLoading from '../hooks/useOpenLoading';
+import { useZoomLinkGetQuery } from '../redux/service/header';
 
 export default function Header() {
   const openLoading = useOpenLoading();
@@ -20,11 +21,20 @@ export default function Header() {
   const getIdentity = isMounted ? getCookie('identity') : undefined;
   const hasCookie = isMounted && getToken !== undefined;
   const handleDisplay = isMounted && getIdentity === 'counselor' ? 'hidden' : 'block';
+  const { data, isLoading } = useZoomLinkGetQuery({ token: getToken }, {
+    // 10 秒重新發送請求
+    pollingInterval: 10 * 1000,
+  });
 
   // 避免兩端渲染不同，進入畫面後才更改狀態
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data, isLoading]);
+
   return (
     <>
       <header className="fixed top-0 z-50 w-full border border-gray-200  bg-gray-100/80 py-[18px] backdrop-blur-2xl lg:py-[30px]">
@@ -52,7 +62,9 @@ export default function Header() {
                 },
               }}
             >
-              <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" placeholder="" />
+              <div className="hidden">
+                <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={40} colorBgContainer="#FFFEFC" />
+              </div>
 
               <Link href="/shoppingcart" className={handleDisplay}>
                 <button type="button" className="btnHover group h-10 w-10" onClick={openLoading}>

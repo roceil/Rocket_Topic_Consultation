@@ -290,3 +290,9 @@ font-weight: 600;
 .ant-modal-footer .ant-btn-primary:hover{
   opacity: 0.8 !important;
 }
+
+/* header 通知下拉選單 */
+.ant-dropdown-menu{
+  border-radius: 0px !important;
+  top: 12px !important;
+}
