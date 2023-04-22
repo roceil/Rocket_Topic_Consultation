@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
 import signUpSlice from './feature/signUp';
+import userCenterReservationPosition from './feature/userCenterReservationPosition';
 import loginTabs from './feature/loginTabs';
 import loadingSlice from './feature/loading';
 import hasTokenSlice from './feature/hasToken';
@@ -31,6 +32,7 @@ const reducers = combineReducers({
   userCenterSlice,
   counselorListSlice,
   userCenterReservation,
+  userCenterReservationPosition,
   counselorReservationTab,
   counselorReservationPage,
   [login.reducerPath]: login.reducer,

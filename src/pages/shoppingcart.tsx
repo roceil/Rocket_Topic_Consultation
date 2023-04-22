@@ -90,7 +90,7 @@ export default function ShopCart({ token, data: { Data } }: IShoppingCartProps) 
 
     await setTradeInfo(TradeInfo);
     await setTradeSha(TradeSha);
-    await redirectFormAction('https://ccore.newebpay.com/MPG/mpg_gateway');
+    redirectFormAction('https://ccore.newebpay.com/MPG/mpg_gateway');
   };
 
   return (

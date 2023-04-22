@@ -6,20 +6,24 @@ import HasCancel from '@/modules/userCenter/HasCancel';
 import HasSetUp from '@/modules/userCenter/HasSetUp';
 import WaitReply from '@/modules/userCenter/WaitReply';
 import WaitReservation from '@/modules/userCenter/WaitReservation';
+import HasFinish from '@/modules/userCenter/HasFinish';
 import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 import { orderStatus, reservationTabs } from '@/lib/userCenterData';
-import CustomHead from '@/common/components/CustomHead';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
+import { reservationPageNum } from '@/common/redux/feature/userCenterReservationPosition';
+import CustomHead from '@/common/components/CustomHead';
 
 export default function reservation() {
   useCloseLoading();
   const dispatch = useDispatch();
+  const openLoading = useOpenLoading();
   const [table, setTable] = useState(<WaitReservation />);
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
 
-  // 辨識分頁位置函式
-  const checkTab = (tab2:string) => {
-    switch (tab2) {
+  // !辨識分頁位置函式 => 記得移出去
+  const checkTab = (tabPosition: string) => {
+    switch (tabPosition) {
       case '待預約':
         setTable(<WaitReservation />);
         dispatch(reservationTab('待預約'));
@@ -30,14 +34,19 @@ export default function reservation() {
         dispatch(reservationTab('待回覆'));
         break;
 
-      case '已取消':
-        setTable(<HasCancel />);
-        dispatch(reservationTab('已取消'));
-        break;
-
       case '已成立':
         setTable(<HasSetUp />);
         dispatch(reservationTab('已成立'));
+        break;
+
+      case '已完成':
+        setTable(<HasFinish />);
+        dispatch(reservationTab('已完成'));
+        break;
+
+      case '已取消':
+        setTable(<HasCancel />);
+        dispatch(reservationTab('已取消'));
         break;
 
       default:
@@ -46,18 +55,20 @@ export default function reservation() {
   };
 
   // 手機版改變分頁位置函式
-  const handleChange = (value: string) => {
+  const selectTabOnMobile = (value: string) => {
     dispatch(reservationTab(value));
+    openLoading();
     checkTab(value);
   };
 
   // 電腦版改變分頁位置函式
-  const onChange = (key: string) => {
+  const selectTabOnPC = (key: string) => {
     dispatch(reservationTab(key));
+    openLoading();
+    dispatch(reservationPageNum(1));
   };
 
   return (
-
     <>
       <CustomHead pageTitle="預約管理" />
       <div className="bg-white">
@@ -81,7 +92,7 @@ export default function reservation() {
                   },
                 }}
               >
-                <Select defaultValue={tab} style={{ width: 152 }} onChange={handleChange} options={orderStatus} getPopupContainer={(trigger) => trigger.parentElement} />
+                <Select defaultValue={tab} style={{ width: 152 }} onChange={selectTabOnMobile} options={orderStatus} getPopupContainer={(trigger) => trigger.parentElement} />
               </ConfigProvider>
             </div>
 
@@ -103,7 +114,7 @@ export default function reservation() {
                 },
               }}
             >
-              <Tabs className=" w-full" defaultActiveKey={tab} items={reservationTabs} onChange={onChange} />
+              <Tabs className=" w-full" defaultActiveKey={tab} items={reservationTabs} onChange={selectTabOnPC} />
             </ConfigProvider>
           </div>
         </UserCenterLayout>
