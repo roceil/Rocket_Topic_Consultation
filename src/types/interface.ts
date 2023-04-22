@@ -211,6 +211,7 @@ export interface IAppointment {
   Counselor: string;
   Field: string;
   Time?: string;
+  CounselorId: number;
 }
 
 export interface OrderIdMap<T> {
@@ -222,4 +223,5 @@ export interface ListItem {
   AppointmentId: number;
   Counselor: string;
   Field: string;
+  CounselorId: number;
 }

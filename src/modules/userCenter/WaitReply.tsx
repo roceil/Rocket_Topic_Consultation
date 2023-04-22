@@ -6,13 +6,24 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import { Modal } from 'antd';
 import dayjs from 'dayjs';
 import UserReservationPagination from './UserReservationPagination';
+import ReservationTimetable from './ReservationTimetable';
 
-export function Appointment({ appointment }: { appointment: IAppointment }) {
-  const { AppointmentId, Counselor, Field, Time } = appointment;
+export function Appointment({ appointment, token }: { appointment: IAppointment, token:string }) {
+  const { AppointmentId, Counselor, Field, Time, CounselorId } = appointment;
   const convertTime = dayjs(Time).format('HH:mm');
   const convertDate = dayjs(Time).format('YYYY / MM / DD');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <li key={AppointmentId} className="flex items-center rounded-lg bg-white ">
@@ -31,7 +42,10 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
           <p>{convertDate}</p>
           <p>{convertTime}</p>
         </div>
-        <IButton text="選擇預約時段" fontSize="text-xs lg:text-sm" px="px-4 lg:px-5" py="py-1 lg:py-2" mode="light" />
+        <IButton text="更改預約時段" fontSize="text-xs lg:text-sm" px="px-4 lg:px-5" py="py-1 lg:py-2" mode="light" onClick={showModal} />
+        <Modal open={isModalOpen} onCancel={handleCancel} footer={null} className="!p-0 lg:w-[550px] bg-white rounded-[10px] border-4 lg:pt-10 lg:pb-11 py-6 userCenter">
+          <ReservationTimetable counselorId={CounselorId} token={token} AppointmentId={AppointmentId} />
+        </Modal>
       </div>
     </li>
   );
@@ -83,24 +97,25 @@ export default function WaitReply() {
             </ul>
 
             <ul className="mt-5 flex flex-col space-y-4 px-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:space-y-5 lg:px-7 lg:text-base">
-              {renderData.map((group: IAppointment[], index: number) => {
-                if (index < renderData.length - 1) {
+              {typeof token === 'string'
+                && renderData.map((group: IAppointment[], index: number) => {
+                  if (index < renderData.length - 1) {
+                    return (
+                      <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                        {group.map((appointment: IAppointment) => (
+                          <Appointment key={uuidv4()} appointment={appointment} token={token} />
+                        ))}
+                      </ul>
+                    );
+                  }
                   return (
-                    <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                    <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
                       {group.map((appointment: IAppointment) => (
-                        <Appointment key={uuidv4()} appointment={appointment} />
+                        <Appointment key={uuidv4()} appointment={appointment} token={token} />
                       ))}
                     </ul>
                   );
-                }
-                return (
-                  <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
-                    {group.map((appointment: IAppointment) => (
-                      <Appointment key={uuidv4()} appointment={appointment} />
-                    ))}
-                  </ul>
-                );
-              })}
+                })}
             </ul>
           </div>
 

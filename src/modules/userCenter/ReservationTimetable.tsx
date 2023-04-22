@@ -1,12 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { useTimetableBrowserGetQuery } from '@/common/redux/service/timetableBrowser';
 import { IAppointmentTime, IPagination, IHours } from '@/types/interface';
 import { useUserAppointmentPostMutation } from '@/common/redux/service/userCenter';
+import CustomAlert from '@/common/helpers/customAlert';
 
 export default function ReservationTimetable({ counselorId, token, AppointmentId }: { counselorId: number, token:string, AppointmentId:number }) {
+  const [modal, alertModal] = Modal.useModal();
+  const router = useRouter();
   const [pageNum, setPageNum] = useState(1);
   // ==================== 打包 POST body ====================
   const [clickId, setClickId] = useState();
@@ -114,14 +118,16 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
   // ==================== 送出預約 ====================
   const handleClick = async () => {
     try {
+      setIsHidden('block');
       const response = await userAppointmentPost({
         token,
         AppointmentId,
         AppointmentTimeId,
         DateTimeValue,
       });
-      console.log((response as { data: any; }).data);
-      alert((response as { data: { Message: any } }).data.Message);
+      const { Message } = (response as { data: { Message: any } }).data;
+      CustomAlert({ modal, Message, type: 'success', router });
+      setIsHidden('hidden');
     } catch (error) {
       console.error(error);
     }
@@ -203,6 +209,7 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
           </Button>
         </div>
       </div>
+      <div className="alert">{alertModal}</div>
     </div>
   );
 }

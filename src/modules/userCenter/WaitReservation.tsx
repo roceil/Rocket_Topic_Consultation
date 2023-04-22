@@ -7,24 +7,8 @@ import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
 import ReservationTimetable from '@/modules/userCenter/ReservationTimetable';
 import { Modal } from 'antd';
+import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
 import UserReservationPagination from './UserReservationPagination';
-
-interface IAppointment {
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-}
-
-type OrderIdMap<T> = {
-  [orderId: number]: T[];
-};
-
-type ListItem = {
-  OrderId: number;
-  AppointmentId: number;
-  Counselor: string;
-  Field: string;
-};
 
 // !這個要想辦法元件化
 export function Appointment({ appointment, token }: { appointment: IAppointment, token:string }) {
@@ -38,7 +22,7 @@ export function Appointment({ appointment, token }: { appointment: IAppointment,
     setIsModalOpen(false);
   };
 
-  const { AppointmentId, Counselor, Field } = appointment;
+  const { AppointmentId, Counselor, Field, CounselorId } = appointment;
 
   return (
     <li key={AppointmentId} className="flex items-center rounded-lg bg-white py-4 px-3  lg:py-[18px]">
@@ -47,8 +31,7 @@ export function Appointment({ appointment, token }: { appointment: IAppointment,
       <div className="w-[40.8045%] lg:w-[35.5648%]">
         <IButton text="選擇預約時段" fontSize="text-xs lg:text-sm" px="px-[19px] lg:px-5" py="py-1 lg:py-2" mode="light" onClick={showModal} />
         <Modal open={isModalOpen} onCancel={handleCancel} footer={null} className="!p-0 lg:w-[550px] bg-white rounded-[10px] border-4 lg:pt-10 lg:pb-11 py-6 userCenter">
-          {/* 這裡要給 counselorId */}
-          <ReservationTimetable counselorId={5} token={token} AppointmentId={AppointmentId} />
+          <ReservationTimetable counselorId={CounselorId} token={token} AppointmentId={AppointmentId} />
         </Modal>
       </div>
     </li>
