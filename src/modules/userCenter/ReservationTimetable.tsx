@@ -26,10 +26,6 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
     Hour,
   };
 
-  useEffect(() => {
-    console.log(DateTimeValue);
-  }, [clickId]);
-
   // ==================== 取得諮商師頁面時間表 API ====================
   const { data = {} as IAppointmentTime } = useTimetableBrowserGetQuery({ counselorId, pageNum });
 
@@ -143,41 +139,49 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
       {/* Calendar */}
       <div className=" space-y-5">
         <div className=" flex items-start">
-          <h3 className="px-2 text-base text-gray-900 text-center border-b-gray-900 mb-3">{`${renderToday?.Year} ${chineseMonth}`}</h3>
+          {renderWeek.length === 0
+            ? (<div className="px-2 h-7 bg-white mb-3" />) : (<h3 className="px-2 text-base text-gray-900 text-center border-b-gray-900 mb-3">{`${renderToday?.Year} ${chineseMonth}`}</h3>)}
         </div>
         <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-2 overflow-auto  text-center">
-          {renderWeek.map((item: IPagination, i) => (
-            <li className="relative h-full" key={`${pageNum}-${i}`}>
-              <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
-                <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-[#424242] py-3 mb-[10px]">
-                  <p className="text-sm lg:text-lg">{item.WeekDay}</p>
-                  <p className="text-sm lg:text-base">{item.Date}</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center space-x-0">
-                {item?.Hours.map((hoursItem: IHours, hoursI) => (
-                  <div
-                    key={`${hoursI}${hoursItem.AppointmentTimeId}`}
-                    className="mb-0"
-                  >
-                    <Button
-                      className={`flex justify-center items-center border-none lg:w-[52px] w-[38px] lg:text-sm text-[10px] mobile-calendar shadow-none my-1 ${
-                        hoursItem.Availability
-                          ? 'text-[#424242]'
-                          : 'text-[#D0D0D0]'
-                      }`}
-                      disabled={!hoursItem.Availability}
-                      style={{ backgroundColor: hoursItem.Availability ? '#ECECEC' : '#FFF', border: hoursItem.AppointmentTimeId === clickId ? '1px solid #333' : '' }}
-                      onClick={() => getAllData(item, hoursItem)}
-                    >
-                      <span>{hoursItem.Time}</span>
-                    </Button>
+          {renderWeek.length === 0 ? (
+            <div className="absolute z-50 h-[600px] lg:h-[520px] w-full bg-white">
+              <div className="h-full w-full flex items-center justify-center text-lg"><p className="w-full text-center text-secondary">尚未新增預約時段</p></div>
+            </div>
+          ) : (
+            renderWeek.map((item: IPagination, i) => (
+              <li className="relative h-full" key={`${pageNum}-${i}`}>
+                <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
+                  <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-[#424242] py-3 mb-[10px]">
+                    <p className="text-sm lg:text-lg">{item.WeekDay}</p>
+                    <p className="text-sm lg:text-base">{item.Date}</p>
                   </div>
-                ))}
-              </div>
-            </li>
-          ))}
+                </div>
+                <div className="flex flex-col items-center space-x-0">
+                  {item?.Hours.map((hoursItem: IHours, hoursI) => (
+                    <div
+                      key={`${hoursI}${hoursItem.AppointmentTimeId}`}
+                      className="mb-0"
+                    >
+                      <Button
+                        className={`flex justify-center items-center border-none lg:w-[52px] w-[38px] lg:text-sm text-[10px] mobile-calendar shadow-none my-1 ${
+                          hoursItem.Availability
+                            ? 'text-[#424242]'
+                            : 'text-[#D0D0D0]'
+                        }`}
+                        disabled={!hoursItem.Availability}
+                        style={{ backgroundColor: hoursItem.Availability ? '#ECECEC' : '#FFF', border: hoursItem.AppointmentTimeId === clickId ? '1px solid #333' : '' }}
+                        onClick={() => getAllData(item, hoursItem)}
+                      >
+                        <span>{hoursItem.Time}</span>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))
+          )}
         </ul>
+
         <div>
           <div className="flex justify-between w-full">
             <Button
