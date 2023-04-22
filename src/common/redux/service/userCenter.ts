@@ -24,6 +24,20 @@ export const userCenter = createApi({
         },
       }),
     }),
+    userAppointmentPost: builder.mutation({
+      query: ({ token, AppointmentId, AppointmentTimeId, DateTimeValue }) => ({
+        url: '/api/apptTime',
+        method: 'POST',
+        body: {
+          AppointmentId,
+          AppointmentTimeId,
+          DateTimeValue,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     reservationRatePost: builder.mutation({
       query: ({ token, AppointmentId, Comment, Star }) => ({
         url: '/api/PostAppointmentsComment',
@@ -49,6 +63,4 @@ export const userCenter = createApi({
   }),
 });
 
-export const { useEditInformationPutMutation, useReservationDataGetQuery, useReservationRatePostMutation, useReservationRateGetQuery } = userCenter;
-
-// /api/GetAppointmentsCommit?AppointmentId=171
+export const { useEditInformationPutMutation, useReservationDataGetQuery, useReservationRatePostMutation, useReservationRateGetQuery, useUserAppointmentPostMutation } = userCenter;

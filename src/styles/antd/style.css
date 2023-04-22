@@ -263,3 +263,7 @@ background-color: #4a5364;
 font-weight: 600;
 }
 
+.userCenter .ant-modal-content {
+  padding-left: 0px;
+  padding-right: 0px;
+}

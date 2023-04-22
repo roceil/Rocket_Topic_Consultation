@@ -6,6 +6,7 @@ import { loadingStatus } from '@/common/redux/feature/loading';
 import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
 import ReservationTimetable from '@/modules/userCenter/ReservationTimetable';
+import { Modal } from 'antd';
 import UserReservationPagination from './UserReservationPagination';
 
 interface IAppointment {
@@ -26,7 +27,17 @@ type ListItem = {
 };
 
 // !這個要想辦法元件化
-export function Appointment({ appointment }: { appointment: IAppointment }) {
+export function Appointment({ appointment, token }: { appointment: IAppointment, token:string }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const { AppointmentId, Counselor, Field } = appointment;
 
   return (
@@ -34,7 +45,11 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
       <p className="w-[23.5632%] lg:w-[27.615%]">{Counselor}</p>
       <p className="w-[35.6321%] lg:w-[36.82%]">{Field}</p>
       <div className="w-[40.8045%] lg:w-[35.5648%]">
-        <IButton text="選擇預約時段" fontSize="text-xs lg:text-sm" px="px-[19px] lg:px-5" py="py-1 lg:py-2" mode="light" />
+        <IButton text="選擇預約時段" fontSize="text-xs lg:text-sm" px="px-[19px] lg:px-5" py="py-1 lg:py-2" mode="light" onClick={showModal} />
+        <Modal open={isModalOpen} onCancel={handleCancel} footer={null} className="!p-0 lg:w-[550px] bg-white rounded-[10px] border-4 lg:pt-10 lg:pb-11 py-6 userCenter">
+          {/* 這裡要給 counselorId */}
+          <ReservationTimetable counselorId={5} token={token} AppointmentId={AppointmentId} />
+        </Modal>
       </div>
     </li>
   );
@@ -87,26 +102,26 @@ export default function WaitReservation() {
               <li className="w-[31.5789%] lg:w-[29.3478%]">諮商議題</li>
               <li className="w-[41.57894%] lg:w-[39.0316%]">選擇時段</li>
             </ul>
-            <ReservationTimetable counselorId={5} />
-            <ul className=" mt-5 flex px-4 flex-col space-y-4 pb-9 text-sm text-gray-900 lg:mt-7  lg:space-y-5 lg:px-7 lg:text-base">
-              {renderData.map((group: IAppointment[], index: number) => {
-                if (index < renderData.length - 1) {
+            <ul className="mt-5 flex px-4 flex-col space-y-4 pb-9 text-sm text-gray-900 lg:mt-7 lg:space-y-5 lg:px-7 lg:text-base">
+              {typeof token === 'string'
+                && renderData.map((group: IAppointment[], index: number) => {
+                  if (index < renderData.length - 1) {
+                    return (
+                      <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                        {group.map((appointment: IAppointment) => (
+                          <Appointment key={uuidv4()} appointment={appointment} token={token} />
+                        ))}
+                      </ul>
+                    );
+                  }
                   return (
-                    <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
+                    <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
                       {group.map((appointment: IAppointment) => (
-                        <Appointment key={uuidv4()} appointment={appointment} />
+                        <Appointment key={uuidv4()} appointment={appointment} token={token} />
                       ))}
                     </ul>
                   );
-                }
-                return (
-                  <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
-                    {group.map((appointment: IAppointment) => (
-                      <Appointment key={uuidv4()} appointment={appointment} />
-                    ))}
-                  </ul>
-                );
-              })}
+                })}
             </ul>
 
           </div>
