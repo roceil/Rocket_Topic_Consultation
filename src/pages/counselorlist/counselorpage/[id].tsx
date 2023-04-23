@@ -64,7 +64,6 @@ export default function CounselorPage({
   data: ICounselorPageProps;
   counselorId: string;
 }) {
-  console.log('🚀 ~ file: [id].tsx:52 ~ CounselorPage ~ data:', data);
   // ==================== 關閉 loading ====================
   useCloseLoading();
 
@@ -72,8 +71,9 @@ export default function CounselorPage({
   const openLoading = useOpenLoading();
   const [addToCartPost] = useAddToCartPostMutation();
   const token = getCookie('auth');
+  const identity = getCookie('identity');
   const router = useRouter();
-  const { Name, FieldTags, Photo, SelfIntroduction, Fields } = data.Data;
+  const { Name, FieldTags, Photo, SelfIntroduction, Fields, VideoLink = null } = data.Data;
   const [chooseCase, setChooseCase] = useState(null);
 
   // ==================== Server 渲染畫面 ====================
@@ -206,6 +206,10 @@ export default function CounselorPage({
   const addToCart = async () => {
     if (!token) {
       router.push('/login');
+      return;
+    }
+    if (identity === 'counselor') {
+      customAlert({ modal, Message: '諮商師無法預約，請更換帳號', type: 'error' });
       return;
     }
 
@@ -466,7 +470,7 @@ export default function CounselorPage({
           <CounsleorCalendar counselorId={Number(counselorId)} />
 
           {/* 影片區塊 */}
-          <CounselorVideo />
+          <CounselorVideo VideoLink={VideoLink} />
 
           {/* 評分區塊 */}
           <CounselorRate />

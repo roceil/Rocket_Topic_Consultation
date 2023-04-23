@@ -13,6 +13,7 @@ export interface ISuggestCounselorCardProps {
   rankTag: string;
   img: string;
   skillsAry: ITopicCardProps[];
+  id:number
 }
 
 export interface ISearchCapsuleProps {
@@ -120,6 +121,7 @@ export interface ICounselorPageProps {
     Photo: string;
     SelfIntroduction: string;
     Fields: any;
+    VideoLink: string | null;
   };
 }
 export interface ICourses {
