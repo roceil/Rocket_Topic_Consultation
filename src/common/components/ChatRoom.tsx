@@ -253,7 +253,7 @@ export default function ChatRoom() {
                   {/* 用戶資訊 */}
                   <div className="flex justify-between">
                     {/* 用戶圖片 */}
-                    <Image src={Photo} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />
+                    {Photo && <Image src={Photo} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />}
 
                     {/* 用戶名稱 */}
                     <div className="ml-3 flex flex-col items-start space-y-1 text-sm text-gray-900">
@@ -324,7 +324,7 @@ export default function ChatRoom() {
             return (
               <li key={convertTime} className="flex justify-start space-x-2 text-sm">
                 {/* 圖片 */}
-                <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />
+                {renderChatRoomPhoto && <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />}
                 {/* 內容 */}
                 <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{Content}</div>
                 {/* 時間 */}
