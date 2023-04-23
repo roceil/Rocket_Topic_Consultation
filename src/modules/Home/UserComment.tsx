@@ -1,13 +1,11 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable import/no-cycle */
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
 import star from 'public/images/star.svg';
-// import user01 from '../../../public/images/home/userComment/user01.png';
-import test from 'public/images/test.jpg';
-
-const marqueeAry = Array(14).fill(1);
+import { userCommentAry1, userCommentAry2 } from '@/lib/homeFilesRoute';
 
 export default function UserComment() {
+  console.log('userCommentAry1', userCommentAry1);
   return (
     <section className="overflow-hidden bg-primary-heavy">
       <div className="py-20 text-center lg:py-[160px]">
@@ -17,109 +15,19 @@ export default function UserComment() {
         </div>
 
         <ul className="container flex flex-col space-y-[38px] lg:hidden">
-          <li className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
-            <div className="flex items-center justify-center space-x-4">
-              {/* 這是圖片 */}
-
-              <Image src={test} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
-
-              {/* 用戶名稱及評價 */}
-              <div className="">
-                <div className="flex items-center justify-between">
-                  <p className="text-xl font-bold text-gray-900">家洋</p>
-                  <div className="flex space-x-2">
-                    <Image src={star} width={20} height={19} alt="rate_star" />
-                    <p className="items-center justify-center font-bold text-gray-900">5.0</p>
-                  </div>
-                </div>
-
-                {/* 評價內容 */}
-                <p className="mt-2 max-w-[210px] text-left text-xs text-gray-900 sm:text-sm ">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師</p>
-              </div>
-            </div>
-          </li>
-
-          <li className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
-            <div className="flex items-center justify-center space-x-4">
-              {/* 這是圖片 */}
-
-              <Image src={test} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
-
-              {/* 用戶名稱及評價 */}
-              <div className="">
-                <div className="flex items-center justify-between">
-                  <p className="text-xl font-bold text-gray-900">家洋</p>
-                  <div className="flex space-x-2">
-                    <Image src={star} width={20} height={19} alt="rate_star" />
-                    <p className="items-center justify-center font-bold text-gray-900">5.0</p>
-                  </div>
-                </div>
-
-                {/* 評價內容 */}
-                <p className="mt-2 max-w-[210px] text-left text-xs text-gray-900 sm:text-sm ">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師</p>
-              </div>
-            </div>
-          </li>
-
-          <li className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
-            <div className="flex items-center justify-center space-x-4">
-              {/* 這是圖片 */}
-
-              <Image src={test} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
-
-              {/* 用戶名稱及評價 */}
-              <div className="">
-                <div className="flex items-center justify-between">
-                  <p className="text-xl font-bold text-gray-900">家洋</p>
-                  <div className="flex space-x-2">
-                    <Image src={star} width={20} height={19} alt="rate_star" />
-                    <p className="items-center justify-center font-bold text-gray-900">5.0</p>
-                  </div>
-                </div>
-
-                {/* 評價內容 */}
-                <p className="mt-2 max-w-[210px] text-left text-xs text-gray-900 sm:text-sm ">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師</p>
-              </div>
-            </div>
-          </li>
-
-          <li className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
-            <div className="flex items-center justify-center space-x-4">
-              {/* 這是圖片 */}
-
-              <Image src={test} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
-
-              {/* 用戶名稱及評價 */}
-              <div className="">
-                <div className="flex items-center justify-between">
-                  <p className="text-xl font-bold text-gray-900">家洋</p>
-                  <div className="flex space-x-2">
-                    <Image src={star} width={20} height={19} alt="rate_star" />
-                    <p className="items-center justify-center font-bold text-gray-900">5.0</p>
-                  </div>
-                </div>
-
-                {/* 評價內容 */}
-                <p className="mt-2 max-w-[210px] text-left text-xs text-gray-900 sm:text-sm ">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師</p>
-              </div>
-            </div>
-          </li>
-        </ul>
-
-        <div className=" hidden flex-col items-center lg:block">
-          {/* 第一條 */}
-          <Marquee pauseOnHover gradient={false} speed={30}>
-            {marqueeAry.map((_, index) => (
-              <div key={index} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+          {userCommentAry1.map(({ name, comment, img }, index) => {
+            if (index > 3) return null;
+            return (
+              <li key={name} className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
                 <div className="flex items-center justify-center space-x-4">
                   {/* 這是圖片 */}
 
-                  <Image src={test} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
+                  <Image src={img} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
 
                   {/* 用戶名稱及評價 */}
                   <div className="">
                     <div className="flex items-center justify-between">
-                      <p className="text-xl font-bold text-gray-900">家洋</p>
+                      <p className="text-xl font-bold text-gray-900">{name}</p>
                       <div className="flex space-x-2">
                         <Image src={star} width={20} height={19} alt="rate_star" />
                         <p className="items-center justify-center font-bold text-gray-900">5.0</p>
@@ -127,7 +35,35 @@ export default function UserComment() {
                     </div>
 
                     {/* 評價內容 */}
-                    <p className="mt-2 max-w-[210px] text-left text-sm text-gray-900">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師</p>
+                    <p className="mt-2 max-w-[210px] text-left text-xs text-gray-900 sm:text-sm ">{comment}</p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className=" hidden flex-col items-center lg:block">
+          {/* 第一條 */}
+          <Marquee pauseOnHover gradient={false} speed={30}>
+            {userCommentAry1.map(({ name, comment, img }) => (
+              <div key={name} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+                <div className="flex items-center justify-center space-x-4 h-full">
+                  {/* 這是圖片 */}
+                  <Image src={img} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
+
+                  {/* 用戶名稱及評價 */}
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xl font-bold text-gray-900">{name}</p>
+                      <div className="flex space-x-2">
+                        <Image src={star} width={20} height={19} alt="rate_star" />
+                        <p className="items-center justify-center font-bold text-gray-900">5.0</p>
+                      </div>
+                    </div>
+
+                    {/* 評價內容 */}
+                    <p className="mt-2 max-w-[210px] text-left text-sm text-gray-900 min-h-[80px]">{comment}</p>
                   </div>
                 </div>
               </div>
@@ -136,17 +72,16 @@ export default function UserComment() {
 
           {/* 第二條 */}
           <Marquee pauseOnHover gradient={false} speed={30} className="mt-14" direction="right">
-            {marqueeAry.map((_, index) => (
-              <div key={index} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
-                <div className="flex items-center justify-center space-x-4">
+            {userCommentAry2.map(({ name, comment, img }) => (
+              <div key={name} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+                <div className="flex items-center justify-center space-x-4 h-full">
                   {/* 這是圖片 */}
-
-                  <Image src={test} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
+                  <Image src={img} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
 
                   {/* 用戶名稱及評價 */}
                   <div className="">
                     <div className="flex items-center justify-between">
-                      <p className="text-xl font-bold text-gray-900">家洋</p>
+                      <p className="text-xl font-bold text-gray-900">{name}</p>
                       <div className="flex space-x-2">
                         <Image src={star} width={20} height={19} alt="rate_star" />
                         <p className="items-center justify-center font-bold text-gray-900">5.0</p>
@@ -154,7 +89,7 @@ export default function UserComment() {
                     </div>
 
                     {/* 評價內容 */}
-                    <p className="mt-2 max-w-[210px] text-left text-sm text-gray-900">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師</p>
+                    <p className="mt-2 max-w-[210px] text-left text-sm text-gray-900 min-h-[80px]">{comment}</p>
                   </div>
                 </div>
               </div>

@@ -6,7 +6,7 @@ import rocketMan from '../../../public/images/home/reservationTour/rocketMan.svg
 
 export default function ReservationTour() {
   return (
-    <section className="">
+    <section id="reservationTour">
       <div className="container py-20 text-center lg:py-[180px]">
         <div className="lg:flex lg:justify-between ">
           <div className="lg:flex lg:flex-col lg:space-y-[390px]">
