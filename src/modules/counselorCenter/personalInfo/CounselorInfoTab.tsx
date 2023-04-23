@@ -44,7 +44,7 @@ export default function CounselorInfoTab() {
         }}
       >
         <Tabs
-          defaultActiveKey="基本資料"
+          defaultActiveKey="預約時段"
           items={counselorInfoTabAry}
           onChange={onChange}
         />

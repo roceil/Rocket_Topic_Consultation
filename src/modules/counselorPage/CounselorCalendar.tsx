@@ -15,7 +15,7 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
   const [todayData, setTodayData] = useState({});
   // 打包今日全時段
   const [renderToday, setRenderToday] = useState<IPagination | null>(null);
-  // 接今日全時段
+  // 接本週全時段
   const [weekData, setWeekData] = useState([]);
   // 打包本週全時段
   const [renderWeek, setRenderWeek] = useState([]);
@@ -41,10 +41,6 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
     setCheckPageNum(renderPageNum);
     // console.log('renderPageNum:', renderPageNum);
   }, [renderToday, renderWeek, renderPageNum]);
-
-  useEffect(() => {
-    console.log('New pageNum:', pageNum);
-  }, [pageNum]);
 
   // ==================== 月份轉中文 ====================
   const monthDict: { [key: string]: string } = {
