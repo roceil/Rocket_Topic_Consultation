@@ -2,13 +2,15 @@ import Link from 'next/link';
 
 export default function Payment() {
   return (
-    <div className="lg:mt-12 lg:flex lg:justify-between">
+    <div className="lg:mt-12 lg:flex lg:flex-row-reverse lg:justify-between">
       {/* 付款 */}
-      <div className="mt-7 flex space-x-8 rounded-2xl border-2 border-gray-400 py-5 px-7 font-bold text-gray-900 lg:mt-0 lg:w-[38.3399%] lg:justify-between lg:py-7 lg:pl-7 lg:pr-[91px] lg:text-lg">
-        <p className="">進行付款</p>
-        <button type="button" className="flex w-[156px] items-center justify-center rounded-xl bg-primary py-5 text-xl ring-2 ring-secondary lg:w-[188px] lg:py-[55px]">
-          信用卡
-        </button>
+      <div className="mt-7  text-start   rounded-2xl border-2 border-gray-400 py-5 px-5 font-bold text-gray-900 lg:mt-0 lg:w-[38.3399%] lg:justify-between lg:py-7 lg:pl-7 lg:pr-[91px] lg:text-lg">
+        <p className="mb-4">進行付款</p>
+        <label>
+          <input type="radio" name="payment" value="credit" defaultChecked disabled className="text-sm mr-2" />
+          信用卡付款 ( VISA、MasterCard )
+        </label>
+        <p className="text-xs font-normal lg:text-sm text-gray-600 mt-[52px]">* 目前暫不提供其他付款方式，如有不便敬請見諒</p>
       </div>
 
       {/* 預約須知 */}

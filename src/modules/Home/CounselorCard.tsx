@@ -2,11 +2,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { ISuggestCounselorCardProps } from '../../types/interface';
+import { ISuggestCounselorCardProps } from '@/types/interface';
+import useOpenLoading from '@/common/hooks/useOpenLoading';
 
-export default function CounselorCard({ name, rankTag, img, skillsAry }: ISuggestCounselorCardProps) {
+export default function CounselorCard({ name, rankTag, img, skillsAry, id }: ISuggestCounselorCardProps) {
+  const openLoading = useOpenLoading();
   return (
-    <Link href="/CounselorPage" className="group flex justify-center p-[36px]">
+    <Link href={`/counselorlist/counselorpage/${id}`} className="group flex justify-center p-[36px]" onClick={openLoading}>
       <div className="max-w-[244px] lg:max-w-[280px]">
         {/* 這是圖片 */}
         <div className="relative h-[244px] w-[244px] lg:h-[280px] lg:w-[280px]">
@@ -29,7 +31,7 @@ export default function CounselorCard({ name, rankTag, img, skillsAry }: ISugges
         </div>
 
         {/* 諮商師tag */}
-        <ul className="flex flex-wrap border-y-2 border-gray-700 py-2">
+        <ul className="flex flex-wrap border-y-2 border-gray-700 py-2 min-h-[92px]">
           {skillsAry?.map(({ type }) => (
             <li key={type} className=" py-2 px-3 text-xs font-bold text-gray-700 lg:text-sm">
               <p>{`#${type}`}</p>

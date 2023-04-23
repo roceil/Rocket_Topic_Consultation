@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import Link from 'next/link';
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { IButton } from '@/common/components/IButton';
 import bannerMain from 'public/images/home/banner/BannerMain.svg';
@@ -8,6 +9,8 @@ import bannreMainSM from 'public/images/home/banner/BannerMainSM.svg';
 
 export default function Banner() {
   const openLoading = useOpenLoading();
+  const token = getCookie('auth');
+
   return (
     <section className="py-10 lg:container lg:py-[128px]">
       <div className="flex flex-col items-center justify-center text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
@@ -18,7 +21,7 @@ export default function Banner() {
             <Link href="counselorlist/1" className="">
               <IButton text="尋找專屬諮商師" px="px-7 lg:px-9" py="py-4 lg:py-5" fontSize="text-[14px] lg:text-base" mode="dark" onClick={openLoading} />
             </Link>
-            <Link href="/signup">
+            <Link href="/signup" className={`hidden ${!token && '!block'}`}>
               <IButton
                 text="立即註冊"
                 px="px-7 lg:px-9"
@@ -27,6 +30,14 @@ export default function Banner() {
                 onClick={openLoading}
               />
             </Link>
+            <a href="#reservationTour" className={`hidden ${token && '!block'}`}>
+              <IButton
+                text="預約教學"
+                px="px-7 lg:px-9"
+                py="py-4 lg:py-5"
+                fontSize="text-[14px] lg:text-base"
+              />
+            </a>
           </div>
         </div>
 
