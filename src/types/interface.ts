@@ -172,6 +172,19 @@ export interface IShoppingFormProps {
   TotalAmount: number;
 }
 
+export interface IChatList {
+  Content: string;
+  CounselorId: number;
+  CounselorRead: boolean;
+  Id: number;
+  InitDate: string;
+  OutName: string;
+  Photo: string;
+  Type: string;
+  UserId: number;
+  UserRead: boolean;
+}
+
 export interface ICaseRenderData {
   Name: string;
   Field: string;
