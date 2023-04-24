@@ -5,7 +5,7 @@ import { ConfigProvider, Modal, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { useAddToCartPostMutation } from '@/common/redux/service/counselorPage';
@@ -23,7 +23,6 @@ import { ICounselorPageProps, ICourses, IFilterCases } from '@/types/interface';
 import customAlert from '@/common/helpers/customAlert';
 import CustomHead from '@/common/components/CustomHead';
 
-gsap.registerPlugin(ScrollTrigger);
 // 使用axios取得path
 export const getServerSidePaths = async () => {
   const res = await axios.get(
@@ -67,6 +66,7 @@ export default function CounselorPage({
   data: ICounselorPageProps;
   counselorId: string;
 }) {
+  console.log('🚀 ~ file: [id].tsx:69 ~ data:', data);
   // ==================== 關閉 loading ====================
   useCloseLoading();
   const [modal, alertModal] = Modal.useModal();
@@ -262,23 +262,19 @@ export default function CounselorPage({
   };
 
   // ==================== GSAP ====================
+  gsap.registerPlugin(ScrollTrigger);
   const caseRef = useRef(null);
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: caseRef.current,
-      start: 'top center',
-      end: 'bottom center',
-      scrub: true,
-      markers: true,
-    },
-  });
 
   useEffect(() => {
-    gsap.to(caseRef.current, {
+    gsap.to('#case', {
       scrollTrigger: {
         trigger: '#case',
-        y: 500,
+        start: '250px center',
+        end: 'bottom -600px',
+        scrub: true,
       },
+      x: 0,
+      y: 1000,
     });
   }, []);
 
@@ -500,7 +496,7 @@ export default function CounselorPage({
         </div>
 
         {/* 電腦版方案選擇 */}
-        <div className="hidden  lg:block lg:pt-[146px]">
+        <div ref={caseRef} className="hidden  lg:block lg:pt-[146px]">
           {/* 價格區塊 */}
           <div id="case" className="caseChoose relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14 text-center">
             <div
