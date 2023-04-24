@@ -288,9 +288,8 @@ export default function CounselorPage({
       scrollTrigger: {
         trigger: '#case',
         start: 'top 206px',
-        end: 'bottom -1000px',
+        end: 'bottom -800px',
         scrub: true,
-        markers: true,
       },
     });
   }, []);
