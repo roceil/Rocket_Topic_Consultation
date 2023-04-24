@@ -81,6 +81,7 @@ export default function WaitReply() {
     setRenderData(convertRenderData);
     setTotalPageNum(TotalPageNum);
     dispatch(loadingStatus('none'));
+    refetch();
   }, [isLoading, data]);
 
   return (

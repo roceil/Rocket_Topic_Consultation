@@ -129,8 +129,7 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
                   </li>
                 )))}
           </ul>
-          {renderWeek.length === 0
-            ?? (
+          {renderWeek && (
             <div className="flex justify-between w-[332px] lg:w-[480px] ">
               <Button
                 className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
@@ -149,7 +148,7 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
                 <span className="btnHoverText">下一週</span>
               </Button>
             </div>
-            )}
+          )}
         </div>
       </div>
     </div>

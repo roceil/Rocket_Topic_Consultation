@@ -122,9 +122,12 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
         DateTimeValue,
       });
       const { Message } = (response as { data: { Message: any } }).data;
-      refetch();
       CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
-      setIsHidden('hidden');
+      if (response) {
+        setTimeout(() => {
+          refetch();
+        }, 1000);
+      }
     } catch (error) {
       console.error(error);
     }

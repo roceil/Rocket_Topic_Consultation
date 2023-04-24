@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useGetCounselorTimetableQuery } from '@/common/redux/service/timetableBrowser';
+import { useGetCounselorTimetableQuery, useCounselorTimetablePostMutation } from '@/common/redux/service/timetableBrowser';
 import { IAppointmentTime } from '@/types/interface';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
@@ -41,6 +41,20 @@ export default function TimeInfo() {
   // ==================== 取得諮商師頁面時間表 API ====================
   const { data = {} as IAppointmentTime, isLoading, refetch } = useGetCounselorTimetableQuery({ token });
 
+  // ==================== 新增/修改預約時段 API ====================
+  const [CounselorTimetablePost] = useCounselorTimetablePostMutation();
+  const StartDate = '2023/4/24';
+  
+  const handlePost = () => {
+    CounselorTimetablePost({
+      token,
+      StartDate,
+      EndDate,
+      WeekData,
+    });
+  };
+
+
   // ==================== 取出資料 ====================
   const [Data, setData] = useState();
   const [WeekData, setWeekData] = useState();
@@ -57,7 +71,7 @@ export default function TimeInfo() {
       setRenderData(data.Data);
       setRenderWeekData(data?.Data?.WeekData);
     }
-  }, [data, isLoading]);
+  }, [isLoading]);
 
   useEffect(() => {
     if (renderData && renderWeekData) {

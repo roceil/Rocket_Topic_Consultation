@@ -53,10 +53,12 @@ export default function ChatRoom() {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!data) return;
-    setChatList(data.Data.userChatTargetList);
-    const { isRead } = data.Data;
-    dispatch(chatRoomAlert(isRead));
+    // if (!data) return;
+    // if (data) {
+    //   setChatList(data?.Data?.userChatTargetList);
+    //   const { isRead } = data?.Data;
+    //   dispatch(chatRoomAlert(isRead));
+    // }
   };
 
   const getChatMessage = async (CounselorId: number) => {
@@ -234,7 +236,7 @@ export default function ChatRoom() {
 
         {/* 內容 */}
         <ul className="flex h-[calc(100%-48px)] flex-col overflow-y-auto bg-white px-5 py-2 lg:h-[452px] lg:rounded-b-xl">
-          {chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead }:IChatList) => {
+          {chatList?.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead }:IChatList) => {
             const convertTime = dayjs(InitDate).format('HH:mm');
             // 如果用戶是user，因為要提示自己有沒有看過，所以要判斷userRead，反之則是counselorRead
             const userType = type === 'user' ? UserRead : CounselorRead;
