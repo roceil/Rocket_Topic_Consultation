@@ -8,6 +8,7 @@ import hasTokenSlice from './feature/hasToken';
 import chatRoomSlice from './feature/chatRoom';
 import userCenterSlice from './feature/userCenter';
 import counselorListSlice from './feature/counselorList';
+import chatRoomSwitchSlice from './feature/chatRoomSwitch';
 import userCenterReservation from './feature/userCenterReservation';
 import counselorReservationTab from './feature/counselorReservationTab';
 import counselorReservationPage from './feature/counselorReservationPage';
@@ -33,6 +34,7 @@ const reducers = combineReducers({
   chatRoomSlice,
   userCenterSlice,
   counselorListSlice,
+  chatRoomSwitchSlice,
   userCenterReservation,
   counselorReservationTab,
   counselorReservationPage,

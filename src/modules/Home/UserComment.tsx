@@ -1,11 +1,11 @@
 /* eslint-disable import/no-cycle */
 import Image from 'next/image';
+import { v4 as uuidv4 } from 'uuid';
 import Marquee from 'react-fast-marquee';
 import star from 'public/images/star.svg';
 import { userCommentAry1, userCommentAry2 } from '@/lib/homeFilesRoute';
 
 export default function UserComment() {
-  console.log('userCommentAry1', userCommentAry1);
   return (
     <section className="overflow-hidden bg-primary-heavy">
       <div className="py-20 text-center lg:py-[160px]">
@@ -18,7 +18,7 @@ export default function UserComment() {
           {userCommentAry1.map(({ name, comment, img }, index) => {
             if (index > 3) return null;
             return (
-              <li key={name} className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
+              <li key={uuidv4()} className="flex h-[172px] w-full items-center justify-center rounded-[400px] bg-white px-8 lg:w-[400px] lg:pr-14">
                 <div className="flex items-center justify-center space-x-4">
                   {/* 這是圖片 */}
 
@@ -47,7 +47,7 @@ export default function UserComment() {
           {/* 第一條 */}
           <Marquee pauseOnHover gradient={false} speed={30}>
             {userCommentAry1.map(({ name, comment, img }) => (
-              <div key={name} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+              <div key={uuidv4()} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
                 <div className="flex items-center justify-center space-x-4 h-full">
                   {/* 這是圖片 */}
                   <Image src={img} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />
@@ -73,7 +73,7 @@ export default function UserComment() {
           {/* 第二條 */}
           <Marquee pauseOnHover gradient={false} speed={30} className="mt-14" direction="right">
             {userCommentAry2.map(({ name, comment, img }) => (
-              <div key={name} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
+              <div key={uuidv4()} className="mr-5 h-[172px] w-[380px] rounded-[400px] bg-white px-8 py-[27px] lg:w-[400px] lg:pr-14">
                 <div className="flex items-center justify-center space-x-4 h-full">
                   {/* 這是圖片 */}
                   <Image src={img} width={72} height={72} alt="user01" className="h-[72px] w-[72px] rounded-full object-cover" />

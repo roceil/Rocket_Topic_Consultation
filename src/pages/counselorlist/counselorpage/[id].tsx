@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ConfigProvider, Modal, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useDispatch } from 'react-redux';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
@@ -66,14 +67,15 @@ export default function CounselorPage({
   data: ICounselorPageProps;
   counselorId: string;
 }) {
-  console.log('🚀 ~ file: [id].tsx:69 ~ data:', data);
   // ==================== 關閉 loading ====================
   useCloseLoading();
   const [modal, alertModal] = Modal.useModal();
   const openLoading = useOpenLoading();
+  const dispatch = useDispatch();
   const [addToCartPost] = useAddToCartPostMutation();
   const token = getCookie('auth');
   const identity = getCookie('identity');
+  const clickUserId = getCookie('userID');
   const router = useRouter();
   const { Name, FieldTags, Photo, SelfIntroduction, Fields, VideoLink = null } = data.Data;
   const [chooseCase, setChooseCase] = useState(null);
@@ -261,20 +263,35 @@ export default function CounselorPage({
     }
   };
 
+  // 打開聊天室
+  const startChat = () => {
+    if (identity === 'user') {
+      dispatch({
+        type: 'chatRoomSwitch/chatRoomSwitch',
+        payload: {
+          isChatRoomOpen: true,
+          clickUserId,
+          clickCounselorId: Number(counselorId),
+        },
+      });
+    }
+  };
+
   // ==================== GSAP ====================
   gsap.registerPlugin(ScrollTrigger);
   const caseRef = useRef(null);
 
   useEffect(() => {
     gsap.to('#case', {
-      scrollTrigger: {
-        trigger: '#case',
-        start: '250px center',
-        end: 'bottom -600px',
-        scrub: true,
-      },
       x: 0,
       y: 1000,
+      scrollTrigger: {
+        trigger: '#case',
+        start: 'top 206px',
+        end: 'bottom -1000px',
+        scrub: true,
+        markers: true,
+      },
     });
   }, []);
 
@@ -470,6 +487,7 @@ export default function CounselorPage({
                       py="py-3"
                       extraStyle="w-[104px]"
                       mode="light"
+                      onClick={startChat}
                     />
                     <IButton
                       text="手刀預約"
@@ -556,6 +574,7 @@ export default function CounselorPage({
                 py="py-4"
                 extraStyle="w-[144px]"
                 mode="light"
+                onClick={startChat}
               />
               <IButton
                 text="手刀預約"

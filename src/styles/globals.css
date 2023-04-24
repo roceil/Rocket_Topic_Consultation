@@ -68,6 +68,9 @@
   .fakeBorderHover {
     box-shadow: inset 0 0 0 1.5px #fff;
   }
+  .overFlowText {
+    overflow-wrap: break-word;
+  }
   .btnHover {
     @apply fakeBorder before:fakeBorder relative inline-block flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:rounded-full before:bg-secondary before:transition before:duration-500 before:ease-in-out active:scale-[0.8] lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100;
   }
