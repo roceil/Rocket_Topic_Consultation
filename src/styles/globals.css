@@ -50,6 +50,9 @@
   .counselorCardShadow {
     box-shadow: 0px 1px 5px rgba(157, 157, 157, 0.25);
   }
+  .bannerDecoration {
+    @apply after:absolute after:w-full after:h-5 after:bg-primary-heavy after:bottom-[14px] after:left-0 after:-z-10
+  }
 }
 
 @layer utilities {

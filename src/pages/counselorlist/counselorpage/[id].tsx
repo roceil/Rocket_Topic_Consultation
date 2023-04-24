@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ConfigProvider, Modal, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { useAddToCartPostMutation } from '@/common/redux/service/counselorPage';
@@ -21,6 +23,7 @@ import { ICounselorPageProps, ICourses, IFilterCases } from '@/types/interface';
 import customAlert from '@/common/helpers/customAlert';
 import CustomHead from '@/common/components/CustomHead';
 
+gsap.registerPlugin(ScrollTrigger);
 // 使用axios取得path
 export const getServerSidePaths = async () => {
   const res = await axios.get(
@@ -66,7 +69,6 @@ export default function CounselorPage({
 }) {
   // ==================== 關閉 loading ====================
   useCloseLoading();
-
   const [modal, alertModal] = Modal.useModal();
   const openLoading = useOpenLoading();
   const [addToCartPost] = useAddToCartPostMutation();
@@ -259,6 +261,27 @@ export default function CounselorPage({
     }
   };
 
+  // ==================== GSAP ====================
+  const caseRef = useRef(null);
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: caseRef.current,
+      start: 'top center',
+      end: 'bottom center',
+      scrub: true,
+      markers: true,
+    },
+  });
+
+  useEffect(() => {
+    gsap.to(caseRef.current, {
+      scrollTrigger: {
+        trigger: '#case',
+        y: 500,
+      },
+    });
+  }, []);
+
   return (
     <>
       <CustomHead
@@ -277,7 +300,7 @@ export default function CounselorPage({
       />
 
       {/* 預約課程 */}
-      <section className="lg:container lg:flex lg:justify-between lg:py-[148px]">
+      <section ref={caseRef} className="lg:container lg:flex lg:justify-between lg:py-[148px]">
         {/* 手機版 */}
         <div>
           {/* 預約課程 */}
@@ -477,15 +500,14 @@ export default function CounselorPage({
         </div>
 
         {/* 電腦版方案選擇 */}
-        <div className="hidden lg:block lg:pt-[146px]">
+        <div className="hidden  lg:block lg:pt-[146px]">
           {/* 價格區塊 */}
-          <div className="relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14">
-            <button
-              type="button"
+          <div id="case" className="caseChoose relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14 text-center">
+            <div
               className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-sm font-bold text-gray-900 lg:w-[240px]  lg:translate-y-[-35px] lg:py-5 lg:text-xl"
             >
               {chooseTopic}
-            </button>
+            </div>
 
             <div className="mb-9 lg:mb-12  lg:px-[54px]">
               <ConfigProvider

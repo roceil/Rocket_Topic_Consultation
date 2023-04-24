@@ -53,7 +53,8 @@ export default function ChatRoom() {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!data) return;
+    console.log(data);
+    if (!data || data.Data === null) return;
     setChatList(data.Data.userChatTargetList);
     const { isRead } = data.Data;
     dispatch(chatRoomAlert(isRead));
