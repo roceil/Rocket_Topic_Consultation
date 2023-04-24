@@ -41,7 +41,7 @@ export function InfoForm() {
     : '!opacity-100 transform duration-300';
 
   // ==================== alert Modal ====================
-  const [modal , alertModal] = Modal.useModal();
+  const [modal, alertModal] = Modal.useModal();
 
   // ==================== Antd ====================
   const [form] = Form.useForm();
@@ -358,21 +358,3 @@ export function InfoForm() {
   );
 }
 
-// {
-//   "Success": true,
-//   "Message": "成功取得諮商師基本資料",
-//   "Data": [
-//       {
-//           "Account": "counselor@example.com",
-//           "CounselorName": "劉昱涵",
-//           "LicenseImg": "License_20230424144912.png",
-//           "CertNumber": "諮心字第150911號",
-//           "Photo": "5-劉昱涵-20230423235804.png",
-//           "SellingPoint": "創傷取向心理諮商，結合EMDR、心理劇及引導式冥想",
-//           "SelfIntroduction": "工作初期，我服務的對象多為各級學校（國小、國中、高中職及大學）之兒童及青少年個案，也曾服務社區機構的成人個案。對於生命不同發展階段的議題及困境，溫柔地給予理解、看見與支持，陪伴個案找到不同角度去認識自己、重獲力量。近年來專注於心理創傷議題，持續進修多元創傷處遇技巧，協助個案穿越身體與心靈的不安風暴，重新找回生活的平衡以及心靈的自在安適。",
-//           "VideoLink": "https://www.youtube.com/watch?v=vkm3dqr_dSM",
-//           "IsVideoOpen": true,
-//           "AccountStatus": true
-//       }
-//   ]
-// }
