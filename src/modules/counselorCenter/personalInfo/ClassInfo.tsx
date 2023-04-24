@@ -24,7 +24,7 @@ const { TextArea } = Input;
 export function ClassInfo() {
   const token = getCookie('auth');
   // ==================== 取得課程 API RTKQ ====================
-  const { data, isLoading } = useCoursesDataGetQuery({ token });
+  const { data, isLoading, refetch } = useCoursesDataGetQuery({ token });
 
   // ==================== 新增/修改課程 API RTKQ ====================
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
@@ -136,24 +136,6 @@ export function ClassInfo() {
       }
     }
   };
-
-  // 儲存 Get API 的狀態碼
-  const [statusCode, setStatusCode] = useState<number>();
-  // 因為 RTKQ 取 res.status 卡關，所以多寫了這個 get axios
-  useEffect(() => {
-    // axios 當測試，最後要用 redux 打 API ，才能一次管理多種狀態
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log('res', res);
-        const { status } = res;
-        setStatusCode(status);
-      });
-  }, [isLoading]);
 
   // Form
   const [form] = Form.useForm();
@@ -300,6 +282,7 @@ export function ClassInfo() {
       Features,
     });
     setIsDisabled(true);
+    refetch();
     console.log(res);
   };
 
@@ -356,10 +339,6 @@ export function ClassInfo() {
             課程方案 *
           </h3>
           {/* PC 課程方案 */}
-          {/* 判斷有無課程資料，渲染課程方案、課程特色 */}
-          {(FieldIds2 as unknown as number[])?.length === 0 && (
-            <NoCourses text="尚未新增課程資訊" height="h-[338px]" />
-          )}
           {/* 點擊膠囊前，初始畫面 */}
           {isSuccess && (
             <NoCourses text="請先選擇專長領域" height="h-[338px]" />
