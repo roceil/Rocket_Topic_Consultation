@@ -21,6 +21,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
     deleteCookie('auth');
     deleteCookie('identity');
     deleteCookie('userID');
+    deleteCookie('counselorID');
     alert('登出成功');
     router.push('/');
   };
