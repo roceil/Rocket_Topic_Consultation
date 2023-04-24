@@ -8,6 +8,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import EmptyTimetable from './EmptyTimetable';
 
 interface IApiTimetablesHours {
   Time: string;
@@ -44,16 +45,16 @@ export default function TimeInfo() {
   // ==================== 新增/修改預約時段 API ====================
   const [CounselorTimetablePost] = useCounselorTimetablePostMutation();
   const StartDate = '2023/4/24';
-  
+  const EndDate = '2023/4/30';
+  const PostWeekData = [1, 2, 3];
   const handlePost = () => {
     CounselorTimetablePost({
       token,
       StartDate,
       EndDate,
-      WeekData,
+      WeekData: PostWeekData,
     });
   };
-
 
   // ==================== 取出資料 ====================
   const [Data, setData] = useState();
@@ -77,7 +78,7 @@ export default function TimeInfo() {
     if (renderData && renderWeekData) {
       setData(renderData);
       setWeekData(renderWeekData);
-      console.log('renderData:', renderData);
+      // console.log('renderData:', renderData);
       console.log('renderWeekData:', renderWeekData);
     }
   }, [renderData, renderWeekData]);
@@ -103,37 +104,55 @@ export default function TimeInfo() {
 
   // ==================== Antd 表單 ====================
   // const onFinish = (fieldsValue: any) => {
+  //   // Should format date value before submit.
+  //   console.log(fieldsValue);
   //   const rangeValue = fieldsValue['range-picker'];
-  //   console.log(123);
   //   if (rangeValue && rangeValue.length > 0) {
+  //     const formattedRangeValue = [
+  //       rangeValue[0]?.format('YYYY-MM-DD'),
+  //       rangeValue[1]?.format('YYYY-MM-DD'),
+  //     ];
   //     const values = {
   //       ...fieldsValue,
-  //       'range-picker': [rangeValue[0]?.format('YYYY-MM-DD'), rangeValue[1]?.format('YYYY-MM-DD')],
+  //       'range-picker': formattedRangeValue,
   //     };
   //     console.log('Received values of form: ', values);
   //   }
-  //   console.log('Received values of form: ', rangeValue);
   // };
-
-  const onFinish = (fieldsValue: any) => {
-    // Should format date value before submit.
-    console.log(fieldsValue);
-    const rangeValue = fieldsValue['range-picker'];
-    if (rangeValue && rangeValue.length > 0) {
-      const values = {
-        ...fieldsValue,
-        'range-picker': [rangeValue[0]?.format('YYYY-MM-DD'), rangeValue[1]?.format('YYYY-MM-DD')],
-      };
-      console.log('Received values of form: ', values);
-    }
-  };
 
   const [form] = Form.useForm();
 
   // ==================== Antd Checkbox ====================
-  const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-    setDefaultAvail(e.target.checked);
+  const [checkboxValues, setCheckboxValues] = useState({});
+
+  const onChange = (e: any) => {
+    const { name, checked } = e.target;
+    setCheckboxValues((prevState) => ({ ...prevState, [name]: checked }));
+  };
+  // const onChange = (e: CheckboxChangeEvent) => {
+  //   console.log(`checked = ${e.target.checked}`);
+  //   setDefaultAvail(e.target.checked);
+  // };
+
+  // ==================== Antd 表單 ====================
+  // const onFinish = (fieldsValue: any) => {
+  //   // Should format date value before submit.
+  //   console.log(fieldsValue);
+  //   const rangeValue = fieldsValue['range-picker'];
+  //   if (rangeValue && rangeValue.length > 0) {
+  //     const formattedRangeValue = [
+  //       rangeValue[0]?.format('YYYY-MM-DD'),
+  //       rangeValue[1]?.format('YYYY-MM-DD'),
+  //     ];
+  //     const values = {
+  //       ...fieldsValue,
+  //       'range-picker': formattedRangeValue,
+  //     };
+  //     console.log('Received values of form: ', values);
+  //   }
+  // };
+  const onFinish = (values: any) => {
+    console.log('checkboxValues:', checkboxValues);
   };
 
   // 開啟編輯功能
@@ -144,6 +163,9 @@ export default function TimeInfo() {
 
   return (
     <div className="flex text-center flex-col rounded-lg border bg-gray-200 py-[42px] justify-around px-5 space-y-5">
+
+      {(renderData && renderData.length === 0) && <EmptyTimetable />}
+      (
       <Form
         form={form}
         onFinish={onFinish}
@@ -163,7 +185,6 @@ export default function TimeInfo() {
         </Form.Item>
         <Form.Item name="Hours">
           <div className="h-[473px] w-full border bg-white">
-            {/* Calendar */}
             <div className=" space-y-5">
               <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-2 overflow-auto  text-center">
                 {renderWeekData && (
@@ -171,12 +192,12 @@ export default function TimeInfo() {
                     <li className="relative h-full flex flex-col items-center" key={uuidv4()}>
                       <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
                         <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-gray-900 py-3 mb-[10px]">
-                          <p className="text-sm lg:text-lg">{item.WeekDay}</p>
-                        </div>
+                    <p className="text-sm lg:text-lg">{item.WeekDay}</p>
+                  </div>
                       </div>
                       <div className="flex flex-col items-center space-x-0">
                         <div>
-                          {item?.Hours.map((hoursItem: IApiTimetablesHours) => (
+                    {item?.Hours.map((hoursItem: IApiTimetablesHours) => (
                             <Form.Item name={`${item.WeekDay}${hoursItem.Time}`}>
                               <div
                                 key={uuidv4()}
@@ -184,20 +205,23 @@ export default function TimeInfo() {
                               >
                                 <Checkbox
                                   onChange={onChange}
+                                  name={`${item.WeekDay}${hoursItem.Time}`}
                                   className={`flex justify-center items-center !border-none lg:w-auto w-[38px] lg:text-base text-[10px] mobile-calendar shadow-none my-1 ${
                                     hoursItem.DefaultAvail
                                       ? 'text-gray-900'
                                       : 'text-gray-500'
                                   }`}
+                                  checked={checkboxValues[`${item.WeekDay}${hoursItem.Time}`] || false}
+                                  // defaultChecked={hoursItem.DefaultAvail}
                                   style={{ backgroundColor: !hoursItem.DefaultAvail ? '#ECECEC' : '#FFF' }}
-                                  onClick={() => { console.log(hoursItem); }}
+                                  // onClick={() => { console.log(hoursItem); }}
                                 >
                                   <span>{hoursItem.Time}</span>
                                 </Checkbox>
                               </div>
                             </Form.Item>
                           ))}
-                        </div>
+                  </div>
                       </div>
                     </li>
                   ))
@@ -232,8 +256,8 @@ export default function TimeInfo() {
             </div>
           </div>
         </Form.Item>
-
       </Form>
+      )
     </div>
   );
 }
