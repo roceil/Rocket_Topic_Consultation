@@ -1,8 +1,10 @@
-import { ConfigProvider, Form, Input, Switch, Upload, Button } from 'antd';
+import { ConfigProvider, Form, Input, Switch, Upload, Button, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { getCookie } from 'cookies-next';
+import ResetPassWordModal from '@/common/components/ResetPassWordModal';
+import CustomAlert from '@/common/helpers/customAlert';
 import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
 import { useCounselorInfoGetQuery, useCounselorInfoPutMutation } from '../../../common/redux/service/counselorCenter';
 
@@ -13,24 +15,33 @@ const { TextArea } = Input;
 export function InfoForm() {
   const token = getCookie('auth');
   // ==================== 取得基本資料 API ====================
-  const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
+  const { data = {} as ICounselorInfo, isLoading, refetch } = useCounselorInfoGetQuery({ token });
 
   // ==================== 修改基本資料 API ====================
   const [CounselorInfoPutMutation] = useCounselorInfoPutMutation();
 
   // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
+  const [renderName, setrenderName] = useState<string>('');
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
+      setrenderName(data.Data[0].CounselorName);
     }
   }, [data, isLoading]);
+
+  useEffect(() => {
+    console.log(renderName);
+  }, [renderData]);
 
   // ==================== 編輯 btn ====================
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const isHidden = isDisabled
     ? '!opacity-0 transform duration-300'
     : '!opacity-100 transform duration-300';
+
+  // ==================== alert Modal ====================
+  const [modal , alertModal] = Modal.useModal();
 
   // ==================== Antd ====================
   const [form] = Form.useForm();
@@ -98,27 +109,40 @@ export function InfoForm() {
 
     // 取出現有資源屬性值
     const currentValues = renderData;
+    console.log('courrent:', currentValues);
 
     // 更新需要更新的屬性值，並將其他屬性值保持不變
     const updatedValues = {
       ...currentValues,
-      ...(values.Name && { Name: values.Name }),
+      ...(values.CounselorName && { Name: values.CounselorName }),
       ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
       ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
       ...(values.VideoLink && { VideoLink: values.VideoLink }),
       ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
     };
 
+    console.log('update:', updatedValues);
+
     // 提交更新後的完整資源內容
     const res = await CounselorInfoPutMutation({
       token,
       ...updatedValues,
     });
-
     setIsDisabled(true);
-    console.log(res);
-    // alert(res.data.Message);
+    if ('error' in res) {
+      console.log('res:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      CustomAlert({ modal, Message, type: 'error' });
+      return;
+    }
+    refetch();
+    const { Message } = (res as { data: { Message: any } }).data;
+    CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
+
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   return (
     <div className="w-full space-y-12 px-4 pb-12">
@@ -158,17 +182,23 @@ export function InfoForm() {
               label="重設密碼"
               className="font-bold lg:mx-[15px] lg:w-[124px]"
             >
-              <Button
-                className="font-normal"
-                block
-                style={{ height: 40, width: 124 }}
-                disabled={isDisabled}
-              >
-                點我重設密碼
-              </Button>
+              <div>
+                <Button
+                  className="font-normal"
+                  block
+                  style={{ height: 40, width: 124 }}
+                  disabled={isDisabled}
+                  onClick={() => {
+                    setShowResetPassword(!showResetPassword);
+                  }}
+                >
+                  點我重設密碼
+                </Button>
+                <ResetPassWordModal showResetPassword={showResetPassword} setShowResetPassword={setShowResetPassword} />
+              </div>
             </Form.Item>
             <Form.Item
-              name="Name"
+              name="CounselorName"
               label="會員姓名"
               className="font-bold lg:mx-[15px] lg:w-[584px]"
             >
@@ -177,7 +207,6 @@ export function InfoForm() {
                 placeholder={renderData.CounselorName}
                 className="font-normal"
                 style={{ height: 40 }}
-                value={renderData.CounselorName}
               />
             </Form.Item>
             <div className="mt-5 space-y-[4.5px] text-gray-900 lg:mx-[15px]">
@@ -277,21 +306,25 @@ export function InfoForm() {
               <h3 className="mb-3 text-sm font-bold">介紹影片</h3>
               <div className="space-y-5 rounded-[10px] border border-[#D4D2E3] p-4 lg:w-[584px]">
                 <Form.Item className="flex" name="VideoLink">
-                  <p className="mr-4 w-[56px]">Youtube影片連結</p>
-                  <Input
-                    placeholder={renderData.VideoLink ?? '請輸入影片連結'}
-                    className="bg-gray-200 h-10 w-[207px] border-none font-normal lg:w-[475px]"
-                    disabled={isDisabled}
-                  />
+                  <div>
+                    <p className="mr-4 w-[56px]">Youtube影片連結</p>
+                    <Input
+                      placeholder={renderData.VideoLink ?? '請輸入影片連結'}
+                      className="bg-gray-200 h-10 w-[207px] border-none font-normal lg:w-[475px]"
+                      disabled={isDisabled}
+                    />
+                  </div>
                 </Form.Item>
                 <Form.Item className="flex" name="IsVideoOpen">
-                  <p className="mr-4 w-[56px]">是否開放</p>
-                  <Switch
-                    defaultChecked={renderData.IsVideoOpen}
-                    onChange={SwitchOnChange}
-                    disabled={isDisabled}
-                    className="bg-gray-400"
-                  />
+                  <div>
+                    <p className="mr-4 w-[56px]">是否開放</p>
+                    <Switch
+                      checked={renderData.IsVideoOpen}
+                      onChange={SwitchOnChange}
+                      disabled={isDisabled}
+                      className="bg-gray-400"
+                    />
+                  </div>
                 </Form.Item>
               </div>
             </div>
@@ -320,6 +353,26 @@ export function InfoForm() {
           </Form>
         </ConfigProvider>
       </div>
+      <div className="alert">{alertModal}</div>
     </div>
   );
 }
+
+// {
+//   "Success": true,
+//   "Message": "成功取得諮商師基本資料",
+//   "Data": [
+//       {
+//           "Account": "counselor@example.com",
+//           "CounselorName": "劉昱涵",
+//           "LicenseImg": "License_20230424144912.png",
+//           "CertNumber": "諮心字第150911號",
+//           "Photo": "5-劉昱涵-20230423235804.png",
+//           "SellingPoint": "創傷取向心理諮商，結合EMDR、心理劇及引導式冥想",
+//           "SelfIntroduction": "工作初期，我服務的對象多為各級學校（國小、國中、高中職及大學）之兒童及青少年個案，也曾服務社區機構的成人個案。對於生命不同發展階段的議題及困境，溫柔地給予理解、看見與支持，陪伴個案找到不同角度去認識自己、重獲力量。近年來專注於心理創傷議題，持續進修多元創傷處遇技巧，協助個案穿越身體與心靈的不安風暴，重新找回生活的平衡以及心靈的自在安適。",
+//           "VideoLink": "https://www.youtube.com/watch?v=vkm3dqr_dSM",
+//           "IsVideoOpen": true,
+//           "AccountStatus": true
+//       }
+//   ]
+// }
