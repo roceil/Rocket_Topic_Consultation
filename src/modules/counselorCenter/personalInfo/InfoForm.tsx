@@ -22,17 +22,11 @@ export function InfoForm() {
 
   // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
-  const [renderName, setrenderName] = useState<string>('');
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
-      setrenderName(data.Data[0].CounselorName);
     }
   }, [data, isLoading]);
-
-  useEffect(() => {
-    console.log(renderName);
-  }, [renderData]);
 
   // ==================== 編輯 btn ====================
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -105,16 +99,13 @@ export function InfoForm() {
 
   // ==================== 送出表單 ====================
   const onFinish = async (values: any) => {
-    console.log(values);
-
     // 取出現有資源屬性值
     const currentValues = renderData;
-    console.log('courrent:', currentValues);
 
     // 更新需要更新的屬性值，並將其他屬性值保持不變
     const updatedValues = {
       ...currentValues,
-      ...(values.CounselorName && { Name: values.CounselorName }),
+      ...(values.CounselorName && { CounselorName: values.CounselorName }),
       ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
       ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
       ...(values.VideoLink && { VideoLink: values.VideoLink }),
@@ -142,6 +133,7 @@ export function InfoForm() {
     CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
 
+  // ==================== 重設密碼 ====================
   const [showResetPassword, setShowResetPassword] = useState(false);
 
   return (

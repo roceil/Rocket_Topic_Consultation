@@ -50,7 +50,7 @@ export const counselorCenter = createApi({
       }),
     }),
     CounselorInfoPut: builder.mutation({
-      query: ({ token, Name,
+      query: ({ token, CounselorName,
         LicenseImg,
         Photo,
         SellingPoint,
@@ -60,7 +60,7 @@ export const counselorCenter = createApi({
         url: '/api/counselors',
         method: 'PUT',
         body: {
-          Name,
+          Name: CounselorName,
           LicenseImg,
           Photo,
           SellingPoint,
