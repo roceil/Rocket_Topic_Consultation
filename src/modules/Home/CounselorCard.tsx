@@ -31,7 +31,7 @@ export default function CounselorCard({ name, rankTag, img, skillsAry, id }: ISu
         </div>
 
         {/* 諮商師tag */}
-        <ul className="flex flex-wrap border-y-2 border-gray-700 py-2 min-h-[92px]">
+        <ul className="flex flex-wrap border-y-2 border-gray-700 py-2">
           {skillsAry?.map(({ type }) => (
             <li key={type} className=" py-2 px-3 text-xs font-bold text-gray-700 lg:text-sm">
               <p>{`#${type}`}</p>

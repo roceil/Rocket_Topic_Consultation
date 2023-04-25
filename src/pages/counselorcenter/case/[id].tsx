@@ -1,13 +1,12 @@
-import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 import CustomHead from '@/common/components/CustomHead';
-import CounselorCaseRecordPC from '@/modules/counselorCenter/case/CounselorCaseRecordPC';
+import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 import CounselorCaseRecord from '@/modules/counselorCenter/case/CounselorCaseRecord';
-import useCloseLoading from '@/common/hooks/useCloseLoading';
+import CounselorCaseRecordPC from '@/modules/counselorCenter/case/CounselorCaseRecordPC';
+import React from 'react';
 
-export default function reservation() {
-  // ======== 關閉Loading ========
-  useCloseLoading();
+export default function id() {
   return (
+
     <>
       <CustomHead pageTitle="個案記錄" />
       {/* 手機版 個案記錄 */}
@@ -22,5 +21,6 @@ export default function reservation() {
         <CounselorCaseRecordPC />
       </CounselorCenterLayout>
     </>
+
   );
 }
