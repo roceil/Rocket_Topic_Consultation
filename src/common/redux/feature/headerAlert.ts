@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const headerAlertSlice = createSlice({
   name: 'headerAlert',
-  initialState: { value: true },
+  initialState: { value: false },
   reducers: {
     hasHeaderAlert: (state, action) => {
       const newState = { ...state };

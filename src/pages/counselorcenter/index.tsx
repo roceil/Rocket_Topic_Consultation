@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ConfigProvider } from 'antd';
 import { getCookie } from 'cookies-next';
 import { useDispatch } from 'react-redux';
 import CustomHead from '@/common/components/CustomHead';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorInfoTab from '@/modules/counselorCenter/personalInfo/CounselorInfoTab';
-import wrapper from '../../common/redux/store';
-import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
+import wrapper from '@/common/redux/store';
+import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });
@@ -25,6 +25,7 @@ export default function index() {
   useEffect(() => {
     dispatch(loadingStatus('none'));
   }, []);
+
   return (
     <>
       <CustomHead pageTitle="會員中心" />

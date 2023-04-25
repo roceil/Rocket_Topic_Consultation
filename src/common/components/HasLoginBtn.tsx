@@ -7,7 +7,11 @@ import useOpenLoading from '../hooks/useOpenLoading';
 import { hasHeaderAlert } from '../redux/feature/headerAlert';
 
 // 登入時，顯示『會員中心、通知』icons
-export default function HasLoginBtn() {
+export default function HasLoginBtn({ renderAlertMessage, renderCourseTime, renderCourseLink }:{
+  renderAlertMessage:string,
+  renderCourseTime:string,
+  renderCourseLink?:string,
+}) {
   const getIdentity = getCookie('identity');
   const dispatch = useDispatch();
   const hasAlert = useSelector((state:{ headerAlertSlice:{ value:boolean } }) => state.headerAlertSlice.value);
@@ -23,19 +27,10 @@ export default function HasLoginBtn() {
     {
       key: '1',
       label: (
-        <p>諮商師已接受預約！</p>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <p>諮商師已接受預約！</p>
-      ),
-    },
-    {
-      key: '3',
-      label: (
-        <p>諮商師已接受預約！</p>
+        <Link href={renderCourseLink || '#'} target="_blank" className="text-center text-gray-900">
+          <p>{renderAlertMessage}</p>
+          <p>{renderCourseTime}</p>
+        </Link>
       ),
     },
   ];

@@ -1,8 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
-import signUpSlice from './feature/signUp';
 import userCenterReservationPosition from './feature/userCenterReservationPosition';
+import zoomSlice from './feature/zoom';
+import signUpSlice from './feature/signUp';
 import loginTabs from './feature/loginTabs';
 import loadingSlice from './feature/loading';
 import hasTokenSlice from './feature/hasToken';
@@ -27,6 +28,7 @@ import { timetableBrowser } from './service/timetableBrowser';
 import { counselorReservation } from './service/counselorReservation';
 
 const reducers = combineReducers({
+  zoomSlice,
   loginTabs,
   signUpSlice,
   loadingSlice,

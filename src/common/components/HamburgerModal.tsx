@@ -6,7 +6,10 @@ import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { counselorListAry, userListAry, counselorCenterAry, userCenterAry } from '@/lib/hamburger/aryData';
 import useOpenLoading from '../hooks/useOpenLoading';
 
-export default function HamburgerModal() {
+export default function HamburgerModal({ renderAlertMessage, renderCourseTime }:{
+  renderAlertMessage: string,
+  renderCourseTime: string,
+}) {
   const auth = getCookie('auth');
   const identity = getCookie('identity');
   const openLoading = useOpenLoading();
@@ -79,8 +82,11 @@ export default function HamburgerModal() {
         className="hamburger-menu"
       >
         {/* 課程連結文字欄 */}
-        <div className={`${handleDisplay} mb-8 flex w-full flex-col justify-center rounded-[10px] bg-primary-heavy py-3`}>
-          <p className="text-center text-base font-bold text-secondary">目前尚無預約</p>
+        <div className={`${handleDisplay} mb-8 flex w-full flex-col justify-center rounded-[10px] bg-primary-heavy py-3 text-center text-base font-bold text-secondary`}>
+          <p className="">
+            {renderAlertMessage}
+          </p>
+          <p>{renderCourseTime}</p>
         </div>
 
         {/* 列表清單 */}
