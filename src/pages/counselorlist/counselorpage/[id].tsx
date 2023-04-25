@@ -16,7 +16,7 @@ import checkCircle from 'public/images/check-circle.svg';
 import convertFieldId from '@/common/helpers/convertFieldId';
 import RegularQuestion from '@/modules/counselorPage/RegularQuestion';
 import UserComment from '@/modules/counselorPage/UserComment';
-import CounsleorCalendar from '@/modules/counselorPage/CounselorCalendar';
+import CounselorCalendar from '@/modules/counselorPage/CounselorCalendar';
 import CounselorVideo from '@/modules/counselorPage/CounselorVideo';
 import CounselorRate from '@/modules/counselorPage/CounselorRate';
 import CounselorInformation from '@/modules/counselorPage/CounselorInformation';
@@ -275,6 +275,9 @@ export default function CounselorPage({
         },
       });
     }
+    if (!identity) {
+      customAlert({ modal, Message: '請先登入', type: 'error' });
+    }
   };
 
   // ==================== GSAP ====================
@@ -503,7 +506,7 @@ export default function CounselorPage({
           </div>
 
           {/* 可預約時段 */}
-          <CounsleorCalendar counselorId={Number(counselorId)} />
+          <CounselorCalendar counselorId={Number(counselorId)} />
 
           {/* 影片區塊 */}
           <CounselorVideo VideoLink={VideoLink} />

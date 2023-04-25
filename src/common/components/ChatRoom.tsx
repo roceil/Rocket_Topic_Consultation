@@ -69,12 +69,13 @@ export default function ChatRoom() {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log('聊天室記錄', data);
       if (!data.Data) {
         setChatRoomData(() => []);
         return;
       }
-      console.log('聊天室記錄', data.Data);
       setChatRoomData(() => data.Data.ChatlogList);
+      setChatCounselorName(() => data.Data.Name);
     };
     getChatMessage();
   }, [isChatRoomOpen, clickUserId, clickCounselorId]);
@@ -199,7 +200,12 @@ export default function ChatRoom() {
       }
       console.log(data);
       console.log('新訊息');
-      setChatRoomData((prev: any) => [...prev, data]);
+      setChatRoomData((prev: any) => {
+        if (prev) {
+          return [...prev, data];
+        }
+        return [data];
+      });
     };
 
     chat.client.broadcastUserList = function (data:any) {
