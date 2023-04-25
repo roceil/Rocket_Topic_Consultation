@@ -23,7 +23,6 @@ export default function CounselorHasSetUp() {
 
   // ====================== 取得資料並渲染 ======================
   useEffect(() => {
-    console.log('已完成', isLoading);
     if (!data) {
       dispatch(loadingStatus('none'));
       return;

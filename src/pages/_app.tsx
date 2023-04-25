@@ -6,6 +6,7 @@ import '../styles/swiper/style.css';
 import '../styles/waves/style.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'animate.css/animate.min.css';
 
 import type { AppProps } from 'next/app';
 import ChatRoom from '@/common/components/ChatRoom';

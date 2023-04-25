@@ -18,7 +18,7 @@ export default function Banner() {
         <div>
 
           <div className="text-gray-900 font-bold">
-            <ReactWOW animation="flipInX" duration="1.5s">
+            <ReactWOW animation="flipInX" duration="1.5s" delay="1.5">
               <h2 className="text-[40px] lg:text-[56px] font-bold leading-[84px] relative bannerDecoration inline-block">不用出門</h2>
 
             </ReactWOW>

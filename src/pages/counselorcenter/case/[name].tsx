@@ -43,7 +43,7 @@ export default function name() {
       {/* 手機版 個案記錄 */}
       <section className="pt-12 pb-28 lg:hidden bg-white">
         <div className="container">
-          <h2 className="mb-12 text-center leading-loose lg:hidden">預約管理</h2>
+          <h2 className="mb-12 text-center leading-loose lg:hidden">個案記錄</h2>
           <CounselorRecordList renderData={renderData} />
         </div>
       </section>

@@ -1,23 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import Image from 'next/image';
 import { Modal } from 'antd';
 import right from 'public/images/Right.svg';
-import { ICaseRenderData, IRecordRenderData } from '@/types/interface';
-import { useCounselorCaseFormDataPostMutation } from '@/common/redux/service/counselorReservation';
-import { CookieValueTypes } from 'cookies-next';
+import { ICaseRenderData } from '@/types/interface';
 import CounselorRecordForm from './CounselorRecordForm';
 
 export default function CaseRecordModal({
   isListModalOpen,
   setIsListModalOpen,
   caseRenderData,
-  token,
 }: {
   isListModalOpen: boolean;
   setIsListModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   caseRenderData: ICaseRenderData[];
-  token: CookieValueTypes;
 }) {
   const handleListOk = () => {
     setIsListModalOpen(false);
@@ -30,23 +25,11 @@ export default function CaseRecordModal({
   // ====================== 個案記錄表格 Modal 開關 ======================
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // ====================== 個案記錄表格資料 ======================
-  const [renderData, setRenderData] = useState < IRecordRenderData | object >({});
-
-  // ====================== 撈取個案記錄表格 API ======================
-  const [CounselorCaseFormDataPost] = useCounselorCaseFormDataPostMutation();
-  const handleCaseFormDataPost = async (AppointmentId: number) => {
+  // ====================== 個案記錄表格用 ID ======================
+  const [courseId, setCourseId] = useState<number>(0);
+  const handleCaseFormDataPost = (AppointmentId:number) => {
+    setCourseId(AppointmentId);
     setIsModalOpen(true);
-    const res = await CounselorCaseFormDataPost({
-      token,
-      AppointmentId,
-    });
-    if ('error' in res) {
-      console.log('🚀 ~ file: LogInForm.tsx:33 ~ userLoginPost ~ res:', res);
-      return;
-    }
-    const { record } = res.data.Data;
-    setRenderData(record);
   };
 
   return (
@@ -85,7 +68,7 @@ export default function CaseRecordModal({
         </ul>
       </Modal>
 
-      {/* <CounselorRecordForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} renderData={renderData} /> */}
+      <CounselorRecordForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} AppointmentId={courseId} />
     </>
   );
 }

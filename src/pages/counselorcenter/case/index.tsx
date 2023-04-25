@@ -1,10 +1,9 @@
 import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 import CustomHead from '@/common/components/CustomHead';
 import CounselorCaseRecordPC from '@/modules/counselorCenter/case/CounselorCaseRecordPC';
-import CounselorCaseRecord from '@/modules/counselorCenter/case/CounselorCaseRecord';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
 
-export default function reservation() {
+export default function index() {
   // ======== 關閉Loading ========
   useCloseLoading();
   return (
@@ -14,7 +13,7 @@ export default function reservation() {
       <section className="pt-12 pb-28 lg:hidden bg-white">
         <div className="container">
           <h2 className="mb-12 text-center leading-loose lg:hidden">預約管理</h2>
-          <CounselorCaseRecord />
+          <CounselorCaseRecordPC />
         </div>
       </section>
       {/* 電腦版 */}

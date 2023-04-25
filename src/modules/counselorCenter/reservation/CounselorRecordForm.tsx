@@ -64,16 +64,12 @@ export default function CounselorRecordForm({ isModalOpen, setIsModalOpen, rende
           },
         },
       );
-      console.log(data);
       setIsModalOpen(false);
       setValue('');
     } catch (error) {
       console.log('🚀 ~ file: CounselorRecordForm.tsx:17 ~ getDetailRecord ~ error:', error);
     }
   };
-
-  // ==================== 解構表單元素 ====================
-  // const { AppointmentDate, AppointmentId, CounsellingRecord, Field, LastRecordDate, Name, RecordDate } = renderData as IRecordRenderData;
 
   //= =================== 轉換時間格式 ====================
   function formatDate(originDate: string) {
@@ -106,6 +102,7 @@ export default function CounselorRecordForm({ isModalOpen, setIsModalOpen, rende
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setValue('');
   };
 
   return (
@@ -146,7 +143,7 @@ export default function CounselorRecordForm({ isModalOpen, setIsModalOpen, rende
               minRows: 14,
               maxRows: 28,
             }}
-            className="bg-gray-200 rounded-lg border-none focus:shadow-none mb-2 p-3"
+            className="bg-gray-200 text-gray-900 rounded-lg border-none focus:shadow-none mb-2 p-3"
           />
 
           <p>{`上次修改日期｜${LastRecordDateFormate()}`}</p>

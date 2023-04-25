@@ -67,21 +67,21 @@ export default function CounselorCaseRecordPC() {
         </ConfigProvider>
       </div>
 
-      <div className="flex justify-between space-x-[60px] rounded-2xl bg-gray-200 pb-9 text-gray-900 lg:p-8 lg:pb-12 mb-10 lg:min-h-[520px]">
+      <div className="flex justify-center lg:justify-between space-x-[60px] rounded-2xl bg-gray-200 pb-9 text-gray-900 lg:p-8 lg:pb-12 mb-10 lg:min-h-[520px]">
 
-        <ul className="flex flex-wrap">
+        <ul className="flex lg:flex-wrap flex-col lg:flex-row pt-7">
           {renderData.map(({ AppointmentCount, Appointments: { UserName }, UserId }) => (
-            <li key={UserId} className="mr-[20px] w-[278px] rounded-xl">
+            <li key={UserId} className="lg:mr-[20px] w-[278px] rounded-xl">
               <Link
                 href={`/counselorcenter/case/${UserName}`}
-                className="mb-4 flex w-full items-center rounded-lg bg-white py-5 px-2 text-center text-sm text-gray-900 hover:opacity-50 lg:text-base"
+                className="mb-4 flex w-full items-center rounded-lg bg-white py-4 lg:py-5 px-2 text-center text-sm text-gray-900 hover:opacity-50 lg:text-base"
               >
-                <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
+                <div className="flex w-[46.1176%] items-center justify-center space-x-4 ">
                   <Image
                     width={40}
                     height={40}
                     src={renderPhoto}
-                    alt="user_pic"
+                    alt={UserName}
                     className="rounded-full object-cover h-10 w-10 text-gray-900 ring-1 ring-secondary"
                   />
                   <p>{UserName}</p>

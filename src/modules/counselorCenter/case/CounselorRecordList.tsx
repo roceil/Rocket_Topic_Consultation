@@ -14,7 +14,6 @@ export default function CounselorRecordList({ renderData }:{ renderData:any }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div>
-
       <div>
         {/* 表格 */}
         <div className="overflow-x-auto rounded-2xl bg-gray-200 pb-9 lg:pb-12 px-7">
