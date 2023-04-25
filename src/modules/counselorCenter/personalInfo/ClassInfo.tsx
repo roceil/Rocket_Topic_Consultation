@@ -161,55 +161,6 @@ export function ClassInfo() {
     console.log('clickId:', clickId);
   }
 
-  // ==================== 待修改：送出表單 ====================
-  // const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
-  // const courseQuantityAry = [1, 3, 5, 1];
-  // const handleSubmit = async (values: any) => {
-  //   console.log(values);
-  //   const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
-  //   // 組成 POST 用的 Features
-  //   const Features = {
-  //     Feature1,
-  //     Feature2,
-  //     Feature3,
-  //     Feature4,
-  //     Feature5,
-  //   };
-
-  //   // 組成 POST 用的 Courses
-  //   const Courses = [
-  //     {
-  //       Item: courseItemAry[0],
-  //       Quantity: courseQuantityAry[0],
-  //       Price: parseInt(Price0),
-  //       Availability: Availability0,
-  //     },
-  //     {
-  //       Item: courseItemAry[1],
-  //       Quantity: courseQuantityAry[1],
-  //       Price: parseInt(Price1),
-  //       Availability: Availability1,
-  //     }, {
-  //       Item: courseItemAry[2],
-  //       Quantity: courseQuantityAry[2],
-  //       Price: parseInt(Price2),
-  //       Availability: Availability2,
-  //     },
-  //     {
-  //       Item: courseItemAry[3],
-  //       Quantity: courseQuantityAry[3],
-  //       Price: parseInt(Price3),
-  //       Availability: Availability3,
-  //     },
-  //   ];
-
-  //   // 取出的資料回傳 POST
-  //   const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
-  //   setIsDisabled(true);
-  //   alert(res.data.Message);
-  //   console.log(res);
-  // };
-
   // 更新 Features
   const updateFeatures = (values: any, originalFeatures: any) => {
     const updatedFeatures = { ...originalFeatures };
@@ -262,6 +213,7 @@ export function ClassInfo() {
     }
     return updatedCourses;
   };
+
   // ==================== 送出表單 ====================
   const handleSubmit = async (values: any) => {
     const { Feature1, Feature2, Feature3, Feature4, Feature5 } = values;
@@ -338,14 +290,14 @@ export function ClassInfo() {
             <NoCourses text="請先選擇專長領域" height="h-[338px]" />
           )}
           <div
-            className={`w-[90%] rounded-2xl bg-gray-200 pb-9 ${
+            className={`lg:w-[90%] rounded-2xl bg-gray-200 pb-9 ${
               isSuccess ? 'hidden' : ''
             }`}
           >
-            <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
-              <li className="lg:w-[33.33%]">課程方案</li>
-              <li className="lg:w-[33.33%]">定價</li>
-              <li className="lg:w-[33.33%]">是否開放</li>
+            <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 text-center">
+              <li className="w-[33.33%]">課程方案</li>
+              <li className="w-[33.33%]">定價</li>
+              <li className="w-[33.33%]">是否開放</li>
             </ul>
             <div className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
               <RenderEmptyForm renderEmptyForm={renderEmptyForm} clickId={clickId as unknown as number} />
@@ -379,21 +331,21 @@ export function ClassInfo() {
                     <div className="flex w-full flex-col space-y-4">
                       {clickFilterAry?.map(
                         ({ Item, Price, Availability }, i) => (
-                          <li className="flex items-center" key={i}>
+                          <li className="flex items-center text-center" key={i}>
                             <div className="w-[33.33%]">{Item}</div>
                             <Form.Item
-                              className="mb-0 lg:w-[33.33%]"
+                              className="mb-0 w-[33.33%]"
                               name={`Price${i}`}
                             >
                               <Input
                                 disabled={isDisabled}
                                 placeholder={Price ?? '請填寫價格'}
                                 className="font-normal"
-                                style={{ height: 40, width: 124 }}
+                                style={{ maxHeight: 40, maxWidth: 124 }}
                               />
                             </Form.Item>
                             <Form.Item
-                              className="mb-0 lg:w-[33.33%]"
+                              className="mb-0 w-[33.33%] text-center"
                               name={`Availability${i}`}
                             >
                               <Switch
@@ -413,7 +365,7 @@ export function ClassInfo() {
                           name={`Feature${i + 1}`}
                           label={`特色 ${i + 1}`}
                           className={`mb-8 px-5 lg:px-[56px] ${
-                            i > 2 && 'ml-[10px]'
+                            i > 2 && 'lg:ml-[10px]'
                           }`}
                           rules={[
                             {
@@ -437,20 +389,19 @@ export function ClassInfo() {
                     </div>
                     <Form.Item className={!courseNotExist ? 'hidden' : ''}>
                       {/* btns */}
-                      <div className="mt-10 flex justify-between space-x-5 px-14">
+                      <div className="mt-10 flex justify-between px-8 lg:px-14">
                         <input
                           type="button"
                           value="刪除此專長領域"
-                          className={`text-base text-gray-900 underline underline-offset-2 ${
+                          className={`text-base text-gray-600 underline underline-offset-2 ${
                             !isDisabled ? 'hover:text-red-500' : ''
                           }`}
                           onClick={() => deleteCourse(clickId as unknown as number)}
-                          // onClick={() => { deleteCourse1(token, clickId); }}
                           disabled={isDisabled}
                         />
                       </div>
-                      <div className="flex justify-end">
-                        <div className="space-x-5 mt-5">
+                      <div className="flex justify-end lg:mr-14">
+                        <div className="mt-5 ">
                           <Button
                             type="primary"
                             shape="round"
