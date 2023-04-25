@@ -223,7 +223,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
 
       {/* 諮商師列表 */}
       <section className="mt-20 lg:mt-[168px]">
-        <div className="max-w-[1440px] md:px-[112px] px-6 m-auto">
+        <div className="container">
           {/* 清單區塊 */}
           <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px] xl:px-[68px]">
             {renderData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }) => <CounselorListCard key={Id} className="before" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />)}
