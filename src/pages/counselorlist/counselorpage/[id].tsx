@@ -322,7 +322,7 @@ export default function CounselorPage({
 
               {/* 課程內容 */}
               <div className="flex flex-col items-center ">
-                <div className="mb-9 flex w-full items-center justify-start lg:mb-10 lg:flex-col lg:items-start">
+                <div className="px-5 mb-9 flex w-full items-center justify-start lg:mb-10 lg:flex-col lg:items-start lg:px-0">
                   <span className="font-bold text-secondary lg:mb-3">
                     我想了解：
                   </span>
@@ -406,7 +406,7 @@ export default function CounselorPage({
                 </div>
 
                 {/* 文案列表區塊 */}
-                <ul className="mb-20 flex w-full flex-col items-start space-y-5 lg:mb-0">
+                <ul className="px-5 mb-20 flex w-full flex-col items-start space-y-5 lg:mb-0 lg:px-0">
                   {topicFeature.map((featureTxt: string) => {
                     if (featureTxt) {
                       return (

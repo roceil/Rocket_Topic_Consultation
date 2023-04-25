@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { deleteCookie } from 'cookies-next';
 import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
+import { Modal } from 'antd';
+import CustomAlert from '@/common/helpers/customAlert';
 
 interface IUserCenterLayoutProps {
   children: React.ReactNode;
@@ -15,6 +17,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
   const isCounselorCenter = pathname === '/counselorcenter' ? 'opacity-100' : 'opacity-70';
   const isReservation = pathname === '/counselorcenter/reservation' ? 'opacity-100' : 'opacity-70';
   const isCase = pathname === '/counselorcenter/case' ? 'opacity-100' : 'opacity-70';
+  const [modal, alertModal] = Modal.useModal();
 
   // 登出函式
   const logout = () => {
@@ -22,8 +25,8 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
     deleteCookie('identity');
     deleteCookie('userID');
     deleteCookie('counselorID');
-    alert('登出成功');
-    router.push('/');
+    const Message = '登出成功';
+    CustomAlert({ modal, Message, type: 'success', router });
   };
   return (
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px] bg-white">
@@ -94,6 +97,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
           <div className="w-[80%]">{children}</div>
         </div>
       </div>
+      <div className="alert">{alertModal}</div>
     </section>
   );
 }
