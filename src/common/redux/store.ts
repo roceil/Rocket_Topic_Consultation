@@ -9,6 +9,7 @@ import chatRoomSlice from './feature/chatRoom';
 import userCenterSlice from './feature/userCenter';
 import counselorListSlice from './feature/counselorList';
 import chatRoomSwitchSlice from './feature/chatRoomSwitch';
+import counselorCasePage from './feature/counselorCasePage';
 import userCenterReservation from './feature/userCenterReservation';
 import counselorReservationTab from './feature/counselorReservationTab';
 import counselorReservationPage from './feature/counselorReservationPage';
@@ -33,6 +34,7 @@ const reducers = combineReducers({
   hasTokenSlice,
   chatRoomSlice,
   userCenterSlice,
+  counselorCasePage,
   counselorListSlice,
   chatRoomSwitchSlice,
   userCenterReservation,
@@ -48,8 +50,8 @@ const reducers = combineReducers({
   [resetPassword.reducerPath]: resetPassword.reducer,
   [forgetPassword.reducerPath]: forgetPassword.reducer,
   [counselorCenter.reducerPath]: counselorCenter.reducer,
-  [counselorReservation.reducerPath]: counselorReservation.reducer,
   [timetableBrowser.reducerPath]: timetableBrowser.reducer,
+  [counselorReservation.reducerPath]: counselorReservation.reducer,
 });
 
 // 註冊
@@ -61,14 +63,14 @@ const store = configureStore({
     .concat(signUp.middleware)
     .concat(userCenter.middleware)
     .concat(shoppingCart.middleware)
+    .concat(shoppingCart.middleware)
     .concat(resetPassword.middleware)
     .concat(counselorPage.middleware)
     .concat(counselorList.middleware)
     .concat(forgetPassword.middleware)
     .concat(counselorCenter.middleware)
-    .concat(counselorReservation.middleware)
-    .concat(shoppingCart.middleware)
-    .concat(timetableBrowser.middleware),
+    .concat(timetableBrowser.middleware)
+    .concat(counselorReservation.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });

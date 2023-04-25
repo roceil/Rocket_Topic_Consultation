@@ -18,11 +18,11 @@ export default function Banner() {
         <div>
 
           <div className="text-gray-900 font-bold">
-            <ReactWOW animation="flipInX" duration="1.5s">
+            <ReactWOW animation="flipInX" duration="1.5s" delay="1.5">
               <h2 className="text-[40px] lg:text-[56px] font-bold leading-[84px] relative bannerDecoration inline-block">不用出門</h2>
 
             </ReactWOW>
-            <h3 className="text-2xl lg:text-3xl">就能找到屬於你的心裡服務！</h3>
+            <h3 className="text-2xl lg:text-3xl">就能找到屬於你的心理服務！</h3>
           </div>
 
           <p className="mt-2 text-[14px] text-gray-900 lg:mt-10 lg:max-w-[612px] lg:text-left lg:text-lg">一鍵就能輕鬆預約諮商師，在家也能照顧好自己</p>

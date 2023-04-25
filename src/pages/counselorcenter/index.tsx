@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
 import { ConfigProvider } from 'antd';
 import { getCookie } from 'cookies-next';
-import { useDispatch } from 'react-redux';
-import CustomHead from '@/common/components/CustomHead';
-import { loadingStatus } from '@/common/redux/feature/loading';
 import CounselorInfoTab from '@/modules/counselorCenter/personalInfo/CounselorInfoTab';
-import wrapper from '../../common/redux/store';
-import CounselorCenterLayout from '../../modules/counselorCenter/CounselorCenterLayout';
+import wrapper from '@/common/redux/store';
+import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
+import CustomHead from '@/common/components/CustomHead';
 
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });
@@ -21,16 +19,13 @@ export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req,
 
 export default function index() {
   // ==================== 載入後關閉 Loading ====================
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadingStatus('none'));
-  }, []);
+  useCloseLoading();
   return (
     <>
       <CustomHead pageTitle="會員中心" />
       {/* 手機版 */}
       <section className="pt-12 pb-28 lg:hidden lg:pt-[84px] lg:pb-[136px] bg-white">
-        <div className="container">
+        <div className="">
           <h2 className="mb-12 text-center leading-loose lg:hidden text-secondary">個人資料</h2>
           <div className="counselorTab mx-4 ">
             <ConfigProvider

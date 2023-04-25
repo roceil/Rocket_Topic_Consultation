@@ -10,7 +10,6 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Sans:wght@400;700&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" />
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" />
         {/* <!--Reference the SignalR library. --> */}

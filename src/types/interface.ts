@@ -266,3 +266,11 @@ export interface ListItem {
   Field: string;
   CounselorId: number;
 }
+
+export interface ICounselorRenderList {
+  Name:string;
+  Field:string;
+  AppointmentTime:string;
+  AppointmentId:number;
+  AppointmentDate:string;
+}
