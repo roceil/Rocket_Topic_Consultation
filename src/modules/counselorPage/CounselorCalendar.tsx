@@ -104,7 +104,7 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
           <ul className="hour-scrollbar flex w-[340px] h-[487px] lg:h-[451px] lg:w-[480px] space-x-1 lg:space-x-3 overflow-auto  text-center">
             {renderWeek.length === 0
               ? (
-                <div className="absolute z-50 h-[600px] lg:h-[520px] w-full bg-priamry-tint">
+                <div className="absolute right-0 z-50 h-[600px] lg:h-[520px] w-full bg-priamry-tint">
                   <div className="h-full w-full flex items-center justify-center text-lg"><p className="w-full text-center text-secondary">尚未新增預約時段</p></div>
                 </div>
               ) : (
@@ -133,26 +133,28 @@ export default function CounselorCalendar({ counselorId }: { counselorId: number
                   </li>
                 )))}
           </ul>
-          {renderWeek.length === 0
-            ?? (
-            <div className="flex justify-between w-[332px] lg:w-[480px] ">
-              <Button
-                className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
-                onClick={getPreviousWeek}
-                disabled={pageNum === 1}
-                style={{ border: pageNum === 1 ? '1.5px solid #BDBDBD' : 'none' }}
-              >
-                <span className="btnHoverText">上一週</span>
-              </Button>
-              <Button
-                className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
-                onClick={getNextWeek}
-                disabled={pageNum === renderPageNum}
-                style={{ border: pageNum === renderPageNum ? '1.5px solid #BDBDBD' : 'none' }}
-              >
-                <span className="btnHoverText">下一週</span>
-              </Button>
-            </div>
+          {renderWeek
+            && renderWeek.length !== 0 ? (
+              <div className="flex justify-between w-[332px] lg:w-[480px] ">
+                <Button
+                  className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
+                  onClick={getPreviousWeek}
+                  disabled={pageNum === 1}
+                  style={{ border: pageNum === 1 ? '1.5px solid #BDBDBD' : 'none' }}
+                >
+                  <span className="btnHoverText">上一週</span>
+                </Button>
+                <Button
+                  className="group text-sm text-[#424242] w-[160px] lg:w-[230px] !rounded-[10px]  font-semibold  btnHoverTimeTable"
+                  onClick={getNextWeek}
+                  disabled={pageNum === renderPageNum}
+                  style={{ border: pageNum === renderPageNum ? '1.5px solid #BDBDBD' : 'none' }}
+                >
+                  <span className="btnHoverText">下一週</span>
+                </Button>
+              </div>
+            ) : (
+              <div className=" bg-primary-tint h-8" />
             )}
         </div>
       </div>

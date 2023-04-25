@@ -1,7 +1,7 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable react/no-array-index-key */
+import { topicCardAry } from '@/lib/homeFilesRoute';
 import TopicCard from './TopicCard';
-// eslint-disable-next-line import/no-cycle
-import { topicCardAry } from '../../lib/homeFilesRoute';
 
 export default function CustomTopic() {
   return (
@@ -11,10 +11,12 @@ export default function CustomTopic() {
         <p className="subTitle mb-0 text-sm lg:text-lg">選擇主題，讓諮商師為你量身定做專屬課程</p>
 
         {/* 卡片 */}
-        <ul className="mt-9 flex w-full flex-col space-y-6 lg:mt-[92px] lg:max-w-[1012px] lg:flex-row lg:flex-wrap lg:justify-between lg:space-y-0">
+        <ul className="mt-9 flex w-full flex-col space-y-6 lg:mt-[92px] lg:max-w-[1012px] lg:flex-row lg:flex-wrap lg:justify-between lg:space-y-0 ">
           {topicCardAry.map(({ type, text, img, imgSM }, index) => {
             if (index <= 2) {
-              return <TopicCard key={index} type={type} text={text} gap="lg:mb-12" img={img} imgSM={imgSM} />;
+              return (
+                <TopicCard key={index} type={type} text={text} gap="lg:mb-12" img={img} imgSM={imgSM} />
+              );
             }
             return <TopicCard key={index} type={type} text={text} img={img} imgSM={imgSM} />;
           })}

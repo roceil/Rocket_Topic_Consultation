@@ -36,7 +36,7 @@ export const counselorRank = [
     name: '劉昱涵',
     rankTag: '熱門諮商師 TOP 1',
     id: 5,
-    img: 'https://pi.rocket-coding.com/upload/headshot/5-測試12-20230420171238.png',
+    img: 'https://pi.rocket-coding.com/upload/headshot/5-劉昱涵-20230423235804.png',
     skillsAry: [
       {
         type: '人際關係',
@@ -56,7 +56,7 @@ export const counselorRank = [
     name: '吳虹慧',
     rankTag: '熱門諮商師 TOP 2',
     id: 7,
-    img: 'https://pi.rocket-coding.com/upload/headshot/7-吳虹慧-20230420161831.png',
+    img: 'https://pi.rocket-coding.com/upload/headshot/7-吳虹慧-20230424000824.png',
     skillsAry: [
       {
         type: '個人發展',
@@ -76,7 +76,7 @@ export const counselorRank = [
     name: '薛晉楷',
     rankTag: '熱門諮商師 TOP 3',
     id: 8,
-    img: 'https://pi.rocket-coding.com/upload/headshot/8-測試1-20230420170913.png',
+    img: 'https://pi.rocket-coding.com/upload/headshot/8-薛晉楷-20230424000904.png',
     skillsAry: [
       {
         type: '個人發展',
@@ -96,7 +96,7 @@ export const counselorRank = [
     name: '蕭翔宇',
     rankTag: '熱門諮商師 TOP 4',
     id: 9,
-    img: 'https://pi.rocket-coding.com/upload/headshot/9-蕭翔宇-20230422173211.png',
+    img: 'https://pi.rocket-coding.com/upload/headshot/9-蕭翔宇-20230424000935.png',
     skillsAry: [
       {
         type: '職場議題',
@@ -122,7 +122,7 @@ export const counselorRank = [
     name: '施宇峻',
     rankTag: '熱門諮商師 TOP 5',
     id: 10,
-    img: 'https://pi.rocket-coding.com/upload/headshot/10-施宇峻-20230422155712.png',
+    img: 'https://pi.rocket-coding.com/upload/headshot/10-施宇峻-20230424000956.png',
     skillsAry: [
       {
         type: '伴侶關係',
@@ -148,7 +148,7 @@ export const counselorRank = [
     name: '王也修',
     rankTag: '熱門諮商師 TOP 6',
     id: 11,
-    img: 'https://pi.rocket-coding.com/upload/headshot/11-測試4-20230420163102.png',
+    img: 'https://pi.rocket-coding.com/upload/headshot/11-王也修-20230424001015.png',
     skillsAry: [
       {
         type: '職場議題',

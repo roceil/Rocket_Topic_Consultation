@@ -44,6 +44,7 @@ export default function HamburgerModal() {
       deleteCookie('auth');
       deleteCookie('identity');
       deleteCookie('userID');
+      deleteCookie('counselorID');
       alert('登出成功');
       handleCancel();
     }
