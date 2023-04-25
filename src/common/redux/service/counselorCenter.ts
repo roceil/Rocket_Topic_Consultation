@@ -27,9 +27,6 @@ export const counselorCenter = createApi({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        // onSuccess: () => {
-        //   QueryCache.invalidateQueries('CoursesDataGet');
-        // },
       }),
     }),
     CourseDataDelete: builder.mutation({

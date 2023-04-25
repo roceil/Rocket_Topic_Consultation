@@ -3,6 +3,7 @@ import { Button, ConfigProvider, Form, Input, Switch, Modal } from 'antd';
 import CustomAlert from '@/common/helpers/customAlert';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
   useCourseDataDeleteMutation,
   useCoursesDataGetQuery,
@@ -155,7 +156,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
             <div className="flex w-full flex-col space-y-4">
               {emptyPriceAry.map((item, i) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <li className="flex items-center text-center" key={i}>
+                <li className="flex items-center text-center" key={uuidv4()}>
                   <div className="w-[33.33%]">{item}</div>
                   <Form.Item className="mb-0 w-[33.33%]" name={`Price${i}`}>
                     <Input

@@ -26,7 +26,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
   };
   return (
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px] bg-white">
-      <div className=" container min-h-[calc(100vh-330px)]">
+      <div className="lg:px-[112px] px-8 m-auto max-w-[1440px] min-h-[calc(100vh-330px)]">
         <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
           目前尚無預約
         </div>

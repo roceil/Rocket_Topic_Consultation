@@ -1,13 +1,9 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// GET => POST / DELETE 後要重新 GET 渲染畫面 => GPT 建議在 POST RTKQ 加上 onSuccess 屬性刷新
-// POST 改 RTKQ
-// 調整手機版
-import { Button, ConfigProvider, Form, Input, Switch, FormInstance, Modal } from 'antd';
+import { Button, ConfigProvider, Form, Input, Switch, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
-import axios from 'axios';
 import CustomAlert from '@/common/helpers/customAlert';
+import { v4 as uuidv4 } from 'uuid';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -30,10 +26,13 @@ export function ClassInfo() {
   // ==================== 取得課程 API ====================
   const { data, isLoading, refetch } = useCoursesDataGetQuery({ token });
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   // ==================== 新增/修改課程 API ====================
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
 
-  // ==================== 刪除課程 API RTKQ ====================
+  // ==================== 刪除課程 API ====================
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
   const deleteCourse = async (clickId:number) => {
     const res = await CourseDataDeleteMutation({ token, clickId });
@@ -211,7 +210,6 @@ export function ClassInfo() {
 
     type AvailabilityItem = boolean | undefined;
     const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
-    console.log(AvailabilityAry);
 
     if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
       const Message = '請至少開放一種方案';
@@ -220,8 +218,8 @@ export function ClassInfo() {
       const res = await coursesDataPostMutation({
         token,
         clickId,
-        Courses,
-        Features,
+        Features, // 加入 Features
+        Courses, // 加入 Courses
       });
       setIsDisabled(true);
       refetch();
@@ -282,7 +280,6 @@ export function ClassInfo() {
           <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[11%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
-          {/* PC 課程方案 */}
           {/* 點擊膠囊前，初始畫面 */}
           {isSuccess && (
             <NoCourses text="請先選擇專長領域" height="h-[338px]" />
@@ -329,7 +326,7 @@ export function ClassInfo() {
                     <div className="flex w-full flex-col space-y-4">
                       {clickFilterAry?.map(
                         ({ Item, Price, Availability }, i) => (
-                          <li className="flex items-center text-center" key={i}>
+                          <li className="flex items-center text-center" key={uuidv4()}>
                             <div className="w-[33.33%]">{Item}</div>
                             <Form.Item
                               className="mb-0 w-[33.33%]"
@@ -337,6 +334,7 @@ export function ClassInfo() {
                             >
                               <Input
                                 disabled={isDisabled}
+                                name={`Price${i}`}
                                 placeholder={Price ?? '請填寫價格'}
                                 className="font-normal"
                                 style={{ maxHeight: 40, maxWidth: 124 }}
@@ -375,6 +373,7 @@ export function ClassInfo() {
                         >
                           <TextArea
                             showCount
+                            name={`Feature${i + 1}`}
                             maxLength={25}
                             style={{ height: 45, resize: 'none' }}
                             onChange={onChange}
