@@ -13,6 +13,7 @@ export interface ISuggestCounselorCardProps {
   rankTag: string;
   img: string;
   skillsAry: ITopicCardProps[];
+  id:number
 }
 
 export interface ISearchCapsuleProps {
@@ -120,6 +121,7 @@ export interface ICounselorPageProps {
     Photo: string;
     SelfIntroduction: string;
     Fields: any;
+    VideoLink: string | null;
   };
 }
 export interface ICourses {
@@ -170,6 +172,19 @@ export interface IShoppingFormProps {
   renderDate: ICartItem[];
   setRenderDate: React.Dispatch<React.SetStateAction<ICartItem[]>>;
   TotalAmount: number;
+}
+
+export interface IChatList {
+  Content: string;
+  CounselorId: number;
+  CounselorRead: boolean;
+  Id: number;
+  InitDate: string;
+  OutName: string;
+  Photo: string;
+  Type: string;
+  UserId: number;
+  UserRead: boolean;
 }
 
 export interface ICaseRenderData {
@@ -272,4 +287,12 @@ export interface IAppointmentWithOrder {
   isHaveUrl: boolean
   spanNowTime: string
   url: string
+}
+
+export interface ICounselorRenderList {
+  Name:string;
+  Field:string;
+  AppointmentTime:string;
+  AppointmentId:number;
+  AppointmentDate:string;
 }

@@ -64,7 +64,7 @@ function LogInForm() {
 
     setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
-    setCookie('userID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('counselorID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
     router.push('/');
     CustomAlert({ modal, Message, type: 'success', router });
   };

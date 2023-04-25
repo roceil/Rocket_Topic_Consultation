@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ConfigProvider, Modal, Radio, RadioChangeEvent, Select } from 'antd';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useDispatch } from 'react-redux';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { useAddToCartPostMutation } from '@/common/redux/service/counselorPage';
@@ -13,7 +16,7 @@ import checkCircle from 'public/images/check-circle.svg';
 import convertFieldId from '@/common/helpers/convertFieldId';
 import RegularQuestion from '@/modules/counselorPage/RegularQuestion';
 import UserComment from '@/modules/counselorPage/UserComment';
-import CounsleorCalendar from '@/modules/counselorPage/CounselorCalendar';
+import CounselorCalendar from '@/modules/counselorPage/CounselorCalendar';
 import CounselorVideo from '@/modules/counselorPage/CounselorVideo';
 import CounselorRate from '@/modules/counselorPage/CounselorRate';
 import CounselorInformation from '@/modules/counselorPage/CounselorInformation';
@@ -64,16 +67,17 @@ export default function CounselorPage({
   data: ICounselorPageProps;
   counselorId: string;
 }) {
-  console.log('🚀 ~ file: [id].tsx:52 ~ CounselorPage ~ data:', data);
   // ==================== 關閉 loading ====================
   useCloseLoading();
-
   const [modal, alertModal] = Modal.useModal();
   const openLoading = useOpenLoading();
+  const dispatch = useDispatch();
   const [addToCartPost] = useAddToCartPostMutation();
   const token = getCookie('auth');
+  const identity = getCookie('identity');
+  const clickUserId = getCookie('userID');
   const router = useRouter();
-  const { Name, FieldTags, Photo, SelfIntroduction, Fields } = data.Data;
+  const { Name, FieldTags, Photo, SelfIntroduction, Fields, VideoLink = null } = data.Data;
   const [chooseCase, setChooseCase] = useState(null);
 
   // ==================== Server 渲染畫面 ====================
@@ -208,6 +212,10 @@ export default function CounselorPage({
       router.push('/login');
       return;
     }
+    if (identity === 'counselor') {
+      customAlert({ modal, Message: '諮商師無法預約，請更換帳號', type: 'error' });
+      return;
+    }
 
     if (!chooseCase) {
       customAlert({ modal, Message: '請選擇方案', type: 'error' });
@@ -255,6 +263,43 @@ export default function CounselorPage({
     }
   };
 
+  // 打開聊天室
+  const startChat = () => {
+    if (identity === 'user') {
+      dispatch({
+        type: 'chatRoomSwitch/chatRoomSwitch',
+        payload: {
+          isChatRoomOpen: true,
+          clickUserId,
+          clickCounselorId: Number(counselorId),
+        },
+      });
+    }
+    if (!identity) {
+      customAlert({ modal, Message: '請先登入', type: 'error' });
+    }
+    if (identity === 'counselor') {
+      customAlert({ modal, Message: '請更換至一般帳戶', type: 'error' });
+    }
+  };
+
+  // ==================== GSAP ====================
+  gsap.registerPlugin(ScrollTrigger);
+  const caseRef = useRef(null);
+
+  useEffect(() => {
+    gsap.to('#case', {
+      x: 0,
+      y: 1000,
+      scrollTrigger: {
+        trigger: '#case',
+        start: 'top 206px',
+        end: 'bottom -800px',
+        scrub: true,
+      },
+    });
+  }, []);
+
   return (
     <>
       <CustomHead
@@ -273,7 +318,7 @@ export default function CounselorPage({
       />
 
       {/* 預約課程 */}
-      <section className="lg:container lg:flex lg:justify-between lg:py-[148px]">
+      <section ref={caseRef} className="lg:container lg:flex lg:justify-between lg:py-[148px]">
         {/* 手機版 */}
         <div>
           {/* 預約課程 */}
@@ -283,7 +328,7 @@ export default function CounselorPage({
 
               {/* 課程內容 */}
               <div className="flex flex-col items-center ">
-                <div className="mb-9 flex w-full items-center justify-start lg:mb-10 lg:flex-col lg:items-start">
+                <div className="px-5 mb-9 flex w-full items-center justify-start lg:mb-10 lg:flex-col lg:items-start lg:px-0">
                   <span className="font-bold text-secondary lg:mb-3">
                     我想了解：
                   </span>
@@ -336,14 +381,15 @@ export default function CounselorPage({
                         defaultValue={FieldOptions[0].label}
                         buttonStyle="solid"
                         onChange={changeCasePC}
+                        className="w-[504px] flex flex-wrap"
                       >
                         {FieldOptions.map(
                           ({ value, label }: IFilterCases, index: number) => {
-                            if (index === 0) {
+                            if (index < 3) {
                               return (
                                 <Radio.Button
                                   key={value}
-                                  className="!fakeBorder w-[112px] !rounded-full !text-center !font-semibold"
+                                  className="!fakeBorder mr-4 w-[112px] !rounded-full !text-center !font-semibold"
                                   value={value}
                                 >
                                   {label}
@@ -353,7 +399,7 @@ export default function CounselorPage({
                             return (
                               <Radio.Button
                                 key={value}
-                                className="!fakeBorder ml-4 w-[112px] !rounded-full !text-center !font-semibold"
+                                className="!fakeBorder mt-3 mr-4 w-[112px] !rounded-full !text-center !font-semibold"
                                 value={value}
                               >
                                 {label}
@@ -367,7 +413,7 @@ export default function CounselorPage({
                 </div>
 
                 {/* 文案列表區塊 */}
-                <ul className="mb-20 flex w-full flex-col items-start space-y-5 lg:mb-0">
+                <ul className="px-5 mb-20 flex w-full flex-col items-start space-y-5 lg:mb-0 lg:px-0">
                   {topicFeature.map((featureTxt: string) => {
                     if (featureTxt) {
                       return (
@@ -447,6 +493,7 @@ export default function CounselorPage({
                       py="py-3"
                       extraStyle="w-[104px]"
                       mode="light"
+                      onClick={startChat}
                     />
                     <IButton
                       text="手刀預約"
@@ -463,25 +510,24 @@ export default function CounselorPage({
           </div>
 
           {/* 可預約時段 */}
-          <CounsleorCalendar counselorId={Number(counselorId)} />
+          <CounselorCalendar counselorId={Number(counselorId)} />
 
           {/* 影片區塊 */}
-          <CounselorVideo />
+          <CounselorVideo VideoLink={VideoLink} />
 
           {/* 評分區塊 */}
           <CounselorRate />
         </div>
 
         {/* 電腦版方案選擇 */}
-        <div className="hidden lg:block lg:pt-[146px]">
+        <div ref={caseRef} className="hidden  lg:block lg:pt-[146px]">
           {/* 價格區塊 */}
-          <div className="relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14">
-            <button
-              type="button"
+          <div id="case" className="caseChoose relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14 text-center">
+            <div
               className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-sm font-bold text-gray-900 lg:w-[240px]  lg:translate-y-[-35px] lg:py-5 lg:text-xl"
             >
               {chooseTopic}
-            </button>
+            </div>
 
             <div className="mb-9 lg:mb-12  lg:px-[54px]">
               <ConfigProvider
@@ -498,7 +544,7 @@ export default function CounselorPage({
                   },
                 }}
               >
-                <Radio.Group buttonStyle="solid" onChange={onChange3}>
+                <Radio.Group buttonStyle="solid" onChange={onChange3} className="w-full">
                   {chooseCourse.map(
                     ({ value, label }: IFilterCases, index: number) => {
                       if (index === 0) {
@@ -534,6 +580,7 @@ export default function CounselorPage({
                 py="py-4"
                 extraStyle="w-[144px]"
                 mode="light"
+                onClick={startChat}
               />
               <IButton
                 text="手刀預約"

@@ -6,6 +6,8 @@ import { deleteCookie } from 'cookies-next';
 import { useSelector } from 'react-redux';
 import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
+import { Modal } from 'antd';
+import CustomAlert from '@/common/helpers/customAlert';
 
 export default function CounselorCenterLayout({ children }: {
   children: React.ReactNode;
@@ -16,14 +18,16 @@ export default function CounselorCenterLayout({ children }: {
   const isCounselorCenter = pathname === '/counselorcenter' ? 'opacity-100' : 'opacity-70';
   const isReservation = pathname === '/counselorcenter/reservation' ? 'opacity-100' : 'opacity-70';
   const isCase = pathname === '/counselorcenter/case' ? 'opacity-100' : 'opacity-70';
+  const [modal, alertModal] = Modal.useModal();
 
   // ==================== 登出 ====================
   const logout = () => {
     deleteCookie('auth');
     deleteCookie('identity');
     deleteCookie('userID');
-    alert('登出成功');
-    router.push('/');
+    deleteCookie('counselorID');
+    const Message = '登出成功';
+    CustomAlert({ modal, Message, type: 'success', router });
   };
 
   // ==================== 通知 ====================
@@ -119,6 +123,7 @@ export default function CounselorCenterLayout({ children }: {
           <div className="w-[80%]">{children}</div>
         </div>
       </div>
+      <div className="alert">{alertModal}</div>
     </section>
   );
 }
