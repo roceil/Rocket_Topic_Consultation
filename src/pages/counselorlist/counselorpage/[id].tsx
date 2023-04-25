@@ -278,6 +278,9 @@ export default function CounselorPage({
     if (!identity) {
       customAlert({ modal, Message: '請先登入', type: 'error' });
     }
+    if (identity === 'counselor') {
+      customAlert({ modal, Message: '請更換至一般帳戶', type: 'error' });
+    }
   };
 
   // ==================== GSAP ====================
@@ -378,14 +381,15 @@ export default function CounselorPage({
                         defaultValue={FieldOptions[0].label}
                         buttonStyle="solid"
                         onChange={changeCasePC}
+                        className="w-[504px] flex flex-wrap"
                       >
                         {FieldOptions.map(
                           ({ value, label }: IFilterCases, index: number) => {
-                            if (index === 0) {
+                            if (index < 3) {
                               return (
                                 <Radio.Button
                                   key={value}
-                                  className="!fakeBorder w-[112px] !rounded-full !text-center !font-semibold"
+                                  className="!fakeBorder mr-4 w-[112px] !rounded-full !text-center !font-semibold"
                                   value={value}
                                 >
                                   {label}
@@ -395,7 +399,7 @@ export default function CounselorPage({
                             return (
                               <Radio.Button
                                 key={value}
-                                className="!fakeBorder ml-4 w-[112px] !rounded-full !text-center !font-semibold"
+                                className="!fakeBorder mt-3 mr-4 w-[112px] !rounded-full !text-center !font-semibold"
                                 value={value}
                               >
                                 {label}
@@ -540,7 +544,7 @@ export default function CounselorPage({
                   },
                 }}
               >
-                <Radio.Group buttonStyle="solid" onChange={onChange3}>
+                <Radio.Group buttonStyle="solid" onChange={onChange3} className="w-full">
                   {chooseCourse.map(
                     ({ value, label }: IFilterCases, index: number) => {
                       if (index === 0) {

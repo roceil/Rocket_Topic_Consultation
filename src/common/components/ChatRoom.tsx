@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { IChatList } from '@/types/interface';
@@ -262,7 +263,7 @@ export default function ChatRoom() {
             const userType = type === 'user' ? UserRead : CounselorRead;
 
             return (
-              <li key={CounselorId}>
+              <li key={uuidv4()}>
                 <button
                   type="button"
                   className="flex w-full cursor-pointer  items-center justify-between border-b border-gray-400  pt-4 pb-[22px] lg:w-[288px] lg:hover:opacity-80"
@@ -348,7 +349,7 @@ export default function ChatRoom() {
             // 用戶訊息
             if (Type === 'send' && type === 'user') {
               return (
-                <li key={convertTime} className="flex justify-end text-sm">
+                <li key={uuidv4()} className="flex justify-end text-sm">
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
@@ -358,7 +359,7 @@ export default function ChatRoom() {
             }
             if (Type === 'accept' && type === 'counselor') {
               return (
-                <li key={convertTime} className="flex justify-end text-sm">
+                <li key={uuidv4()} className="flex justify-end text-sm">
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
@@ -368,7 +369,7 @@ export default function ChatRoom() {
             }
             // 諮商師訊息
             return (
-              <li key={convertTime} className="flex justify-start space-x-2 text-sm">
+              <li key={uuidv4()} className="flex justify-start space-x-2 text-sm">
                 {/* 圖片 */}
                 {renderChatRoomPhoto && <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />}
                 {/* 內容 */}

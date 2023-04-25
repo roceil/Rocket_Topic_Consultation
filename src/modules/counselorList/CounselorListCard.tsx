@@ -35,6 +35,9 @@ export default function CounselorListCard({ className, counselorName, subtitle, 
     if (!identity) {
       CustomAlert({ modal, Message: '請先登入', type: 'error' });
     }
+    if (identity === 'counselor') {
+      CustomAlert({ modal, Message: '請更換至一般用戶', type: 'error' });
+    }
   };
 
   return (
