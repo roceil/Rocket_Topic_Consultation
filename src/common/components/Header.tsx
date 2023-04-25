@@ -75,7 +75,7 @@ export default function Header() {
           </Link>
 
           {/* 漢堡選單 */}
-          <HamburgerModal renderAlertMessage={renderAlertMessage} renderCourseTime={renderCourseTime} />
+          <HamburgerModal renderAlertMessage={renderAlertMessage} renderCourseTime={renderCourseTime} renderCourseLink={renderCourseLink} />
 
           {/* PC 版導覽列 */}
           <div className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-5">
