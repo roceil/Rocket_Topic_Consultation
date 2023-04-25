@@ -1,16 +1,17 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { deleteCookie } from 'cookies-next';
+import { useSelector } from 'react-redux';
 import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { Modal } from 'antd';
 import CustomAlert from '@/common/helpers/customAlert';
 
-interface IUserCenterLayoutProps {
+export default function CounselorCenterLayout({ children }: {
   children: React.ReactNode;
-}
-
-export default function CounselorCenterLayout({ children }: IUserCenterLayoutProps) {
+}) {
   const openLoading = useOpenLoading();
   const router = useRouter();
   const { pathname } = router;
@@ -19,7 +20,7 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
   const isCase = pathname === '/counselorcenter/case' ? 'opacity-100' : 'opacity-70';
   const [modal, alertModal] = Modal.useModal();
 
-  // 登出函式
+  // ==================== 登出 ====================
   const logout = () => {
     deleteCookie('auth');
     deleteCookie('identity');
@@ -28,12 +29,37 @@ export default function CounselorCenterLayout({ children }: IUserCenterLayoutPro
     const Message = '登出成功';
     CustomAlert({ modal, Message, type: 'success', router });
   };
+
+  // ==================== 通知 ====================
+  const { value } = useSelector((state:{ zoomSlice:{ value:any } }) => state.zoomSlice);
+  const [renderAlertMessage, setRenderAlertMessage] = useState('目前尚無預約');
+  const [renderCourseTime, setRenderCourseTime] = useState('');
+  const [renderCourseLink, setRenderCourseLink] = useState();
+
+  useEffect(() => {
+    // 如果value長度為0，表示沒有預約記錄
+    if (Object.keys(value).length === 0) return;
+    // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
+    if (!value.isHaveUrl && value.spanNowTime) {
+      const covertTime = dayjs(value.spanNowTime).format('M 月 DD 日 HH:mm 產出');
+      setRenderAlertMessage('課程連結將於');
+      setRenderCourseTime(covertTime);
+    }
+
+    // 如果isHaveUrl為true，表示有預約記錄，且已經產出連結
+    if (value.isHaveUrl && value.spanNowTime) {
+      setRenderAlertMessage('課程連結如下');
+      setRenderCourseTime('進入會議室');
+      setRenderCourseLink(value.url);
+    }
+  }, [value]);
   return (
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px] bg-white">
       <div className=" container min-h-[calc(100vh-330px)]">
-        <div className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
-          目前尚無預約
-        </div>
+        <Link href={renderCourseLink || '#'} target="_blank" className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
+          <p>{renderAlertMessage}</p>
+          <p>{renderCourseTime}</p>
+        </Link>
 
         <div className="flex justify-between">
           <div className="w-[20%]">

@@ -267,6 +267,28 @@ export interface ListItem {
   CounselorId: number;
 }
 
+export interface IAppointmentWithOrderProps {
+  AppointmentId: number;
+  AppointmentTime: string;
+  CounselorName: string;
+  InitDate: string;
+  ReserveStatus: string;
+  UserName: string;
+  ZoomLink: string;
+}
+
+export interface IAlertProps {
+  appointmentsWithOrder: IAppointmentWithOrderProps[];
+  isHaveUrl: boolean
+  spanNowTime: string
+}
+
+export interface IAppointmentWithOrder {
+  isHaveUrl: boolean
+  spanNowTime: string
+  url: string
+}
+
 export interface ICounselorRenderList {
   Name:string;
   Field:string;
