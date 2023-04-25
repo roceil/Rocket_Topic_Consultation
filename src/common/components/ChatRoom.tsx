@@ -1,73 +1,99 @@
+/* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { IChatList } from '@/types/interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { chatRoomAlert } from '../redux/feature/chatRoom';
-import { useGetChatRoomListQuery, useGetChatMessageQuery } from '../redux/service/chatRoom';
+
+interface IChatRoomSwitch {
+  isChatRoomOpen: boolean;
+  clickUserId: number;
+  clickCounselorId: number;
+}
 
 export default function ChatRoom() {
   const token = getCookie('auth');
-  const id = getCookie('userID');
+  const id = getCookie('userID') || getCookie('counselorID');
   const type = getCookie('identity');
   const dispatch = useDispatch();
   const chatRoomAlertState = useSelector((state: { chatRoomSlice:{ value:string } }) => state.chatRoomSlice.value);
+  const { isChatRoomOpen, clickUserId, clickCounselorId } = useSelector((state: { chatRoomSwitchSlice:{ value:IChatRoomSwitch } }) => state.chatRoomSwitchSlice.value);
 
   // ====================== state ======================
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isChatRoomOpen, setIsChatRoomOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(true);
   const [chatList, setChatList] = useState<IChatList[]>([]);
   const [chatRoomData, setChatRoomData] = useState<any>([]);
-  const [clickCounselor, setClickCounselor] = useState<number | null>(null);
   const [chatCounselorName, setChatCounselorName] = useState<string | null>(null);
-  // const [renderCounselorRead, setRenderCounselorRead] = useState<boolean>(false);
   const [renderChatRoomPhoto, setRenderChatRoomPhoto] = useState<string>('');
-  const [readStatus, setReadStatus] = useState<boolean>(false);
 
   // ====================== ref ======================
   const chatMessageRef = useRef<HTMLInputElement>(null);
   const chatRoomRef = useRef<HTMLUListElement>(null);
 
-  // ====================== query ======================
-  // const { data, isLoading } = useGetChatRoomListQuery({ token, id, type });
-  // const { data: chatMessageData, isLoading: chatMessageIsLoading } = useGetChatMessageQuery({
-  //   token,
-  //   CounselorId: clickCounselor,
-  //   UserId: id,
-  //   type,
-  // }, {
-  //   refetchOnMountOrArgChange: true,
-  //   refetchOnFocus: true,
-  // });
-
+  // ====================== 聊天室列表 GET ======================
   const getChatList = async () => {
+    if (!token || !id || !type) {
+      setChatList(() => []);
+      return;
+    }
     const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/chatroom/lastMsgTarget?Id=${id}&Type=${type}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!data) return;
+    if (!data || data.Data === null) return;
     setChatList(data.Data.userChatTargetList);
     const { isRead } = data.Data;
     dispatch(chatRoomAlert(isRead));
   };
+  useEffect(() => {
+    getChatList();
+  }, [isModalOpen, id]);
 
-  const getChatMessage = async (CounselorId: number) => {
-    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/chatroom/GetChatlogs?CounselorId=${CounselorId}&UserId=${id}&UserType=${type}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+  // ====================== 聊天室訊息 GET ======================
+  useEffect(() => {
+    if (chatRoomData) {
+      setChatRoomData(() => []);
+    }
+    const getChatMessage = async () => {
+      if (clickUserId === 0 || clickCounselorId === 0) return;
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/chatroom/GetChatlogs?CounselorId=${clickCounselorId}&UserId=${clickUserId}&UserType=${type}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('聊天室記錄', data);
+      if (!data.Data) {
+        setChatRoomData(() => []);
+        return;
+      }
+      setChatRoomData(() => data.Data.ChatlogList);
+      setChatCounselorName(() => data.Data.Name);
+    };
+    getChatMessage();
+  }, [isChatRoomOpen, clickUserId, clickCounselorId]);
+
+  // ====================== 開啟聊天室 ======================
+  const handleChatRoom = async (CounselorId: number, OutName: string, Photo: string, UserId: number) => {
+    dispatch({
+      type: 'chatRoomSwitch/chatRoomSwitch',
+      payload: {
+        isChatRoomOpen: true,
+        clickUserId: UserId,
+        clickCounselorId: CounselorId,
       },
     });
-    console.log(data.Data.ChatlogList);
-    if (!data) return;
-    setChatRoomData(data.Data.ChatlogList);
+
+    setChatCounselorName(OutName);
+    setRenderChatRoomPhoto(Photo);
   };
 
   // 發送訊息 POST
@@ -75,9 +101,9 @@ export default function ChatRoom() {
     if (!chatMessageRef.current) return;
     if (!chatMessageRef.current.value) return;
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/chatroom/chatlogs`, {
-      CounselorId: clickCounselor,
-      UserId: id,
-      Type: 'send',
+      CounselorId: clickCounselorId,
+      UserId: clickUserId,
+      Type: type === 'user' ? 'send' : 'accept',
       Content: chatMessageRef.current.value,
     }, {
       headers: {
@@ -91,8 +117,8 @@ export default function ChatRoom() {
   // ======================= 返回時更改成已讀狀態 ======================
   const handlerReadStatus = async () => {
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/chatroom/PostReadChatRoom`, {
-      CounselorId: clickCounselor,
-      UserId: Number(id),
+      CounselorId: clickCounselorId,
+      UserId: Number(clickUserId),
       MyType: type,
     }, {
       headers: {
@@ -100,23 +126,8 @@ export default function ChatRoom() {
       },
     });
     dispatch(chatRoomAlert(data.Success));
+    // getChatList();
   };
-
-  // ====================== 獲取聊天室列表 ======================
-  useEffect(() => {
-    if (!id || !type || !token) return;
-    getChatList();
-  }, [id, type, token]);
-
-  // ====================== 獲取單一聊天室訊息 ======================
-  // useEffect(() => {
-  //   if (chatMessageData) {
-  //     const { ChatlogList, Photo: ChatRoomPhoto } = chatMessageData.Data;
-  //     setChatRoomData(ChatlogList);
-  //     setRenderChatRoomPhoto(`https://pi.rocket-coding.com/upload/headshot/${ChatRoomPhoto}`);
-  //     console.log('聊天室記錄', chatMessageData.Data);
-  //   }
-  // }, [chatMessageData]);
 
   // ====================== 開啟聊天室列表 ======================
   const showModal = () => {
@@ -126,17 +137,7 @@ export default function ChatRoom() {
   // ====================== 關閉聊天室 ======================
   const handleCancel = () => {
     setIsModalOpen(false);
-    // setChatRoomData([]);
-  };
-
-  // ====================== 開啟聊天室 ======================
-  const handleChatRoom = (CounselorId: number, OutName:string, Photo:string) => {
-    setIsChatRoomOpen(true);
-    setClickCounselor(() => CounselorId);
-    setChatCounselorName(() => OutName);
-    setRenderChatRoomPhoto(() => Photo);
-    getChatMessage(CounselorId);
-    // getChatList();
+    setChatRoomData(() => []);
   };
 
   // ====================== 監聽營幕寬度息 ======================
@@ -150,16 +151,24 @@ export default function ChatRoom() {
   }, [isModalOpen]);
 
   // ====================== 聊天室自動滾到底部 ======================
+
+  if (chatRoomRef.current) {
+    chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+  }
+
   useEffect(() => {
-    if (chatRoomRef.current) {
-      chatRoomRef.current.scrollTop = chatRoomRef.current.scrollHeight;
+    if (chatRoomRef.current && chatRoomRef.current.childNodes.length > 0) {
+      const lastMessage = chatRoomRef.current.lastChild as HTMLElement;
+      if (!lastMessage) return;
+      lastMessage.scrollIntoView();
     }
-  }, [isChatRoomOpen]);
+  }, [isChatRoomOpen, chatRoomData]);
 
   // ====================== SignalR連線 ======================
   const [chatRoomsServer, setChatRoomsServer] = useState<any>(null);
 
   useEffect(() => {
+    if (!id) return;
     // 建立連線
     $.connection.hub.url = 'https://pi.rocket-coding.com/signalr';
     // @ts-ignore
@@ -171,7 +180,7 @@ export default function ChatRoom() {
       $.connection.hub.start()
         .done(() => {
           chat.server.setUserId(id, type);
-          console.log('連線成功');
+          console.log('連線成功', chat);
         })
         .fail((error) => {
           console.log(`连接失败: ${error}`);
@@ -186,26 +195,40 @@ export default function ChatRoom() {
     };
 
     // 如果傳送訊息，會將新訊息回傳回來
-    chat.client.showMessage = function (userType:string, data:any) {
+    chat.client.showMessage = function (_:null, message:string, userType:string, data:any) {
       if (userType !== type) {
         dispatch(chatRoomAlert('false'));
       }
       console.log(data);
-      setChatRoomData((prev: any) => [...prev, data]);
+      console.log('新訊息');
+      setChatRoomData((prev: any) => {
+        if (prev) {
+          return [...prev, data];
+        }
+        return [data];
+      });
+    };
+
+    chat.client.broadcastUserList = function (data:any) {
+      console.log('142 =', data);
     };
 
     return () => {
       $.connection.hub.stop();
-      console.log('logout');
     };
-  }, []);
+  }, [id]);
 
   // ====================== 聊天室發送訊息 ======================
   const handleSend = () => {
     if (!chatMessageRef.current) return;
     if (!chatMessageRef.current.value) return;
     if (!chatRoomsServer) return;
-    chatRoomsServer.server.sendTo(clickCounselor, chatMessageRef.current.value, type);
+    if (type === 'user') {
+      chatRoomsServer.server.sendTo(clickCounselorId, chatMessageRef.current.value, type);
+    }
+    if (type === 'counselor') {
+      chatRoomsServer.server.sendTo(clickUserId, chatMessageRef.current.value, type);
+    }
     chatMessageRef.current.value = '';
   };
 
@@ -234,18 +257,18 @@ export default function ChatRoom() {
 
         {/* 內容 */}
         <ul className="flex h-[calc(100%-48px)] flex-col overflow-y-auto bg-white px-5 py-2 lg:h-[452px] lg:rounded-b-xl">
-          {chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead }:IChatList) => {
+          {chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead, UserId }:IChatList) => {
             const convertTime = dayjs(InitDate).format('HH:mm');
             // 如果用戶是user，因為要提示自己有沒有看過，所以要判斷userRead，反之則是counselorRead
             const userType = type === 'user' ? UserRead : CounselorRead;
 
             return (
-              <li key={CounselorId}>
+              <li key={uuidv4()}>
                 <button
                   type="button"
                   className="flex w-full cursor-pointer  items-center justify-between border-b border-gray-400  pt-4 pb-[22px] lg:w-[288px] lg:hover:opacity-80"
                   onClick={() => {
-                    handleChatRoom(CounselorId, OutName, Photo);
+                    handleChatRoom(CounselorId, OutName, Photo, UserId);
                     getChatList();
                   }}
                 >
@@ -258,7 +281,7 @@ export default function ChatRoom() {
                     {/* 用戶名稱 */}
                     <div className="ml-3 flex flex-col items-start space-y-1 text-sm text-gray-900">
                       <p className="font-bold">{OutName}</p>
-                      <p className="w-[235px] text-left lg:w-[196px]">{Content}</p>
+                      <p className="w-[235px] overflow-hidden text-left lg:w-[196px]">{Content}</p>
                     </div>
                   </div>
 
@@ -282,8 +305,15 @@ export default function ChatRoom() {
             type="button"
             className="underline underline-offset-4 hover:opacity-80"
             onClick={() => {
-              setIsChatRoomOpen(false);
-              setChatRoomData([]);
+              dispatch({
+                type: 'chatRoomSwitch/chatRoomSwitch',
+                payload: {
+                  isChatRoomOpen: false,
+                  clickCounselorId,
+                  clickUserId,
+                },
+              });
+              setChatRoomData(() => []);
               handlerReadStatus();
               console.log('清空聊天室');
             }}
@@ -295,7 +325,14 @@ export default function ChatRoom() {
             type="button"
             onClick={() => {
               handleCancel();
-              setIsChatRoomOpen(false);
+              dispatch({
+                type: 'chatRoomSwitch/chatRoomSwitch',
+                payload: {
+                  isChatRoomOpen: false,
+                  clickCounselorId,
+                  clickUserId,
+                },
+              });
               dispatch(chatRoomAlert(true));
             }}
             className="py-4 px-5 hover:opacity-70 active:scale-[0.8]"
@@ -307,26 +344,36 @@ export default function ChatRoom() {
         {/* 內容 */}
         <ul ref={chatRoomRef} className="flex h-[calc(100%-120px)] flex-col space-y-10 overflow-y-auto bg-white px-5 py-6 lg:h-[390px] ">
           {/* 聊天室內容依據type渲染左右邊 */}
-          {chatRoomData.map(({ Content, CounselorId, InitDate, Type, UserId }:any) => {
+          {chatRoomData?.map(({ Content, InitDate, Type }:any) => {
             const convertTime = dayjs(InitDate).format('HH:mm');
             // 用戶訊息
-            if (Type === 'send') {
+            if (Type === 'send' && type === 'user') {
               return (
-                <li key={convertTime} className="flex justify-end text-sm">
+                <li key={uuidv4()} className="flex justify-end text-sm">
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
-                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{Content}</div>
+                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3 overFlowText">{Content}</div>
+                </li>
+              );
+            }
+            if (Type === 'accept' && type === 'counselor') {
+              return (
+                <li key={uuidv4()} className="flex justify-end text-sm">
+                  {/* 時間  */}
+                  <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
+                  {/* 內容  */}
+                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3 overFlowText">{Content}</div>
                 </li>
               );
             }
             // 諮商師訊息
             return (
-              <li key={convertTime} className="flex justify-start space-x-2 text-sm">
+              <li key={uuidv4()} className="flex justify-start space-x-2 text-sm">
                 {/* 圖片 */}
                 {renderChatRoomPhoto && <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />}
                 {/* 內容 */}
-                <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3">{Content}</div>
+                <div className="max-w-[196px] w-auto rounded-xl bg-primary-heavy p-3 overFlowText ">{Content}</div>
                 {/* 時間 */}
                 <div className="flex h-full justify-center  text-xs text-gray-600 items-end">
                   <span>{convertTime}</span>
@@ -341,7 +388,7 @@ export default function ChatRoom() {
           <input
             ref={chatMessageRef}
             type="text"
-            className="bg-primary-heavy outline-none placeholder:text-gray-600 active:shadow-none "
+            className="bg-primary-heavy outline-none placeholder:text-gray-600 active:shadow-none w-full h-full"
             placeholder="請在此輸入訊息"
             onKeyDown={(e) => {
               if (e.keyCode === 13) {
