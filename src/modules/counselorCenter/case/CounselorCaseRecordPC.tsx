@@ -1,85 +1,41 @@
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import axios from 'axios';
+import { getCookie } from 'cookies-next';
+import { useDispatch, useSelector } from 'react-redux';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
-import { ConfigProvider, Input } from 'antd';
-import CommonPagination from '@/common/components/CommonPagination';
-import userImg from '../../../../public/images/User01.jpg';
-
-const userInfo = [
-  {
-    id: 1,
-    image: userImg,
-    name: '第一筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 10,
-  },
-  {
-    id: 2,
-    image: userImg,
-    name: '第二筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 9,
-  },
-  {
-    id: 3,
-    image: userImg,
-    name: '第三筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 8,
-  },
-  {
-    id: 4,
-    image: userImg,
-    name: '第四筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 7,
-  },
-  {
-    id: 5,
-    image: userImg,
-    name: '第五筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 6,
-  },
-  {
-    id: 6,
-    image: userImg,
-    name: '第六筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 6,
-  },
-  {
-    id: 7,
-    image: userImg,
-    name: '第七筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 6,
-  },
-  {
-    id: 8,
-    image: userImg,
-    name: '第八筆',
-    topic: '親子關係',
-    date: '2023 / 04 / 01',
-    time: '13:00',
-    caseNum: 6,
-  },
-];
+import { ConfigProvider, Input, Pagination } from 'antd';
+import { counselorCasePage } from '@/common/redux/feature/counselorCasePage';
 
 export default function CounselorCaseRecordPC() {
+  const token = getCookie('auth');
+  const dispatch = useDispatch();
+  const pageNum = useSelector((state:{ counselorCasePage:{ value:number } }) => state.counselorCasePage.value);
+  const [renderData, setRenderData] = useState([]);
+  const [renderPhoto, setRenderPhoto] = useState('');
+  const [keyWord, setKeyWord] = useState('');
+  const [totalPageNum, setTotalPageNum] = useState(0);
+
+  // ======================== 諮商總記錄 GET ========================
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/AppointmentsLogs?Page=${pageNum}&Name=${keyWord}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const { Photo, appointmentsWithOrder, MaxPageNum } = res.data.Data;
+        setRenderData(appointmentsWithOrder);
+        setRenderPhoto(Photo);
+        setTotalPageNum(MaxPageNum);
+      } catch (error) {
+        console.log('🚀 ~ file: CounselorCaseRecordPC.tsx:92 ~ getRecord ~ error:', error);
+      }
+    })();
+  }, [keyWord]);
+
   return (
     <div className="">
       {/* 搜尋框 */}
@@ -99,43 +55,60 @@ export default function CounselorCaseRecordPC() {
             placeholder="輸入個案姓名"
             suffix={<SearchOutlined className="text-[#000000/85]" />}
             className="rounded-full border-none px-5 py-[10px]"
+            defaultValue={keyWord}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const inputElement = e.target as HTMLInputElement;
+                setKeyWord(inputElement.value);
+              }
+            }}
+
           />
         </ConfigProvider>
       </div>
 
-      <div className="flex justify-between space-x-[60px] rounded-2xl bg-gray-200 pb-9 text-gray-900 lg:p-8 lg:pb-12 mb-10">
+      <div className="flex justify-between space-x-[60px] rounded-2xl bg-gray-200 pb-9 text-gray-900 lg:p-8 lg:pb-12 mb-10 lg:min-h-[520px]">
+
         <ul className="flex flex-wrap">
-          {userInfo.map((item) => (
-            <li key={item.id} className="mr-[20px] w-[278px] rounded-xl">
-              <button
-                type="button"
+          {renderData.map(({ AppointmentCount, Appointments: { UserName }, UserId }) => (
+            <li key={UserId} className="mr-[20px] w-[278px] rounded-xl">
+              <Link
+                href={`/counselorcenter/case/${UserName}`}
                 className="mb-4 flex w-full items-center rounded-lg bg-white py-5 px-2 text-center text-sm text-gray-900 hover:opacity-50 lg:text-base"
               >
                 <div className="flex w-[46.1176%] items-center justify-center lg:space-x-2 xl:space-x-4">
                   <Image
                     width={40}
                     height={40}
-                    src={item.image}
+                    src={renderPhoto}
                     alt="user_pic"
-                    className="rounded-full object-cover h-10 w-10 text-gray-900"
+                    className="rounded-full object-cover h-10 w-10 text-gray-900 ring-1 ring-secondary"
                   />
-                  <p>{item.name}</p>
+                  <p>{UserName}</p>
                 </div>
 
                 <div className="w-[42.1176%] ">
-                  {item.caseNum}
+                  {AppointmentCount}
                   筆
                 </div>
 
                 <div className="flex w-[11.7647%] justify-center ">
                   <RightOutlined style={{ fontSize: '16px', color: '#F5F5F5' }} />
                 </div>
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-      <CommonPagination TotalPageNum={0} pageId="1" />
+      <div className="mt-12 flex w-full justify-center lg:justify-end">
+        <Pagination
+          defaultCurrent={pageNum}
+          total={totalPageNum * 10}
+          onChange={(value) => {
+            dispatch(counselorCasePage(value));
+          }}
+        />
+      </div>
     </div>
   );
 }

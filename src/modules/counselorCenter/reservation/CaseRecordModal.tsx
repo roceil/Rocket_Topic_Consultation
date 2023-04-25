@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import Image from 'next/image';
 import { Modal } from 'antd';
@@ -84,7 +85,7 @@ export default function CaseRecordModal({
         </ul>
       </Modal>
 
-      <CounselorRecordForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} renderData={renderData} />
+      {/* <CounselorRecordForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} renderData={renderData} /> */}
     </>
   );
 }
