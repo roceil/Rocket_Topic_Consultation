@@ -6,6 +6,8 @@ import wrapper from '@/common/redux/store';
 import CounselorCenterLayout from '@/modules/counselorCenter/CounselorCenterLayout';
 import useCloseLoading from '@/common/hooks/useCloseLoading';
 import CustomHead from '@/common/components/CustomHead';
+import { useDispatch } from 'react-redux';
+import { loadingStatus } from '@/common/redux/feature/loading';
 
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });
@@ -25,7 +27,7 @@ export default function index() {
     dispatch(loadingStatus('none'));
   }, []);
   useCloseLoading();
-  
+
   return (
     <>
       <CustomHead pageTitle="會員中心" />

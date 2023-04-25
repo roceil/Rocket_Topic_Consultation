@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
-
 import userCenterReservationPosition from './feature/userCenterReservationPosition';
 import zoomSlice from './feature/zoom';
 import signUpSlice from './feature/signUp';
@@ -17,7 +16,6 @@ import counselorCasePage from './feature/counselorCasePage';
 import userCenterReservation from './feature/userCenterReservation';
 import counselorReservationTab from './feature/counselorReservationTab';
 import counselorReservationPage from './feature/counselorReservationPage';
-import userCenterReservationPosition from './feature/userCenterReservationPosition';
 
 import { login } from './service/login';
 import { header } from './service/header';
