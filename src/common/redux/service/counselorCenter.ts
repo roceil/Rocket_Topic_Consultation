@@ -34,7 +34,7 @@ export const counselorCenter = createApi({
     }),
     CourseDataDelete: builder.mutation({
       query: ({ token, clickId }) => ({
-        url: `api/courses?${clickId}`,
+        url: `api/courses?id=${clickId}`,
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -3,10 +3,11 @@
 // GET => POST / DELETE 後要重新 GET 渲染畫面 => GPT 建議在 POST RTKQ 加上 onSuccess 屬性刷新
 // POST 改 RTKQ
 // 調整手機版
-import { Button, ConfigProvider, Form, Input, Switch, FormInstance } from 'antd';
+import { Button, ConfigProvider, Form, Input, Switch, FormInstance, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
+import CustomAlert from '@/common/helpers/customAlert';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -23,19 +24,24 @@ const { TextArea } = Input;
 // 諮商師 > 個人資料 > 課程資訊
 export function ClassInfo() {
   const token = getCookie('auth');
-  // ==================== 取得課程 API RTKQ ====================
+  // ==================== alert Modal ====================
+  const [modal, alertModal] = Modal.useModal();
+
+  // ==================== 取得課程 API ====================
   const { data, isLoading, refetch } = useCoursesDataGetQuery({ token });
 
-  // ==================== 新增/修改課程 API RTKQ ====================
+  // ==================== 新增/修改課程 API ====================
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
 
   // ==================== 刪除課程 API RTKQ ====================
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
-  // const deleteCourse1 = async (token:any, clickId:number) => {
-  //   const res = await CourseDataDeleteMutation({ token, clickId });
-  //   // alert(res.data.Message);
-  //   console.log(res);
-  // };
+  const deleteCourse = async (clickId:number) => {
+    const res = await CourseDataDeleteMutation({ token, clickId });
+    console.log(res);
+    refetch();
+    const { Message } = (res as { data: { Message: string } }).data;
+    CustomAlert({ modal, Message, type: 'success' });
+  };
 
   // 課程資料
   const [renderData, setRenderData] = useState<any>([]);
@@ -112,30 +118,20 @@ export function ClassInfo() {
   // 『課程特色』保留 placeholder 的值
   // const [featureStates, setFeatureStates] = useState(featureAry || []);
 
+  function getCourses() {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log('res', res);
+      });
+  }
+
   // 判斷『單一主題』課程資訊，
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
-
-  // ==================== 刪除課程 API Axios DELETE ====================
-  const deleteCourse = async (courseId: number) => {
-    try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses?id=${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log('delete Course :', response.data);
-      // alert(response.data.Message); // 換成 alert component
-    } catch (error:any) {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized');
-      } else {
-        console.log('Error adding course:', error);
-      }
-    }
-  };
 
   // Form
   const [form] = Form.useForm();
@@ -214,9 +210,6 @@ export function ClassInfo() {
   //   console.log(res);
   // };
 
-  const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
-  const courseQuantityAry = [1, 3, 5, 1];
-
   // 更新 Features
   const updateFeatures = (values: any, originalFeatures: any) => {
     const updatedFeatures = { ...originalFeatures };
@@ -283,7 +276,8 @@ export function ClassInfo() {
     });
     setIsDisabled(true);
     refetch();
-    console.log(res);
+    const { Message } = (res as { data: { Message: string } }).data;
+    CustomAlert({ modal, Message, type: 'success' });
   };
 
   return (
@@ -480,6 +474,7 @@ export function ClassInfo() {
                   </Form>
                 </ConfigProvider>
               </ul>
+              <div className="alert">{alertModal}</div>
             </div>
           </div>
         </div>
