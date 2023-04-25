@@ -37,7 +37,6 @@ export function ClassInfo() {
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
   const deleteCourse = async (clickId:number) => {
     const res = await CourseDataDeleteMutation({ token, clickId });
-    console.log(res);
     refetch();
     const { Message } = (res as { data: { Message: string } }).data;
     CustomAlert({ modal, Message, type: 'success' });
@@ -117,18 +116,6 @@ export function ClassInfo() {
 
   // 『課程特色』保留 placeholder 的值
   // const [featureStates, setFeatureStates] = useState(featureAry || []);
-
-  function getCourses() {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log('res', res);
-      });
-  }
 
   // 判斷『單一主題』課程資訊，
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
@@ -216,20 +203,31 @@ export function ClassInfo() {
 
   // ==================== 送出表單 ====================
   const handleSubmit = async (values: any) => {
-    const { Feature1, Feature2, Feature3, Feature4, Feature5 } = values;
+    console.log(values);
+
+    const { Feature1, Feature2, Feature3, Feature4, Feature5, Availability0, Availability1, Availability2, Availability3 } = values;
     const Features = updateFeatures(values, form.getFieldValue('Features'));
     const Courses = updateCourses(values, form.getFieldValue('Courses'));
 
-    const res = await coursesDataPostMutation({
-      token,
-      clickId,
-      Courses,
-      Features,
-    });
-    setIsDisabled(true);
-    refetch();
-    const { Message } = (res as { data: { Message: string } }).data;
-    CustomAlert({ modal, Message, type: 'success' });
+    type AvailabilityItem = boolean | undefined;
+    const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
+    console.log(AvailabilityAry);
+
+    if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
+      const Message = '請至少開放一種方案';
+      CustomAlert({ modal, Message, type: 'error' });
+    } else {
+      const res = await coursesDataPostMutation({
+        token,
+        clickId,
+        Courses,
+        Features,
+      });
+      setIsDisabled(true);
+      refetch();
+      const { Message } = (res as { data: { Message: string } }).data;
+      CustomAlert({ modal, Message, type: 'success' });
+    }
   };
 
   return (
@@ -281,7 +279,7 @@ export function ClassInfo() {
       </div>
       <div className="space-y-10 lg:space-y-12 ">
         <div className="relative flex-row lg:flex">
-          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[11%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
           {/* PC 課程方案 */}
@@ -294,7 +292,7 @@ export function ClassInfo() {
               isSuccess ? 'hidden' : ''
             }`}
           >
-            <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 text-center">
+            <ul className="rounded-2xl flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 text-center">
               <li className="w-[33.33%]">課程方案</li>
               <li className="w-[33.33%]">定價</li>
               <li className="w-[33.33%]">是否開放</li>
@@ -389,36 +387,38 @@ export function ClassInfo() {
                     </div>
                     <Form.Item className={!courseNotExist ? 'hidden' : ''}>
                       {/* btns */}
-                      <div className="mt-10 flex justify-between px-8 lg:px-14">
-                        <input
-                          type="button"
-                          value="刪除此專長領域"
-                          className={`text-base text-gray-600 underline underline-offset-2 ${
-                            !isDisabled ? 'hover:text-red-500' : ''
-                          }`}
-                          onClick={() => deleteCourse(clickId as unknown as number)}
-                          disabled={isDisabled}
-                        />
-                      </div>
-                      <div className="flex justify-end lg:mr-14">
-                        <div className="mt-5 ">
-                          <Button
-                            type="primary"
-                            shape="round"
-                            htmlType="submit"
-                            className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
-                          >
-                            儲存
-                          </Button>
-                          <Button
-                            type="primary"
-                            shape="round"
-                            htmlType="button"
-                            onClick={() => setIsDisabled(false)}
-                            className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
-                          >
-                            {isDisabled ? '編輯' : '取消編輯'}
-                          </Button>
+                      <div>
+                        <div className="mt-10 flex justify-between px-8 lg:px-14">
+                          <input
+                            type="button"
+                            value="刪除此專長領域"
+                            className={`text-base text-gray-600 underline underline-offset-2 ${
+                              !isDisabled ? 'hover:text-red-500' : ''
+                            }`}
+                            onClick={() => deleteCourse(clickId as unknown as number)}
+                            disabled={isDisabled}
+                          />
+                        </div>
+                        <div className="flex justify-around lg:justify-end lg:mr-14">
+                          <div className="space-x-5 mt-5">
+                            <Button
+                              type="primary"
+                              shape="round"
+                              htmlType="submit"
+                              className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
+                            >
+                              儲存
+                            </Button>
+                            <Button
+                              type="primary"
+                              shape="round"
+                              htmlType="button"
+                              onClick={() => setIsDisabled(false)}
+                              className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
+                            >
+                              {isDisabled ? '編輯' : '取消編輯'}
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </Form.Item>
