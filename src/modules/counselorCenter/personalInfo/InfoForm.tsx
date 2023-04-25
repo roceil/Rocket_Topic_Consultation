@@ -45,7 +45,16 @@ export function InfoForm() {
       uid: '-1',
       name: 'image.png',
       status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
+    },
+  ]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [filelistLic, setFilelistLic] = useState<UploadFile[]>([
+    { // 圖片要改成 base64，才能符合 antd Img src=
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://static.wixstatic.com/media/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png/v1/fill/w_360,h_245,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png',
     },
   ]);
   const LicenseImgUploadOnChange: UploadProps['onChange'] = ({
@@ -218,7 +227,7 @@ export function InfoForm() {
                     <Upload
                         // action=""
                       listType="picture-card"
-                      fileList={filelist}
+                      fileList={filelistLic}
                       onChange={LicenseImgUploadOnChange} // 不同 function
                       onPreview={LicenseImgOnPreview} // 不同 function
                       disabled={isDisabled}

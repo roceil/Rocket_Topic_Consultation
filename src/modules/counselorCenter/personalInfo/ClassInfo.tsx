@@ -87,7 +87,7 @@ export function ClassInfo() {
     setRenderData(data);
     setGetCoursesID(renderData?.Data?.Courses);
     SetFeatureAry(renderData?.Data?.Courses);
-    console.log('所有課程:', getCoursesID); // 所有課程物件
+    // console.log('所有課程:', getCoursesID); // 所有課程物件
     // console.log(featureAry); // 單一課程特色 Ary => 要綁上 fieldId
     // console.log('點擊的膠囊 id:', clickId); //  點擊的膠囊 id
     // console.log(clickId, clickFilterAry);
@@ -113,10 +113,7 @@ export function ClassInfo() {
       SetFeatureAry(item.Feature));
   }, [renderData, getCoursesID, featureAry, clickId]);
 
-  // 『課程特色』保留 placeholder 的值
-  // const [featureStates, setFeatureStates] = useState(featureAry || []);
-
-  // 判斷『單一主題』課程資訊，
+  // 判斷『單一主題』課程資訊
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
 
   // Form
@@ -147,6 +144,10 @@ export function ClassInfo() {
     console.log('clickId:', clickId);
   }
 
+  // ==================== 送出表單 ====================
+  const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
+  const courseQuantityAry = [1, 3, 5, 1];
+
   // 更新 Features
   const updateFeatures = (values: any, originalFeatures: any) => {
     const updatedFeatures = { ...originalFeatures };
@@ -158,58 +159,41 @@ export function ClassInfo() {
     return updatedFeatures;
   };
 
-  // 更新 Courses
-  const updateCourses = (values: any, originalCourses: any) => {
-    if (!originalCourses || typeof originalCourses[Symbol.iterator] !== 'function') {
-      // eslint-disable-next-line no-param-reassign
-      originalCourses = []; // 如果不是可迭代對象，則初始化為空陣列
-    }
-    const updatedCourses = [...originalCourses];
-    if (values.Course0) {
-      updatedCourses[0] = {
-        ...originalCourses[0],
-        Quantity: values.Course0.Quantity || originalCourses[0].Quantity,
-        Price: values.Course0.Price || originalCourses[0].Price,
-        Availability: values.Course0.Availability || originalCourses[0].Availability,
-      };
-    }
-    if (values.Course1) {
-      updatedCourses[1] = {
-        ...originalCourses[1],
-        Quantity: values.Course1.Quantity || originalCourses[1].Quantity,
-        Price: values.Course1.Price || originalCourses[1].Price,
-        Availability: values.Course1.Availability || originalCourses[1].Availability,
-      };
-    }
-    if (values.Course2) {
-      updatedCourses[2] = {
-        ...originalCourses[2],
-        Quantity: values.Course2.Quantity || originalCourses[2].Quantity,
-        Price: values.Course2.Price || originalCourses[2].Price,
-        Availability: values.Course2.Availability || originalCourses[2].Availability,
-      };
-    }
-    if (values.Course3) {
-      updatedCourses[3] = {
-        ...originalCourses[3],
-        Quantity: values.Course3.Quantity || originalCourses[3].Quantity,
-        Price: values.Course3.Price || originalCourses[3].Price,
-        Availability: values.Course3.Availability || originalCourses[3].Availability,
-      };
-    }
-    return updatedCourses;
-  };
-
-  // ==================== 送出表單 ====================
   const handleSubmit = async (values: any) => {
     console.log(values);
 
-    const { Feature1, Feature2, Feature3, Feature4, Feature5, Availability0, Availability1, Availability2, Availability3 } = values;
+    const { Availability0, Availability1, Availability2, Availability3, Price0, Price1, Price2, Price3 } = values;
     const Features = updateFeatures(values, form.getFieldValue('Features'));
-    const Courses = updateCourses(values, form.getFieldValue('Courses'));
+    const Courses = [
+      {
+        Item: courseItemAry[0],
+        Quantity: courseQuantityAry[0],
+        Price: parseInt(Price0 ?? '0', 10), // 若 Price0 為 undefined 則使用預設值 0
+        Availability: Availability0 ?? false, // 若 Availability0 為 undefined 則使用預設值 false
+      },
+      {
+        Item: courseItemAry[1],
+        Quantity: courseQuantityAry[1],
+        Price: parseInt(Price1 ?? '0', 10),
+        Availability: Availability1 ?? false,
+      }, {
+        Item: courseItemAry[2],
+        Quantity: courseQuantityAry[2],
+        Price: parseInt(Price2 ?? '0', 10),
+        Availability: Availability2 ?? false,
+      },
+      {
+        Item: courseItemAry[3],
+        Quantity: courseQuantityAry[3],
+        Price: parseInt(Price3 ?? '0', 10),
+        Availability: Availability3 ?? false,
+      },
+    ];
 
     type AvailabilityItem = boolean | undefined;
     const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
+    console.log('updateFeatures:', Features);
+    console.log('updateCourses:', Courses);
 
     if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
       const Message = '請至少開放一種方案';
@@ -218,8 +202,8 @@ export function ClassInfo() {
       const res = await coursesDataPostMutation({
         token,
         clickId,
-        Features, // 加入 Features
-        Courses, // 加入 Courses
+        Features,
+        Courses,
       });
       setIsDisabled(true);
       refetch();
@@ -245,7 +229,7 @@ export function ClassInfo() {
               key={id}
               onClick={() => {
                 changeRenderForm(id);
-                console.log('取clickID筆資料：', getCoursesID);
+                // console.log('取clickID筆資料：', getCoursesID);
                 const filterAry = getCoursesID.filter(
                   (item:any) => item.FieldId === id,
                 );

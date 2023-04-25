@@ -44,7 +44,7 @@ export default function CounselorInfoTab() {
         }}
       >
         <Tabs
-          defaultActiveKey="課程資訊"
+          defaultActiveKey="基本資料"
           items={counselorInfoTabAry}
           onChange={onChange}
         />
