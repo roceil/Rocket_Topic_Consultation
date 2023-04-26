@@ -74,7 +74,7 @@ export function Appointment({ appointment }: { appointment: ICounselorAppointmen
       </div>
 
       {/* 個案記錄 Modal */}
-      <CaseRecordModal isListModalOpen={isListModalOpen} setIsListModalOpen={setIsListModalOpen} caseRenderData={caseRenderData} token={token} />
+      <CaseRecordModal isListModalOpen={isListModalOpen} setIsListModalOpen={setIsListModalOpen} caseRenderData={caseRenderData} />
     </li>
   );
 }

@@ -249,6 +249,7 @@ export interface IRateModalProps {
   rate: number;
   setRateLevel: (value: number) => void;
   setComment: (value: string) => void;
+  refetch: () => void;
 }
 
 export interface IAppointment {
@@ -269,4 +270,34 @@ export interface ListItem {
   Counselor: string;
   Field: string;
   CounselorId: number;
+}
+
+export interface IAppointmentWithOrderProps {
+  AppointmentId: number;
+  AppointmentTime: string;
+  CounselorName: string;
+  InitDate: string;
+  ReserveStatus: string;
+  UserName: string;
+  ZoomLink: string;
+}
+
+export interface IAlertProps {
+  appointmentsWithOrder: IAppointmentWithOrderProps[];
+  isHaveUrl: boolean
+  spanNowTime: string
+}
+
+export interface IAppointmentWithOrder {
+  isHaveUrl: boolean
+  spanNowTime: string
+  url: string
+}
+
+export interface ICounselorRenderList {
+  Name:string;
+  Field:string;
+  AppointmentTime:string;
+  AppointmentId:number;
+  AppointmentDate:string;
 }

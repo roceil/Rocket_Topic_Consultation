@@ -10,7 +10,7 @@ import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
 import UserReservationPagination from './UserReservationPagination';
 import RateModal from './RateModal';
 
-export function Appointment({ appointment }: { appointment: IAppointment }) {
+export function Appointment({ appointment, refetch }: { appointment: IAppointment, refetch:()=>void }) {
   const { AppointmentId, Counselor, Field, Time } = appointment;
   const token = getCookie('auth');
   const convertTime = dayjs(Time).format('HH:mm');
@@ -67,7 +67,7 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
         <IButton text="完成訂單" fontSize="text-xs" px="px-3" py="py-1" mode="light" extraStyle="w-full" onClick={showModal} />
       </div>
 
-      <RateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} comment={comment} AppointmentId={AppointmentId} rate={rateLevel} setRateLevel={setRateLevel} setComment={setComment} />
+      <RateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} comment={comment} AppointmentId={AppointmentId} rate={rateLevel} setRateLevel={setRateLevel} setComment={setComment} refetch={refetch} />
     </li>
   );
 }
@@ -80,7 +80,7 @@ export default function HasSetUp() {
   const tab = useSelector((state: { userCenterReservation: { value: string } }) => state.userCenterReservation.value);
   const PageNum = useSelector((state: { userCenterReservationPosition: { value: number } }) => state.userCenterReservationPosition.value);
 
-  const { data = [], isLoading } = useReservationDataGetQuery({ token, tab, PageNum });
+  const { data = [], isLoading, refetch } = useReservationDataGetQuery({ token, tab, PageNum });
 
   // 取得資料
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function HasSetUp() {
                   return (
                     <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
                       {group.map((appointment: IAppointment) => (
-                        <Appointment key={uuidv4()} appointment={appointment} />
+                        <Appointment key={uuidv4()} appointment={appointment} refetch={refetch} />
                       ))}
                     </ul>
                   );
@@ -135,7 +135,7 @@ export default function HasSetUp() {
                 return (
                   <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
                     {group.map((appointment: IAppointment) => (
-                      <Appointment key={uuidv4()} appointment={appointment} />
+                      <Appointment key={uuidv4()} appointment={appointment} refetch={refetch} />
                     ))}
                   </ul>
                 );
