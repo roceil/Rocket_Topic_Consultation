@@ -5,7 +5,7 @@ import { IRateModalProps } from '@/types/interface';
 import customAlert from '@/common/helpers/customAlert';
 import { useReservationRatePostMutation } from '@/common/redux/service/userCenter';
 
-export default function RateModal({ isModalOpen, setIsModalOpen, comment, AppointmentId, rate: rateLevel, setRateLevel, setComment }: IRateModalProps) {
+export default function RateModal({ isModalOpen, setIsModalOpen, comment, AppointmentId, rate: rateLevel, setRateLevel, setComment, refetch }: IRateModalProps) {
   const { TextArea } = Input;
   const token = getCookie('auth');
   const [modal, alertModal] = Modal.useModal();
@@ -45,9 +45,10 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
       return;
     }
     const { Message } = res.data as { Message: string };
-    customAlert({ modal, Message, type: 'success' });
+    customAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
     setIsModalOpen(false);
     setCommentValue('');
+    refetch();
   };
 
   // ==================== 關閉評分 Modal => 取消 ====================
