@@ -24,6 +24,13 @@ export const timetableBrowser = createApi({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        providesTags: (result: { id: number }[]) => (result
+          ? [
+            ...result.map(({ id }) => ({ type: 'CounselorTimetablePost', id })),
+            { type: 'CounselorTimetablePost', id: 'LIST' },
+          ]
+          : [{ type: 'CounselorTimetablePost', id: 'LIST' }]),
+        invalidatesTags: [{ type: 'CounselorTimetablePost', id: 'LIST' }],
       }),
     }),
     timetableBrowserGet: builder.query({
