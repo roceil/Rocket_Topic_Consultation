@@ -43,10 +43,10 @@ export default function Header() {
   useEffect(() => {
     console.log(data);
     // 如果isHaveUrl、spanNowTime沒值，表示沒有預約記錄
-    if (data?.Data?.isHaveUrl === null) return;
+    if (data?.Data === null) return;
     // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
     if (!data?.Data?.isHaveUrl && data?.Data?.spanNowTime) {
-      const covertTime = dayjs(data?.Data?.spanNowTime).format('M 月 DD 日 HH:mm 產出');
+      const covertTime = dayjs(data.Data.spanNowTime).format('M 月 DD 日 HH:mm 產出');
       dispatch(hasHeaderAlert(true));
       dispatch(zoom(data.Data));
       setRenderAlertMessage('課程連結將於');
