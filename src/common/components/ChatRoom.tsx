@@ -32,6 +32,7 @@ export default function ChatRoom() {
   const [chatList, setChatList] = useState<IChatList[]>([]);
   const [chatRoomData, setChatRoomData] = useState<any>([]);
   const [chatCounselorName, setChatCounselorName] = useState<string | null>(null);
+  const [chatUserName, setChatUserName] = useState<string | null>(null);
   const [renderChatRoomPhoto, setRenderChatRoomPhoto] = useState<string>('');
 
   // ====================== ref ======================
@@ -70,13 +71,13 @@ export default function ChatRoom() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('聊天室記錄', data);
       if (!data.Data) {
         setChatRoomData(() => []);
         return;
       }
       setChatRoomData(() => data.Data.ChatlogList);
-      setChatCounselorName(() => data.Data.Name);
+      setChatCounselorName(() => data.Data.CounselorName);
+      setChatUserName(() => data.Data.UserName);
     };
     getChatMessage();
   }, [isChatRoomOpen, clickUserId, clickCounselorId]);
@@ -180,7 +181,7 @@ export default function ChatRoom() {
       $.connection.hub.start()
         .done(() => {
           chat.server.setUserId(id, type);
-          console.log('連線成功', chat);
+          // console.log('連線成功', chat);
         })
         .fail((error) => {
           console.log(`连接失败: ${error}`);
@@ -188,9 +189,7 @@ export default function ChatRoom() {
     }, 300);
 
     // 監聽訊息
-    chat.client.showIconUnread = function (data: any) {
-      console.log('有新訊息');
-      console.log(data);
+    chat.client.showIconUnread = function () {
       getChatList();
     };
 
@@ -199,8 +198,6 @@ export default function ChatRoom() {
       if (userType !== type) {
         dispatch(chatRoomAlert('false'));
       }
-      console.log(data);
-      console.log('新訊息');
       setChatRoomData((prev: any) => {
         if (prev) {
           return [...prev, data];
@@ -208,10 +205,10 @@ export default function ChatRoom() {
         return [data];
       });
     };
-
-    chat.client.broadcastUserList = function (data:any) {
-      console.log('142 =', data);
-    };
+    // 監聽所有用戶的登入狀態
+    // chat.client.broadcastUserList = function (data:any) {
+    //   console.log('142 =', data);
+    // };
 
     return () => {
       $.connection.hub.stop();
@@ -315,12 +312,11 @@ export default function ChatRoom() {
               });
               setChatRoomData(() => []);
               handlerReadStatus();
-              console.log('清空聊天室');
             }}
           >
             返回
           </button>
-          <span>{chatCounselorName}</span>
+          <span>{type === 'user' ? chatCounselorName : chatUserName}</span>
           <button
             type="button"
             onClick={() => {

@@ -41,10 +41,11 @@ export default function Header() {
   const [renderCourseTime, setRenderCourseTime] = useState('');
   const [renderCourseLink, setRenderCourseLink] = useState();
   useEffect(() => {
+    console.log(data);
     // 如果isHaveUrl、spanNowTime沒值，表示沒有預約記錄
     if (!data) return;
     // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
-    if (!data.isHaveUrl && data.Data.spanNowTime) {
+    if (!data.Data.isHaveUrl && data.Data.spanNowTime) {
       const covertTime = dayjs(data.Data.spanNowTime).format('M 月 DD 日 HH:mm 產出');
       dispatch(hasHeaderAlert(true));
       dispatch(zoom(data.Data));

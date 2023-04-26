@@ -245,6 +245,7 @@ export interface IRateModalProps {
   rate: number;
   setRateLevel: (value: number) => void;
   setComment: (value: string) => void;
+  refetch: () => void;
 }
 
 export interface IAppointment {

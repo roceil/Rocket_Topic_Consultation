@@ -15,7 +15,7 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
   const token = getCookie('auth');
   const convertTime = dayjs(Time).format('HH:mm');
   const convertDate = dayjs(Time).format('YYYY / MM / DD');
-  const { data, isLoading } = useReservationRateGetQuery({ token, AppointmentId });
+  const { data, isLoading, refetch } = useReservationRateGetQuery({ token, AppointmentId });
 
   const [comment, setComment] = useState('');
   const [rateLevel, setRateLevel] = useState(5);
@@ -66,7 +66,7 @@ export function Appointment({ appointment }: { appointment: IAppointment }) {
         <IButton text="編輯評價" fontSize="text-xs" px="px-3" py="py-1" mode="light" extraStyle="w-full" onClick={showModal} />
       </div>
 
-      <RateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} comment={comment} AppointmentId={AppointmentId} rate={rateLevel} setRateLevel={setRateLevel} setComment={setComment} />
+      <RateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} comment={comment} AppointmentId={AppointmentId} rate={rateLevel} setRateLevel={setRateLevel} setComment={setComment} refetch={refetch} />
     </li>
   );
 }
