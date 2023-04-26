@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input, Modal, Rate } from 'antd';
 import { getCookie } from 'cookies-next';
 import { IRateModalProps } from '@/types/interface';
@@ -9,6 +9,10 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
   const { TextArea } = Input;
   const token = getCookie('auth');
   const [modal, alertModal] = Modal.useModal();
+
+  useEffect(() => {
+    setRateLevel(5);
+  }, []);
 
   // =================== 留言的 input 的值 ===================
   // commentValue是為了要讓後端傳值回來時，input還是可以顯示placeholder狀態
@@ -29,6 +33,11 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
   // ==================== 關閉評分 Modal => 確認 ====================
   const [reservationRatePost] = useReservationRatePostMutation();
   const handleOk = async () => {
+    console.log(rateLevel);
+    if (rateLevel === 0) {
+      customAlert({ modal, Message: '請選擇評分', type: 'error' });
+      return;
+    }
     const res = await reservationRatePost({
       token,
       AppointmentId,
@@ -62,7 +71,7 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
         title={(
           <div className="flex items-center space-x-3">
             <p className="mt-1 text-base font-bold text-secondary">預約時段</p>
-            <Rate value={rateLevel || 5} onChange={changeRate} />
+            <Rate defaultValue={rateLevel} onChange={changeRate} />
           </div>
       )}
         open={isModalOpen}
