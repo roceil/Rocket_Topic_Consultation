@@ -43,9 +43,9 @@ export default function Header() {
   useEffect(() => {
     console.log(data);
     // 如果isHaveUrl、spanNowTime沒值，表示沒有預約記錄
-    if (!data) return;
+    if (data?.Data === null) return;
     // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
-    if (!data.Data.isHaveUrl && data.Data.spanNowTime) {
+    if (!data?.Data?.isHaveUrl && data?.Data?.spanNowTime) {
       const covertTime = dayjs(data.Data.spanNowTime).format('M 月 DD 日 HH:mm 產出');
       dispatch(hasHeaderAlert(true));
       dispatch(zoom(data.Data));
@@ -54,7 +54,7 @@ export default function Header() {
     }
 
     // 如果isHaveUrl為true，表示有預約記錄，且已經產出連結
-    if (data.Data.isHaveUrl && data.Data.spanNowTime) {
+    if (data?.Data?.isHaveUrl && data?.Data?.spanNowTime) {
       dispatch(hasHeaderAlert(true));
       dispatch(zoom(data.Data));
       setRenderAlertMessage('課程連結如下');
