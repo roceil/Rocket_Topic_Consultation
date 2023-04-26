@@ -1,8 +1,10 @@
-import { ConfigProvider, Form, Input, Switch, Upload, Button } from 'antd';
+import { ConfigProvider, Form, Input, Switch, Upload, Button, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { getCookie } from 'cookies-next';
+import ResetPassWordModal from '@/common/components/ResetPassWordModal';
+import CustomAlert from '@/common/helpers/customAlert';
 import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
 import { useCounselorInfoGetQuery, useCounselorInfoPutMutation } from '../../../common/redux/service/counselorCenter';
 
@@ -13,7 +15,7 @@ const { TextArea } = Input;
 export function InfoForm() {
   const token = getCookie('auth');
   // ==================== 取得基本資料 API ====================
-  const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
+  const { data = {} as ICounselorInfo, isLoading, refetch } = useCounselorInfoGetQuery({ token });
 
   // ==================== 修改基本資料 API ====================
   const [CounselorInfoPutMutation] = useCounselorInfoPutMutation();
@@ -32,6 +34,9 @@ export function InfoForm() {
     ? '!opacity-0 transform duration-300'
     : '!opacity-100 transform duration-300';
 
+  // ==================== alert Modal ====================
+  const [modal, alertModal] = Modal.useModal();
+
   // ==================== Antd ====================
   const [form] = Form.useForm();
   // Upload 諮商師執照＆頭貼圖檔
@@ -40,7 +45,16 @@ export function InfoForm() {
       uid: '-1',
       name: 'image.png',
       status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
+    },
+  ]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [filelistLic, setFilelistLic] = useState<UploadFile[]>([
+    { // 圖片要改成 base64，才能符合 antd Img src=
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://static.wixstatic.com/media/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png/v1/fill/w_360,h_245,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png',
     },
   ]);
   const LicenseImgUploadOnChange: UploadProps['onChange'] = ({
@@ -94,31 +108,42 @@ export function InfoForm() {
 
   // ==================== 送出表單 ====================
   const onFinish = async (values: any) => {
-    console.log(values);
-
     // 取出現有資源屬性值
     const currentValues = renderData;
 
     // 更新需要更新的屬性值，並將其他屬性值保持不變
     const updatedValues = {
       ...currentValues,
-      ...(values.Name && { Name: values.Name }),
+      ...(values.CounselorName && { CounselorName: values.CounselorName }),
       ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
       ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
       ...(values.VideoLink && { VideoLink: values.VideoLink }),
       ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
     };
 
+    console.log('update:', updatedValues);
+
     // 提交更新後的完整資源內容
     const res = await CounselorInfoPutMutation({
       token,
       ...updatedValues,
     });
-
     setIsDisabled(true);
-    console.log(res);
-    // alert(res.data.Message);
+    if ('error' in res) {
+      console.log('res:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
+      CustomAlert({ modal, Message, type: 'error' });
+      return;
+    }
+    refetch();
+    const { Message } = (res as { data: { Message: any } }).data;
+    CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
+
+  // ==================== 重設密碼 ====================
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   return (
     <div className="w-full space-y-12 px-4 pb-12">
@@ -158,17 +183,23 @@ export function InfoForm() {
               label="重設密碼"
               className="font-bold lg:mx-[15px] lg:w-[124px]"
             >
-              <Button
-                className="font-normal"
-                block
-                style={{ height: 40, width: 124 }}
-                disabled={isDisabled}
-              >
-                點我重設密碼
-              </Button>
+              <div>
+                <Button
+                  className="font-normal"
+                  block
+                  style={{ height: 40, width: 124 }}
+                  disabled={isDisabled}
+                  onClick={() => {
+                    setShowResetPassword(!showResetPassword);
+                  }}
+                >
+                  點我重設密碼
+                </Button>
+                <ResetPassWordModal showResetPassword={showResetPassword} setShowResetPassword={setShowResetPassword} />
+              </div>
             </Form.Item>
             <Form.Item
-              name="Name"
+              name="CounselorName"
               label="會員姓名"
               className="font-bold lg:mx-[15px] lg:w-[584px]"
             >
@@ -177,7 +208,6 @@ export function InfoForm() {
                 placeholder={renderData.CounselorName}
                 className="font-normal"
                 style={{ height: 40 }}
-                value={renderData.CounselorName}
               />
             </Form.Item>
             <div className="mt-5 space-y-[4.5px] text-gray-900 lg:mx-[15px]">
@@ -197,7 +227,7 @@ export function InfoForm() {
                     <Upload
                         // action=""
                       listType="picture-card"
-                      fileList={filelist}
+                      fileList={filelistLic}
                       onChange={LicenseImgUploadOnChange} // 不同 function
                       onPreview={LicenseImgOnPreview} // 不同 function
                       disabled={isDisabled}
@@ -277,21 +307,25 @@ export function InfoForm() {
               <h3 className="mb-3 text-sm font-bold">介紹影片</h3>
               <div className="space-y-5 rounded-[10px] border border-[#D4D2E3] p-4 lg:w-[584px]">
                 <Form.Item className="flex" name="VideoLink">
-                  <p className="mr-4 w-[56px]">Youtube影片連結</p>
-                  <Input
-                    placeholder={renderData.VideoLink ?? '請輸入影片連結'}
-                    className="bg-gray-200 h-10 w-[207px] border-none font-normal lg:w-[475px]"
-                    disabled={isDisabled}
-                  />
+                  <div>
+                    <p className="mr-4 w-[56px]">Youtube影片連結</p>
+                    <Input
+                      placeholder={renderData.VideoLink ?? '請輸入影片連結'}
+                      className="bg-gray-200 h-10 w-[207px] border-none font-normal lg:w-[475px]"
+                      disabled={isDisabled}
+                    />
+                  </div>
                 </Form.Item>
                 <Form.Item className="flex" name="IsVideoOpen">
-                  <p className="mr-4 w-[56px]">是否開放</p>
-                  <Switch
-                    defaultChecked={renderData.IsVideoOpen}
-                    onChange={SwitchOnChange}
-                    disabled={isDisabled}
-                    className="bg-gray-400"
-                  />
+                  <div>
+                    <p className="mr-4 w-[56px]">是否開放</p>
+                    <Switch
+                      checked={renderData.IsVideoOpen}
+                      onChange={SwitchOnChange}
+                      disabled={isDisabled}
+                      className="bg-gray-400"
+                    />
+                  </div>
                 </Form.Item>
               </div>
             </div>
@@ -320,6 +354,8 @@ export function InfoForm() {
           </Form>
         </ConfigProvider>
       </div>
+      <div className="alert">{alertModal}</div>
     </div>
   );
 }
+

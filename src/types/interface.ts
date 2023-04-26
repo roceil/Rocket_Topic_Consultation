@@ -73,17 +73,21 @@ export interface ICoursesDataProps {
   Message: string;
   Data: {
     FieldIds: number[];
-    Courses: {
-      FieldId: number;
-      Course: {
-        Item: string;
-        Quantity: number;
-        Price: number;
-        Availability: boolean;
-      }[];
-      Feature: string[]
-    }[];
+    Courses: ICoursesProps[];
   };
+}
+
+export interface ICoursesProps {
+  Courses: {
+    FieldId: number;
+    Course: {
+      Item: string;
+      Quantity: number;
+      Price: number;
+      Availability: boolean;
+    }[];
+    Feature: string[]
+  }[];
 }
 
 // 諮商師 > 會員中心 > 個人資料 > 基本資料 API
