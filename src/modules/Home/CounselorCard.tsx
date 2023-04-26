@@ -12,7 +12,7 @@ export default function CounselorCard({ name, rankTag, img, skillsAry, id }: ISu
       <div className="max-w-[244px] lg:max-w-[280px]">
         {/* 這是圖片 */}
         <div className="relative h-[244px] w-[244px] lg:h-[280px] lg:w-[280px]">
-          <Image src={img} alt="stepPicture" width={280} height={280} className="object-cover h-full transition duration-300 lg:group-hover:opacity-70 rounded-xl" />
+          <Image src={img} alt={name} width={280} height={280} className="object-cover h-full transition duration-300 lg:group-hover:opacity-70 rounded-xl" />
           {/* 手機版連結裝飾按鈕 */}
           <button type="button" className="absolute bottom-3 right-3 h-7 w-7 rounded-full bg-white/70 text-gray-800 lg:hidden">
             <ArrowRightOutlined />
@@ -31,7 +31,7 @@ export default function CounselorCard({ name, rankTag, img, skillsAry, id }: ISu
         </div>
 
         {/* 諮商師tag */}
-        <ul className="flex flex-wrap border-y-2 border-gray-700 py-2 min-h-[92px]">
+        <ul className="flex flex-wrap border-y-2 border-gray-700 py-2">
           {skillsAry?.map(({ type }) => (
             <li key={type} className=" py-2 px-3 text-xs font-bold text-gray-700 lg:text-sm">
               <p>{`#${type}`}</p>

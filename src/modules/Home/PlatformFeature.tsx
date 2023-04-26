@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import rocket from '../../../public/images/home/platformFeature/rocket.svg';
+import ReactWOW from 'react-wow';
+import rocket from 'public/images/home/platformFeature/rocket.svg';
 
 export default function PlatformFeature() {
   return (
@@ -7,7 +8,9 @@ export default function PlatformFeature() {
       <div className="container py-20 text-center lg:flex lg:justify-center lg:space-x-[216px] lg:py-[157px]">
         <div>
           {/* 這裡是圖片 */}
-          <Image src={rocket} width={108} height={108} alt="rocket" className="hidden lg:mb-11 lg:block lg:h-[108px] lg:w-[108px]" />
+          <ReactWOW animation="bounceInLeft" duration="1.5s">
+            <Image src={rocket} width={108} height={108} alt="rocket" className="hidden lg:mb-11 lg:block lg:h-[108px] lg:w-[108px]" />
+          </ReactWOW>
           <h2 className="lg:text-left">平台特色</h2>
           <p className="subTitle mb-10 lg:max-w-[326px] lg:text-left">4 個理由讓你愛上 『 拍拍 』</p>
         </div>
