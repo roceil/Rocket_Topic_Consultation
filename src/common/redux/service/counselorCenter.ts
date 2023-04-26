@@ -27,14 +27,11 @@ export const counselorCenter = createApi({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        // onSuccess: () => {
-        //   QueryCache.invalidateQueries('CoursesDataGet');
-        // },
       }),
     }),
     CourseDataDelete: builder.mutation({
       query: ({ token, clickId }) => ({
-        url: `api/courses?${clickId}`,
+        url: `api/courses?id=${clickId}`,
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,7 +47,7 @@ export const counselorCenter = createApi({
       }),
     }),
     CounselorInfoPut: builder.mutation({
-      query: ({ token, Name,
+      query: ({ token, CounselorName,
         LicenseImg,
         Photo,
         SellingPoint,
@@ -60,7 +57,7 @@ export const counselorCenter = createApi({
         url: '/api/counselors',
         method: 'PUT',
         body: {
-          Name,
+          Name: CounselorName,
           LicenseImg,
           Photo,
           SellingPoint,

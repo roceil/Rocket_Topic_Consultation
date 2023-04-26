@@ -22,6 +22,13 @@ export const userCenter = createApi({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        providesTags: (result: { id: number }[]) => (result
+          ? [
+            ...result.map(({ id }) => ({ type: 'reservationDataGet', id })),
+            { type: 'reservationDataGet', id: 'LIST' },
+          ]
+          : [{ type: 'reservationDataGet', id: 'LIST' }]),
+        invalidatesTags: [{ type: 'reservationDataGet', id: 'LIST' }],
       }),
     }),
     userAppointmentPost: builder.mutation({

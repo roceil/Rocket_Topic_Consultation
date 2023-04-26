@@ -1,12 +1,9 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// GET => POST / DELETE 後要重新 GET 渲染畫面 => GPT 建議在 POST RTKQ 加上 onSuccess 屬性刷新
-// POST 改 RTKQ
-// 調整手機版
-import { Button, ConfigProvider, Form, Input, Switch, FormInstance } from 'antd';
+import { Button, ConfigProvider, Form, Input, Switch, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
-import axios from 'axios';
+import CustomAlert from '@/common/helpers/customAlert';
+import { v4 as uuidv4 } from 'uuid';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -23,19 +20,26 @@ const { TextArea } = Input;
 // 諮商師 > 個人資料 > 課程資訊
 export function ClassInfo() {
   const token = getCookie('auth');
-  // ==================== 取得課程 API RTKQ ====================
-  const { data, isLoading } = useCoursesDataGetQuery({ token });
+  // ==================== alert Modal ====================
+  const [modal, alertModal] = Modal.useModal();
 
-  // ==================== 新增/修改課程 API RTKQ ====================
+  // ==================== 取得課程 API ====================
+  const { data, isLoading, refetch } = useCoursesDataGetQuery({ token });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+  // ==================== 新增/修改課程 API ====================
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
 
-  // ==================== 刪除課程 API RTKQ ====================
+  // ==================== 刪除課程 API ====================
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
-  // const deleteCourse1 = async (token:any, clickId:number) => {
-  //   const res = await CourseDataDeleteMutation({ token, clickId });
-  //   // alert(res.data.Message);
-  //   console.log(res);
-  // };
+  const deleteCourse = async (clickId:number) => {
+    const res = await CourseDataDeleteMutation({ token, clickId });
+    refetch();
+    const { Message } = (res as { data: { Message: string } }).data;
+    CustomAlert({ modal, Message, type: 'success' });
+  };
 
   // 課程資料
   const [renderData, setRenderData] = useState<any>([]);
@@ -83,7 +87,7 @@ export function ClassInfo() {
     setRenderData(data);
     setGetCoursesID(renderData?.Data?.Courses);
     SetFeatureAry(renderData?.Data?.Courses);
-    console.log('所有課程:', getCoursesID); // 所有課程物件
+    // console.log('所有課程:', getCoursesID); // 所有課程物件
     // console.log(featureAry); // 單一課程特色 Ary => 要綁上 fieldId
     // console.log('點擊的膠囊 id:', clickId); //  點擊的膠囊 id
     // console.log(clickId, clickFilterAry);
@@ -109,51 +113,8 @@ export function ClassInfo() {
       SetFeatureAry(item.Feature));
   }, [renderData, getCoursesID, featureAry, clickId]);
 
-  // 『課程特色』保留 placeholder 的值
-  // const [featureStates, setFeatureStates] = useState(featureAry || []);
-
-  // 判斷『單一主題』課程資訊，
+  // 判斷『單一主題』課程資訊
   const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
-
-  // ==================== 刪除課程 API Axios DELETE ====================
-  const deleteCourse = async (courseId: number) => {
-    try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses?id=${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log('delete Course :', response.data);
-      // alert(response.data.Message); // 換成 alert component
-    } catch (error:any) {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized');
-      } else {
-        console.log('Error adding course:', error);
-      }
-    }
-  };
-
-  // 儲存 Get API 的狀態碼
-  const [statusCode, setStatusCode] = useState<number>();
-  // 因為 RTKQ 取 res.status 卡關，所以多寫了這個 get axios
-  useEffect(() => {
-    // axios 當測試，最後要用 redux 打 API ，才能一次管理多種狀態
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log('res', res);
-        const { status } = res;
-        setStatusCode(status);
-      });
-  }, [isLoading]);
 
   // Form
   const [form] = Form.useForm();
@@ -183,55 +144,7 @@ export function ClassInfo() {
     console.log('clickId:', clickId);
   }
 
-  // ==================== 待修改：送出表單 ====================
-  // const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
-  // const courseQuantityAry = [1, 3, 5, 1];
-  // const handleSubmit = async (values: any) => {
-  //   console.log(values);
-  //   const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
-  //   // 組成 POST 用的 Features
-  //   const Features = {
-  //     Feature1,
-  //     Feature2,
-  //     Feature3,
-  //     Feature4,
-  //     Feature5,
-  //   };
-
-  //   // 組成 POST 用的 Courses
-  //   const Courses = [
-  //     {
-  //       Item: courseItemAry[0],
-  //       Quantity: courseQuantityAry[0],
-  //       Price: parseInt(Price0),
-  //       Availability: Availability0,
-  //     },
-  //     {
-  //       Item: courseItemAry[1],
-  //       Quantity: courseQuantityAry[1],
-  //       Price: parseInt(Price1),
-  //       Availability: Availability1,
-  //     }, {
-  //       Item: courseItemAry[2],
-  //       Quantity: courseQuantityAry[2],
-  //       Price: parseInt(Price2),
-  //       Availability: Availability2,
-  //     },
-  //     {
-  //       Item: courseItemAry[3],
-  //       Quantity: courseQuantityAry[3],
-  //       Price: parseInt(Price3),
-  //       Availability: Availability3,
-  //     },
-  //   ];
-
-  //   // 取出的資料回傳 POST
-  //   const res = await coursesDataPostMutation({ token, clickId, Courses, Features });
-  //   setIsDisabled(true);
-  //   alert(res.data.Message);
-  //   console.log(res);
-  // };
-
+  // ==================== 送出表單 ====================
   const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
   const courseQuantityAry = [1, 3, 5, 1];
 
@@ -246,61 +159,57 @@ export function ClassInfo() {
     return updatedFeatures;
   };
 
-  // 更新 Courses
-  const updateCourses = (values: any, originalCourses: any) => {
-    if (!originalCourses || typeof originalCourses[Symbol.iterator] !== 'function') {
-      // eslint-disable-next-line no-param-reassign
-      originalCourses = []; // 如果不是可迭代對象，則初始化為空陣列
-    }
-    const updatedCourses = [...originalCourses];
-    if (values.Course0) {
-      updatedCourses[0] = {
-        ...originalCourses[0],
-        Quantity: values.Course0.Quantity || originalCourses[0].Quantity,
-        Price: values.Course0.Price || originalCourses[0].Price,
-        Availability: values.Course0.Availability || originalCourses[0].Availability,
-      };
-    }
-    if (values.Course1) {
-      updatedCourses[1] = {
-        ...originalCourses[1],
-        Quantity: values.Course1.Quantity || originalCourses[1].Quantity,
-        Price: values.Course1.Price || originalCourses[1].Price,
-        Availability: values.Course1.Availability || originalCourses[1].Availability,
-      };
-    }
-    if (values.Course2) {
-      updatedCourses[2] = {
-        ...originalCourses[2],
-        Quantity: values.Course2.Quantity || originalCourses[2].Quantity,
-        Price: values.Course2.Price || originalCourses[2].Price,
-        Availability: values.Course2.Availability || originalCourses[2].Availability,
-      };
-    }
-    if (values.Course3) {
-      updatedCourses[3] = {
-        ...originalCourses[3],
-        Quantity: values.Course3.Quantity || originalCourses[3].Quantity,
-        Price: values.Course3.Price || originalCourses[3].Price,
-        Availability: values.Course3.Availability || originalCourses[3].Availability,
-      };
-    }
-    return updatedCourses;
-  };
-  // ==================== 送出表單 ====================
   const handleSubmit = async (values: any) => {
-    const { Feature1, Feature2, Feature3, Feature4, Feature5 } = values;
-    const Features = updateFeatures(values, form.getFieldValue('Features'));
-    const Courses = updateCourses(values, form.getFieldValue('Courses'));
+    console.log(values);
 
-    const res = await coursesDataPostMutation({
-      token,
-      clickId,
-      Courses,
-      Features,
-    });
-    setIsDisabled(true);
-    console.log(res);
+    const { Availability0, Availability1, Availability2, Availability3, Price0, Price1, Price2, Price3 } = values;
+    const Features = updateFeatures(values, form.getFieldValue('Features'));
+    const Courses = [
+      {
+        Item: courseItemAry[0],
+        Quantity: courseQuantityAry[0],
+        Price: parseInt(Price0 ?? '0', 10), // 若 Price0 為 undefined 則使用預設值 0
+        Availability: Availability0 ?? false, // 若 Availability0 為 undefined 則使用預設值 false
+      },
+      {
+        Item: courseItemAry[1],
+        Quantity: courseQuantityAry[1],
+        Price: parseInt(Price1 ?? '0', 10),
+        Availability: Availability1 ?? false,
+      }, {
+        Item: courseItemAry[2],
+        Quantity: courseQuantityAry[2],
+        Price: parseInt(Price2 ?? '0', 10),
+        Availability: Availability2 ?? false,
+      },
+      {
+        Item: courseItemAry[3],
+        Quantity: courseQuantityAry[3],
+        Price: parseInt(Price3 ?? '0', 10),
+        Availability: Availability3 ?? false,
+      },
+    ];
+
+    type AvailabilityItem = boolean | undefined;
+    const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
+    console.log('updateFeatures:', Features);
+    console.log('updateCourses:', Courses);
+
+    if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
+      const Message = '請至少開放一種方案';
+      CustomAlert({ modal, Message, type: 'error' });
+    } else {
+      const res = await coursesDataPostMutation({
+        token,
+        clickId,
+        Features,
+        Courses,
+      });
+      setIsDisabled(true);
+      refetch();
+      const { Message } = (res as { data: { Message: string } }).data;
+      CustomAlert({ modal, Message, type: 'success' });
+    }
   };
 
   return (
@@ -320,7 +229,7 @@ export function ClassInfo() {
               key={id}
               onClick={() => {
                 changeRenderForm(id);
-                console.log('取clickID筆資料：', getCoursesID);
+                // console.log('取clickID筆資料：', getCoursesID);
                 const filterAry = getCoursesID.filter(
                   (item:any) => item.FieldId === id,
                 );
@@ -352,27 +261,22 @@ export function ClassInfo() {
       </div>
       <div className="space-y-10 lg:space-y-12 ">
         <div className="relative flex-row lg:flex">
-          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[11%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
-          {/* PC 課程方案 */}
-          {/* 判斷有無課程資料，渲染課程方案、課程特色 */}
-          {(FieldIds2 as unknown as number[])?.length === 0 && (
-            <NoCourses text="尚未新增課程資訊" height="h-[338px]" />
-          )}
           {/* 點擊膠囊前，初始畫面 */}
           {isSuccess && (
             <NoCourses text="請先選擇專長領域" height="h-[338px]" />
           )}
           <div
-            className={`w-[90%] rounded-2xl bg-gray-200 pb-9 ${
+            className={`lg:w-[90%] rounded-2xl bg-gray-200 pb-9 ${
               isSuccess ? 'hidden' : ''
             }`}
           >
-            <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
-              <li className="lg:w-[33.33%]">課程方案</li>
-              <li className="lg:w-[33.33%]">定價</li>
-              <li className="lg:w-[33.33%]">是否開放</li>
+            <ul className="rounded-2xl flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 text-center">
+              <li className="w-[33.33%]">課程方案</li>
+              <li className="w-[33.33%]">定價</li>
+              <li className="w-[33.33%]">是否開放</li>
             </ul>
             <div className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
               <RenderEmptyForm renderEmptyForm={renderEmptyForm} clickId={clickId as unknown as number} />
@@ -406,21 +310,22 @@ export function ClassInfo() {
                     <div className="flex w-full flex-col space-y-4">
                       {clickFilterAry?.map(
                         ({ Item, Price, Availability }, i) => (
-                          <li className="flex items-center" key={i}>
+                          <li className="flex items-center text-center" key={uuidv4()}>
                             <div className="w-[33.33%]">{Item}</div>
                             <Form.Item
-                              className="mb-0 lg:w-[33.33%]"
+                              className="mb-0 w-[33.33%]"
                               name={`Price${i}`}
                             >
                               <Input
                                 disabled={isDisabled}
+                                name={`Price${i}`}
                                 placeholder={Price ?? '請填寫價格'}
                                 className="font-normal"
-                                style={{ height: 40, width: 124 }}
+                                style={{ maxHeight: 40, maxWidth: 124 }}
                               />
                             </Form.Item>
                             <Form.Item
-                              className="mb-0 lg:w-[33.33%]"
+                              className="mb-0 w-[33.33%] text-center"
                               name={`Availability${i}`}
                             >
                               <Switch
@@ -440,7 +345,7 @@ export function ClassInfo() {
                           name={`Feature${i + 1}`}
                           label={`特色 ${i + 1}`}
                           className={`mb-8 px-5 lg:px-[56px] ${
-                            i > 2 && 'ml-[10px]'
+                            i > 2 && 'lg:ml-[10px]'
                           }`}
                           rules={[
                             {
@@ -452,6 +357,7 @@ export function ClassInfo() {
                         >
                           <TextArea
                             showCount
+                            name={`Feature${i + 1}`}
                             maxLength={25}
                             style={{ height: 45, resize: 'none' }}
                             onChange={onChange}
@@ -464,43 +370,45 @@ export function ClassInfo() {
                     </div>
                     <Form.Item className={!courseNotExist ? 'hidden' : ''}>
                       {/* btns */}
-                      <div className="mt-10 flex justify-between space-x-5 px-14">
-                        <input
-                          type="button"
-                          value="刪除此專長領域"
-                          className={`text-base text-gray-900 underline underline-offset-2 ${
-                            !isDisabled ? 'hover:text-red-500' : ''
-                          }`}
-                          onClick={() => deleteCourse(clickId as unknown as number)}
-                          // onClick={() => { deleteCourse1(token, clickId); }}
-                          disabled={isDisabled}
-                        />
-                      </div>
-                      <div className="flex justify-end">
-                        <div className="space-x-5 mt-5">
-                          <Button
-                            type="primary"
-                            shape="round"
-                            htmlType="submit"
-                            className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
-                          >
-                            儲存
-                          </Button>
-                          <Button
-                            type="primary"
-                            shape="round"
-                            htmlType="button"
-                            onClick={() => setIsDisabled(false)}
-                            className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
-                          >
-                            {isDisabled ? '編輯' : '取消編輯'}
-                          </Button>
+                      <div>
+                        <div className="mt-10 flex justify-between px-8 lg:px-14">
+                          <input
+                            type="button"
+                            value="刪除此專長領域"
+                            className={`text-base text-gray-600 underline underline-offset-2 ${
+                              !isDisabled ? 'hover:text-red-500' : ''
+                            }`}
+                            onClick={() => deleteCourse(clickId as unknown as number)}
+                            disabled={isDisabled}
+                          />
+                        </div>
+                        <div className="flex justify-around lg:justify-end lg:mr-14">
+                          <div className="space-x-5 mt-5">
+                            <Button
+                              type="primary"
+                              shape="round"
+                              htmlType="submit"
+                              className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
+                            >
+                              儲存
+                            </Button>
+                            <Button
+                              type="primary"
+                              shape="round"
+                              htmlType="button"
+                              onClick={() => setIsDisabled(false)}
+                              className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
+                            >
+                              {isDisabled ? '編輯' : '取消編輯'}
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </Form.Item>
                   </Form>
                 </ConfigProvider>
               </ul>
+              <div className="alert">{alertModal}</div>
             </div>
           </div>
         </div>

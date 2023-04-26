@@ -87,6 +87,7 @@
 .btnHoverTimeTable {
   @apply fakeBorder before:fakeBorder relative inline-block flex-shrink-0 cursor-pointer overflow-hidden rounded-[10px] bg-inherit [transform:translateZ(0)] before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-[100%_100%] before:scale-x-0 before:rounded-[10px] before:bg-secondary before:transition before:duration-500 before:ease-in-out active:scale-[0.8] lg:hover:before:origin-[0_0] lg:hover:before:scale-x-100 hover:before:text-white;
 }
+
 .container{width:100%}
 @media (min-width:640px){.container{max-width:428px !important}}
 @media (min-width:768px){.container{max-width:428px !important}}
