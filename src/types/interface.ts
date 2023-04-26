@@ -13,6 +13,7 @@ export interface ISuggestCounselorCardProps {
   rankTag: string;
   img: string;
   skillsAry: ITopicCardProps[];
+  id:number
 }
 
 export interface ISearchCapsuleProps {
@@ -66,6 +67,49 @@ export interface IUserDataProps {
   data: { Data: [{ Account: string; BirthDate: string; Name: string; Sex: string }]; Message: string; Success: boolean };
 }
 
+// 諮商師 > 會員中心 > 個人資料 > 課程資訊 API
+export interface ICoursesDataProps {
+  Success: boolean;
+  Message: string;
+  Data: {
+    FieldIds: number[];
+    Courses: ICoursesProps[];
+  };
+}
+
+export interface ICoursesProps {
+  Courses: {
+    FieldId: number;
+    Course: {
+      Item: string;
+      Quantity: number;
+      Price: number;
+      Availability: boolean;
+    }[];
+    Feature: string[]
+  }[];
+}
+
+// 諮商師 > 會員中心 > 個人資料 > 基本資料 API
+export interface ICounselorInfo {
+  Success: boolean;
+  Message: string;
+  Data: ICounselorInfoData[];
+}
+
+export interface ICounselorInfoData {
+  Account: string;
+  CounselorName: string;
+  LicenseImg: string;
+  CertNumber: string;
+  Photo: string | null;
+  SellingPoint: string | null;
+  SelfIntroduction: string | null;
+  VideoLink: string | null;
+  IsVideoOpen: boolean;
+  AccountStatus: boolean;
+}
+
 export interface ICounselorInformationProps {
   counselorPageBreadcrumb: ItemType[];
   Photo: string;
@@ -81,6 +125,7 @@ export interface ICounselorPageProps {
     Photo: string;
     SelfIntroduction: string;
     Fields: any;
+    VideoLink: string | null;
   };
 }
 export interface ICourses {
@@ -131,4 +176,128 @@ export interface IShoppingFormProps {
   renderDate: ICartItem[];
   setRenderDate: React.Dispatch<React.SetStateAction<ICartItem[]>>;
   TotalAmount: number;
+}
+
+export interface IChatList {
+  Content: string;
+  CounselorId: number;
+  CounselorRead: boolean;
+  Id: number;
+  InitDate: string;
+  OutName: string;
+  Photo: string;
+  Type: string;
+  UserId: number;
+  UserRead: boolean;
+}
+
+export interface ICaseRenderData {
+  Name: string;
+  Field: string;
+  AppointmentDate: string;
+  AppointmentId: number;
+  AppointmentTime: string;
+}
+
+export interface IRecordRenderData {
+  AppointmentDate: string;
+  AppointmentId: number;
+  CounsellingRecord: string;
+  Field: string;
+  LastRecordDate: string;
+  Name: string;
+  RecordDate: string;
+}
+
+export interface ICounselorWaitReplyProps {
+  AppointmentId: number;
+  Field: string;
+  OrderId: number;
+  Time: string;
+  User: string;
+}
+
+export interface IAppointmentTime {
+  Success: boolean;
+  Message: string;
+  Data: {
+    PageNum: number;
+    Pagination: IPagination[];
+    Hours: IHours[];
+  };
+}
+
+export interface IHours {
+  AppointmentTimeId: number;
+  Time: string;
+  Availability: boolean;
+}
+
+export interface IPagination {
+  Year: string;
+  Month: string;
+  Date: string;
+  WeekDay: string;
+  Hours: IHours[];
+}
+
+export interface IRateModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
+  comment?: string;
+  AppointmentId: number;
+  rate: number;
+  setRateLevel: (value: number) => void;
+  setComment: (value: string) => void;
+  refetch: () => void;
+}
+
+export interface IAppointment {
+  AppointmentId: number;
+  Counselor: string;
+  Field: string;
+  Time?: string;
+  CounselorId: number;
+}
+
+export interface OrderIdMap<T> {
+  [orderId: number]: T[];
+}
+
+export interface ListItem {
+  OrderId: number;
+  AppointmentId: number;
+  Counselor: string;
+  Field: string;
+  CounselorId: number;
+}
+
+export interface IAppointmentWithOrderProps {
+  AppointmentId: number;
+  AppointmentTime: string;
+  CounselorName: string;
+  InitDate: string;
+  ReserveStatus: string;
+  UserName: string;
+  ZoomLink: string;
+}
+
+export interface IAlertProps {
+  appointmentsWithOrder: IAppointmentWithOrderProps[];
+  isHaveUrl: boolean
+  spanNowTime: string
+}
+
+export interface IAppointmentWithOrder {
+  isHaveUrl: boolean
+  spanNowTime: string
+  url: string
+}
+
+export interface ICounselorRenderList {
+  Name:string;
+  Field:string;
+  AppointmentTime:string;
+  AppointmentId:number;
+  AppointmentDate:string;
 }

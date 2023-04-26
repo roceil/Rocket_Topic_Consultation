@@ -10,11 +10,11 @@ export default function Loading() {
   const loading = useSelector((state: { loadingSlice: { value: string } }) => state.loadingSlice.value);
   const isLoading = loading === 'isLoading' ? 'block' : 'hidden';
 
-  // 如果 loading 10秒後還沒關閉，就自動關閉
+  // 如果 loading 3秒後還沒關閉，就自動關閉
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(loadingStatus('isNotLoading'));
-    }, 10000);
+      dispatch(loadingStatus('none'));
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 

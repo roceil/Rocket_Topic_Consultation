@@ -1,50 +1,83 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
-import userCenterSlice from './feature/userCenter';
-import loginTabs from './feature/loginTabs';
+
+import userCenterReservationPosition from './feature/userCenterReservationPosition';
+import zoomSlice from './feature/zoom';
 import signUpSlice from './feature/signUp';
-import hasTokenSlice from './feature/hasToken';
-import userCenterReservation from './feature/userCenterReservation';
+import loginTabs from './feature/loginTabs';
 import loadingSlice from './feature/loading';
-import { login } from './service/login';
-import { forgetPassword } from './service/forgetPassword';
-import { resetPassword } from './service/resetPassword';
-import { signUp } from './service/signUp';
-import { counselorList } from './service/counselorList';
-import { userCenter } from './service/userCenter';
+import hasTokenSlice from './feature/hasToken';
+import chatRoomSlice from './feature/chatRoom';
+import userCenterSlice from './feature/userCenter';
+import headerAlertSlice from './feature/headerAlert';
 import counselorListSlice from './feature/counselorList';
-import { counselorPage } from './service/counselorPage';
+import chatRoomSwitchSlice from './feature/chatRoomSwitch';
+import counselorCasePage from './feature/counselorCasePage';
+import userCenterReservation from './feature/userCenterReservation';
+import counselorReservationTab from './feature/counselorReservationTab';
+import counselorReservationPage from './feature/counselorReservationPage';
+
+import { login } from './service/login';
+import { header } from './service/header';
+import { signUp } from './service/signUp';
+import { userCenter } from './service/userCenter';
 import { shoppingCart } from './service/shoppingCart';
+import { counselorList } from './service/counselorList';
+import { counselorPage } from './service/counselorPage';
+import { resetPassword } from './service/resetPassword';
+import { forgetPassword } from './service/forgetPassword';
+import { counselorCenter } from './service/counselorCenter';
+import { timetableBrowser } from './service/timetableBrowser';
+import { counselorReservation } from './service/counselorReservation';
 
 const reducers = combineReducers({
-  userCenterSlice,
-  signUpSlice,
+  zoomSlice,
   loginTabs,
-  hasTokenSlice,
-  counselorListSlice,
-  userCenterReservation,
+  signUpSlice,
   loadingSlice,
+  hasTokenSlice,
+  chatRoomSlice,
+  userCenterSlice,
+  headerAlertSlice,
+  counselorCasePage,
+  counselorListSlice,
+  chatRoomSwitchSlice,
+  userCenterReservation,
+  counselorReservationTab,
+  counselorReservationPage,
+  userCenterReservationPosition,
   [login.reducerPath]: login.reducer,
-  [forgetPassword.reducerPath]: forgetPassword.reducer,
-  [resetPassword.reducerPath]: resetPassword.reducer,
   [signUp.reducerPath]: signUp.reducer,
-  [counselorList.reducerPath]: counselorList.reducer,
+  [header.reducerPath]: header.reducer,
   [userCenter.reducerPath]: userCenter.reducer,
-  [counselorPage.reducerPath]: counselorPage.reducer,
   [shoppingCart.reducerPath]: shoppingCart.reducer,
+  [counselorPage.reducerPath]: counselorPage.reducer,
+  [counselorList.reducerPath]: counselorList.reducer,
+  [resetPassword.reducerPath]: resetPassword.reducer,
+  [forgetPassword.reducerPath]: forgetPassword.reducer,
+  [counselorCenter.reducerPath]: counselorCenter.reducer,
+  [timetableBrowser.reducerPath]: timetableBrowser.reducer,
+  [counselorReservation.reducerPath]: counselorReservation.reducer,
 });
+
+// 註冊
 
 const store = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(login.middleware)
-    .concat(forgetPassword.middleware)
-    .concat(resetPassword.middleware)
     .concat(signUp.middleware)
-    .concat(counselorList.middleware)
+    .concat(header.middleware)
     .concat(userCenter.middleware)
+    .concat(shoppingCart.middleware)
+    .concat(shoppingCart.middleware)
+    .concat(resetPassword.middleware)
     .concat(counselorPage.middleware)
-    .concat(shoppingCart.middleware),
+    .concat(counselorList.middleware)
+    .concat(forgetPassword.middleware)
+    .concat(counselorCenter.middleware)
+    .concat(timetableBrowser.middleware)
+    .concat(counselorReservation.middleware),
 });
 
 const wrapper = createWrapper(() => store, { debug: false });

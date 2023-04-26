@@ -3,6 +3,7 @@
   padding: 7px 8px !important;
   border-width: 0px !important;
   border-radius: 99999px !important;
+  height: 48px;
   box-shadow: inset 0 0 0 1.5px #4a5364 !important;
 }
 .selectTopic .ant-select-selection-search {
@@ -114,7 +115,8 @@
   justify-content: space-between;
   min-height: 400px;
 }
-.ant-modal-content {
+
+.hamburger-menu .ant-modal-content {
   padding: 72px 36px 44px 36px !important;
   box-shadow: none !important;
 }
@@ -222,7 +224,7 @@
 }
 
 /* alert 顏色設定 */
-.ant-modal-confirm-btns .ant-btn-primary {
+.alert .ant-modal-confirm-btns .ant-btn-primary {
   background-color: #4a5364 !important;
   border-color: #4a5364 !important;
   border-radius: 20px !important;
@@ -230,4 +232,69 @@
   height: 36px !important;
   font-weight: 600 !important;
   outline: inherit !important;
+}
+
+/* 評價 modal */
+.rateModal .ant-modal-content{
+  padding: 20px !important;
+}
+.rateModal .ant-btn-default{
+  border-radius: 24px;
+  border:1px solid #4a5364 ;
+  color: #4a5364;
+}
+.rateModal .ant-btn-default:hover{
+  border-radius: 24px;
+  border:1px solid #4a5364 ;
+  opacity: 0.8;
+  color: #4a5364;
+}
+.rateModal .ant-btn-default span{
+  font-weight: 600;
+}
+.rateModal .ant-btn-primary {
+  border-radius: 24px;
+  background-color: #4a5364;
+  box-shadow: none;
+}
+.rateModal .ant-btn-primary:hover {
+opacity: 0.8;
+background-color: #4a5364;
+}
+.rateModal .ant-btn-primary span {
+font-weight: 600;
+}
+
+.userCenter .ant-modal-content {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+/* 全部的 modal  */
+.ant-modal-content{
+  padding: 24px !important;
+}
+.ant-modal-footer .ant-btn-default{
+  border-radius: 24px !important;
+  color: #4a5364 !important;
+  border-color: #4a5364 !important;
+}
+.ant-modal-footer .ant-btn-default:hover{
+  opacity: 0.8 !important;
+}
+
+.ant-modal-footer .ant-btn-primary{
+  border-radius: 24px !important;
+  background-color: #4a5364 !important;
+  border-color: #4a5364 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+.ant-modal-footer .ant-btn-primary:hover{
+  opacity: 0.8 !important;
+}
+
+/* header 通知下拉選單 */
+.ant-dropdown-menu{
+  border-radius: 0px !important;
+  top: 12px !important;
 }

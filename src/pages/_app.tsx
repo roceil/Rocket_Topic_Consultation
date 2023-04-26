@@ -6,6 +6,7 @@ import '../styles/swiper/style.css';
 import '../styles/waves/style.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'animate.css/animate.min.css';
 
 import type { AppProps } from 'next/app';
 import ChatRoom from '@/common/components/ChatRoom';
@@ -14,9 +15,9 @@ import wrapper from '@/common/redux/store';
 import Header from '@/common/components/Header';
 import Footer from '@/common/components/Footer';
 
-import('../common/msw').then(({ setupMocks }) => {
-  setupMocks();
-});
+// import('../common/msw').then(({ setupMocks }) => {
+//   setupMocks();
+// });
 
 export function App({ Component, pageProps }: AppProps) {
   return (

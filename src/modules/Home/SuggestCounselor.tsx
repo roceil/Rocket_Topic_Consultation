@@ -1,10 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-cycle */
-// eslint-disable-next-line import/no-cycle
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
+import { counselorRank } from '@/lib/homeFilesRoute';
 import CounselorCard from './CounselorCard';
-import { counselorRank } from '../../lib/homeFilesRoute';
 
 export default function SuggestCounselor() {
   return (
@@ -29,9 +27,9 @@ export default function SuggestCounselor() {
             slidesPerView="auto"
             loop
           >
-            {counselorRank.map(({ name, rankTag, img, skillsAry }) => (
+            {counselorRank.map(({ name, rankTag, img, skillsAry, id }) => (
               <SwiperSlide key={name}>
-                <CounselorCard key={name} name={name} rankTag={rankTag} img={img} skillsAry={skillsAry} />
+                <CounselorCard key={name} name={name} id={id} rankTag={rankTag} img={img} skillsAry={skillsAry} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -39,8 +37,8 @@ export default function SuggestCounselor() {
 
         {/* 電腦版 */}
         <ul className="hidden lg:flex lg:flex-wrap lg:justify-center lg:gap-16">
-          {counselorRank.map(({ name, rankTag, img, skillsAry }) => (
-            <CounselorCard key={name} name={name} rankTag={rankTag} img={img} skillsAry={skillsAry} />
+          {counselorRank.map(({ name, rankTag, img, skillsAry, id }) => (
+            <CounselorCard key={name} name={name} id={id} rankTag={rankTag} img={img} skillsAry={skillsAry} />
           ))}
         </ul>
       </div>

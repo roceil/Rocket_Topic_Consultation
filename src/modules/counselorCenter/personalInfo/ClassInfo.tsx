@@ -1,77 +1,288 @@
-import { ConfigProvider, Form, Input, Switch } from 'antd';
-import { useEffect, useState } from 'react';
-import { IButton } from '@/common/components/IButton';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button, ConfigProvider, Form, Input, Switch, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
+import CustomAlert from '@/common/helpers/customAlert';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  useCoursesDataGetQuery,
+  useCoursesDataPostMutation,
+  useCourseDataDeleteMutation,
+} from '../../../common/redux/service/counselorCenter';
+import { IButton } from '../../../common/components/IButton';
 import { classTopic } from '../../../lib/counselorCenterData';
+import { RenderEmptyForm } from './RenderEmptyForm';
+import { NoCourses } from './NoCourses';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
 
 // 諮商師 > 個人資料 > 課程資訊
 export function ClassInfo() {
-  // 控制 disabled
-  const [editInfo, setEditInfo] = useState<boolean>(true);
+  const token = getCookie('auth');
+  // ==================== alert Modal ====================
+  const [modal, alertModal] = Modal.useModal();
+
+  // ==================== 取得課程 API ====================
+  const { data, isLoading, refetch } = useCoursesDataGetQuery({ token });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+  // ==================== 新增/修改課程 API ====================
+  const [coursesDataPostMutation] = useCoursesDataPostMutation();
+
+  // ==================== 刪除課程 API ====================
+  const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
+  const deleteCourse = async (clickId:number) => {
+    const res = await CourseDataDeleteMutation({ token, clickId });
+    refetch();
+    const { Message } = (res as { data: { Message: string } }).data;
+    CustomAlert({ modal, Message, type: 'success' });
+  };
+
+  // 課程資料
+  const [renderData, setRenderData] = useState<any>([]);
+  // 課程 id 陣列
+  const [FieldIds2, setFieldIds] = useState(null);
+  // 點擊膠囊前的預設畫面
+  const [isSuccess, setIsSuccess] = useState<boolean>(true);
+  // 課程方案＋定價
+  const [courses, setCourses] = useState(null);
+  // 控制渲染表格
+  const [renderForm, setRenderForm] = useState('hidden');
+  const [renderEmptyForm, setRenderEmptyForm] = useState('hidden');
+  //  點擊的膠囊 id
+  const [clickId, setClickId] = useState<number>();
+  //  篩選出指定 id 的課程方案、價錢
+  const [clickFilterAry, setClickFilterAry] = useState([]);
+  const [clickFeaturesFilterAry, setClickFeaturesFilterAry] = useState([]);
+
+  // 開啟編輯功能
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const isHidden = isDisabled
+    ? '!opacity-0 transform duration-300'
+    : '!opacity-100 transform duration-300';
+
+  // 資料回來時，解構 data
+  useEffect(() => {
+    if (!data) return;
+    const {
+      Data: { FieldIds, Courses },
+    } = data;
+    setRenderData(Courses);
+    setFieldIds(FieldIds);
+    setIsSuccess(data.Success);
+    setCourses(renderData?.Course);
+    // console.log('isLoading:', data);
+    // console.log('renderData:', renderData);
+  }, [isLoading, renderData]);
+
+  // Render『單一主題』的課程資訊
+  const [getCoursesID, setGetCoursesID] = useState<any>();
+  const [featureAry, SetFeatureAry] = useState<any>([]);
+
+  // POST 後，重新觸發 GET
+  useEffect(() => {
+    setRenderData(data);
+    setGetCoursesID(renderData?.Data?.Courses);
+    SetFeatureAry(renderData?.Data?.Courses);
+    // console.log('所有課程:', getCoursesID); // 所有課程物件
+    // console.log(featureAry); // 單一課程特色 Ary => 要綁上 fieldId
+    // console.log('點擊的膠囊 id:', clickId); //  點擊的膠囊 id
+    // console.log(clickId, clickFilterAry);
+    // console.log(clickId, clickFeaturesFilterAry);
+  }, [
+    isLoading,
+    renderData,
+    getCoursesID,
+    featureAry,
+    clickId,
+    clickFilterAry,
+    clickFeaturesFilterAry,
+  ]);
+  // POST 後，重新觸發 GET
+  useEffect(() => {
+    setRenderData(data);
+  }, [isLoading, data]);
+
+  useEffect(() => {
+    getCoursesID?.filter((item:any) =>
+      // console.log('點擊取得相應課程ID data：', item);
+      // eslint-disable-next-line implicit-arrow-linebreak
+      SetFeatureAry(item.Feature));
+  }, [renderData, getCoursesID, featureAry, clickId]);
+
+  // 判斷『單一主題』課程資訊
+  const courseNotExist = data?.Data?.Courses[getCoursesID]?.FieldId === undefined;
+
   // Form
   const [form] = Form.useForm();
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-  };
   // Switch
   const SwitchOnChange = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
-  // 課程特色
+  // Antd form 課程特色
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     console.log('Change:', e.target.value);
   };
 
-  // 膠囊狀態
-  const checkData = false;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const editing = false;
-  const hasData = '';
-  const noData = '!CounselorCenterNoDataBtn';
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onEdit = '!bg-primary-heavy';
+  // ==================== 判斷膠囊id，控制表格渲染 ====================
+  function changeRenderForm(id: number): void {
+    if ((FieldIds2 as unknown as number[])?.includes(id)) {
+      setRenderForm('block');
+      setRenderEmptyForm('hidden');
+      setClickId(id);
+      console.log('clickId:', clickId);
+      return;
+    }
+    setRenderForm('hidden');
+    setRenderEmptyForm('block');
+    setClickId(id);
+    console.log('clickId:', clickId);
+  }
 
-  useEffect(() => {
-    console.log(classTopic);
-  }, []);
+  // ==================== 送出表單 ====================
+  const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
+  const courseQuantityAry = [1, 3, 5, 1];
+
+  // 更新 Features
+  const updateFeatures = (values: any, originalFeatures: any) => {
+    const updatedFeatures = { ...originalFeatures };
+    if (values.Feature1) updatedFeatures.Feature1 = values.Feature1;
+    if (values.Feature2) updatedFeatures.Feature2 = values.Feature2;
+    if (values.Feature3) updatedFeatures.Feature3 = values.Feature3;
+    if (values.Feature4) updatedFeatures.Feature4 = values.Feature4;
+    if (values.Feature5) updatedFeatures.Feature5 = values.Feature5;
+    return updatedFeatures;
+  };
+
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+
+    const { Availability0, Availability1, Availability2, Availability3, Price0, Price1, Price2, Price3 } = values;
+    const Features = updateFeatures(values, form.getFieldValue('Features'));
+    const Courses = [
+      {
+        Item: courseItemAry[0],
+        Quantity: courseQuantityAry[0],
+        Price: parseInt(Price0 ?? '0', 10), // 若 Price0 為 undefined 則使用預設值 0
+        Availability: Availability0 ?? false, // 若 Availability0 為 undefined 則使用預設值 false
+      },
+      {
+        Item: courseItemAry[1],
+        Quantity: courseQuantityAry[1],
+        Price: parseInt(Price1 ?? '0', 10),
+        Availability: Availability1 ?? false,
+      }, {
+        Item: courseItemAry[2],
+        Quantity: courseQuantityAry[2],
+        Price: parseInt(Price2 ?? '0', 10),
+        Availability: Availability2 ?? false,
+      },
+      {
+        Item: courseItemAry[3],
+        Quantity: courseQuantityAry[3],
+        Price: parseInt(Price3 ?? '0', 10),
+        Availability: Availability3 ?? false,
+      },
+    ];
+
+    type AvailabilityItem = boolean | undefined;
+    const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
+    console.log('updateFeatures:', Features);
+    console.log('updateCourses:', Courses);
+
+    if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
+      const Message = '請至少開放一種方案';
+      CustomAlert({ modal, Message, type: 'error' });
+    } else {
+      const res = await coursesDataPostMutation({
+        token,
+        clickId,
+        Features,
+        Courses,
+      });
+      setIsDisabled(true);
+      refetch();
+      const { Message } = (res as { data: { Message: string } }).data;
+      CustomAlert({ modal, Message, type: 'success' });
+    }
+  };
 
   return (
-    <>
-      <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
-        <div className="flex-row lg:flex">
-          <h3 className="mr-2 mb-4 text-base font-bold text-secondary lg:mb-0 lg:w-[10%]">
-            專長領域 *
-          </h3>
-          <div className="flex flex-wrap justify-around lg:w-[80%] lg:flex-nowrap lg:justify-between lg:space-x-3">
-            {classTopic.map((item) => (
-              <IButton
-                text={item.topicName}
-                fontSize={`text-[14px] ${checkData ? '' : '!text-gray-600'}`}
-                px="w-[104px] lg:w-[112px]"
-                py="py-2 lg:py-[10px]"
-                extraStyle={checkData ? hasData : noData}
-                key={item.id}
-              />
-            ))}
-          </div>
+    <div className=" space-y-10 px-5 lg:mt-2 lg:space-y-12 ">
+      <div className="flex-row lg:flex">
+        <h3 className="mr-2 mb-4 text-base font-bold text-secondary lg:mb-0 lg:w-[10%]">
+          專長領域 *
+        </h3>
+        <div className="flex flex-wrap justify-around lg:w-[80%] lg:flex-nowrap lg:justify-between lg:space-x-3">
+          {/* 渲染膠囊 => 有資料藍色，無資料灰色 */}
+          {classTopic.map(({ topicName, id }) => ((FieldIds2 as unknown as number[])?.includes(id) ? (
+            <IButton
+              text={topicName}
+              fontSize="text-[14px]"
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              key={id}
+              onClick={() => {
+                changeRenderForm(id);
+                // console.log('取clickID筆資料：', getCoursesID);
+                const filterAry = getCoursesID.filter(
+                  (item:any) => item.FieldId === id,
+                );
+                const featuersfilterAry = getCoursesID.filter(
+                  (item:any) => item.FieldId === id,
+                );
+                const { Course } = filterAry[0];
+                const { Feature } = featuersfilterAry[0];
+                setIsSuccess(false);
+                setClickFilterAry(Course);
+                setClickFeaturesFilterAry(Feature);
+              }}
+            />
+          ) : (
+            <IButton
+              text={topicName}
+              fontSize="text-[14px] !text-gray-600 "
+              px="w-[104px] lg:w-[112px]"
+              py="py-2 lg:py-[10px]"
+              extraStyle="!CounselorCenterNoDataBtn"
+              key={id}
+              onClick={() => {
+                changeRenderForm(id);
+                setIsSuccess(false);
+              }}
+            />
+          )))}
         </div>
-        <div className="flex-row lg:flex">
-          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
+      </div>
+      <div className="space-y-10 lg:space-y-12 ">
+        <div className="relative flex-row lg:flex">
+          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[11%] lg:border-none lg:pt-0">
             課程方案 *
           </h3>
-          {/* PC 課程方案 */}
-          <div className="hidden w-[90%] rounded-2xl bg-gray-200 pb-9 lg:block">
-            <ul className="flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 lg:text-center">
-              <li className="lg:w-[33.33%]">專長領域</li>
-              <li className="lg:w-[33.33%]">定價</li>
-              <li className="lg:w-[33.33%]">是否開放</li>
+          {/* 點擊膠囊前，初始畫面 */}
+          {isSuccess && (
+            <NoCourses text="請先選擇專長領域" height="h-[338px]" />
+          )}
+          <div
+            className={`lg:w-[90%] rounded-2xl bg-gray-200 pb-9 ${
+              isSuccess ? 'hidden' : ''
+            }`}
+          >
+            <ul className="rounded-2xl flex w-full border-b  border-gray-400 py-5 text-sm font-bold text-gray-900 lg:w-auto lg:px-0 text-center">
+              <li className="w-[33.33%]">課程方案</li>
+              <li className="w-[33.33%]">定價</li>
+              <li className="w-[33.33%]">是否開放</li>
             </ul>
-            <ul className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
-              <li className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
+            <div className="w-full space-y-4 px-3 pt-5 lg:px-0 lg:pt-7">
+              <RenderEmptyForm renderEmptyForm={renderEmptyForm} clickId={clickId as unknown as number} />
+              <ul
+                className={`flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base ${renderForm} `}
+              >
                 <ConfigProvider
                   theme={{
                     token: {
@@ -88,451 +299,120 @@ export function ClassInfo() {
                   <Form
                     form={form}
                     name="classInfo"
-                    onFinish={onFinish}
+                    onFinish={handleSubmit}
                     style={{
                       display: 'flex',
+                      flexDirection: 'column',
                       justifyContent: 'space-between',
                       width: '100%',
                     }}
                   >
-                    {/* PC 課程方案＋定價 */}
                     <div className="flex w-full flex-col space-y-4">
-                      <div className="flex items-center">
-                        <div className="w-[33.33%]">1 堂</div>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 124 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-[33.33%]">3 堂</div>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 124 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 w-[33.33%]">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-[33.33%]">5 堂</div>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 124 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 w-[33.33%]">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-[33.33%]">體驗課 1 堂</div>
-                        <Form.Item className="mb-0 w-[33.33%]">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 124 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 lg:w-[33.33%]">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
-                      </div>
+                      {clickFilterAry?.map(
+                        ({ Item, Price, Availability }, i) => (
+                          <li className="flex items-center text-center" key={uuidv4()}>
+                            <div className="w-[33.33%]">{Item}</div>
+                            <Form.Item
+                              className="mb-0 w-[33.33%]"
+                              name={`Price${i}`}
+                            >
+                              <Input
+                                disabled={isDisabled}
+                                name={`Price${i}`}
+                                placeholder={Price ?? '請填寫價格'}
+                                className="font-normal"
+                                style={{ maxHeight: 40, maxWidth: 124 }}
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              className="mb-0 w-[33.33%] text-center"
+                              name={`Availability${i}`}
+                            >
+                              <Switch
+                                onChange={SwitchOnChange}
+                                disabled={isDisabled}
+                                defaultChecked={Availability}
+                                className="bg-gray-400"
+                              />
+                            </Form.Item>
+                          </li>
+                        ),
+                      )}
                     </div>
-                  </Form>
-                </ConfigProvider>
-              </li>
-            </ul>
-          </div>
-          {/* Mobile 課程方案 */}
-          <div className="rounded-2xl bg-gray-200 lg:hidden">
-            <ul className="flex w-full border-b  border-gray-400 py-5 px-0 text-center text-sm font-bold text-gray-900">
-              <li className="w-[33.33%]">專長領域</li>
-              <li className="w-[33.33%]">定價</li>
-              <li className="w-[33.33%]">是否開放</li>
-            </ul>
-            <ul className="flex flex-col space-y-4 pt-5 ">
-              <li className="items-center space-x-10 rounded-lg text-sm text-primary-heavy">
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      colorTextPlaceholder: '#9E9E9E',
-                      colorText: '#424242',
-                      colorBorder: '#BDBDBD',
-                      colorIcon: '#5D5A88',
-                      fontSize: 14,
-                      borderRadius: 10,
-                      controlHeight: 40,
-                    },
-                  }}
-                >
-                  <Form form={form} name="classInfo" onFinish={onFinish}>
-                    {/* 課程方案＋定價 */}
-                    <div className="flex flex-col space-y-4 pb-7">
-                      <div className="flex items-center justify-between">
-                        <div className="w-[33.33%] text-center">1 堂</div>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 96 }}
+                    <div className="mt-20">
+                      {clickFeaturesFilterAry?.map((item, i) => (
+                        <Form.Item
+                          name={`Feature${i + 1}`}
+                          label={`特色 ${i + 1}`}
+                          className={`mb-8 px-5 lg:px-[56px] ${
+                            i > 2 && 'lg:ml-[10px]'
+                          }`}
+                          rules={[
+                            {
+                              required: i <= 2,
+                              message: '此項為必填',
+                              whitespace: true,
+                            },
+                          ]}
+                        >
+                          <TextArea
+                            showCount
+                            name={`Feature${i + 1}`}
+                            maxLength={25}
+                            style={{ height: 45, resize: 'none' }}
+                            onChange={onChange}
+                            placeholder={item ?? '請輸入課程特色'}
+                            disabled={isDisabled}
+                            value={item}
                           />
                         </Form.Item>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
+                      ))}
+                    </div>
+                    <Form.Item className={!courseNotExist ? 'hidden' : ''}>
+                      {/* btns */}
+                      <div>
+                        <div className="mt-10 flex justify-between px-8 lg:px-14">
+                          <input
+                            type="button"
+                            value="刪除此專長領域"
+                            className={`text-base text-gray-600 underline underline-offset-2 ${
+                              !isDisabled ? 'hover:text-red-500' : ''
+                            }`}
+                            onClick={() => deleteCourse(clickId as unknown as number)}
+                            disabled={isDisabled}
                           />
-                        </Form.Item>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="w-[33.33%] text-center">3 堂</div>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 96 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="w-[33.33%] text-center">5 堂</div>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 96 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex w-[33.33%] justify-center text-center">
-                          <p className="w-[42px]">體驗課 1 堂</p>
                         </div>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Input
-                            disabled={editInfo}
-                            placeholder="請填寫價格"
-                            className="font-normal"
-                            style={{ height: 40, width: 96 }}
-                          />
-                        </Form.Item>
-                        <Form.Item className="mb-0 w-[33.33%] text-center">
-                          <Switch
-                            defaultChecked
-                            onChange={SwitchOnChange}
-                            disabled={editInfo}
-                          />
-                        </Form.Item>
+                        <div className="flex justify-around lg:justify-end lg:mr-14">
+                          <div className="space-x-5 mt-5">
+                            <Button
+                              type="primary"
+                              shape="round"
+                              htmlType="submit"
+                              className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
+                            >
+                              儲存
+                            </Button>
+                            <Button
+                              type="primary"
+                              shape="round"
+                              htmlType="button"
+                              onClick={() => setIsDisabled(false)}
+                              className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
+                            >
+                              {isDisabled ? '編輯' : '取消編輯'}
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </Form.Item>
                   </Form>
                 </ConfigProvider>
-              </li>
-            </ul>
+              </ul>
+              <div className="alert">{alertModal}</div>
+            </div>
           </div>
         </div>
-        <div className="flex-row lg:flex">
-          <h3 className="mr-2 mb-4 border-t border-gray-400 pt-10 font-bold text-secondary lg:mb-0 lg:w-[10%] lg:border-none lg:pt-0">
-            課程特色 *
-          </h3>
-          <div className="rounded-2xl bg-gray-200 pb-9 lg:w-[90%]">
-            <ul className="w-full space-y-4 pt-5 lg:px-0 lg:pt-7">
-              <li className="flex w-full flex-col items-center rounded-lg py-5 text-sm text-primary-heavy lg:space-x-10 lg:text-center lg:text-base">
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      colorTextPlaceholder: '#9E9E9E',
-                      colorText: '#424242',
-                      colorBorder: '#BDBDBD',
-                      colorIcon: '#5D5A88',
-                      fontSize: 14,
-                      borderRadius: 10,
-                      controlHeight: 40,
-                    },
-                  }}
-                >
-                  {/* PC 課程特色 textarea */}
-                  <div className="hidden w-full lg:block">
-                    <Form
-                      form={form}
-                      name="classInfo"
-                      onFinish={onFinish}
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      {/* 課程方案＋定價 */}
-                      <Form.Item
-                        name="特色 1"
-                        label="特色 1"
-                        className="mb-8 px-5 lg:px-[56px]"
-                        rules={[
-                          {
-                            required: true,
-                            message: '此項為必填',
-                            whitespace: true,
-                          },
-                        ]}
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 45, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name="特色 2"
-                        label="特色 2"
-                        className="mb-8 px-[56px]"
-                        rules={[
-                          {
-                            required: true,
-                            message: '此項為必填',
-                            whitespace: true,
-                          },
-                        ]}
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 45, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name="特色 3"
-                        label="特色 3"
-                        className="mb-8 px-[56px]"
-                        rules={[
-                          {
-                            required: true,
-                            message: '此項為必填',
-                            whitespace: true,
-                          },
-                        ]}
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 45, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name="特色 4"
-                        label="特色 4"
-                        className="mb-8 px-[56px]"
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 45, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name="特色 5"
-                        label="特色 5"
-                        className="mb-8 px-[56px]"
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 4, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                    </Form>
-                  </div>
-                  {/* Mobile 課程特色 textarea */}
-                  <div className="class-info w-full px-5 lg:hidden">
-                    <Form
-                      form={form}
-                      name="classInfo"
-                      onFinish={onFinish}
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      {/* 課程方案＋定價 */}
-                      <Form.Item
-                        name="特色 1"
-                        label="特色 1"
-                        className="mb-8"
-                        rules={[
-                          {
-                            required: true,
-                            message: '此項為必填',
-                            whitespace: true,
-                          },
-                        ]}
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 69, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name="特色 2"
-                        label="特色 2"
-                        className="mb-8"
-                        rules={[
-                          {
-                            required: true,
-                            message: '此項為必填',
-                            whitespace: true,
-                          },
-                        ]}
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 69, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name="特色 3"
-                        label="特色 3"
-                        className="mb-8"
-                        rules={[
-                          {
-                            required: true,
-                            message: '此項為必填',
-                            whitespace: true,
-                          },
-                        ]}
-                      >
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 69, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item name="特色 4" label="特色 4" className="mb-8">
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 69, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                      <Form.Item name="特色 5" label="特色 5" className="mb-8">
-                        <TextArea
-                          showCount
-                          maxLength={25}
-                          style={{ height: 69, resize: 'none' }}
-                          onChange={onChange}
-                          placeholder="寫下適合對象、課程目標、進行方式、或事前須知"
-                          disabled={editInfo}
-                        />
-                      </Form.Item>
-                    </Form>
-                  </div>
-                </ConfigProvider>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <input
-          type="button"
-          value="刪除此專長領域"
-          className="mt-4 text-base text-gray-900 underline underline-offset-2 hover:text-red-500"
-        />
       </div>
-      <div className="mt-12 flex justify-end space-x-7">
-        <IButton
-          text="編輯"
-          fontSize="text-[14px] lg:text-base"
-          px="px-[66px] lg:px-[74px]"
-          py="py-4"
-          onClick={() => setEditInfo(false)}
-        />
-        {!editInfo && (
-          <IButton
-            text="儲存"
-            fontSize="text-[14px] lg:text-base"
-            px="px-[66px] lg:px-[74px]"
-            py="py-4"
-          />
-        )}
-      </div>
-    </>
+    </div>
   );
 }

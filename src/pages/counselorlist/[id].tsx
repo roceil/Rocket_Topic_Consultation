@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ConfigProvider, Breadcrumb, Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import useCloseLoading from '@/common/hooks/useCloseLoading';
 import { searchCounselorKeyWords } from '@/common/redux/feature/counselorList';
 import { useGetFilterListQuery } from '@/common/redux/service/counselorList';
 import { IButton } from '@/common/components/IButton';
@@ -10,6 +9,8 @@ import { counselorBreadcrumb, selectOptions } from '@/lib/counselorList/counselo
 import SearchCapsule from '@/common/components/SearchCapsule';
 import CounselorListCard from '@/modules/counselorList/CounselorListCard';
 import CommonPagination from '@/common/components/CommonPagination';
+import CustomHead from '@/common/components/CustomHead';
+import useCloseLoading from '@/common/hooks/useCloseLoading';
 
 export const getServerSideProps = async ({ query: { id } }: { query: { id: string } }) => {
   try {
@@ -42,6 +43,8 @@ interface ICounselorListProps {
 export default function CounselorList({ data, pageId }: { data: ICounselorListProps; pageId: string }) {
   // ======================== 關閉 loading ========================
   useCloseLoading();
+
+  // ======================== 渲染畫面 ========================
   const {
     Data: { CounselorsData, TotalPageNum },
   } = data;
@@ -96,15 +99,6 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
 
   // 監聽膠囊選擇器的變化
   useEffect(() => {
-    // 這裡會將轉換過的數字，透過axios抓取資料並渲染畫面
-    // ! 暫時用不到，未來要刪掉
-    // (async () => {
-    //   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles?page=${pageId}&tag=${convertTopic}`);
-    //   const filterData = await res.data;
-    //   setRenderData(filterData.Data.CounselorsData);
-    //   setTotalPage(filterData.Data.TotalPageNum);
-    // })();
-
     // 使用redux-toolkit的query
     if (data) {
       setRenderData(newData?.Data?.CounselorsData);
@@ -129,6 +123,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
 
   return (
     <>
+      <CustomHead pageTitle="諮商師總覽" />
       {/* 分頁標題 */}
       <section className="my-14 lg:mt-[84px] ">
         <div className="container">
@@ -189,12 +184,12 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
           {/* 搜尋欄及篩選 */}
           <div className="search flex items-center justify-between lg:justify-start lg:space-x-6">
             {/* 搜尋欄 */}
-            <div className="max-w-[155px] sm:max-w-[180px] lg:w-[416px] lg:max-w-none">
+            <div className="w-full h-12  lg:w-[463px] lg:max-w-none">
               <SearchCapsule colorPrimary="#4A5364" borderRadius={99999} controlHeight={48} colorBgContainer="#ffffff" placeholder="搜尋諮商師" />
             </div>
 
             {/* 篩選欄 */}
-            <div id="levelFilter" className="relative max-w-[155px] sm:w-[180px] sm:max-w-none">
+            <div id="levelFilter" className="relative max-w-[155px] sm:w-[180px] sm:max-w-none hidden">
               <ConfigProvider
                 theme={{
                   token: {
@@ -231,12 +226,7 @@ export default function CounselorList({ data, pageId }: { data: ICounselorListPr
         <div className="container">
           {/* 清單區塊 */}
           <ul className="mb-12 flex flex-col space-y-9 lg:mb-16 lg:flex-row lg:flex-wrap lg:justify-between lg:gap-x-[52px] lg:gap-y-[68px] lg:space-y-0 xl:gap-x-[104px] xl:px-[68px]">
-            {renderData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }, index) => {
-              if (index < 5) {
-                return <CounselorListCard key={Id} className="before" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />;
-              }
-              return <CounselorListCard key={Id} className="after" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />;
-            })}
+            {renderData?.map(({ Id, Name, SellingPoint, SelfIntroduction, Photo }) => <CounselorListCard key={Id} className="before" counselorName={Name} subtitle={SellingPoint} img={Photo} description={SelfIntroduction} id={Id} />)}
           </ul>
 
           {/* 分頁按鈕 */}
