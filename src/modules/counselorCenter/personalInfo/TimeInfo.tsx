@@ -3,7 +3,7 @@ import { useGetCounselorTimetableQuery, useCounselorTimetablePostMutation } from
 import { IAppointmentTime } from '@/types/interface';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
-import { DatePicker, Button, Checkbox, Form } from 'antd';
+import { DatePicker, Button, Checkbox, Form, Modal } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
@@ -57,9 +57,9 @@ export default function TimeInfo() {
   };
 
   // ==================== 取出資料 ====================
-  const [Data, setData] = useState();
+  const [Data, setData] = useState<IApiTimetables>();
   const [WeekData, setWeekData] = useState();
-  const [renderData, setRenderData] = useState();
+  const [renderData, setRenderData] = useState<IApiTimetables>();
   const [renderWeekData, setRenderWeekData] = useState();
 
   // 打包 POST 資料
@@ -74,12 +74,21 @@ export default function TimeInfo() {
     }
   }, [isLoading]);
 
+  const [renderStartDate, setRenderStartDate] = useState<string>('');
+  const [renderEndDate, setRenderEndDate] = useState<string>('');
+
   useEffect(() => {
     if (renderData && renderWeekData) {
       setData(renderData);
       setWeekData(renderWeekData);
       // console.log('renderData:', renderData);
       console.log('renderWeekData:', renderWeekData);
+      // 轉換 StartDate 格式
+      const formattedStartDate = dayjs(renderData.StartDate, 'MM/DD/YYYY').format('YYYY-MM-DD');
+      // 轉換 EndDate 格式
+      const formattedEndDate = dayjs(renderData.EndDate, 'MM/DD/YYYY').format('YYYY-MM-DD');
+      setRenderStartDate(renderData.StartDate);
+      setRenderEndDate(renderData.EndDate);
     }
   }, [renderData, renderWeekData]);
 
@@ -100,6 +109,15 @@ export default function TimeInfo() {
 
   const onCalendarChange = (dates: RangeValue) => {
     setSelectedDates(dates);
+  };
+
+  // ==================== 編輯時段 Modal ====================
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   // ==================== Antd 表單 ====================
@@ -162,102 +180,85 @@ export default function TimeInfo() {
     : '!opacity-100 transform duration-300';
 
   return (
-    <div className="flex text-center flex-col rounded-lg border bg-gray-200 py-[42px] justify-around px-5 space-y-5">
+    <div className="flex text-center flex-col rounded-lg border bg-gray-200 py-8 justify-around lg:px-[100px] ">
 
       {(renderData && renderData.length === 0) && <EmptyTimetable />}
-      (
+      {renderData && (
       <Form
         form={form}
         onFinish={onFinish}
+        className="space-y-[38px]"
       >
-        <Form.Item name="range-picker" className="flex flex-row text-secondary text-left">
+        <Form.Item name="range-picker" className="flex flex-row lg:justify-start justify-center text-secondary text-left">
           <div>
-            <p>選擇日期</p>
             <RangePicker
               value={selectedDates}
-              disabledDate={disabledDate}
-              onCalendarChange={onCalendarChange}
+              disabled
               format={dateFormat}
               style={{ padding: '12px 20px', borderRadius: '10px', textAlign: 'center' }}
-              placeholder={[showToday, '結束日期']}
+              placeholder={[renderStartDate, renderEndDate]}
             />
           </div>
         </Form.Item>
         <Form.Item name="Hours">
-          <div className="h-[473px] w-full border bg-white">
-            <div className=" space-y-5">
-              <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-2 overflow-auto  text-center">
+          <div className="h-[473px] w-full border">
+            <div className="space-y-5">
+              <ul className="flex justify-center lg:justify-start hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-8 overflow-auto  text-center">
                 {renderWeekData && (
                   renderWeekData.map((item: IApiTimetablesWeekData) => (
-                    <li className="relative h-full flex flex-col items-center" key={uuidv4()}>
-                      <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
-                        <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-gray-900 py-3 mb-[10px]">
-                    <p className="text-sm lg:text-lg">{item.WeekDay}</p>
-                  </div>
+                    <li className="relative h-full lg:w-[56] max-w-12 flex flex-col items-center" key={uuidv4()}>
+                      <div className="space-y-1 bg-gray-200 z-40 !sticky !top-0 flex w-full">
+                        <div className="m-auto justify-center w-full lg:w-[56px] space-y-1 border-b-2 border-b-gray-900 py-3 mb-[10px]">
+                          <p className="text-sm lg:text-lg text-gray-900">{item.WeekDay}</p>
+                        </div>
                       </div>
                       <div className="flex flex-col items-center space-x-0">
-                        <div>
-                    {item?.Hours.map((hoursItem: IApiTimetablesHours) => (
-                            <Form.Item name={`${item.WeekDay}${hoursItem.Time}`}>
-                              <div
-                                key={uuidv4()}
-                                className="mb-0"
-                              >
-                                <Checkbox
-                                  onChange={onChange}
-                                  name={`${item.WeekDay}${hoursItem.Time}`}
-                                  className={`flex justify-center items-center !border-none lg:w-auto w-[38px] lg:text-base text-[10px] mobile-calendar shadow-none my-1 ${
-                                    hoursItem.DefaultAvail
-                                      ? 'text-gray-900'
-                                      : 'text-gray-500'
-                                  }`}
-                                  checked={checkboxValues[`${item.WeekDay}${hoursItem.Time}`] || false}
-                                  // defaultChecked={hoursItem.DefaultAvail}
-                                  style={{ backgroundColor: !hoursItem.DefaultAvail ? '#ECECEC' : '#FFF' }}
-                                  // onClick={() => { console.log(hoursItem); }}
-                                >
-                                  <span>{hoursItem.Time}</span>
-                                </Checkbox>
-                              </div>
-                            </Form.Item>
+                        <div className="space-y-3">
+                          {item?.Hours.map((hoursItem: IApiTimetablesHours) => (
+                            <div
+                              key={uuidv4()}
+                              className="mb-0"
+                            >
+                              <input
+                                type="button"
+                                value={hoursItem.Time}
+                                className={`flex justify-center items-center !border-none lg:w-auto w-[38px] lg:!text-base !text-[10px] mobile-calendar shadow-none my-1 ${
+                                  hoursItem.DefaultAvail
+                                    ? 'text-gray-900'
+                                    : 'text-gray-500'
+                                }`}
+                              />
+                            </div>
                           ))}
-                  </div>
+                        </div>
                       </div>
                     </li>
                   ))
                 )}
               </ul>
               <div>
-                <Form.Item>
-                  <div className="flex justify-end">
-                    <div className="space-x-5 mt-5">
-                      <Button
-                        type="primary"
-                        shape="round"
-                        htmlType="submit"
-                        className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
-                        onClick={() => setIsDisabled(true)}
-                      >
-                        儲存
-                      </Button>
-                      <Button
-                        type="primary"
-                        shape="round"
-                        htmlType="button"
-                        onClick={() => setIsDisabled(false)}
-                        className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
-                      >
-                        {isDisabled ? '編輯' : '取消編輯'}
-                      </Button>
-                    </div>
+                <div className="flex justify-end lg:mt-20 relative">
+                  <div className="space-x-5 mt-5 lg:relative lg:left-[100px] lg:top-2">
+                    <Button
+                      type="primary"
+                      shape="round"
+                      htmlType="button"
+                      onClick={showModal}
+                      className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
+                    >
+                      {isDisabled ? '編輯' : '取消編輯'}
+                    </Button>
+                    <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null} className="!p-0 rounded-[10px]  lg:pt-10 lg:pb-11 py-6 userCenter" width="700px">
+                      <EmptyTimetable />
+                    </Modal>
                   </div>
-                </Form.Item>
+                </div>
               </div>
             </div>
           </div>
         </Form.Item>
       </Form>
-      )
+      )}
     </div>
   );
 }

@@ -9,6 +9,21 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
 
+interface IApiTimetablesHours {
+  Time: string;
+  DefaultAvail: boolean;
+}
+
+interface IApiTimetablesWeekData {
+  WeekDay: string;
+  Hours: IApiTimetablesHours[];
+}
+
+interface IApiTimetables {
+  StartDate: string;
+  EndDate: string;
+  WeekData: IApiTimetablesWeekData[];
+}
 // ==================== 設定時間區段 ====================
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY/MM/DD';
@@ -114,34 +129,26 @@ export default function EmptyTimetable() {
       </Form.Item>
       <Form.Item name="Hours">
         <div className="h-[473px] w-full border bg-white">
-          <div className=" space-y-5">
-            <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-2 overflow-auto  text-center">
+          <div className="space-y-5">
+            <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px] space-x-1 lg:space-x-2 overflow-auto text-center justify-center">
               {emptyTimetableData.map((item: any) => (
-                <li className="relative h-full flex flex-col items-center" key={uuidv4()}>
-                  <div className="space-y-1 bg-white z-40 !sticky !top-0 flex w-[40px] lg:w-[56px]">
-                    <div className="justify-center w-[44px] lg:w-[56px] space-y-1 border-b-2 border-b-gray-900 py-3 mb-[10px]">
-                      <p className="text-sm lg:text-lg">{item.WeekDay}</p>
+                <li className="space-y-0 relative h-full flex flex-col items-center" key={uuidv4()}>
+                  <div className="space-y-1 bg-white sticky top-0 flex w-[76px]">
+                    <div className="justify-center w-full space-y-1 border-b-2 border-gray-900 py-3 mb-5">
+                      <p className="text-sm lg:text-lg text-gray-900">{item.WeekDay}</p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center space-x-0">
+                  <div className="flex flex-col items-center">
                     <div>
                       {item?.Hours.map((hoursItem: IApiTimetablesHours) => (
-                        <Form.Item name={`${item.WeekDay}${hoursItem.Time}`}>
-                          <div
-                            key={uuidv4()}
-                            className="mb-0"
-                          >
+                        <Form.Item key={uuidv4()} name={`${item.WeekDay}${hoursItem.Time}`} className="my-0">
+                          <div>
                             <Checkbox
                               onChange={onChange}
                               name={`${item.WeekDay}${hoursItem.Time}`}
-                              className={`flex justify-center items-center !border-none lg:w-auto w-[38px] lg:text-base text-[10px] mobile-calendar shadow-none my-1 ${
-                                hoursItem.DefaultAvail
-                                  ? 'text-gray-900'
-                                  : 'text-gray-500'
-                              }`}
+                              className="flex justify-center items-center border-none lg:w-auto w-[38px] lg:text-base text-[10px] mobile-calendar shadow-none my-1"
+                              style={{ color: checkboxValues[`${item.WeekDay}${hoursItem.Time}`] ? '#424242' : '#BDBDBD' }}
                               checked={checkboxValues[`${item.WeekDay}${hoursItem.Time}`] || false}
-                                  // defaultChecked={hoursItem.DefaultAvail}
-                              style={{ backgroundColor: !hoursItem.DefaultAvail ? '#ECECEC' : '#FFF' }}
                             >
                               <span>{hoursItem.Time}</span>
                             </Checkbox>
@@ -153,33 +160,20 @@ export default function EmptyTimetable() {
                 </li>
               ))}
             </ul>
-            <div>
-              <Form.Item>
-                <div className="flex justify-end">
-                  <div className="space-x-5 mt-5">
-                    <Button
-                      type="primary"
-                      shape="round"
-                      htmlType="submit"
-                      className={`btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px] ${isHidden}`}
-                      onClick={() => setIsDisabled(true)}
-                    >
-                      儲存
-                    </Button>
-                    <Button
-                      type="primary"
-                      shape="round"
-                      htmlType="button"
-                      onClick={() => setIsDisabled(false)}
-                      className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
-                    >
-                      {isDisabled ? '編輯' : '取消編輯'}
-                    </Button>
-                  </div>
-                </div>
-              </Form.Item>
-            </div>
           </div>
+        </div>
+      </Form.Item>
+      <Form.Item>
+        <div className="flex justify-end">
+          <Button
+            type="primary"
+            shape="round"
+            htmlType="submit"
+            onClick={() => setIsDisabled(false)}
+            className="btnHoverDark w-full border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
+          >
+            儲存
+          </Button>
         </div>
       </Form.Item>
     </Form>
