@@ -301,3 +301,11 @@ export interface ICounselorRenderList {
   AppointmentId:number;
   AppointmentDate:string;
 }
+
+export interface IGroupRenderData {
+  OrderId: number,
+  AppointmentId: number,
+  CounselorId: number,
+  Counselor: string,
+  Field: string
+}
