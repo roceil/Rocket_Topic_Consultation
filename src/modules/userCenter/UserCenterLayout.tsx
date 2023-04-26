@@ -37,14 +37,14 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
     // 如果value長度為0，表示沒有預約記錄
     if (Object.keys(value).length === 0) return;
     // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
-    if (!value.isHaveUrl && value.spanNowTime) {
+    if (!value?.isHaveUrl && value?.spanNowTime) {
       const covertTime = dayjs(value.spanNowTime).format('M 月 DD 日 HH:mm 產出');
       setRenderAlertMessage('課程連結將於');
       setRenderCourseTime(covertTime);
     }
 
     // 如果isHaveUrl為true，表示有預約記錄，且已經產出連結
-    if (value.isHaveUrl && value.spanNowTime) {
+    if (value?.isHaveUrl && value?.spanNowTime) {
       setRenderAlertMessage('課程連結如下');
       setRenderCourseTime('進入會議室');
       setRenderCourseLink(value.url);
