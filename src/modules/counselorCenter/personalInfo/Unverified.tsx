@@ -1,6 +1,6 @@
 import { NoCourses } from '@/modules/counselorCenter/personalInfo/NoCourses';
 
-export function Unverified() {
+export default function Unverified() {
   return (
     <>
       <h2 className="w-full text-center text-[28px] text-secondary">

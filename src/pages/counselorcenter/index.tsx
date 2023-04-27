@@ -8,7 +8,7 @@ import useCloseLoading from '@/common/hooks/useCloseLoading';
 import CustomHead from '@/common/components/CustomHead';
 import { useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
-import { Unverified } from '../../modules/counselorCenter/personalInfo/Unverified';
+import Unverified from '../../modules/counselorCenter/personalInfo/Unverified';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   () => async ({ req, res }) => {
