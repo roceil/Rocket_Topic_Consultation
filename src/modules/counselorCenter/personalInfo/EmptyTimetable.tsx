@@ -36,7 +36,7 @@ const showThreeMonthsLater = threeMonthsLater.format(dateFormat);
 const { RangePicker } = DatePicker;
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
-export default function EmptyTimetable({ onSubmit }) {
+export default function EmptyTimetable({ onSubmit }: { onSubmit: () => void }) {
   const token = getCookie('auth');
   // ==================== alert Modal ====================
   const [modal, alertModal] = Modal.useModal();
@@ -49,7 +49,6 @@ export default function EmptyTimetable({ onSubmit }) {
 
   // ==================== RangePicker 設定時間區段 ====================
   const [selectedDates, setSelectedDates] = useState<RangeValue>(null);
-  const [getFormattedDates, setGetFormattedDates] = useState();
 
   const disabledDate = (current: Dayjs | null) => {
     if (!current) {
@@ -60,17 +59,16 @@ export default function EmptyTimetable({ onSubmit }) {
     return tooEarly || tooLate;
   };
 
+  // 轉換時間格式
   const onCalendarChange = (dates: RangeValue) => {
     setSelectedDates(dates);
-    const formattedDates = selectedDates ? [selectedDates[0]?.format('YYYY-MM-DD'), selectedDates[1]?.format('YYYY-MM-DD')] : null;
-    setGetFormattedDates(formattedDates);
   };
 
   // ==================== Antd 表單 ====================
   const [form] = Form.useForm();
 
   // ==================== Antd Checkbox ====================
-  const [checkboxValues, setCheckboxValues] = useState({});
+  const [checkboxValues, setCheckboxValues] = useState<{ [key: string]: boolean }>({});
 
   // ==================== 控制 Loading ====================
   const [isHidden, setIsHidden] = useState('hidden');
@@ -85,8 +83,6 @@ export default function EmptyTimetable({ onSubmit }) {
   }, []);
 
   const onFinish = async (values: any) => {
-    console.log(values);
-    // const rangePickerValue = form.getFieldValue('range-picker');
     const rangePickerValue = values['range-picker'];
     console.log('RangePicker:', rangePickerValue);
     // eslint-disable-next-line max-len
@@ -297,12 +293,10 @@ export default function EmptyTimetable({ onSubmit }) {
         ],
       },
     ];
-    let StartDate = '';
-    let EndDate = '2023/05/30';
-    if (getFormattedDates) {
-      StartDate = getFormattedDates[0];
-      EndDate = getFormattedDates[1];
-    }
+    const formattedDates = selectedDates ? [selectedDates[0]?.format('YYYY-MM-DD'), selectedDates[1]?.format('YYYY-MM-DD')] : null;
+
+    const StartDate = formattedDates?.[0];
+    const EndDate = formattedDates?.[1];
 
     setIsHidden('block');
     const res = await CounselorTimetablePost({
@@ -321,12 +315,9 @@ export default function EmptyTimetable({ onSubmit }) {
     form.setFieldsValue({});
     // 清空渲染的 checkbox
     setCheckboxValues({});
+    setSelectedDates(null);
     onSubmit();
   };
-
-  useEffect(() => {
-    console.log('getFormattedDates:', getFormattedDates);
-  }, [getFormattedDates]);
 
   return (
     <Form
@@ -359,7 +350,7 @@ export default function EmptyTimetable({ onSubmit }) {
         <div className="h-[473px] w-full border bg-white">
           <div className="space-y-5">
             <ul className="hour-scrollbar flex w-full h-[487px] lg:h-[451px] space-x-1 lg:space-x-2 overflow-auto text-center justify-center">
-              {emptyTimetableData.map((item: any) => (
+              {emptyTimetableData.map((item: { WeekDay: string, Hours: any }) => (
                 <li className="space-y-0 relative h-full flex flex-col items-center" key={uuidv4()}>
                   <div className="space-y-1 bg-white z-10 sticky top-0 flex w-[76px]">
                     <div className="justify-center w-full space-y-1 border-b-2 border-gray-900 py-3 mb-5">

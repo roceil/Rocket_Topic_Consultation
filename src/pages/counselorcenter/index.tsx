@@ -51,17 +51,16 @@ export default function index() {
                 },
               }}
             >
-              {/* <CounselorInfoTab /> */}
-              <Unverified />
+              <CounselorInfoTab />
+              {/* <Unverified /> */}
             </ConfigProvider>
           </div>
         </div>
       </section>
       {/* 電腦版 */}
       <CounselorCenterLayout>
-        {/* <CounselorInfoTab /> */}
-
-        <Unverified />
+        <CounselorInfoTab />
+        {/* <Unverified /> */}
       </CounselorCenterLayout>
     </>
   );
