@@ -349,7 +349,7 @@ export default function ChatRoom() {
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
-                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3 overFlowText">{Content}</div>
+                  <div className="max-w-[196px] rounded-xl bg-gray-200 p-3 overFlowText">{Content}</div>
                 </li>
               );
             }
@@ -359,7 +359,7 @@ export default function ChatRoom() {
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
-                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3 overFlowText">{Content}</div>
+                  <div className="max-w-[196px] rounded-xl bg-gray-200 p-3 overFlowText">{Content}</div>
                 </li>
               );
             }
@@ -369,7 +369,7 @@ export default function ChatRoom() {
                 {/* 圖片 */}
                 {renderChatRoomPhoto && <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />}
                 {/* 內容 */}
-                <div className="max-w-[196px] w-auto rounded-xl bg-primary-heavy p-3 overFlowText ">{Content}</div>
+                <div className="max-w-[196px] w-auto rounded-xl bg-gray-200 p-3 overFlowText ">{Content}</div>
                 {/* 時間 */}
                 <div className="flex h-full justify-center  text-xs text-gray-600 items-end">
                   <span>{convertTime}</span>
@@ -380,11 +380,11 @@ export default function ChatRoom() {
         </ul>
 
         {/* 表尾 */}
-        <div className="h-[72px] w-full bg-primary-heavy px-3 pt-3 lg:rounded-b-xl">
+        <div className="h-[72px] w-full bg-primary px-3 pt-3 lg:rounded-b-xl">
           <input
             ref={chatMessageRef}
             type="text"
-            className="bg-primary-heavy outline-none placeholder:text-gray-600 active:shadow-none w-full h-full"
+            className="bg-primary text-gray-900 outline-none placeholder:text-gray-700 active:shadow-none w-full h-full"
             placeholder="請在此輸入訊息"
             onKeyDown={(e) => {
               if (e.keyCode === 13) {
