@@ -309,3 +309,20 @@ export interface IGroupRenderData {
   Counselor: string,
   Field: string
 }
+
+// 諮商師 > 會員中心 > 個人資料 > 預約時段
+export interface IApiTimetablesHours {
+  Time: string;
+  DefaultAvail: boolean;
+}
+
+export interface IApiTimetablesWeekData {
+  WeekDay: string;
+  Hours: IApiTimetablesHours[];
+}
+
+export interface IApiTimetables {
+  StartDate: string;
+  EndDate: string;
+  WeekData: IApiTimetablesWeekData[];
+}

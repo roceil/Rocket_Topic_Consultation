@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useGetCounselorTimetableQuery, useCounselorTimetablePostMutation } from '@/common/redux/service/timetableBrowser';
-import { IAppointmentTime } from '@/types/interface';
+import { useGetCounselorTimetableQuery } from '@/common/redux/service/timetableBrowser';
+import { IAppointmentTime, IApiTimetablesHours, IApiTimetablesWeekData, IApiTimetables } from '@/types/interface';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
 import { DatePicker, Button, Form, Modal } from 'antd';
@@ -8,22 +8,6 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
 import EmptyTimetable from './EmptyTimetable';
-
-interface IApiTimetablesHours {
-  Time: string;
-  DefaultAvail: boolean;
-}
-
-interface IApiTimetablesWeekData {
-  WeekDay: string;
-  Hours: IApiTimetablesHours[];
-}
-
-interface IApiTimetables {
-  StartDate: string;
-  EndDate: string;
-  WeekData: IApiTimetablesWeekData[];
-}
 
 // ==================== 設定時間區段 ====================
 dayjs.extend(customParseFormat);

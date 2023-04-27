@@ -9,22 +9,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
 import CustomAlert from '@/common/helpers/customAlert';
 import { LoadingOutlined } from '@ant-design/icons';
+import { IApiTimetablesHours } from '@/types/interface';
 
-interface IApiTimetablesHours {
-  Time: string;
-  DefaultAvail: boolean;
-}
-
-interface IApiTimetablesWeekData {
-  WeekDay: string;
-  Hours: IApiTimetablesHours[];
-}
-
-interface IApiTimetables {
-  StartDate: string;
-  EndDate: string;
-  WeekData: IApiTimetablesWeekData[];
-}
 // ==================== 設定時間區段 ====================
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY/MM/DD';
