@@ -35,7 +35,7 @@ const showThreeMonthsLater = threeMonthsLater.format(dateFormat);
 const { RangePicker } = DatePicker;
 type RangeValue = [Dayjs | null, Dayjs | null] | null;
 
-export default function EmptyTimetable() {
+export default function EmptyTimetable({onSubmit}) {
   const token = getCookie('auth');
   // ==================== alert Modal ====================
   const [modal, alertModal] = Modal.useModal();
@@ -285,21 +285,16 @@ export default function EmptyTimetable() {
       },
     ];
 
-    type WeekDataItem = boolean | undefined;
-    if (WeekData.every((item) => item === undefined)) {
-      const Message = '請至少開放一個時段';
-      CustomAlert({ modal, Message, type: 'error' });
-    } else {
-      const res = await CounselorTimetablePost({
-        token,
-        StartDate,
-        EndDate,
-        WeekData,
-      });
-      refetch();
-      const { Message } = (res as { data: { Message: string } }).data;
-      CustomAlert({ modal, Message, type: 'success' });
-    }
+    const res = await CounselorTimetablePost({
+      token,
+      StartDate,
+      EndDate,
+      WeekData,
+    });
+    refetch();
+    const { Message } = (res as { data: { Message: string } }).data;
+    CustomAlert({ modal, Message, type: 'success' });
+    onSubmit();
   };
 
   // 開啟編輯功能
@@ -368,7 +363,6 @@ export default function EmptyTimetable() {
             type="primary"
             shape="round"
             htmlType="submit"
-            onClick={() => setIsDisabled(false)}
             className="btnHoverDark w-full border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
           >
             儲存

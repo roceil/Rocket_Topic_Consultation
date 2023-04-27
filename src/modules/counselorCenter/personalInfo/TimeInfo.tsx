@@ -76,6 +76,10 @@ export default function TimeInfo() {
     setIsModalOpen(false);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [form] = Form.useForm();
 
   return (
@@ -94,7 +98,7 @@ export default function TimeInfo() {
               立即設定
             </Button>
             <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null} className="!p-0 rounded-[10px]  lg:pt-10 lg:pb-11 py-6 userCenter" width="700px">
-              <EmptyTimetable />
+              <EmptyTimetable onSubmit={closeModal} />
             </Modal>
           </div>
         </>
@@ -164,7 +168,7 @@ export default function TimeInfo() {
                       編輯
                     </Button>
                     <Modal open={isModalOpen} centered onCancel={handleCancel} footer={null} className="!p-0 rounded-[10px]  lg:pt-10 lg:pb-11 py-6 userCenter" width="700px">
-                      <EmptyTimetable />
+                      <EmptyTimetable onSubmit={closeModal} />
                     </Modal>
                   </div>
                 </div>
