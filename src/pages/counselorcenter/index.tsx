@@ -12,18 +12,24 @@ import { Unverified } from '../../modules/counselorCenter/personalInfo/Unverifie
 
 export const getServerSideProps = wrapper.getServerSideProps(
   () => async ({ req, res }) => {
+    const validation = getCookie('validation', { req, res });
     const token = getCookie('auth', { req, res });
     if (!token) {
       res.writeHead(302, { Location: '/login' });
       res.end();
     }
     return {
-      props: {},
+      props: {
+        validation,
+      },
     };
   },
 );
 
-export default function index() {
+// status 當 PROPS 傳下去，用tf 判斷
+//   "Validation":false,
+
+export default function index({ validation }:{ validation:boolean }) {
   // ==================== 載入後關閉 Loading ====================
   const dispatch = useDispatch();
   useEffect(() => {
@@ -51,15 +57,16 @@ export default function index() {
                 },
               }}
             >
-              <CounselorInfoTab />
-              {/* <Unverified /> */}
+              { validation ? <CounselorInfoTab /> : <Unverified /> }
             </ConfigProvider>
           </div>
         </div>
       </section>
       {/* 電腦版 */}
       <CounselorCenterLayout>
-        <CounselorInfoTab />
+        { validation ? <CounselorInfoTab /> : <Unverified /> }
+        {/* <CounselorInfoTab validation={validation} />  */}
+        {/* <CounselorInfoTab /> */}
         {/* <Unverified /> */}
       </CounselorCenterLayout>
     </>

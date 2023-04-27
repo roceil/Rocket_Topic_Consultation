@@ -49,6 +49,7 @@ export default function HamburgerModal({ renderAlertMessage, renderCourseTime, r
       deleteCookie('identity');
       deleteCookie('userID');
       deleteCookie('counselorID');
+      deleteCookie('validation');
       alert('登出成功');
       handleCancel();
     }

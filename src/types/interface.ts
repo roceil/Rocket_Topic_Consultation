@@ -147,6 +147,7 @@ export interface IUserLoginRes {
   Authorization: string;
   Identity: string;
   UserID: string;
+  Validation: boolean;
 }
 
 export interface ICartList {

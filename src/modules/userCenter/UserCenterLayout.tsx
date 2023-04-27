@@ -25,6 +25,7 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
     deleteCookie('identity');
     deleteCookie('userID');
     deleteCookie('counselorID');
+    deleteCookie('validation');
     customAlert({ modal, Message: '登出成功', type: 'success', router, link: '/' });
   };
 
