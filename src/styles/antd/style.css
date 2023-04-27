@@ -209,13 +209,13 @@
 }
 
 /* 這個會調整所有錯誤訊息的邊框顏色 */
-.ant-input-status-error{
-  border-color: #D14D3C !important;
+.ant-input-status-error {
+  border-color: #d14d3c !important;
 }
 
 /* 這個會調整所有錯誤訊息的文字顏色 */
-.ant-form-item-explain-error{
-  color: #D14D3C !important;
+.ant-form-item-explain-error {
+  color: #d14d3c !important;
 }
 
 /* 調整重新發送的底線樣式 */
@@ -235,21 +235,21 @@
 }
 
 /* 評價 modal */
-.rateModal .ant-modal-content{
+.rateModal .ant-modal-content {
   padding: 20px !important;
 }
-.rateModal .ant-btn-default{
+.rateModal .ant-btn-default {
   border-radius: 24px;
-  border:1px solid #4a5364 ;
+  border: 1px solid #4a5364;
   color: #4a5364;
 }
-.rateModal .ant-btn-default:hover{
+.rateModal .ant-btn-default:hover {
   border-radius: 24px;
-  border:1px solid #4a5364 ;
+  border: 1px solid #4a5364;
   opacity: 0.8;
   color: #4a5364;
 }
-.rateModal .ant-btn-default span{
+.rateModal .ant-btn-default span {
   font-weight: 600;
 }
 .rateModal .ant-btn-primary {
@@ -258,11 +258,11 @@
   box-shadow: none;
 }
 .rateModal .ant-btn-primary:hover {
-opacity: 0.8;
-background-color: #4a5364;
+  opacity: 0.8;
+  background-color: #4a5364;
 }
 .rateModal .ant-btn-primary span {
-font-weight: 600;
+  font-weight: 600;
 }
 
 .userCenter .ant-modal-content {
@@ -270,33 +270,54 @@ font-weight: 600;
   padding-right: 0px;
 }
 /* 全部的 modal  */
-.ant-modal-content{
+.ant-modal-content {
   padding: 24px !important;
 }
-.ant-modal-footer .ant-btn-default{
+.ant-modal-footer .ant-btn-default {
   border-radius: 24px !important;
   color: #4a5364 !important;
   border-color: #4a5364 !important;
 }
-.ant-modal-footer .ant-btn-default:hover{
+.ant-modal-footer .ant-btn-default:hover {
   opacity: 0.8 !important;
 }
 
-.ant-modal-footer .ant-btn-primary{
+.ant-modal-footer .ant-btn-primary {
   border-radius: 24px !important;
   background-color: #4a5364 !important;
   border-color: #4a5364 !important;
   color: #fff !important;
   box-shadow: none !important;
 }
-.ant-modal-footer .ant-btn-primary:hover{
+.ant-modal-footer .ant-btn-primary:hover {
   opacity: 0.8 !important;
 }
 
 /* header 通知下拉選單 */
-.ant-dropdown-menu{
+.ant-dropdown-menu {
   border-radius: 0px !important;
   top: 12px !important;
+}
+
+/* 諮商師補件上傳 */
+.uploadForm .ant-upload-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.uploadForm .ant-upload-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+}
+.uploadForm .ant-upload-list-item {
+  margin-top: 0 !important;
+  border: none !important;
+}
+.uploadFormSM .ant-upload-list-item {
+  max-width: 190px !important;
 }
 
 /* class="ant-upload-list-item-container" */
