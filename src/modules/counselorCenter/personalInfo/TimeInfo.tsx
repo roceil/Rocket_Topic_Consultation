@@ -4,7 +4,7 @@ import { IAppointmentTime } from '@/types/interface';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
 import { DatePicker, Button, Form, Modal } from 'antd';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
 import EmptyTimetable from './EmptyTimetable';
@@ -27,25 +27,22 @@ interface IApiTimetables {
 
 // ==================== 設定時間區段 ====================
 dayjs.extend(customParseFormat);
-const dateFormat = 'YYYY/MM/DD';
-const today = dayjs();
 const { RangePicker } = DatePicker;
 
 export default function TimeInfo() {
   const token = getCookie('auth');
   // ==================== 取得諮商師頁面時間表 API ====================
-  const { data = {} as IAppointmentTime, isLoading, refetch } = useGetCounselorTimetableQuery({ token });
+  const { data = {} as IAppointmentTime, isLoading } = useGetCounselorTimetableQuery({ token });
 
   // ==================== 取出資料 ====================
-  const [Data, setData] = useState<IApiTimetables>();
-  const [WeekData, setWeekData] = useState();
+  const [WeekData, setWeekData] = useState<IApiTimetablesWeekData[]>([]);
   const [renderData, setRenderData] = useState<IApiTimetables>();
-  const [renderWeekData, setRenderWeekData] = useState();
+  const [renderWeekData, setRenderWeekData] = useState<IApiTimetablesWeekData[]>();
 
   useEffect(() => {
     if (data) {
       setRenderData(data.Data);
-      setRenderWeekData(data?.Data?.WeekData);
+      setRenderWeekData(data?.Data?.WeekData || []);
     }
   }, [data, isLoading]);
 
@@ -54,18 +51,14 @@ export default function TimeInfo() {
 
   useEffect(() => {
     if (renderData && renderWeekData) {
-      setData(renderData);
       setWeekData(renderWeekData);
-      // console.log('renderData:', renderData);
-      console.log('renderWeekData:', renderWeekData);
-      // 轉換 StartDate 格式
-      const formattedStartDate = dayjs(renderData.StartDate, 'MM/DD/YYYY').format('YYYY-MM-DD');
-      // 轉換 EndDate 格式
-      const formattedEndDate = dayjs(renderData.EndDate, 'MM/DD/YYYY').format('YYYY-MM-DD');
-      setRenderStartDate(renderData.StartDate);
-      setRenderEndDate(renderData.EndDate);
+      // 轉換日期格式
+      const formattedStartDate = dayjs(renderData.StartDate).format('YYYY/MM/DD');
+      const formattedEndDate = dayjs(renderData.EndDate).format('YYYY/MM/DD');
+      setRenderStartDate(formattedStartDate);
+      setRenderEndDate(formattedEndDate);
     }
-  }, [renderData, renderWeekData]);
+  }, [renderData]);
 
   // ==================== 編輯時段 Modal ====================
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -113,7 +106,6 @@ export default function TimeInfo() {
           <div>
             <RangePicker
               disabled
-              format={dateFormat}
               style={{ padding: '12px 20px', borderRadius: '10px', textAlign: 'center' }}
               placeholder={[renderStartDate, renderEndDate]}
             />
@@ -122,9 +114,9 @@ export default function TimeInfo() {
         <Form.Item name="Hours">
           <div className="h-[473px] w-full border">
             <div className="space-y-5">
-              <ul className="flex justify-center lg:justify-start hour-scrollbar flex w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-8 overflow-auto  text-center">
-                {renderWeekData && (
-                  renderWeekData.map((item: IApiTimetablesWeekData) => (
+              <ul className="flex justify-center lg:justify-start hour-scrollbar w-full h-[487px] lg:h-[451px]  space-x-1 lg:space-x-8 overflow-auto  text-center">
+                {renderWeekData && renderWeekData.length > 0
+                  && (renderWeekData.map((item: IApiTimetablesWeekData) => (
                     <li className="relative h-full lg:w-[56] max-w-12 flex flex-col items-center" key={uuidv4()}>
                       <div className="space-y-1 bg-gray-200 z-40 !sticky !top-0 flex w-full">
                         <div className="m-auto justify-center w-full lg:w-[56px] space-y-1 border-b-2 border-b-gray-900 py-3 mb-[10px]">
@@ -152,8 +144,7 @@ export default function TimeInfo() {
                         </div>
                       </div>
                     </li>
-                  ))
-                )}
+                  )))}
               </ul>
               <div>
                 <div className="flex justify-end lg:mt-20 relative">
