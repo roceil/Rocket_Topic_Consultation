@@ -26,6 +26,8 @@ export default function CounselorCenterLayout({ children }: {
     deleteCookie('identity');
     deleteCookie('userID');
     deleteCookie('counselorID');
+    deleteCookie('counselorID');
+    deleteCookie('validation');
     const Message = '登出成功';
     CustomAlert({ modal, Message, type: 'success', router });
   };

@@ -73,6 +73,7 @@ export default function WaitReply() {
     setRenderData(formattedAppointments);
     setTotalPageNum(TotalPageNum);
     dispatch(loadingStatus('none'));
+    refetch();
   }, [isLoading, data]);
 
   return (
