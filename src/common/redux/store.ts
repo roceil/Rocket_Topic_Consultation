@@ -23,6 +23,7 @@ import { signUp } from './service/signUp';
 import { userCenter } from './service/userCenter';
 import { shoppingCart } from './service/shoppingCart';
 import { counselorList } from './service/counselorList';
+import { resentLicense } from './service/resentLicense';
 import { counselorPage } from './service/counselorPage';
 import { resetPassword } from './service/resetPassword';
 import { forgetPassword } from './service/forgetPassword';
@@ -51,9 +52,10 @@ const reducers = combineReducers({
   [header.reducerPath]: header.reducer,
   [userCenter.reducerPath]: userCenter.reducer,
   [shoppingCart.reducerPath]: shoppingCart.reducer,
-  [counselorPage.reducerPath]: counselorPage.reducer,
-  [counselorList.reducerPath]: counselorList.reducer,
   [resetPassword.reducerPath]: resetPassword.reducer,
+  [counselorPage.reducerPath]: counselorPage.reducer,
+  [resentLicense.reducerPath]: resentLicense.reducer,
+  [counselorList.reducerPath]: counselorList.reducer,
   [forgetPassword.reducerPath]: forgetPassword.reducer,
   [counselorCenter.reducerPath]: counselorCenter.reducer,
   [timetableBrowser.reducerPath]: timetableBrowser.reducer,
@@ -74,6 +76,7 @@ const store = configureStore({
     .concat(resetPassword.middleware)
     .concat(counselorPage.middleware)
     .concat(counselorList.middleware)
+    .concat(resentLicense.middleware)
     .concat(forgetPassword.middleware)
     .concat(counselorCenter.middleware)
     .concat(timetableBrowser.middleware)

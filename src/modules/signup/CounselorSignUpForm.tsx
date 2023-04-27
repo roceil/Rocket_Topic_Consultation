@@ -73,7 +73,6 @@ export default function CounselorSignUpForm() {
       message.error('文件大小不超過 2MB');
       return false;
     }
-
     return false;
   };
 
