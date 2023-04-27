@@ -8,6 +8,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { v4 as uuidv4 } from 'uuid';
 import CustomAlert from '@/common/helpers/customAlert';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface IApiTimetablesHours {
   Time: string;
@@ -72,8 +73,13 @@ export default function EmptyTimetable({onSubmit}) {
     setCheckboxValues((prevState) => ({ ...prevState, [name]: checked }));
   };
 
+  useEffect(() => {
+    form.resetFields();
+  }, []);
+
   const StartDate = '2023/4/27';
   const EndDate = '2023/7/27';
+  const [isHidden, setIsHidden] = useState('block');
 
   const onFinish = async (values: any) => {
     // eslint-disable-next-line max-len
@@ -284,7 +290,7 @@ export default function EmptyTimetable({onSubmit}) {
         ],
       },
     ];
-
+    setIsHidden('block');
     const res = await CounselorTimetablePost({
       token,
       StartDate,
@@ -292,22 +298,31 @@ export default function EmptyTimetable({onSubmit}) {
       WeekData,
     });
     refetch();
+    setIsHidden('hidden');
     const { Message } = (res as { data: { Message: string } }).data;
     CustomAlert({ modal, Message, type: 'success' });
+    // 在表單送出後，清空表單的欄位值
+    form.resetFields();
+    // 清空表單的值
+    form.setFieldsValue({});
+    // 清空渲染的 checkbox
+    setCheckboxValues({});
     onSubmit();
   };
-
-  // 開啟編輯功能
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const isHidden = isDisabled
-    ? '!opacity-0 transform duration-300'
-    : '!opacity-100 transform duration-300';
 
   return (
     <Form
       form={form}
       onFinish={onFinish}
     >
+      <Form.Item>
+        <div className={`absolute z-50 h-[700px] w-full bg-white ${isHidden}`}>
+          <div className="h-full w-full flex items-center justify-center text-lg space-x-5">
+            <LoadingOutlined className=" text-4xl text-secondary" />
+            <h3 className="text-center text-secondary text-3xl ">Loading...</h3>
+          </div>
+        </div>
+      </Form.Item>
       <Form.Item name="range-picker" className="flex flex-row text-secondary text-left">
         <div>
           <p>選擇日期</p>
@@ -321,6 +336,7 @@ export default function EmptyTimetable({onSubmit}) {
           />
         </div>
       </Form.Item>
+      
       <Form.Item name="Hours">
         <div className="h-[473px] w-full border bg-white">
           <div className="space-y-5">

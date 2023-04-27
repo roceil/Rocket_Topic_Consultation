@@ -7,6 +7,7 @@ import { useTimetableBrowserGetQuery } from '@/common/redux/service/timetableBro
 import { IAppointmentTime, IPagination, IHours } from '@/types/interface';
 import { useUserAppointmentPostMutation } from '@/common/redux/service/userCenter';
 import CustomAlert from '@/common/helpers/customAlert';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export default function ReservationTimetable({ counselorId, token, AppointmentId, refetch }: { counselorId: number, token:string, AppointmentId:number, refetch:()=>void }) {
   const [modal, alertModal] = Modal.useModal();
@@ -137,7 +138,10 @@ export default function ReservationTimetable({ counselorId, token, AppointmentId
     <div className="relative">
       {/* Loading */}
       <div className={`absolute z-50 h-[550px] lg:h-[520px] w-full bg-white ${isHidden}`}>
-        <div className="h-full w-full flex items-center justify-center text-lg"><p className="w-full text-center text-secondary">Loading...</p></div>
+        <div className="h-full w-full flex items-center justify-center text-lg">
+          <LoadingOutlined className=" text-lg text-secondary" />
+          <h3 className="text-center text-secondary ">Loading...</h3>
+        </div>
       </div>
       {/* Calendar */}
       <div className=" space-y-5">
