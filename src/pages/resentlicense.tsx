@@ -14,7 +14,7 @@ import { IButton } from '@/common/components/IButton';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 
-export default function ResentLicense({ token, data: { Data } }: IShoppingCartProps) {
+export default function ResentLicense() {
   const [modal, alertModal] = Modal.useModal();
   const dispatch = useDispatch();
   // =================== 關閉 loading ===================
@@ -68,18 +68,19 @@ export default function ResentLicense({ token, data: { Data } }: IShoppingCartPr
           <Form
             form={form}
             onFinish={onFinish}
-            className="flex justify-center space-x-4"
+            className="lg:flex flex-row justify-center space-x-4"
           >
-            <Form.Item name="license" label="諮商師執照" className="text-gray-900 max-w-[500px]">
+            <Form.Item name="license" label="諮商師執照：" className="text-gray-900 max-w-[500px] mt-5 lg:mt-0">
               <ImgCrop rotationSlider>
                 <Upload
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   fileList={fileList}
                   onChange={onChange}
                   onPreview={onPreview}
+                  className="text-left"
                 >
                   {fileList.length < 0 && '+ Upload'}
-                  <Button className="border w-[400px] px-3  text-left">應該要顯示檔名</Button>
+                  {/* <Button className="border lg:w-[400px] w-auto px-3  text-left">應該要顯示檔名</Button> */}
                 </Upload>
               </ImgCrop>
             </Form.Item>
