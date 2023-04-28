@@ -9,6 +9,8 @@ import UserInformation from '@/modules/userCenter/UserInformation';
 import convertDate from '@/common/helpers/convertDate';
 import UserCenterLayout from '@/modules/userCenter/UserCenterLayout';
 import CustomHead from '@/common/components/CustomHead';
+import { Modal } from 'antd';
+import CustomAlert from '@/common/helpers/customAlert';
 
 export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req, res }) => {
   const token = getCookie('auth', { req, res });
@@ -35,6 +37,8 @@ export const getServerSideProps = wrapper.getServerSideProps(() => async ({ req,
 });
 
 export default function index({ data }: IUserDataProps) {
+  // ======================== Alert ========================
+  const [modal, alertModal] = Modal.useModal();
   // ======================== 關閉 loading ========================
   useCloseLoading();
   const { Account, BirthDate, Name, Sex } = data.Data[0];
@@ -46,13 +50,14 @@ export default function index({ data }: IUserDataProps) {
   const [editInformationPut] = useEditInformationPutMutation();
 
   // 開啟編輯功能函式
-  const edit = () => setNameDisable(false);
+  const edit = () => setNameDisable(!nameDisable);
 
   // 儲存資料並打PUT API函式
   const save = async () => {
     // 如果用戶沒有改變名字，則直接儲存
     if (nameInput === '') {
-      alert('儲存成功');
+      const Message = '儲存成功';
+      CustomAlert({ modal, Message, type: 'success' });
       setNameDisable(true);
       return;
     }
@@ -65,12 +70,12 @@ export default function index({ data }: IUserDataProps) {
       const {
         data: { Message },
       } = res.error as { data: { Message: string } };
-      alert(Message);
+      CustomAlert({ modal, Message, type: 'error' });
       return;
     }
     const { Message } = res.data as { Message: string };
     setNameDisable(true);
-    alert(Message);
+    CustomAlert({ modal, Message, type: 'success' });
   };
 
   return (
@@ -96,6 +101,7 @@ export default function index({ data }: IUserDataProps) {
           <UserInformation edit={edit} save={save} nameDisable={nameDisable} accountName={Name} accountEmail={Account} BirthDate={transferDate} Sex={Sex} extraStyle={isHidden} nameInput={nameInput} setNameInput={setNameInput} />
         </UserCenterLayout>
       </div>
+      <div className="alert">{alertModal}</div>
     </>
   );
 }

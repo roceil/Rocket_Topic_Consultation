@@ -43,13 +43,6 @@ export default function CounselorInfoTab() {
           },
         }}
       >
-        {/* { validation ? (
-          <Tabs
-            defaultActiveKey="基本資料"
-            items={counselorInfoTabAry}
-            onChange={onChange}
-          />
-        ) : <Unverified /> } */}
         <Tabs
           defaultActiveKey="基本資料"
           items={counselorInfoTabAry}

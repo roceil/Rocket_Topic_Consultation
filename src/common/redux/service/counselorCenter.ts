@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-// import { QueryCache } from 'react-query';
 
 export const counselorCenter = createApi({
   reducerPath: 'counselorCenter',
@@ -70,9 +69,20 @@ export const counselorCenter = createApi({
         },
       }),
     }),
-
+    counselorUpdateImagePostApi: builder.mutation({
+      query: ({ file, Account }) => {
+        const formData = new FormData();
+        formData.append('File', file);
+        formData.append('Account', Account);
+        return {
+          url: '/api/updateLicense',
+          method: 'POST',
+          body: formData,
+        };
+      },
+    }),
   }),
 });
 
-export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation } = counselorCenter;
+export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation } = counselorCenter;
 

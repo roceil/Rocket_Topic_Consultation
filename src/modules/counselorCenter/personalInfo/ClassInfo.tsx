@@ -266,7 +266,7 @@ export function ClassInfo() {
           </h3>
           {/* 點擊膠囊前，初始畫面 */}
           {isSuccess && (
-            <NoCourses text="請先選擇專長領域" height="h-[338px]" />
+            <NoCourses text="請先選擇專長領域" height="h-[338px] !z-10" />
           )}
           <div
             className={`lg:w-[90%] rounded-2xl bg-gray-200 pb-9 ${
@@ -396,7 +396,7 @@ export function ClassInfo() {
                               type="primary"
                               shape="round"
                               htmlType="button"
-                              onClick={() => setIsDisabled(false)}
+                              onClick={() => setIsDisabled(!isDisabled)}
                               className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
                             >
                               {isDisabled ? '編輯' : '取消編輯'}
