@@ -29,14 +29,14 @@ export function InfoForm() {
   // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
   const [renderAccount, setRenderAccount] = useState<ICounselorInfoData >(data || []);
-  const [filelistHeadShot, setFilelistHeadShot] = useState<UploadFile[]>([]);
-  const [filelistLic, setFilelistLic] = useState<UploadFile[]>([]);
+  const [filelistheadshot, setfilelistheadshot] = useState<UploadFile[]>([]);
+  const [filelistlic, setfilelistlic] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
       setRenderAccount(data?.Data[0]?.Account);
-      setFilelistHeadShot([
+      setfilelistheadshot([
         {
           uid: '-1',
           name: 'Photo',
@@ -44,7 +44,7 @@ export function InfoForm() {
           url: data?.Data[0]?.Photo,
         },
       ]);
-      setFilelistLic([{
+      setfilelistlic([{
         uid: '-1',
         name: 'Photo',
         status: 'done',
@@ -72,7 +72,7 @@ export function InfoForm() {
   const LicenseImgUploadOnChange: UploadProps['onChange'] = ({
     fileList: newFilelist,
   }) => {
-    setFilelistLic(newFilelist);
+    setfilelistlic(newFilelist);
   };
 
   const LicenseImgOnPreview = async (file: UploadFile) => {
@@ -94,7 +94,7 @@ export function InfoForm() {
   const HeadShotUploadOnChange: UploadProps['onChange'] = ({
     fileList: newFilelist,
   }) => {
-    setFilelistHeadShot(newFilelist);
+    setfilelistheadshot(newFilelist);
   };
 
   const HeadShotOnPreview = async (file: UploadFile) => {
@@ -127,17 +127,6 @@ export function InfoForm() {
     return false;
   };
 
-  // // 個人簡介
-  // const onChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  // ) => {
-  //   console.log('Change:', e.target.value);
-  // };
-  // // Switch
-  // const SwitchOnChange = (checked: boolean) => {
-  //   console.log(`switch to ${checked}`);
-  // };
-
   // ==================== 送出表單 ====================
   const onFinish = async (values: any) => {
     // 取出現有資源屬性值
@@ -152,8 +141,6 @@ export function InfoForm() {
       ...(values.VideoLink && { VideoLink: values.VideoLink }),
       ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
     };
-
-    console.log('update:', updatedValues);
 
     // 提交更新後的文字POST
     const res = await CounselorInfoPutMutation({
@@ -172,12 +159,12 @@ export function InfoForm() {
 
     // 圖片POST（執照）
     const updateImgRes = await counselorUpdateImagePostApi({
-      file: !filelistLic[0].originFileObj ? [{
+      file: !filelistlic[0].originFileObj ? [{
         uid: '-1',
         name: 'Photo',
         status: 'done',
         url: data?.Data[0]?.LicenseImg,
-      }] : filelistLic[0].originFileObj,
+      }] : filelistlic[0].originFileObj,
       Account: renderAccount,
       token,
     });
@@ -189,7 +176,7 @@ export function InfoForm() {
     // 圖片POST（頭貼）
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const uploadHeadShotRes = await counselorUploadHeadshotPostApi({
-      file: filelistHeadShot[0].originFileObj,
+      file: filelistheadshot[0].originFileObj,
       Account: renderAccount,
       token,
     });
@@ -270,7 +257,7 @@ export function InfoForm() {
             <Form.Item
               name="LicenseImg"
               label="諮商師執照"
-              valuePropName="filelistLic"
+              valuePropName="filelistlic"
               className="font-bold lg:mx-[15px]"
             >
               <div className="flex-row items-end lg:flex">
@@ -282,12 +269,12 @@ export function InfoForm() {
                       beforeUpload={beforeUpload}
                       accept="image/png,image/jpg"
                       listType="picture-card"
-                      fileList={filelistLic}
+                      fileList={filelistlic}
                       onChange={LicenseImgUploadOnChange}
                       onPreview={LicenseImgOnPreview}
                       disabled={isDisabled}
                     >
-                      {filelistLic.length < 1 && '+ Upload'}
+                      {filelistlic.length < 1 && '+ Upload'}
                     </Upload>
                   </ImgCrop>
                 </div>
@@ -302,7 +289,7 @@ export function InfoForm() {
             <Form.Item
               name="HeadShot"
               label="個人頭像"
-              valuePropName="filelistHeadShot"
+              valuePropName="filelistheadshot"
               className="font-bold lg:mx-[15px]"
             >
               <div className="flex-row items-end lg:flex">
@@ -314,12 +301,12 @@ export function InfoForm() {
                       beforeUpload={beforeUpload}
                       accept="image/png,image/jpg"
                       listType="picture-card"
-                      fileList={filelistHeadShot}
+                      fileList={filelistheadshot}
                       onChange={HeadShotUploadOnChange}
                       onPreview={HeadShotOnPreview}
                       disabled={isDisabled}
                     >
-                      {filelistHeadShot.length < 1 && '+ Upload'}
+                      {filelistheadshot.length < 1 && '+ Upload'}
                     </Upload>
                   </ImgCrop>
                 </div>

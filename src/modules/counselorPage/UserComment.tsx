@@ -3,8 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 import rateStar from 'public/images/rateStar.svg';
 import { userCommentAry1 } from '@/lib/homeFilesRoute';
-
-const rateStarAry = Array(5).fill(0);
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UserComment() {
   return (
@@ -32,25 +31,31 @@ export default function UserComment() {
               },
             }}
           >
-            {userCommentAry1.map((item) => (
-              <SwiperSlide>
-                <li>
-                  <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                    <div>
-                      <ul className="mb-3 flex">
-                        {rateStarAry.map(() => (
-                          <li>
-                            <Image src={rateStar} alt="rateStar" />
-                          </li>
-                        ))}
-                      </ul>
-                      <p>{item.comment}</p>
-                    </div>
-                    <h3 className="text-xl font-bold">{item.name}</h3>
-                  </div>
-                </li>
-              </SwiperSlide>
-            ))}
+            {userCommentAry1.map((item, i) => {
+              const rateStarAry = Array(5).fill(0);
+              if (i < 7) {
+                return (
+                  <SwiperSlide key={uuidv4()}>
+                    <li>
+                      <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
+                        <div>
+                          <ul className="mb-3 flex">
+                            {rateStarAry.map(() => (
+                              <li key={uuidv4()}>
+                                <Image src={rateStar} alt="rateStar" />
+                              </li>
+                            ))}
+                          </ul>
+                          <p>{item.comment}</p>
+                        </div>
+                        <h3 className="text-xl font-bold">{item.name}</h3>
+                      </div>
+                    </li>
+                  </SwiperSlide>
+                );
+              }
+              return null;
+            })}
           </Swiper>
         </div>
       </div>

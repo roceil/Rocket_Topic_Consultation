@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import CustomAlert from '@/common/helpers/customAlert';
 import { v4 as uuidv4 } from 'uuid';
+import { ICoursesDataProps, ICoursesProps } from '@/types/interface';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -26,9 +27,6 @@ export function ClassInfo() {
   // ==================== 取得課程 API ====================
   const { data, isLoading, refetch } = useCoursesDataGetQuery({ token });
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   // ==================== 新增/修改課程 API ====================
   const [coursesDataPostMutation] = useCoursesDataPostMutation();
 
@@ -48,7 +46,7 @@ export function ClassInfo() {
   // 點擊膠囊前的預設畫面
   const [isSuccess, setIsSuccess] = useState<boolean>(true);
   // 課程方案＋定價
-  const [courses, setCourses] = useState(null);
+  const [courses, setCourses] = useState<any>();
   // 控制渲染表格
   const [renderForm, setRenderForm] = useState('hidden');
   const [renderEmptyForm, setRenderEmptyForm] = useState('hidden');
@@ -74,8 +72,6 @@ export function ClassInfo() {
     setFieldIds(FieldIds);
     setIsSuccess(data.Success);
     setCourses(renderData?.Course);
-    // console.log('isLoading:', data);
-    // console.log('renderData:', renderData);
   }, [isLoading, renderData]);
 
   // Render『單一主題』的課程資訊
@@ -87,11 +83,6 @@ export function ClassInfo() {
     setRenderData(data);
     setGetCoursesID(renderData?.Data?.Courses);
     SetFeatureAry(renderData?.Data?.Courses);
-    // console.log('所有課程:', getCoursesID); // 所有課程物件
-    // console.log(featureAry); // 單一課程特色 Ary => 要綁上 fieldId
-    // console.log('點擊的膠囊 id:', clickId); //  點擊的膠囊 id
-    // console.log(clickId, clickFilterAry);
-    // console.log(clickId, clickFeaturesFilterAry);
   }, [
     isLoading,
     renderData,
@@ -168,8 +159,8 @@ export function ClassInfo() {
       {
         Item: courseItemAry[0],
         Quantity: courseQuantityAry[0],
-        Price: parseInt(Price0 ?? '0', 10), // 若 Price0 為 undefined 則使用預設值 0
-        Availability: Availability0 ?? false, // 若 Availability0 為 undefined 則使用預設值 false
+        Price: parseInt(Price0 ?? '0', 10),
+        Availability: Availability0 ?? false,
       },
       {
         Item: courseItemAry[1],
@@ -192,8 +183,6 @@ export function ClassInfo() {
 
     type AvailabilityItem = boolean | undefined;
     const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
-    console.log('updateFeatures:', Features);
-    console.log('updateCourses:', Courses);
 
     if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
       const Message = '請至少開放一種方案';
@@ -229,7 +218,6 @@ export function ClassInfo() {
               key={id}
               onClick={() => {
                 changeRenderForm(id);
-                // console.log('取clickID筆資料：', getCoursesID);
                 const filterAry = getCoursesID.filter(
                   (item:any) => item.FieldId === id,
                 );
