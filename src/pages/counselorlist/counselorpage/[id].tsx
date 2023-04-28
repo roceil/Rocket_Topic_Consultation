@@ -23,6 +23,7 @@ import CounselorInformation from '@/modules/counselorPage/CounselorInformation';
 import { ICounselorPageProps, ICourses, IFilterCases } from '@/types/interface';
 import customAlert from '@/common/helpers/customAlert';
 import CustomHead from '@/common/components/CustomHead';
+import { v4 as uuidv4 } from 'uuid';
 
 // 使用axios取得path
 export const getServerSidePaths = async () => {
@@ -417,7 +418,7 @@ export default function CounselorPage({
                   {topicFeature.map((featureTxt: string) => {
                     if (featureTxt) {
                       return (
-                        <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none">
+                        <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none" key={uuidv4()}>
                           <Image
                             src={checkCircle}
                             alt="checkCircle_icon"

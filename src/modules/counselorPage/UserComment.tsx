@@ -2,126 +2,14 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 import rateStar from 'public/images/rateStar.svg';
+import { userCommentAry1 } from '@/lib/homeFilesRoute';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UserComment() {
   return (
     <section className="bg-primary py-20 lg:py-[148px]">
       <div className="container flex flex-col items-center">
         <h2 className="mb-[46px] w-full text-center lg:mb-[72px] lg:text-left ">用戶好評</h2>
-
-        {/* <ul className="lg:flex lg:w-full lg:justify-between">
-          <li>
-            <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-              <div>
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
-
-                <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-              </div>
-
-              <h3 className="text-xl font-bold">菲小姐</h3>
-            </div>
-          </li>
-
-          <li className="hidden lg:block">
-            <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-              <div className="">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
-
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-              </div>
-
-              <h3 className="mb-2 text-xl font-bold">菲小姐</h3>
-            </div>
-          </li>
-
-          <li className="hidden lg:block">
-            <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-              <div className="">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
-
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-              </div>
-
-              <h3 className="mb-2 text-xl font-bold">菲小姐</h3>
-            </div>
-          </li>
-
-          <li className="hidden lg:block">
-            <div className="flex h-[338px] w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-              <div className="">
-                <ul className="mb-3 flex">
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                  <li>
-                    <Image src={rateStar} alt="rateStar" />
-                  </li>
-                </ul>
-
-                <p className="mb-12">平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-              </div>
-
-              <h3 className="mb-2 text-xl font-bold">菲小姐</h3>
-            </div>
-          </li>
-        </ul> */}
         <div className="w-[320px] lg:w-[1220px]">
           <Swiper
             autoplay={{
@@ -143,246 +31,31 @@ export default function UserComment() {
               },
             }}
           >
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
-            <SwiperSlide>
-              <li>
-                <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
-                  <div>
-                    <ul className="mb-3 flex">
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                      <li>
-                        <Image src={rateStar} alt="rateStar" />
-                      </li>
-                    </ul>
-
-                    <p>平台有心理師的簡介和評價，讓人更有方向去尋找。謝謝你們，讓遠在美國的我還可以找得到適合自己的心理師。</p>
-                  </div>
-
-                  <h3 className="text-xl font-bold">菲小姐</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-
+            {userCommentAry1.map((item, i) => {
+              const rateStarAry = Array(5).fill(0);
+              if (i < 8) {
+                return (
+                  <SwiperSlide key={uuidv4()}>
+                    <li>
+                      <div className="flex h-[338px] maw-w-[284px] flex-col justify-between rounded-[20px] bg-white py-12 px-6 text-gray-900 shadow-md">
+                        <div>
+                          <ul className="mb-3 flex">
+                            {rateStarAry.map(() => (
+                              <li key={uuidv4()}>
+                                <Image src={rateStar} alt="rateStar" />
+                              </li>
+                            ))}
+                          </ul>
+                          <p>{item.comment}</p>
+                        </div>
+                        <h3 className="text-xl font-bold">{item.name}</h3>
+                      </div>
+                    </li>
+                  </SwiperSlide>
+                );
+              }
+              return null;
+            })}
           </Swiper>
         </div>
       </div>
