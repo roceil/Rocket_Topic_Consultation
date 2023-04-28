@@ -22,7 +22,7 @@ export default function Payment() {
           <li>
             預約成立後若要更改時段，請至
             <Link href="/usercenter/reservation" className="underline lg:hover:opacity-50">
-              會員中心 / 預約管理 / 已成立
+              會員中心 / 預約管理 / 待回覆
             </Link>
             更改時段。
           </li>

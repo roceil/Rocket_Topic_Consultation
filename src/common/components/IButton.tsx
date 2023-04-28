@@ -10,7 +10,7 @@ export interface IButtonProps {
   px?: string;
   py?: string;
   mode?: 'light' | 'dark';
-  onClick?: () => void;
+  onClick?: (() => void) | (({ preventDefault }: { preventDefault: () => void; }) => void);
   extraStyle?: string;
   type?: 'button' | 'submit' | 'reset';
 }
