@@ -7,25 +7,35 @@
 <h1 align="center" style="font-weight: 700">拍拍｜線上心理諮商平台</h1>
 
 <div align="center" style="margin-bottom:24px">
-<a href="https://drive.google.com/file/d/1e2FiBn9prBCp5041J8-TFq9o6bn2XAPA/view" 
-style="display: flex;
- justify-content:center; 
-  align-items: center;
- background-color: #FFEFCD; 
- color: black; 
- font-weight: 700; 
- border-radius: 9999px;
- height:40px;"
- >
-<p>
-📙簡報介紹📙
-</p>
-</a><br>
+
+  <a href="https://drive.google.com/file/d/1e2FiBn9prBCp5041J8-TFq9o6bn2XAPA/view">
+  簡報介紹
+  </a>
+  <span>｜</span>
+  <a href="https://pi-rocket-coding.vercel.app/">
+  前台網站
+  </a>
+  <span>｜</span>
+  <a href="https://github.com/roceil/Rocket_PI_backend">
+  後台Repo
+  </a>
+  <span>｜</span>
+  <a href="https://wistful-cod-85c.notion.site/5cefa38475a64702b599810da2fb3475">
+  API List
+  </a>
+  <span>｜</span>
+  <a href="https://pi.rocket-coding.com/swagger/index.html?url=/swagger/v1/swagger.json#/">
+  Swagger
+  </a>
+
+<br>
 <p>
 歡迎來到拍拍！拍拍是個線上心理諮商平台<br>
 幫助人們克服各種情緒和心理上的困難，改善他們的生活品質。
 </p>
-<img src="./public/images/Readme/Mockup.png">
+<img
+  style="border-radius: 16px;"
+  src="./public/images/Readme/Mockup.png">
 </div>
 
 # 拍拍｜線上心理諮商平台
@@ -70,8 +80,27 @@ style="display: flex;
 - 管理員查看所有金流狀態
 ---
 ## 建議體驗流程
+- 個案：
+    1. 註冊會員
+    2. 選擇心儀的諮商師及課程方案
+    3. 完成結帳：
+       
+       選信用卡一次付清 → 填寫卡號 `4000-2211-1111-1111` → 有效年月填大於今天
+      → 驗證碼可隨意填寫 → 付款成功
+    4. 前往會員中心選擇預約時段
+    5. 等候諮商師接受預約
 
+- 諮商師：
+    1. 選擇「我是諮商師」並登入會員
+    2. 前往會員中心填寫個人簡介及課程資訊
+    3. 上架課程
+    4. 收到個案預約通知後，前往會員中心確認預約時段
 
+- 後台管理員：
+    1. 登入帳號
+    2. 確認新註冊的諮商師資格，並決定是否通過審核，如無法通過審核，則發信要求補件
+    3. 確認每筆訂單的課程狀態
+    4. 確認每筆訂單的金流狀態，且可搜尋特定用戶的總消費金額
 ---
 
 ## 下載與安裝
@@ -204,6 +233,12 @@ pi.rocket/
 - 以區塊為命名提示並大寫，如：OrderStep
 - 範例：`Feat/OrderStep`
 
+---
+## Git Flow 
+- 以 GitHub Flow 為基礎，建立符合團隊迭代頻率的客製化 Git Flow
+<img
+style="border-radius: 16px;" 
+src="https://cdn.discordapp.com/attachments/1082892490367049799/1101564526933065739/image.png" />
 ---
 
 ## 技術規格
