@@ -70,7 +70,7 @@ export const counselorCenter = createApi({
       }),
     }),
     counselorUpdateImagePostApi: builder.mutation({
-      query: ({ file, Account }) => {
+      query: ({ file, Account, token }) => {
         const formData = new FormData();
         formData.append('File', file);
         formData.append('Account', Account);
@@ -78,11 +78,29 @@ export const counselorCenter = createApi({
           url: '/api/updateLicense',
           method: 'POST',
           body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      },
+    }),
+    counselorUploadHeadshotPostApi: builder.mutation({
+      query: ({ file, Account, token }) => {
+        const formData = new FormData();
+        formData.append('File', file);
+        formData.append('Account', Account);
+        return {
+          url: '/api/uploadHeadshot',
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
       },
     }),
   }),
 });
 
-export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation } = counselorCenter;
-
+// eslint-disable-next-line max-len
+export const { useCoursesDataGetQuery, useCoursesDataPostMutation, useCounselorInfoGetQuery, useCourseDataDeleteMutation, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } = counselorCenter;

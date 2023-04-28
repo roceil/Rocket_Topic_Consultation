@@ -6,7 +6,7 @@ import { getCookie } from 'cookies-next';
 import ResetPassWordModal from '@/common/components/ResetPassWordModal';
 import CustomAlert from '@/common/helpers/customAlert';
 import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
-import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation } from '../../../common/redux/service/counselorCenter';
+import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } from '../../../common/redux/service/counselorCenter';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
@@ -15,7 +15,7 @@ const { TextArea } = Input;
 export function InfoForm() {
   const token = getCookie('auth');
   // ==================== 取得基本資料 API ====================
-  const { data = {} as ICounselorInfo, isLoading, refetch } = useCounselorInfoGetQuery({ token });
+  const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
 
   // ==================== 修改基本資料 API ====================
   const [CounselorInfoPutMutation] = useCounselorInfoPutMutation();
@@ -23,16 +23,33 @@ export function InfoForm() {
   // ==================== 更新/補傳 執照 API ====================
   const [counselorUpdateImagePostApi] = useCounselorUpdateImagePostApiMutation();
 
+  // ==================== 更新/補傳 執照 API ====================
+  const [counselorUploadHeadshotPostApi] = useCounselorUploadHeadshotPostApiMutation();
+
   // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
   const [renderAccount, setRenderAccount] = useState<ICounselorInfoData >(data || []);
-  // const [renderLicenseImg, setRenderLicenseImg] = useState<ICounselorInfoData >(data || []);
+  const [filelistHeadShot, setFilelistHeadShot] = useState<UploadFile[]>([]);
+  const [filelistLic, setFilelistLic] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
       setRenderAccount(data?.Data[0]?.Account);
-      // setRenderLicenseImg(data?.Data[0]?.LicenseImg);
+      setFilelistHeadShot([
+        {
+          uid: '-1',
+          name: 'Photo',
+          status: 'done',
+          url: data?.Data[0]?.Photo,
+        },
+      ]);
+      setFilelistLic([{
+        uid: '-1',
+        name: 'Photo',
+        status: 'done',
+        url: data?.Data[0]?.LicenseImg,
+      }]);
     }
   }, [data, isLoading]);
 
@@ -50,25 +67,14 @@ export function InfoForm() {
 
   // ==================== Antd ====================
   const [form] = Form.useForm();
-  // Upload 諮商師執照
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [uploadLic, setUploadLic] = useState<File | null>(null);
-  // 使用者上傳
-  const [filelistLic, setFilelistLic] = useState<UploadFile[]>([
-    { // 圖片要改成 base64，才能符合 antd Img src=
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://static.wixstatic.com/media/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png/v1/fill/w_640,h_434,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png',
-    },
-  ]);
-  // 抓上傳資料
+
+  // ==================== Upload 諮商師執照 ====================
   const LicenseImgUploadOnChange: UploadProps['onChange'] = ({
     fileList: newFilelist,
   }) => {
     setFilelistLic(newFilelist);
   };
-  // 預覽功能
+
   const LicenseImgOnPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -84,32 +90,13 @@ export function InfoForm() {
     imgWindow?.document.write(image.outerHTML);
   };
 
-  // ==================== 檔案上傳函式 ====================
-  const normFileLic = (e: { fileList: { originFileObj: File }[] }) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    // 這個判斷是為了防止刪除圖片時，e.fileList.length 會變成 0，進而導致 setUploadImage(undefined) 這個行為
-    if (e.fileList?.length > 0) {
-      setUploadLic(e.fileList[0].originFileObj);
-    }
-    return e && e.fileList;
-  };
-
-  // Upload 諮商師頭像
-  const [filelistHeadshot, setFilelistHeadshot] = useState<UploadFile[]>([
-    { // 圖片要改成 base64，才能符合 antd Img src=
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://images.unsplash.com/photo-1531547629769-f2e504fe4521?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80',
-    },
-  ]);
+  // ==================== Upload 諮商師頭貼 ====================
   const HeadShotUploadOnChange: UploadProps['onChange'] = ({
     fileList: newFilelist,
   }) => {
-    setFilelistHeadshot(newFilelist);
+    setFilelistHeadShot(newFilelist);
   };
+
   const HeadShotOnPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -140,63 +127,74 @@ export function InfoForm() {
     return false;
   };
 
-  // 個人簡介
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    console.log('Change:', e.target.value);
-  };
-  // Switch
-  const SwitchOnChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
+  // // 個人簡介
+  // const onChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  // ) => {
+  //   console.log('Change:', e.target.value);
+  // };
+  // // Switch
+  // const SwitchOnChange = (checked: boolean) => {
+  //   console.log(`switch to ${checked}`);
+  // };
 
   // ==================== 送出表單 ====================
   const onFinish = async (values: any) => {
-    console.log(values);
+    // 取出現有資源屬性值
+    const currentValues = renderData;
 
-    // // 取出現有資源屬性值
-    // const currentValues = renderData;
+    // 更新需要更新的屬性值，並將其他屬性值保持不變
+    const updatedValues = {
+      ...currentValues,
+      ...(values.CounselorName && { CounselorName: values.CounselorName }),
+      ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
+      ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
+      ...(values.VideoLink && { VideoLink: values.VideoLink }),
+      ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
+    };
 
-    // // 更新需要更新的屬性值，並將其他屬性值保持不變
-    // const updatedValues = {
-    //   ...currentValues,
-    //   ...(values.CounselorName && { CounselorName: values.CounselorName }),
-    //   ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
-    //   ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
-    //   ...(values.VideoLink && { VideoLink: values.VideoLink }),
-    //   ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
-    // };
-
-    // console.log('update:', updatedValues);
+    console.log('update:', updatedValues);
 
     // 提交更新後的文字POST
-    // const res = await CounselorInfoPutMutation({
-    //   token,
-    //   ...updatedValues,
-    // });
-    // setIsDisabled(true);
-    // if ('error' in res) {
-    //   console.log('res:', res);
-    //   const {
-    //     data: { Message },
-    //   } = res.error as { data: { Message: string } };
-    //   CustomAlert({ modal, Message, type: 'error' });
-    //   return;
-    // }
-
-    // 圖片POST（執照）
-    const updateImgRes = await counselorUpdateImagePostApi({
-      file: uploadLic,
-      Account: renderAccount,
+    const res = await CounselorInfoPutMutation({
+      token,
+      ...updatedValues,
     });
-    if ('error' in updateImgRes) {
-      const { Message } = (updateImgRes.error as { data: { Message: string } }).data;
+    setIsDisabled(true);
+    if ('error' in res) {
+      console.log('res:', res);
+      const {
+        data: { Message },
+      } = res.error as { data: { Message: string } };
       CustomAlert({ modal, Message, type: 'error' });
       return;
     }
-    refetch();
-    const { Message } = (updateImgRes as { data: { Message: string } }).data;
+
+    // 圖片POST（執照）
+    const updateImgRes = await counselorUpdateImagePostApi({
+      file: !filelistLic[0].originFileObj ? [{
+        uid: '-1',
+        name: 'Photo',
+        status: 'done',
+        url: data?.Data[0]?.LicenseImg,
+      }] : filelistLic[0].originFileObj,
+      Account: renderAccount,
+      token,
+    });
+    if ('error' in updateImgRes) {
+      const { Message } = (updateImgRes.error as { data: { Message: string } }).data;
+      console.log(Message);
+    }
+
+    // 圖片POST（頭貼）
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const uploadHeadShotRes = await counselorUploadHeadshotPostApi({
+      file: filelistHeadShot[0].originFileObj,
+      Account: renderAccount,
+      token,
+    });
+
+    const { Message } = (res as { data: { Message: string } }).data;
     CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
 
@@ -273,13 +271,13 @@ export function InfoForm() {
               name="LicenseImg"
               label="諮商師執照"
               valuePropName="filelistLic"
-              getValueFromEvent={normFileLic}
               className="font-bold lg:mx-[15px]"
             >
               <div className="flex-row items-end lg:flex">
                 <div>
                   <ImgCrop>
                     <Upload
+                      action=""
                       maxCount={1}
                       beforeUpload={beforeUpload}
                       accept="image/png,image/jpg"
@@ -304,24 +302,24 @@ export function InfoForm() {
             <Form.Item
               name="HeadShot"
               label="個人頭像"
-              valuePropName="filelist"
-                // getValueFromEvent={normFile}
+              valuePropName="filelistHeadShot"
               className="font-bold lg:mx-[15px]"
             >
               <div className="flex-row items-end lg:flex">
                 <div>
                   <ImgCrop>
                     <Upload
+                      action=""
                       maxCount={1}
                       beforeUpload={beforeUpload}
                       accept="image/png,image/jpg"
                       listType="picture-card"
-                      fileList={filelistHeadshot}
+                      fileList={filelistHeadShot}
                       onChange={HeadShotUploadOnChange}
                       onPreview={HeadShotOnPreview}
                       disabled={isDisabled}
                     >
-                      {filelistHeadshot.length < 1 && '+ Upload'}
+                      {filelistHeadShot.length < 1 && '+ Upload'}
                     </Upload>
                   </ImgCrop>
                 </div>
@@ -339,7 +337,7 @@ export function InfoForm() {
                 showCount
                 maxLength={12}
                 style={{ height: 40, resize: 'none' }}
-                onChange={onChange}
+                // onChange={onChange}
                 placeholder={renderData.SellingPoint ?? '您的諮商年資、特殊經歷等...'}
                 className="font-normal"
                 disabled={isDisabled}
@@ -354,7 +352,7 @@ export function InfoForm() {
                 showCount
                 maxLength={100}
                 style={{ height: 180, marginBottom: 4 }}
-                onChange={onChange}
+                // onChange={onChange}
                 placeholder={renderData.SelfIntroduction ?? '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關'}
                 className="font-normal"
                 disabled={isDisabled}
@@ -377,8 +375,7 @@ export function InfoForm() {
                   <div>
                     <p className="mr-4 w-[56px]">是否開放</p>
                     <Switch
-                      checked={renderData.IsVideoOpen}
-                      onChange={SwitchOnChange}
+                      // onChange={SwitchOnChange}
                       disabled={isDisabled}
                       className="bg-gray-400"
                     />
