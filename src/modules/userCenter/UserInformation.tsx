@@ -58,8 +58,8 @@ export default function UserInformation({ save, edit, nameDisable, accountEmail,
       </div>
 
       <div className="flex justify-center space-x-5 lg:justify-end">
-        <IButton text="編輯" fontSize="text-base" px="px-14 sm:px-[74px]" py="py-4" mode="light" onClick={edit} />
         <IButton text="儲存" fontSize="text-base" mode="dark" onClick={save} extraStyle={extraStyle} />
+        <IButton text={nameDisable ? '編輯' : '取消編輯'} fontSize="text-base" px="px-0" py="py-4" mode="light" onClick={edit} extraStyle="!w-[180px] !h-[56px]" />
       </div>
     </form>
   );

@@ -126,7 +126,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     console.log('Change:', e.target.value);
   };
   return (
-    <div className={`relative z-50 ${renderEmptyForm}`}>
+    <div className={`relative ${renderEmptyForm}`}>
       <ul className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
         <ConfigProvider
           theme={{
@@ -236,7 +236,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
                       type="primary"
                       shape="round"
                       htmlType="button"
-                      onClick={() => setIsDisabled(false)}
+                      onClick={() => setIsDisabled(!isDisabled)}
                       className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
                     >
                       {isDisabled ? '編輯' : '取消編輯'}

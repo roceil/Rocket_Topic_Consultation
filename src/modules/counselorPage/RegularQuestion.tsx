@@ -30,8 +30,8 @@ const questionData = [
 export default function RegularQuestion() {
   const { Panel } = Collapse;
   return (
-    <section className="bg-primary-tint py-20">
-      <div className="container lg:flex lg:max-w-[860px] lg:flex-col lg:items-center lg:px-0">
+    <section className="bg-primary-tint py-20 container m-auto">
+      <div className="lg:flex lg:max-w-[860px] lg:flex-col lg:items-center lg:px-0 m-auto">
         <h2 className="mb-7 w-full text-center lg:mb-14">常見問題</h2>
 
         <div className="counselorPageQuestion w-full border-y border-gray-900">
@@ -43,9 +43,9 @@ export default function RegularQuestion() {
               },
             }}
           >
-            <Collapse bordered={false} expandIconPosition="end" className="bg-inherit">
+            <Collapse bordered={false} expandIconPosition="end" className="bg-inherit ">
               {questionData.map(({ question, answer }) => (
-                <Panel className="p-2 text-lg font-bold " header={question} key={question}>
+                <Panel className="p-2 text-lg font-bold" header={question} key={question}>
                   {answer}
                 </Panel>
               ))}

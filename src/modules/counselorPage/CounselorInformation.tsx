@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Breadcrumb } from 'antd';
 import { ICounselorInformationProps } from '@/types/interface';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function CounselorInformation({ counselorPageBreadcrumb, Photo, Name, SelfIntroduction, FieldTags }: ICounselorInformationProps) {
   return (
@@ -18,10 +19,10 @@ export default function CounselorInformation({ counselorPageBreadcrumb, Photo, N
               <ul className="mb-8 flex w-[340px] flex-wrap lg:hidden">
                 {FieldTags.map((topic: string, index: number) => {
                   if (index < 3) {
-                    return <li className="fakeBorder mr-4 w-full max-w-[96px] rounded-full py-3 text-center text-sm font-semibold text-secondary ">{topic}</li>;
+                    return <li className="fakeBorder mr-4 w-full max-w-[96px] rounded-full py-3 text-center text-sm font-semibold text-secondary " key={uuidv4()}>{topic}</li>;
                   }
                   if (index >= 3) {
-                    return <li className="fakeBorder mr-4  mt-3 w-full max-w-[96px] rounded-full py-3 text-center text-sm font-semibold text-secondary ">{topic}</li>;
+                    return <li className="fakeBorder mr-4  mt-3 w-full max-w-[96px] rounded-full py-3 text-center text-sm font-semibold text-secondary" key={uuidv4()}>{topic}</li>;
                   }
                   return null;
                 })}
@@ -31,10 +32,10 @@ export default function CounselorInformation({ counselorPageBreadcrumb, Photo, N
               <ul className="hidden flex-wrap  lg:mb-14 lg:flex">
                 {FieldTags.map((topic: string, index: number) => {
                   if (index < 4) {
-                    return <li className="fakeBorder mr-3 w-full rounded-full py-3 text-center text-sm  font-semibold text-secondary lg:max-w-[104px]">{topic}</li>;
+                    return <li className="fakeBorder mr-3 w-full rounded-full py-3 text-center text-sm  font-semibold text-secondary lg:max-w-[104px]" key={uuidv4()}>{topic}</li>;
                   }
                   if (index >= 4) {
-                    return <li className="fakeBorder mt-3  mr-3 w-full rounded-full py-3 text-center text-sm  font-semibold text-secondary lg:max-w-[104px]">{topic}</li>;
+                    return <li className="fakeBorder mt-3  mr-3 w-full rounded-full py-3 text-center text-sm  font-semibold text-secondary lg:max-w-[104px]" key={uuidv4()}>{topic}</li>;
                   }
                   return null;
                 })}

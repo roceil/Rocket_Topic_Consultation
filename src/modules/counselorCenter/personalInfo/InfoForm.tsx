@@ -6,7 +6,7 @@ import { getCookie } from 'cookies-next';
 import ResetPassWordModal from '@/common/components/ResetPassWordModal';
 import CustomAlert from '@/common/helpers/customAlert';
 import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
-import { useCounselorInfoGetQuery, useCounselorInfoPutMutation } from '../../../common/redux/service/counselorCenter';
+import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } from '../../../common/redux/service/counselorCenter';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
@@ -15,18 +15,46 @@ const { TextArea } = Input;
 export function InfoForm() {
   const token = getCookie('auth');
   // ==================== 取得基本資料 API ====================
-  const { data = {} as ICounselorInfo, isLoading, refetch } = useCounselorInfoGetQuery({ token });
+  const { data = {} as ICounselorInfo, isLoading } = useCounselorInfoGetQuery({ token });
 
   // ==================== 修改基本資料 API ====================
   const [CounselorInfoPutMutation] = useCounselorInfoPutMutation();
 
+  // ==================== 更新/補傳 執照 API ====================
+  const [counselorUpdateImagePostApi] = useCounselorUpdateImagePostApiMutation();
+
+  // ==================== 更新/補傳 執照 API ====================
+  const [counselorUploadHeadshotPostApi] = useCounselorUploadHeadshotPostApiMutation();
+
   // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
+  const [renderAccount, setRenderAccount] = useState<ICounselorInfoData >(data || []);
+  const [filelistheadshot, setfilelistheadshot] = useState<UploadFile[]>([]);
+  const [filelistlic, setfilelistlic] = useState<UploadFile[]>([]);
+
   useEffect(() => {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
+      setRenderAccount(data?.Data[0]?.Account);
+      setfilelistheadshot([
+        {
+          uid: '-1',
+          name: 'Photo',
+          status: 'done',
+          url: data?.Data[0]?.Photo,
+        },
+      ]);
+      setfilelistlic([{
+        uid: '-1',
+        name: 'Photo',
+        status: 'done',
+        url: data?.Data[0]?.LicenseImg,
+      }]);
     }
   }, [data, isLoading]);
+
+  // ==================== 重設密碼 ====================
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   // ==================== 編輯 btn ====================
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -39,34 +67,14 @@ export function InfoForm() {
 
   // ==================== Antd ====================
   const [form] = Form.useForm();
-  // Upload 諮商師執照＆頭貼圖檔
-  const [filelist, setFilelist] = useState<UploadFile[]>([
-    { // 圖片要改成 base64，才能符合 antd Img src=
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
-    },
-  ]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filelistLic, setFilelistLic] = useState<UploadFile[]>([
-    { // 圖片要改成 base64，才能符合 antd Img src=
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://static.wixstatic.com/media/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png/v1/fill/w_360,h_245,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/4f639e_e8f341f285564e67b5aa3b51998b5a9d~mv2.png',
-    },
-  ]);
+
+  // ==================== Upload 諮商師執照 ====================
   const LicenseImgUploadOnChange: UploadProps['onChange'] = ({
     fileList: newFilelist,
   }) => {
-    setFilelist(newFilelist);
+    setfilelistlic(newFilelist);
   };
-  const PhotoUploadOnChange: UploadProps['onChange'] = ({
-    fileList: newFilelist,
-  }) => {
-    setFilelist(newFilelist);
-  };
+
   const LicenseImgOnPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -81,7 +89,15 @@ export function InfoForm() {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  const PhotoOnPreview = async (file: UploadFile) => {
+
+  // ==================== Upload 諮商師頭貼 ====================
+  const HeadShotUploadOnChange: UploadProps['onChange'] = ({
+    fileList: newFilelist,
+  }) => {
+    setfilelistheadshot(newFilelist);
+  };
+
+  const HeadShotOnPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
       src = await new Promise((resolve) => {
@@ -95,15 +111,20 @@ export function InfoForm() {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  // 個人簡介
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    console.log('Change:', e.target.value);
-  };
-  // Switch
-  const SwitchOnChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
+
+  // ==================== 允許上傳的文件大小（以字節為單位） ====================
+  const allowedSize = 2 * 1024 * 1024; // 2MB
+
+  // ==================== 定義上傳文件前的檢查函式 ====================
+  const beforeUpload = (file: { size: number }) => {
+    // 檢查文件大小是否符合要求
+    const isAllowedSize = file.size <= allowedSize;
+    if (!isAllowedSize) {
+      const Message = '文件大小不超過 2MB';
+      CustomAlert({ modal, Message, type: 'error' });
+      return false;
+    }
+    return false;
   };
 
   // ==================== 送出表單 ====================
@@ -121,9 +142,7 @@ export function InfoForm() {
       ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
     };
 
-    console.log('update:', updatedValues);
-
-    // 提交更新後的完整資源內容
+    // 提交更新後的文字POST
     const res = await CounselorInfoPutMutation({
       token,
       ...updatedValues,
@@ -137,13 +156,33 @@ export function InfoForm() {
       CustomAlert({ modal, Message, type: 'error' });
       return;
     }
-    refetch();
-    const { Message } = (res as { data: { Message: any } }).data;
+
+    // 圖片POST（執照）
+    const updateImgRes = await counselorUpdateImagePostApi({
+      file: !filelistlic[0].originFileObj ? [{
+        uid: '-1',
+        name: 'Photo',
+        status: 'done',
+        url: data?.Data[0]?.LicenseImg,
+      }] : filelistlic[0].originFileObj,
+      Account: renderAccount,
+      token,
+    });
+    if ('error' in updateImgRes) {
+      const { Message } = (updateImgRes.error as { data: { Message: string } }).data;
+      console.log(Message);
+    }
+
+    // 圖片POST（頭貼）
+    await counselorUploadHeadshotPostApi({
+      file: filelistheadshot[0].originFileObj,
+      Account: renderAccount,
+      token,
+    });
+
+    const { Message } = (res as { data: { Message: string } }).data;
     CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
-
-  // ==================== 重設密碼 ====================
-  const [showResetPassword, setShowResetPassword] = useState(false);
 
   return (
     <div className="w-full space-y-12 px-4 pb-12">
@@ -217,23 +256,24 @@ export function InfoForm() {
             <Form.Item
               name="LicenseImg"
               label="諮商師執照"
-              valuePropName="filelist"
-                // getValueFromEvent={normFile}
+              valuePropName="filelistlic"
               className="font-bold lg:mx-[15px]"
             >
               <div className="flex-row items-end lg:flex">
                 <div>
                   <ImgCrop>
                     <Upload
-                        // action=""
+                      action=""
+                      maxCount={1}
+                      beforeUpload={beforeUpload}
+                      accept="image/png,image/jpg"
                       listType="picture-card"
-                      fileList={filelistLic}
-                      onChange={LicenseImgUploadOnChange} // 不同 function
-                      onPreview={LicenseImgOnPreview} // 不同 function
+                      fileList={filelistlic}
+                      onChange={LicenseImgUploadOnChange}
+                      onPreview={LicenseImgOnPreview}
                       disabled={isDisabled}
-                      id="CounselorLicense"
                     >
-                      {filelist.length < 1 && '+ Upload'}
+                      {filelistlic.length < 1 && '+ Upload'}
                     </Upload>
                   </ImgCrop>
                 </div>
@@ -246,10 +286,9 @@ export function InfoForm() {
               <h3 className="py-2 text-base font-bold text-gray-900">個人簡介</h3>
             </div>
             <Form.Item
-              name="Photo"
+              name="HeadShot"
               label="個人頭像"
-              valuePropName="filelist"
-                // getValueFromEvent={normFile}
+              valuePropName="filelistheadshot"
               className="font-bold lg:mx-[15px]"
             >
               <div className="flex-row items-end lg:flex">
@@ -257,14 +296,16 @@ export function InfoForm() {
                   <ImgCrop>
                     <Upload
                       action=""
+                      maxCount={1}
+                      beforeUpload={beforeUpload}
+                      accept="image/png,image/jpg"
                       listType="picture-card"
-                      fileList={filelist}
-                      onChange={PhotoUploadOnChange}
-                      onPreview={PhotoOnPreview}
+                      fileList={filelistheadshot}
+                      onChange={HeadShotUploadOnChange}
+                      onPreview={HeadShotOnPreview}
                       disabled={isDisabled}
-                      id="CounselorImage"
                     >
-                      {filelist.length < 1 && '+ Upload'}
+                      {filelistheadshot.length < 1 && '+ Upload'}
                     </Upload>
                   </ImgCrop>
                 </div>
@@ -282,7 +323,6 @@ export function InfoForm() {
                 showCount
                 maxLength={12}
                 style={{ height: 40, resize: 'none' }}
-                onChange={onChange}
                 placeholder={renderData.SellingPoint ?? '您的諮商年資、特殊經歷等...'}
                 className="font-normal"
                 disabled={isDisabled}
@@ -297,7 +337,6 @@ export function InfoForm() {
                 showCount
                 maxLength={100}
                 style={{ height: 180, marginBottom: 4 }}
-                onChange={onChange}
                 placeholder={renderData.SelfIntroduction ?? '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關'}
                 className="font-normal"
                 disabled={isDisabled}
@@ -320,8 +359,6 @@ export function InfoForm() {
                   <div>
                     <p className="mr-4 w-[56px]">是否開放</p>
                     <Switch
-                      checked={renderData.IsVideoOpen}
-                      onChange={SwitchOnChange}
                       disabled={isDisabled}
                       className="bg-gray-400"
                     />
@@ -344,7 +381,7 @@ export function InfoForm() {
                   type="primary"
                   shape="round"
                   htmlType="button"
-                  onClick={() => setIsDisabled(false)}
+                  onClick={() => setIsDisabled(!isDisabled)}
                   className=" btnHoverDark w-[120px] lg:w-[180px] border-none text-[14px] font-bold text-white shadow-none lg:text-base h-[56px]"
                 >
                   {isDisabled ? '編輯' : '取消編輯'}
