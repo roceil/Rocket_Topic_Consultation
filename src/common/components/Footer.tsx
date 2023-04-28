@@ -66,10 +66,29 @@ const followUsChilds = (
 );
 
 export default function Footer() {
-  const getToken = getCookie('auth');
-  const accessToUserCenter = getToken ? '/usercenter' : '/login';
-  const accessToReservation = getToken ? '/usercenter/reservation' : '/login';
+  const getIdentity = getCookie('identity');
+  // switch 判斷要跳轉去哪個頁面
+  const switchCenterPath = () => {
+    switch (getIdentity) {
+      case 'user':
+        return '/usercenter';
+      case 'counselor':
+        return '/counselorcenter';
+      default:
+        return '/login';
+    }
+  };
 
+  const switchReservationPath = () => {
+    switch (getIdentity) {
+      case 'user':
+        return '/usercenter/reservation';
+      case 'counselor':
+        return '/counselorcenter/reservation';
+      default:
+        return '/login';
+    }
+  };
   return (
     <footer className="bg-primary lg:py-[72px]">
       {/* PC Footer */}
@@ -91,10 +110,10 @@ export default function Footer() {
               <h3 className="mb-6 text-base font-bold">會員中心</h3>
               <ul className="space-y-4 text-sm">
                 <li>
-                  <Link href={accessToUserCenter}>個人資料</Link>
+                  <Link href={switchCenterPath()}>個人資料</Link>
                 </li>
                 <li>
-                  <Link href={accessToReservation}>預約記錄</Link>
+                  <Link href={switchReservationPath()}>預約記錄</Link>
                 </li>
                 <li>
                   <Link href="/signup">加入會員</Link>

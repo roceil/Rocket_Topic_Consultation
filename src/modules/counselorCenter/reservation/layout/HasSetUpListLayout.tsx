@@ -67,9 +67,6 @@ export function Appointment({ appointment }: { appointment: ICounselorAppointmen
       <div className="w-1/5 ">{convertDate}</div>
       <div className="w-1/5">{convertTime}</div>
       <div className="w-1/5">
-        <IButton text="加入" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " />
-      </div>
-      <div className="w-1/5">
         <IButton text="查看" px="px-4 lg:px-5" py="py-1 lg:py-2" fontSize="text-secondary font-bold " onClick={openListModal} />
       </div>
 
