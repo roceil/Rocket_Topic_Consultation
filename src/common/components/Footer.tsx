@@ -79,7 +79,7 @@ export default function Footer() {
           <div className="flex flex-col justify-between">
             <Image src={footerLOGO} alt="footerLOGO" width={100} height={100} />
             <p className="text-sm text-secondary">
-              Copyright © 2023 xxxxxxxxxxx
+              Copyright © 2023 Pi.rocket
               <br />
               All Rights Reserved
             </p>
@@ -129,10 +129,10 @@ export default function Footer() {
               <h3 className="mb-6 text-base font-bold">追蹤我們</h3>
               <ul className="space-y-4 text-sm ">
                 <li className="">
-                  <Link href="/success">Facebook</Link>
+                  Facebook
                 </li>
                 <li className="">
-                  <Link href="/404">Instagram</Link>
+                  Instagram
                 </li>
               </ul>
             </div>
