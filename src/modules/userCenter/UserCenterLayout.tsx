@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Modal } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteCookie } from 'cookies-next';
 import { LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 
@@ -13,6 +13,7 @@ import { IUserCenterLayoutProps } from '@/types/interface';
 
 export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { pathname } = router;
   const openLoading = useOpenLoading();
   const [modal, alertModal] = Modal.useModal();
@@ -25,6 +26,15 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
     deleteCookie('identity');
     deleteCookie('userID');
     deleteCookie('counselorID');
+    deleteCookie('validation');
+    dispatch({
+      type: 'chatRoomSwitch/chatRoomSwitch',
+      payload: {
+        isChatRoomOpen: false,
+        clickUserId: 0,
+        clickCounselorId: 0,
+      },
+    });
     customAlert({ modal, Message: '登出成功', type: 'success', router, link: '/' });
   };
 
@@ -37,14 +47,14 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
     // 如果value長度為0，表示沒有預約記錄
     if (Object.keys(value).length === 0) return;
     // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
-    if (!value.isHaveUrl && value.spanNowTime) {
+    if (!value?.isHaveUrl && value?.spanNowTime) {
       const covertTime = dayjs(value.spanNowTime).format('M 月 DD 日 HH:mm 產出');
       setRenderAlertMessage('課程連結將於');
       setRenderCourseTime(covertTime);
     }
 
     // 如果isHaveUrl為true，表示有預約記錄，且已經產出連結
-    if (value.isHaveUrl && value.spanNowTime) {
+    if (value?.isHaveUrl && value?.spanNowTime) {
       setRenderAlertMessage('課程連結如下');
       setRenderCourseTime('進入會議室');
       setRenderCourseLink(value.url);

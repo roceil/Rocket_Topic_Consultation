@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import axios from 'axios';
@@ -11,7 +12,9 @@ import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { IChatList } from '@/types/interface';
 import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from 'antd';
 import { chatRoomAlert } from '../redux/feature/chatRoom';
+import CustomAlert from '../helpers/customAlert';
 
 interface IChatRoomSwitch {
   isChatRoomOpen: boolean;
@@ -24,6 +27,8 @@ export default function ChatRoom() {
   const id = getCookie('userID') || getCookie('counselorID');
   const type = getCookie('identity');
   const dispatch = useDispatch();
+  const router = useRouter();
+  const [modal, alertModal] = Modal.useModal();
   const chatRoomAlertState = useSelector((state: { chatRoomSlice:{ value:string } }) => state.chatRoomSlice.value);
   const { isChatRoomOpen, clickUserId, clickCounselorId } = useSelector((state: { chatRoomSwitchSlice:{ value:IChatRoomSwitch } }) => state.chatRoomSwitchSlice.value);
 
@@ -132,6 +137,10 @@ export default function ChatRoom() {
 
   // ====================== 開啟聊天室列表 ======================
   const showModal = () => {
+    if (!token) {
+      CustomAlert({ modal, Message: '請先登入', type: 'success', router, link: '/login' });
+      return;
+    }
     setIsModalOpen(true);
   };
 
@@ -349,7 +358,7 @@ export default function ChatRoom() {
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
-                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3 overFlowText">{Content}</div>
+                  <div className="max-w-[196px] rounded-xl bg-gray-200 p-3 overFlowText">{Content}</div>
                 </li>
               );
             }
@@ -359,7 +368,7 @@ export default function ChatRoom() {
                   {/* 時間  */}
                   <span className="mr-2 flex h-full  items-end text-xs text-gray-600">{convertTime}</span>
                   {/* 內容  */}
-                  <div className="max-w-[196px] rounded-xl bg-primary-heavy p-3 overFlowText">{Content}</div>
+                  <div className="max-w-[196px] rounded-xl bg-gray-200 p-3 overFlowText">{Content}</div>
                 </li>
               );
             }
@@ -369,7 +378,7 @@ export default function ChatRoom() {
                 {/* 圖片 */}
                 {renderChatRoomPhoto && <Image src={renderChatRoomPhoto} alt="userPhoto" width={40} height={40} className="h-10 w-10 rounded-full ring-1 ring-gray-500" priority />}
                 {/* 內容 */}
-                <div className="max-w-[196px] w-auto rounded-xl bg-primary-heavy p-3 overFlowText ">{Content}</div>
+                <div className="max-w-[196px] w-auto rounded-xl bg-gray-200 p-3 overFlowText ">{Content}</div>
                 {/* 時間 */}
                 <div className="flex h-full justify-center  text-xs text-gray-600 items-end">
                   <span>{convertTime}</span>
@@ -380,11 +389,11 @@ export default function ChatRoom() {
         </ul>
 
         {/* 表尾 */}
-        <div className="h-[72px] w-full bg-primary-heavy px-3 pt-3 lg:rounded-b-xl">
+        <div className="h-[72px] w-full bg-primary px-3 pt-3 lg:rounded-b-xl">
           <input
             ref={chatMessageRef}
             type="text"
-            className="bg-primary-heavy outline-none placeholder:text-gray-600 active:shadow-none w-full h-full"
+            className="bg-primary text-gray-900 outline-none placeholder:text-gray-700 active:shadow-none w-full h-full"
             placeholder="請在此輸入訊息"
             onKeyDown={(e) => {
               if (e.keyCode === 13) {
@@ -395,6 +404,8 @@ export default function ChatRoom() {
           />
         </div>
       </div>
+
+      <div className="alert">{alertModal}</div>
     </>
   );
 }

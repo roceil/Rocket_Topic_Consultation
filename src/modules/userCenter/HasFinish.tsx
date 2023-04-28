@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery, useReservationRateGetQuery } from '@/common/redux/service/userCenter';
 import { loadingStatus } from '@/common/redux/feature/loading';
-import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import { IAppointment, ListItem } from '@/types/interface';
+import { formatAppointments } from '@/common/helpers/groupRenderData';
 import RateModal from './RateModal';
 import UserReservationPagination from './UserReservationPagination';
 
@@ -88,23 +89,15 @@ export default function HasSetUp() {
       Data: { List, TotalPageNum },
     } = data;
 
-    const convertRenderData: ListItem[][] = Object.values(
-      List.reduce((acc: OrderIdMap<ListItem>, curr: ListItem) => {
-        if (!acc[curr.OrderId]) {
-          acc[curr.OrderId] = [];
-        }
-        acc[curr.OrderId].push(curr);
-        return acc;
-      }, {}),
-    );
-    setRenderData(convertRenderData);
+    const formattedAppointments = formatAppointments(List);
+    setRenderData(formattedAppointments);
     setTotalPageNum(TotalPageNum);
     dispatch(loadingStatus('none'));
   }, [isLoading, data]);
 
   return (
     <div>
-      {renderData.length === 0 ? (
+      {renderData[0]?.length === 0 ? (
         <div className="flex h-[467px] w-full items-center justify-center rounded-2xl bg-gray-200 font-bold text-gray-900 lg:h-[519px]">尚無訂單記錄</div>
       ) : (
         <div className="">

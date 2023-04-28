@@ -147,6 +147,7 @@ export interface IUserLoginRes {
   Authorization: string;
   Identity: string;
   UserID: string;
+  Validation: boolean;
 }
 
 export interface ICartList {
@@ -300,4 +301,29 @@ export interface ICounselorRenderList {
   AppointmentTime:string;
   AppointmentId:number;
   AppointmentDate:string;
+}
+
+export interface IGroupRenderData {
+  OrderId: number,
+  AppointmentId: number,
+  CounselorId: number,
+  Counselor: string,
+  Field: string
+}
+
+// 諮商師 > 會員中心 > 個人資料 > 預約時段
+export interface IApiTimetablesHours {
+  Time: string;
+  DefaultAvail: boolean;
+}
+
+export interface IApiTimetablesWeekData {
+  WeekDay: string;
+  Hours: IApiTimetablesHours[];
+}
+
+export interface IApiTimetables {
+  StartDate: string;
+  EndDate: string;
+  WeekData: IApiTimetablesWeekData[];
 }

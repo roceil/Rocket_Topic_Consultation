@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
 import dayjs from 'dayjs';
-import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import { IAppointment, ListItem } from '@/types/interface';
+import { formatAppointments } from '@/common/helpers/groupRenderData';
 import UserReservationPagination from './UserReservationPagination';
 
 export function Appointment({ appointment }: { appointment: IAppointment }) {
@@ -62,22 +63,14 @@ export default function HasCancel() {
       Data: { List, TotalPageNum },
     } = data;
 
-    const convertRenderData: ListItem[][] = Object.values(
-      List.reduce((acc: OrderIdMap<ListItem>, curr: ListItem) => {
-        if (!acc[curr.OrderId]) {
-          acc[curr.OrderId] = [];
-        }
-        acc[curr.OrderId].push(curr);
-        return acc;
-      }, {}),
-    );
-    setRenderData(convertRenderData);
+    const formattedAppointments = formatAppointments(List);
+    setRenderData(formattedAppointments);
     setTotalPageNum(TotalPageNum);
   }, [isLoading, data]);
 
   return (
     <div>
-      {renderData.length === 0 ? (
+      {renderData[0]?.length === 0 ? (
         <div className="flex h-[467px] w-full items-center justify-center rounded-2xl bg-gray-200 font-bold text-gray-900 lg:h-[519px]">尚無取消記錄</div>
       ) : (
         <div className="">

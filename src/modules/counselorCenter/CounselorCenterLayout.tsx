@@ -3,7 +3,7 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { deleteCookie } from 'cookies-next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { Modal } from 'antd';
@@ -14,6 +14,7 @@ export default function CounselorCenterLayout({ children }: {
 }) {
   const openLoading = useOpenLoading();
   const router = useRouter();
+  const dispatch = useDispatch();
   const { pathname } = router;
   const isCounselorCenter = pathname === '/counselorcenter' ? 'opacity-100' : 'opacity-70';
   const isReservation = pathname === '/counselorcenter/reservation' ? 'opacity-100' : 'opacity-70';
@@ -26,8 +27,17 @@ export default function CounselorCenterLayout({ children }: {
     deleteCookie('identity');
     deleteCookie('userID');
     deleteCookie('counselorID');
-    const Message = '登出成功';
-    CustomAlert({ modal, Message, type: 'success', router });
+    deleteCookie('counselorID');
+    deleteCookie('validation');
+    dispatch({
+      type: 'chatRoomSwitch/chatRoomSwitch',
+      payload: {
+        isChatRoomOpen: false,
+        clickUserId: 0,
+        clickCounselorId: 0,
+      },
+    });
+    CustomAlert({ modal, Message: '登出成功', type: 'success', router });
   };
 
   // ==================== 通知 ====================
@@ -40,14 +50,14 @@ export default function CounselorCenterLayout({ children }: {
     // 如果value長度為0，表示沒有預約記錄
     if (Object.keys(value).length === 0) return;
     // 如果isHaveUrl為false，但是有spanNowTime，表示有預約記錄
-    if (!value.isHaveUrl && value.spanNowTime) {
+    if (!value?.isHaveUrl && value?.spanNowTime) {
       const covertTime = dayjs(value.spanNowTime).format('M 月 DD 日 HH:mm 產出');
       setRenderAlertMessage('課程連結將於');
       setRenderCourseTime(covertTime);
     }
 
     // 如果isHaveUrl為true，表示有預約記錄，且已經產出連結
-    if (value.isHaveUrl && value.spanNowTime) {
+    if (value?.isHaveUrl && value?.spanNowTime) {
       setRenderAlertMessage('課程連結如下');
       setRenderCourseTime('進入會議室');
       setRenderCourseLink(value.url);

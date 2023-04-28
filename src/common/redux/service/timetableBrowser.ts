@@ -12,6 +12,20 @@ export const timetableBrowser = createApi({
           Authorization: `Bearer ${token}`,
         } }),
     }),
+    CounselorTimetablePost: builder.mutation({
+      query: ({ token, StartDate, EndDate, WeekData }) => ({
+        url: '/api/timetables',
+        method: 'POST',
+        body: {
+          StartDate,
+          EndDate,
+          WeekData,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     timetableBrowserGet: builder.query({
       query: ({ counselorId, pageNum }) => ({
         url: `/api/timetableBrowser?id=${counselorId}&page=${pageNum}`,
@@ -20,4 +34,4 @@ export const timetableBrowser = createApi({
   }),
 });
 
-export const { useGetCounselorTimetableQuery, useTimetableBrowserGetQuery } = timetableBrowser;
+export const { useGetCounselorTimetableQuery, useTimetableBrowserGetQuery, useCounselorTimetablePostMutation } = timetableBrowser;

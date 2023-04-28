@@ -5,13 +5,14 @@ import { getCookie } from 'cookies-next';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadingStatus } from '@/common/redux/feature/loading';
-import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import { IAppointment, ListItem } from '@/types/interface';
 import { Modal } from 'antd';
 import dayjs from 'dayjs';
+import { formatAppointments } from '@/common/helpers/groupRenderData';
 import UserReservationPagination from './UserReservationPagination';
 import ReservationTimetable from './ReservationTimetable';
 
-export function Appointment({ appointment, token, refetch }: { appointment: IAppointment, token:string, refetch:any }) {
+export function Appointment({ appointment, token, refetch }: { appointment: IAppointment, token:string, refetch:()=>void }) {
   const { AppointmentId, Counselor, Field, Time, CounselorId } = appointment;
   const convertTime = dayjs(Time).format('HH:mm');
   const convertDate = dayjs(Time).format('YYYY / MM / DD');
@@ -67,25 +68,17 @@ export default function WaitReply() {
     const {
       Data: { List, TotalPageNum },
     } = data;
-    console.log('🚀 ~ file: WaitReply.tsx:71 ~ useEffect ~ data:', data);
 
-    const convertRenderData: ListItem[][] = Object.values(
-      List.reduce((acc: OrderIdMap<ListItem>, curr: ListItem) => {
-        if (!acc[curr.OrderId]) {
-          acc[curr.OrderId] = [];
-        }
-        acc[curr.OrderId].push(curr);
-        return acc;
-      }, {}),
-    );
-    setRenderData(convertRenderData);
+    const formattedAppointments = formatAppointments(List);
+    setRenderData(formattedAppointments);
     setTotalPageNum(TotalPageNum);
     dispatch(loadingStatus('none'));
+    refetch();
   }, [isLoading, data]);
 
   return (
     <div>
-      {renderData.length === 0 ? (
+      {renderData[0]?.length === 0 ? (
         <div className="flex h-[467px] w-full items-center justify-center rounded-2xl bg-gray-200 font-bold text-gray-900 lg:h-[519px]">尚無預約記錄</div>
       ) : (
         <div className="">
