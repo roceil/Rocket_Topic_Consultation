@@ -47,12 +47,11 @@ export default function CounselorHasSetUp() {
         <div>
           {/* 表格 */}
           <div className="overflow-x-auto px-7 rounded-2xl bg-gray-200 pb-9 lg:pb-12">
-            <ul className="flex w-[761px] border-b border-gray-400  py-5  text-sm font-bold text-gray-700 lg:w-auto  lg:text-center">
+            <ul className="flex w-[761px] border-b border-gray-400  py-5  text-sm font-bold text-gray-700 lg:w-auto text-center">
               <li className="w-1/5">個案姓名</li>
               <li className="w-1/5">諮商議題</li>
               <li className="w-1/5">預約日期</li>
               <li className="w-1/5">預約時間</li>
-              <li className="w-1/5">加入Google日曆</li>
               <li className="w-1/5">個案記錄</li>
             </ul>
 
