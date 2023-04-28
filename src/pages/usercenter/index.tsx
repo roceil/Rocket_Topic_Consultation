@@ -56,8 +56,7 @@ export default function index({ data }: IUserDataProps) {
   const save = async () => {
     // 如果用戶沒有改變名字，則直接儲存
     if (nameInput === '') {
-      const Message = '儲存成功';
-      CustomAlert({ modal, Message, type: 'success' });
+      CustomAlert({ modal, Message: '儲存成功', type: 'success', contentKeyWord: '關閉' });
       setNameDisable(true);
       return;
     }
@@ -75,7 +74,7 @@ export default function index({ data }: IUserDataProps) {
     }
     const { Message } = res.data as { Message: string };
     setNameDisable(true);
-    CustomAlert({ modal, Message, type: 'success' });
+    CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
 
   return (
