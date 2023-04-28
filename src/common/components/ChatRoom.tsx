@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import axios from 'axios';
@@ -11,7 +12,9 @@ import chatRoomIcon from 'public/images/chatRoom/chatRoomIcon.svg';
 import close from 'public/images/Close.svg';
 import { IChatList } from '@/types/interface';
 import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from 'antd';
 import { chatRoomAlert } from '../redux/feature/chatRoom';
+import CustomAlert from '../helpers/customAlert';
 
 interface IChatRoomSwitch {
   isChatRoomOpen: boolean;
@@ -24,6 +27,8 @@ export default function ChatRoom() {
   const id = getCookie('userID') || getCookie('counselorID');
   const type = getCookie('identity');
   const dispatch = useDispatch();
+  const router = useRouter();
+  const [modal, alertModal] = Modal.useModal();
   const chatRoomAlertState = useSelector((state: { chatRoomSlice:{ value:string } }) => state.chatRoomSlice.value);
   const { isChatRoomOpen, clickUserId, clickCounselorId } = useSelector((state: { chatRoomSwitchSlice:{ value:IChatRoomSwitch } }) => state.chatRoomSwitchSlice.value);
 
@@ -132,6 +137,10 @@ export default function ChatRoom() {
 
   // ====================== 開啟聊天室列表 ======================
   const showModal = () => {
+    if (!token) {
+      CustomAlert({ modal, Message: '請先登入', type: 'success', router, link: '/login' });
+      return;
+    }
     setIsModalOpen(true);
   };
 
@@ -395,6 +404,8 @@ export default function ChatRoom() {
           />
         </div>
       </div>
+
+      <div className="alert">{alertModal}</div>
     </>
   );
 }
