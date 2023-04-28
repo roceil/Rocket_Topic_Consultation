@@ -33,7 +33,7 @@ export default function UserComment() {
           >
             {userCommentAry1.map((item, i) => {
               const rateStarAry = Array(5).fill(0);
-              if (i < 7) {
+              if (i < 8) {
                 return (
                   <SwiperSlide key={uuidv4()}>
                     <li>
