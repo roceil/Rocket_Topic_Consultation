@@ -122,6 +122,11 @@ Clone 專案
 ```bash
   npm install
 ```
+建立環境變數
+
+```bash
+  .env.example 改為 .env.local
+```
 
 啟動專案
 
