@@ -54,31 +54,7 @@ export default function CounselorRecordList({ renderData }:{ renderData:any }) {
             })}
           </ul>
           <CounselorRecordForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} renderData={renderData} AppointmentId={courseId} />
-          {/*
-          <ul className="w-[588px] space-y-4  pt-5 lg:w-auto  lg:pt-7">
-            {renderData.map((group: ICounselorAppointment[], index: number) => {
-              if (index < renderData.length - 1) {
-                return (
-                  <ul key={uuidv4()} className="flex flex-col space-y-4 border-b border-dashed border-gray-400 pb-4">
-                    {group.map((appointment:ICounselorAppointment) => (
-                      <Appointment key={uuidv4()} appointment={appointment} />
-                    ))}
-                  </ul>
-                );
-              }
-              return (
-                <ul key={uuidv4()} className="flex flex-col space-y-4 pb-4">
-                  {group.map((appointment: ICounselorAppointment) => (
-                    <Appointment key={uuidv4()} appointment={appointment} />
-                  ))}
-                </ul>
-              );
-            })}
-          </ul> */}
         </div>
-
-        {/* 分頁 */}
-        {/* <CounselorPagination PageNum={PageNum} totalPageNum={totalPageNum} /> */}
       </div>
 
     </div>

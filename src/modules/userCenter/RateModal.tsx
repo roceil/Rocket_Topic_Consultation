@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Input, Modal, Rate } from 'antd';
 import { getCookie } from 'cookies-next';
 import { IRateModalProps } from '@/types/interface';
@@ -10,18 +9,8 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
   const token = getCookie('auth');
   const [modal, alertModal] = Modal.useModal();
 
-  useEffect(() => {
-    setRateLevel(5);
-  }, []);
-
-  // =================== 留言的 input 的值 ===================
-  // commentValue是為了要讓後端傳值回來時，input還是可以顯示placeholder狀態
-  const [commentValue, setCommentValue] = useState('');
-
   // =================== 撰寫流言  ===================
   const editComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentValue(e.target.value);
-    // 這邊設回去是為了讓留言的input的值跟comment的值一樣
     setComment(e.target.value);
   };
 
@@ -33,7 +22,6 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
   // ==================== 關閉評分 Modal => 確認 ====================
   const [reservationRatePost] = useReservationRatePostMutation();
   const handleOk = async () => {
-    console.log(rateLevel);
     if (rateLevel === 0) {
       customAlert({ modal, Message: '請選擇評分', type: 'error' });
       return;
@@ -41,7 +29,7 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
     const res = await reservationRatePost({
       token,
       AppointmentId,
-      Comment: commentValue,
+      Comment: comment,
       Star: rateLevel,
     });
 
@@ -56,7 +44,6 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
     const { Message } = res.data as { Message: string };
     customAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
     setIsModalOpen(false);
-    setCommentValue('');
     refetch();
   };
 
@@ -70,8 +57,11 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
       <Modal
         title={(
           <div className="flex items-center space-x-3">
-            <p className="mt-1 text-base font-bold text-secondary">預約時段</p>
-            <Rate defaultValue={rateLevel} onChange={changeRate} />
+            <p className="mt-1 text-base font-bold text-secondary">
+              您的評分
+              <span className="text-red-400 ml-1">*</span>
+            </p>
+            <Rate value={rateLevel || 5} onChange={changeRate} />
           </div>
       )}
         open={isModalOpen}
@@ -85,9 +75,9 @@ export default function RateModal({ isModalOpen, setIsModalOpen, comment, Appoin
         <div className="mt-3">
           <p className="mb-2 font-bold text-secondary">您的評價</p>
           <TextArea
-            value={commentValue}
+            value={comment}
             onChange={editComment}
-            placeholder={comment || '寫下這次晤談的收穫或感想吧！'}
+            placeholder="寫下這次晤談的收穫或感想吧！"
             autoSize={{
               minRows: 8,
               maxRows: 20,

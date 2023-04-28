@@ -27,7 +27,6 @@ export default function name() {
               },
             },
           );
-          console.log(res.data.Data);
           const { appointmentLogsList } = res.data.Data;
           setRenderData(appointmentLogsList);
         } catch (error) {

@@ -60,11 +60,12 @@ function LogInForm() {
       return;
     }
     const { Message } = res.data as { Message: string };
-    const { Authorization, Identity, UserID } = res.data.Data as IUserLoginRes;
+    const { Authorization, Identity, UserID, Validation } = res.data.Data as IUserLoginRes;
 
     setCookie('auth', decodeURIComponent(`${Authorization}`), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('identity', decodeURIComponent(Identity), { maxAge: 60 * 60 * 24 * 14 });
     setCookie('counselorID', decodeURIComponent(UserID), { maxAge: 60 * 60 * 24 * 14 });
+    setCookie('validation', Validation.toString());
     router.push('/');
     CustomAlert({ modal, Message, type: 'success', router });
   };

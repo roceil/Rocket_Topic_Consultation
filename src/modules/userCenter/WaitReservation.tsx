@@ -7,7 +7,8 @@ import { IButton } from '@/common/components/IButton';
 import { useReservationDataGetQuery } from '@/common/redux/service/userCenter';
 import ReservationTimetable from '@/modules/userCenter/ReservationTimetable';
 import { Modal } from 'antd';
-import { IAppointment, ListItem, OrderIdMap } from '@/types/interface';
+import { IAppointment, ListItem } from '@/types/interface';
+import { formatAppointments } from '@/common/helpers/groupRenderData';
 import UserReservationPagination from './UserReservationPagination';
 
 // !這個要想辦法元件化
@@ -55,27 +56,15 @@ export default function WaitReservation() {
       Data: { List, TotalPageNum },
     } = data;
 
-    const convertRenderData: ListItem[][] = Object.values(
-      List.reduce((acc: OrderIdMap<ListItem>, curr: ListItem) => {
-        if (!acc[curr.OrderId]) {
-          acc[curr.OrderId] = [];
-        }
-        acc[curr.OrderId].push(curr);
-        return acc;
-      }, {}),
-    );
-    setRenderData(convertRenderData);
+    const formattedAppointments = formatAppointments(List);
+    setRenderData(formattedAppointments);
     setTotalPageNum(TotalPageNum);
     dispatch(loadingStatus('none'));
   }, [isLoading, data]);
 
-  useEffect(() => {
-    console.log(renderData);
-  }, [renderData]);
-
   return (
     <div>
-      {renderData.length === 0 ? (
+      {renderData[0]?.length === 0 ? (
         <div className="flex h-[467px] w-full items-center justify-center rounded-2xl bg-gray-200 font-bold text-gray-900 lg:h-[519px]">尚無預約記錄</div>
       ) : (
         <div>
@@ -110,7 +99,7 @@ export default function WaitReservation() {
           </div>
 
           {/* 分頁 */}
-          <UserReservationPagination totalPageNum={totalPageNum} PageNum={PageNum} />
+          <UserReservationPagination totalPageNum={totalPageNum} PageNum={1} />
         </div>
       )}
 

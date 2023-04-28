@@ -36,9 +36,10 @@ export default function CounselorRecordForm({ isModalOpen, setIsModalOpen, rende
           },
         },
       );
-      console.log(data.Data.record);
       const { record } = data.Data;
+      const { CounsellingRecord } = record;
       setRenderObj(record);
+      setValue(CounsellingRecord);
     } catch (error) {
       console.log('🚀 ~ file: CounselorRecordForm.tsx:17 ~ getDetailRecord ~ error:', error);
     }
@@ -138,7 +139,7 @@ export default function CounselorRecordForm({ isModalOpen, setIsModalOpen, rende
           <TextArea
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder={`${renderObj?.CounsellingRecord === null ? '請輸入諮商記錄' : renderObj?.CounsellingRecord}`}
+            placeholder="請輸入諮商記錄"
             autoSize={{
               minRows: 14,
               maxRows: 28,
