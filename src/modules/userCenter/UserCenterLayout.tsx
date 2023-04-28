@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Modal } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteCookie } from 'cookies-next';
 import { LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 
@@ -13,6 +13,7 @@ import { IUserCenterLayoutProps } from '@/types/interface';
 
 export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { pathname } = router;
   const openLoading = useOpenLoading();
   const [modal, alertModal] = Modal.useModal();
@@ -26,6 +27,14 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
     deleteCookie('userID');
     deleteCookie('counselorID');
     deleteCookie('validation');
+    dispatch({
+      type: 'chatRoomSwitch/chatRoomSwitch',
+      payload: {
+        isChatRoomOpen: false,
+        clickUserId: 0,
+        clickCounselorId: 0,
+      },
+    });
     customAlert({ modal, Message: '登出成功', type: 'success', router, link: '/' });
   };
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { deleteCookie } from 'cookies-next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { EditOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import useOpenLoading from '@/common/hooks/useOpenLoading';
 import { Modal } from 'antd';
@@ -14,6 +14,7 @@ export default function CounselorCenterLayout({ children }: {
 }) {
   const openLoading = useOpenLoading();
   const router = useRouter();
+  const dispatch = useDispatch();
   const { pathname } = router;
   const isCounselorCenter = pathname === '/counselorcenter' ? 'opacity-100' : 'opacity-70';
   const isReservation = pathname === '/counselorcenter/reservation' ? 'opacity-100' : 'opacity-70';
@@ -28,8 +29,15 @@ export default function CounselorCenterLayout({ children }: {
     deleteCookie('counselorID');
     deleteCookie('counselorID');
     deleteCookie('validation');
-    const Message = '登出成功';
-    CustomAlert({ modal, Message, type: 'success', router });
+    dispatch({
+      type: 'chatRoomSwitch/chatRoomSwitch',
+      payload: {
+        isChatRoomOpen: false,
+        clickUserId: 0,
+        clickCounselorId: 0,
+      },
+    });
+    CustomAlert({ modal, Message: '登出成功', type: 'success', router });
   };
 
   // ==================== 通知 ====================
