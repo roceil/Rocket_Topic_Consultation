@@ -174,8 +174,7 @@ export function InfoForm() {
     }
 
     // 圖片POST（頭貼）
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const uploadHeadShotRes = await counselorUploadHeadshotPostApi({
+    await counselorUploadHeadshotPostApi({
       file: filelistheadshot[0].originFileObj,
       Account: renderAccount,
       token,
@@ -324,7 +323,6 @@ export function InfoForm() {
                 showCount
                 maxLength={12}
                 style={{ height: 40, resize: 'none' }}
-                // onChange={onChange}
                 placeholder={renderData.SellingPoint ?? '您的諮商年資、特殊經歷等...'}
                 className="font-normal"
                 disabled={isDisabled}
@@ -339,7 +337,6 @@ export function InfoForm() {
                 showCount
                 maxLength={100}
                 style={{ height: 180, marginBottom: 4 }}
-                // onChange={onChange}
                 placeholder={renderData.SelfIntroduction ?? '您好！我是一位經驗豐富的諮商師，專門提供情緒支持、心理諮詢、人際關係建設等方面的服務。我擁有豐富的臨床經驗，並且持有心理學相關的學位和專業認證。我以富有同理心、耐心和關注每位來訪者的需求為信念，努力協助您渡過生命難關'}
                 className="font-normal"
                 disabled={isDisabled}
@@ -362,7 +359,6 @@ export function InfoForm() {
                   <div>
                     <p className="mr-4 w-[56px]">是否開放</p>
                     <Switch
-                      // onChange={SwitchOnChange}
                       disabled={isDisabled}
                       className="bg-gray-400"
                     />
