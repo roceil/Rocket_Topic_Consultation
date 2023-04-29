@@ -5,8 +5,8 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { getCookie } from 'cookies-next';
 import ResetPassWordModal from '@/common/components/ResetPassWordModal';
 import CustomAlert from '@/common/helpers/customAlert';
-import { ICounselorInfo, ICounselorInfoData, ICounselorInfoOnFinish } from '../../../types/interface';
-import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } from '../../../common/redux/service/counselorCenter';
+import { ICounselorInfo, ICounselorInfoData, ICounselorInfoOnFinish } from '@/types/interface';
+import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } from '@/common/redux/service/counselorCenter';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
