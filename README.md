@@ -243,7 +243,7 @@ pi.rocket/
 - 以 GitHub Flow 為基礎，建立符合團隊迭代頻率的客製化 Git Flow
 <img
 style="border-radius: 16px;" 
-src="https://cdn.discordapp.com/attachments/1082892490367049799/1101564526933065739/image.png" />
+src="https://cdn.discordapp.com/attachments/1082892490367049799/1101797233445322823/image.png" />
 ---
 
 ## 技術規格
