@@ -26,11 +26,6 @@ const counselorInfoTabAry = [
 
 // 控制『個人資料 3 Tabs』函式
 export default function CounselorInfoTab() {
-  // 顯示分頁位置函式
-  const onChange = (key: string) => {
-    console.log('🚀 ~ file: reservation.tsx:23 ~ onChange ~ key:', key);
-  };
-
   return (
     <div className="counselorTab">
       <ConfigProvider
@@ -46,7 +41,6 @@ export default function CounselorInfoTab() {
         <Tabs
           defaultActiveKey="基本資料"
           items={counselorInfoTabAry}
-          onChange={onChange}
         />
       </ConfigProvider>
     </div>

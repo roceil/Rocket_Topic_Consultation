@@ -65,9 +65,6 @@ export default function index({ validation }:{ validation:boolean }) {
       {/* 電腦版 */}
       <CounselorCenterLayout>
         { validation ? <CounselorInfoTab /> : <Unverified /> }
-        {/* <CounselorInfoTab validation={validation} />  */}
-        {/* <CounselorInfoTab /> */}
-        {/* <Unverified /> */}
       </CounselorCenterLayout>
     </>
   );
