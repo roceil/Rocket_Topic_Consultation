@@ -4,6 +4,7 @@ import CustomAlert from '@/common/helpers/customAlert';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { IemptyCourseForm } from '@/types/interface';
 import {
   useCourseDataDeleteMutation,
   useCoursesDataGetQuery,
@@ -55,8 +56,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
   // ==================== 送出表單 ====================
   const courseItemAry = ['一堂', '三堂', '五堂', '體驗課一堂'];
   const courseQuantityAry = [1, 3, 5, 1];
-  const handleSubmit = async (values: any) => {
-    console.log(values);
+  const handleSubmit = async (values: IemptyCourseForm) => {
     const { Feature1, Feature2, Feature3, Feature4, Feature5, Price0, Price1, Price2, Price3, Availability0, Availability1, Availability2, Availability3 } = values;
 
     // 組成 POST 用的 Features
@@ -115,16 +115,6 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
     }
   };
 
-  // Antd Switch
-  const SwitchOnChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
-  // Antd form 課程特色
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    console.log('Change:', e.target.value);
-  };
   return (
     <div className={`relative ${renderEmptyForm}`}>
       <ul className="flex w-full flex-col items-center space-x-10 rounded-lg py-5 text-sm text-primary-heavy lg:space-x-0 lg:text-center lg:text-base">
@@ -168,7 +158,6 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
                   </Form.Item>
                   <Form.Item className="mb-0 w-[33.33%] text-center" name={`Availability${i}`}>
                     <Switch
-                      // onChange={SwitchOnChange}
                       disabled={isDisabled}
                       className="bg-gray-400"
                     />

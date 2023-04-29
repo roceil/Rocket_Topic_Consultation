@@ -80,14 +80,40 @@ export interface ICoursesDataProps {
 export interface ICoursesProps {
   Courses: {
     FieldId: number;
-    Course: {
-      Item: string;
-      Quantity: number;
-      Price: number;
-      Availability: boolean;
-    }[];
-    Feature: string[]
+    Course: ICourseItem[];
+    Feature: string[];
   }[];
+}
+
+export interface IupdateFeatures {
+  Feature1: string,
+  Feature2: string,
+  Feature3: string,
+  Feature4: string,
+  Feature5: string,
+}
+
+export interface IemptyCourseForm {
+  Price0: string,
+  Price1: string,
+  Price2: string,
+  Price3: string,
+  Availability0: boolean,
+  Availability1: boolean,
+  Availability2: boolean,
+  Availability3: boolean,
+  Feature1: string,
+  Feature2: string,
+  Feature3: string,
+  Feature4: string,
+  Feature5: string,
+}
+
+export interface ICourseItem {
+  Item: string;
+  Quantity: number;
+  Price: number;
+  Availability: boolean;
 }
 
 // 諮商師 > 會員中心 > 個人資料 > 基本資料 API
@@ -108,6 +134,16 @@ export interface ICounselorInfoData {
   VideoLink: string | null;
   IsVideoOpen: boolean;
   AccountStatus: boolean;
+}
+
+export interface ICounselorInfoOnFinish {
+  CounselorName: string;
+  HeadShot: undefined;
+  IsVideoOpen: boolean;
+  LicenseImg: undefined;
+  SelfIntroduction: string;
+  SellingPoint: string;
+  VideoLink: string;
 }
 
 export interface ICounselorInformationProps {
