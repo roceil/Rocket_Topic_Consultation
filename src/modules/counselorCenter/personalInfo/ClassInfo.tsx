@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import CustomAlert from '@/common/helpers/customAlert';
 import { v4 as uuidv4 } from 'uuid';
-import { ICoursesDataProps, ICoursesProps } from '@/types/interface';
+import { ICourseItem, IupdateFeatures } from '@/types/interface';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -46,7 +46,7 @@ export function ClassInfo() {
   // 點擊膠囊前的預設畫面
   const [isSuccess, setIsSuccess] = useState<boolean>(true);
   // 課程方案＋定價
-  const [courses, setCourses] = useState<any>();
+  const [courses, setCourses] = useState<ICourseItem>();
   // 控制渲染表格
   const [renderForm, setRenderForm] = useState('hidden');
   const [renderEmptyForm, setRenderEmptyForm] = useState('hidden');
@@ -76,7 +76,7 @@ export function ClassInfo() {
 
   // Render『單一主題』的課程資訊
   const [getCoursesID, setGetCoursesID] = useState<any>();
-  const [featureAry, SetFeatureAry] = useState<any>([]);
+  const [featureAry, SetFeatureAry] = useState<string[]>([]);
 
   // POST 後，重新觸發 GET
   useEffect(() => {
@@ -91,17 +91,11 @@ export function ClassInfo() {
     clickId,
     clickFilterAry,
     clickFeaturesFilterAry,
+    data,
   ]);
-  // POST 後，重新觸發 GET
-  useEffect(() => {
-    setRenderData(data);
-  }, [isLoading, data]);
 
   useEffect(() => {
-    getCoursesID?.filter((item:any) =>
-      // console.log('點擊取得相應課程ID data：', item);
-      // eslint-disable-next-line implicit-arrow-linebreak
-      SetFeatureAry(item.Feature));
+    getCoursesID?.filter(((item:any) => SetFeatureAry(item.Feature)));
   }, [renderData, getCoursesID, featureAry, clickId]);
 
   // 判斷『單一主題』課程資訊
@@ -109,16 +103,6 @@ export function ClassInfo() {
 
   // Form
   const [form] = Form.useForm();
-  // Switch
-  const SwitchOnChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
-  // Antd form 課程特色
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    console.log('Change:', e.target.value);
-  };
 
   // ==================== 判斷膠囊id，控制表格渲染 ====================
   function changeRenderForm(id: number): void {
@@ -126,13 +110,11 @@ export function ClassInfo() {
       setRenderForm('block');
       setRenderEmptyForm('hidden');
       setClickId(id);
-      console.log('clickId:', clickId);
       return;
     }
     setRenderForm('hidden');
     setRenderEmptyForm('block');
     setClickId(id);
-    console.log('clickId:', clickId);
   }
 
   // ==================== 送出表單 ====================
@@ -140,7 +122,7 @@ export function ClassInfo() {
   const courseQuantityAry = [1, 3, 5, 1];
 
   // 更新 Features
-  const updateFeatures = (values: any, originalFeatures: any) => {
+  const updateFeatures = (values: IupdateFeatures, originalFeatures: IupdateFeatures) => {
     const updatedFeatures = { ...originalFeatures };
     if (values.Feature1) updatedFeatures.Feature1 = values.Feature1;
     if (values.Feature2) updatedFeatures.Feature2 = values.Feature2;
@@ -151,8 +133,6 @@ export function ClassInfo() {
   };
 
   const handleSubmit = async (values: any) => {
-    console.log(values);
-
     const { Availability0, Availability1, Availability2, Availability3, Price0, Price1, Price2, Price3 } = values;
     const Features = updateFeatures(values, form.getFieldValue('Features'));
     const Courses = [
@@ -317,7 +297,6 @@ export function ClassInfo() {
                               name={`Availability${i}`}
                             >
                               <Switch
-                                onChange={SwitchOnChange}
                                 disabled={isDisabled}
                                 defaultChecked={Availability}
                                 className="bg-gray-400"
@@ -348,7 +327,6 @@ export function ClassInfo() {
                             name={`Feature${i + 1}`}
                             maxLength={25}
                             style={{ height: 45, resize: 'none' }}
-                            onChange={onChange}
                             placeholder={item ?? '請輸入課程特色'}
                             disabled={isDisabled}
                             value={item}

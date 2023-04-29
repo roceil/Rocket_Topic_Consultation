@@ -5,8 +5,8 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { getCookie } from 'cookies-next';
 import ResetPassWordModal from '@/common/components/ResetPassWordModal';
 import CustomAlert from '@/common/helpers/customAlert';
-import { ICounselorInfo, ICounselorInfoData } from '../../../types/interface';
-import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } from '../../../common/redux/service/counselorCenter';
+import { ICounselorInfo, ICounselorInfoData, ICounselorInfoOnFinish } from '@/types/interface';
+import { useCounselorInfoGetQuery, useCounselorInfoPutMutation, useCounselorUpdateImagePostApiMutation, useCounselorUploadHeadshotPostApiMutation } from '@/common/redux/service/counselorCenter';
 
 export type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { TextArea } = Input;
@@ -128,7 +128,7 @@ export function InfoForm() {
   };
 
   // ==================== 送出表單 ====================
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: ICounselorInfoOnFinish) => {
     // 取出現有資源屬性值
     const currentValues = renderData;
 
@@ -218,7 +218,6 @@ export function InfoForm() {
             labelAlign="left"
           >
             <Form.Item
-              name="重設密碼"
               label="重設密碼"
               className="font-bold lg:mx-[15px] lg:w-[124px]"
             >

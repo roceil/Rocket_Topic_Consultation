@@ -30,7 +30,7 @@ export default function CustomHead({ pageTitle, pageDescription, pageImage, page
         {/* Discord */}
         <meta property="discord:invite_image" content={defaultImage} />
         <meta property="discord:invite_image:width" content="1200" />
-        <meta property="discord:invite_image:height" content="630" />
+        <meta property="discord:invite_image:height" content="600" />
 
         {/* Facebook */}
         <meta property="og:site_name" content="拍拍" />
@@ -40,7 +40,7 @@ export default function CustomHead({ pageTitle, pageDescription, pageImage, page
         <meta property="og:description" content={pageDescription || defaultDescription} />
         <meta property="og:image" content={pageImage || defaultImage} />
         <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta property="og:image:height" content="600" />
         <meta property="og:locale" content="zh_TW" />
 
         {/* Google */}
