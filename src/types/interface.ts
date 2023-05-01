@@ -152,6 +152,7 @@ export interface ICounselorInformationProps {
   Name: string;
   SelfIntroduction: string;
   FieldTags: string[];
+  CertNumber: string;
 }
 
 export interface ICounselorPageProps {
@@ -162,6 +163,7 @@ export interface ICounselorPageProps {
     SelfIntroduction: string;
     Fields: any;
     VideoLink: string | null;
+    CertNumber: string;
   };
 }
 export interface ICourses {
