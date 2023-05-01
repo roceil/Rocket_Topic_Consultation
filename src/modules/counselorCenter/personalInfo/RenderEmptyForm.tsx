@@ -181,6 +181,7 @@ export function RenderEmptyForm({ renderEmptyForm, clickId }:{ renderEmptyForm:s
                     ]}
                   >
                     <TextArea
+                      key={uuidv4()}
                       showCount
                       maxLength={25}
                       style={{ height: 45, resize: 'none' }}
