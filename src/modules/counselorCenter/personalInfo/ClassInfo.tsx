@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import CustomAlert from '@/common/helpers/customAlert';
 import { v4 as uuidv4 } from 'uuid';
-import { ICourseItem, IupdateFeatures } from '@/types/interface';
+import { ICourseItem, IemptyCourseForm, IupdateFeatures } from '@/types/interface';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -133,7 +133,7 @@ export function ClassInfo() {
     return updatedFeatures;
   };
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: IemptyCourseForm) => {
     const {
       Availability0,
       Availability1,
@@ -143,17 +143,7 @@ export function ClassInfo() {
       Price1,
       Price2,
       Price3,
-    }: {
-      Availability0: boolean | undefined;
-      Availability1: boolean | undefined;
-      Availability2: boolean | undefined;
-      Availability3: boolean | undefined;
-      Price0: number | undefined;
-      Price1: number | undefined;
-      Price2: number | undefined;
-      Price3: number | undefined;
     } = values;
-    console.log(clickFilterAry);
 
     const Features = updateFeatures(values, form.getFieldValue('Features'));
     const Courses = [
