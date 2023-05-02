@@ -55,7 +55,7 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
 
     // 如果isHaveUrl為true，表示有預約記錄，且已經產出連結
     if (value?.isHaveUrl && value?.spanNowTime) {
-      setRenderAlertMessage('課程連結如下');
+      setRenderAlertMessage('課程連結：');
       setRenderCourseTime('進入會議室');
       setRenderCourseLink(value.url);
     }
@@ -64,8 +64,8 @@ export default function UserCenterLayout({ children }: IUserCenterLayoutProps) {
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px]">
       <div className="container min-h-[calc(100vh-330px)]">
         <Link href={renderCourseLink || '#'} target="_blank" className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
-          <p>{renderAlertMessage}</p>
-          <p>{renderCourseTime}</p>
+          <span>{renderAlertMessage}</span>
+          <span className="underline lg:hover:opacity-60">{renderCourseTime}</span>
         </Link>
 
         <div className="flex justify-between">

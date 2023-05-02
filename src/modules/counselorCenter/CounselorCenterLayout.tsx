@@ -67,8 +67,8 @@ export default function CounselorCenterLayout({ children }: {
     <section className="hidden pt-12 pb-28 lg:block lg:pt-[84px] lg:pb-[136px] bg-white">
       <div className=" container min-h-[calc(100vh-330px)]">
         <Link href={renderCourseLink || '#'} target="_blank" className="hidden rounded-full bg-primary-heavy py-[13px] text-center font-bold text-gray-900 lg:mb-[72px] lg:block">
-          <p>{renderAlertMessage}</p>
-          <p>{renderCourseTime}</p>
+          <span>{renderAlertMessage}</span>
+          <span className="underline lg:hover:opacity-60">{renderCourseTime}</span>
         </Link>
 
         <div className="flex justify-between">
