@@ -132,12 +132,12 @@ export function InfoForm() {
 
   // ==================== 送出表單 ====================
   const onFinish = async (values: ICounselorInfoOnFinish) => {
-    const { CounselorName, SellingPoint, SelfIntroduction, VideoLink, IsVideoOpen, LicenseImg } = values;
+    const { CounselorName, SellingPoint, SelfIntroduction, VideoLink, IsVideoOpen } = values;
 
     // 取出現有資源屬性值
     const updatedValues = {
       CounselorName: CounselorName ?? renderData.CounselorName,
-      LicenseImg: LicenseImg ?? renderData.LicenseImg,
+      LicenseImg: renderData.LicenseImg,
       SellingPoint: SellingPoint ?? renderData.SellingPoint,
       SelfIntroduction: SelfIntroduction ?? renderData.SelfIntroduction,
       VideoLink: VideoLink ?? renderData.VideoLink,
@@ -259,7 +259,7 @@ export function InfoForm() {
             >
               <div className="flex-row items-end lg:flex">
                 <div>
-                  <ImgCrop>
+                  <ImgCrop aspect={600 / 400}>
                     <Upload
                       action=""
                       maxCount={1}
