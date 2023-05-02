@@ -164,6 +164,7 @@ export interface ICounselorPageProps {
     Fields: any;
     VideoLink: string | null;
     CertNumber: string;
+    IsVideoOpen: boolean;
   };
 }
 export interface ICourses {

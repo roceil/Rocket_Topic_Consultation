@@ -85,8 +85,10 @@ export default function CounselorPage({
     SelfIntroduction,
     Fields,
     VideoLink = null,
+    IsVideoOpen = false,
     CertNumber,
   } = data.Data;
+
   const [chooseCase, setChooseCase] = useState(null);
 
   // ==================== Server 渲染畫面 ====================
@@ -534,14 +536,14 @@ export default function CounselorPage({
           <CounselorCalendar counselorId={Number(counselorId)} />
 
           {/* 影片區塊 */}
-          <CounselorVideo VideoLink={VideoLink} />
+          <CounselorVideo VideoLink={VideoLink} IsVideoOpen={IsVideoOpen} />
 
           {/* 評分區塊 */}
           <CounselorRate />
         </div>
 
         {/* 電腦版方案選擇 */}
-        <div ref={caseRef} className="hidden  lg:block lg:pt-[146px]">
+        <div ref={caseRef} className="hidden lg:block lg:pt-[146px]">
           {/* 價格區塊 */}
           <div
             id="case"
