@@ -27,17 +27,18 @@ export default function HasLoginBtn({ renderAlertMessage, renderCourseTime, rend
     {
       key: '1',
       label: (
-        <Link href={renderCourseLink || '#'} target="_blank" className="text-center text-gray-900">
+        <div className="text-center text-gray-900">
           <p>{renderAlertMessage}</p>
           <p>{renderCourseTime}</p>
-        </Link>
+          {renderCourseLink && <a href={renderCourseLink} target="_blank" rel="noreferrer">Go to course</a>}
+        </div>
       ),
     },
   ];
 
   return (
     <>
-      <Dropdown menu={{ items }} placement="bottom" trigger={['click']}>
+      <Dropdown menu={{ items }} placement="bottom">
         <div className="relative">
           <div className={`absolute w-3 h-3 bg-red-500 rounded-full top-0 right-0 z-50 ${showAlert}`} />
           <button type="button" className="btnHover h-10 w-10 group" onClick={closeAlert}>

@@ -17,7 +17,7 @@ const userCenterChilds = (
     <li className="text-sm">
       <Link href="/usercenter/reservation">預約記錄</Link>
     </li>
-    <li className="text-sm hover:text-white">
+    <li className="text-sm">
       <Link href="/signup">加入會員</Link>
     </li>
     <li className="text-sm">
@@ -33,7 +33,7 @@ const questionChilds = (
     <li className="text-sm">
       <Link href="/">註冊認證</Link>
     </li>
-    <li className="text-sm hover:text-white">
+    <li className="text-sm">
       <Link href="/">付款相關</Link>
     </li>
     <li className="text-sm">
@@ -190,7 +190,7 @@ export default function Footer() {
 
         <div className="px-7 text-sm text-secondary">
           <p>
-            Copyright © 2023 consulation
+            Copyright © 2023 Consultation
             <br />
             All Rights Reserved
           </p>

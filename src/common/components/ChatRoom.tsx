@@ -185,20 +185,8 @@ export default function ChatRoom() {
     const chat = $.connection.chartHubb;
     setChatRoomsServer(chat);
 
-    // 註冊用戶身份
-    setTimeout(() => {
-      $.connection.hub.start()
-        .done(() => {
-          chat.server.setUserId(id, type);
-          // console.log('連線成功', chat);
-        })
-        .fail((error) => {
-          console.log(`连接失败: ${error}`);
-        });
-    }, 300);
-
     // 監聽訊息
-    chat.client.showIconUnread = function () {
+    chat.client.showIconUnread = () => {
       getChatList();
     };
 
@@ -214,6 +202,17 @@ export default function ChatRoom() {
         return [data];
       });
     };
+
+    // 註冊用戶身份
+    $.connection.hub.start()
+      .done(() => {
+        chat.server.setUserId(id, type);
+        // console.log('連線成功', chat);
+      })
+      .fail((error) => {
+        console.log(`连接失败: ${error}`);
+      });
+
     // 監聽所有用戶的登入狀態
     // chat.client.broadcastUserList = function (data:any) {
     //   console.log('142 =', data);
@@ -252,7 +251,7 @@ export default function ChatRoom() {
       </div>
 
       {/* 聊天列表 */}
-      <div className={`fixed bottom-0 right-0 z-50 h-0  w-full origin-bottom duration-300 lg:right-12 lg:bottom-0 lg:h-[-50px]  lg:w-[328px] ${isModalOpen && 'h-[calc(100%-70px)] lg:!bottom-12 lg:h-[500px]'} ease-in-out `}>
+      <div className={`fixed bottom-0 right-0 z-50 h-0  w-full origin-bottom duration-300 lg:right-12 lg:bottom-0 lg:h-[-50px] lg:w-[328px] ${isModalOpen && 'h-[calc(100%-70px)] lg:!bottom-12 lg:h-[500px]'} ease-in-out `}>
         {/* 表頭 */}
         <div className="flex w-full items-center justify-between rounded-t-xl bg-primary-heavy pl-5 text-right font-bold text-gray-900">
           <span>聊天室</span>
@@ -263,11 +262,10 @@ export default function ChatRoom() {
 
         {/* 內容 */}
         <ul className="flex h-[calc(100%-48px)] flex-col overflow-y-auto bg-white px-5 py-2 lg:h-[452px] lg:rounded-b-xl">
-          {chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead, UserId }:IChatList) => {
+          {chatList.length === 0 ? <div className="text-center h-full flex justify-center items-center text-gray-900">尚未建立聊天室</div> : chatList.map(({ OutName, Content, InitDate, CounselorId, Photo, UserRead, CounselorRead, UserId }:IChatList) => {
             const convertTime = dayjs(InitDate).format('HH:mm');
             // 如果用戶是user，因為要提示自己有沒有看過，所以要判斷userRead，反之則是counselorRead
             const userType = type === 'user' ? UserRead : CounselorRead;
-
             return (
               <li key={uuidv4()}>
                 <button
