@@ -27,11 +27,10 @@ export default function HasLoginBtn({ renderAlertMessage, renderCourseTime, rend
     {
       key: '1',
       label: (
-        <div className="text-center text-gray-900">
+        <Link href={renderCourseLink || '#'} target="_blank" className="text-center text-gray-900">
           <p>{renderAlertMessage}</p>
           <p>{renderCourseTime}</p>
-          {renderCourseLink && <a href={renderCourseLink} target="_blank" rel="noreferrer">Go to course</a>}
-        </div>
+        </Link>
       ),
     },
   ];
