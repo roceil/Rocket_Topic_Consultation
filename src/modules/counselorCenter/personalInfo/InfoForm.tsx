@@ -37,9 +37,7 @@ export function InfoForm() {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
       setRenderAccount(data?.Data[0]?.Account);
-
       setRenderIsVideoOpen(() => data.Data[0].IsVideoOpen);
-      console.log(data.Data[0].IsVideoOpen);
 
       setfilelistheadshot([
         {
@@ -134,7 +132,6 @@ export function InfoForm() {
 
   // ==================== 送出表單 ====================
   const onFinish = async (values: ICounselorInfoOnFinish) => {
-    console.log(values);
     const { CounselorName, SellingPoint, SelfIntroduction, VideoLink, IsVideoOpen, LicenseImg } = values;
 
     // 取出現有資源屬性值
