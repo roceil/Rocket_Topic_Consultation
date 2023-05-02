@@ -29,6 +29,7 @@ export function InfoForm() {
   // ==================== 儲存回傳資料 ====================
   const [renderData, setRenderData] = useState<ICounselorInfoData >(data || []);
   const [renderAccount, setRenderAccount] = useState<ICounselorInfoData >(data || []);
+  const [renderIsVideoOpen, setRenderIsVideoOpen] = useState<boolean>();
   const [filelistheadshot, setfilelistheadshot] = useState<UploadFile[]>([]);
   const [filelistlic, setfilelistlic] = useState<UploadFile[]>([]);
 
@@ -36,6 +37,10 @@ export function InfoForm() {
     if (data.Data && data.Data.length > 0) {
       setRenderData(data.Data[0]);
       setRenderAccount(data?.Data[0]?.Account);
+
+      setRenderIsVideoOpen(() => data.Data[0].IsVideoOpen);
+      console.log(data.Data[0].IsVideoOpen);
+
       setfilelistheadshot([
         {
           uid: '-1',
@@ -129,17 +134,17 @@ export function InfoForm() {
 
   // ==================== 送出表單 ====================
   const onFinish = async (values: ICounselorInfoOnFinish) => {
-    // 取出現有資源屬性值
-    const currentValues = renderData;
+    console.log(values);
+    const { CounselorName, SellingPoint, SelfIntroduction, VideoLink, IsVideoOpen, LicenseImg } = values;
 
-    // 更新需要更新的屬性值，並將其他屬性值保持不變
+    // 取出現有資源屬性值
     const updatedValues = {
-      ...currentValues,
-      ...(values.CounselorName && { CounselorName: values.CounselorName }),
-      ...(values.SellingPoint && { SellingPoint: values.SellingPoint }),
-      ...(values.SelfIntroduction && { SelfIntroduction: values.SelfIntroduction }),
-      ...(values.VideoLink && { VideoLink: values.VideoLink }),
-      ...(values.IsVideoOpen !== undefined && { IsVideoOpen: values.IsVideoOpen }),
+      CounselorName: CounselorName ?? renderData.CounselorName,
+      LicenseImg: LicenseImg ?? renderData.LicenseImg,
+      SellingPoint: SellingPoint ?? renderData.SellingPoint,
+      SelfIntroduction: SelfIntroduction ?? renderData.SelfIntroduction,
+      VideoLink: VideoLink ?? renderData.VideoLink,
+      IsVideoOpen: IsVideoOpen ?? renderData.IsVideoOpen,
     };
 
     // 提交更新後的文字POST
@@ -154,7 +159,6 @@ export function InfoForm() {
         data: { Message },
       } = res.error as { data: { Message: string } };
       CustomAlert({ modal, Message, type: 'error' });
-      return;
     }
 
     // 圖片POST（執照）
@@ -179,7 +183,6 @@ export function InfoForm() {
       Account: renderAccount,
       token,
     });
-
     const { Message } = (res as { data: { Message: string } }).data;
     CustomAlert({ modal, Message, type: 'success', contentKeyWord: '關閉' });
   };
@@ -209,7 +212,6 @@ export function InfoForm() {
           <Form
             layout="vertical"
             form={form}
-            name="conselorCenter"
             onFinish={onFinish}
             style={{
               width: '100%',
@@ -354,14 +356,13 @@ export function InfoForm() {
                     />
                   </div>
                 </Form.Item>
-                <Form.Item className="flex" name="IsVideoOpen">
-                  <div>
-                    <p className="mr-4 w-[56px]">是否開放</p>
-                    <Switch
-                      disabled={isDisabled}
-                      className="bg-gray-400"
-                    />
-                  </div>
+                <Form.Item className="flex" name="IsVideoOpen" label="是否開放">
+                  <Switch
+                    disabled={isDisabled}
+                    checked={renderIsVideoOpen}
+                    onChange={() => setRenderIsVideoOpen(!renderIsVideoOpen)}
+                    className="bg-gray-400"
+                  />
                 </Form.Item>
               </div>
             </div>
