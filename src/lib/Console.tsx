@@ -23,7 +23,7 @@ export default function Console() {
     
     - 菲菲｜前端工程師
       - 信箱：2020soop@gmail.com
-      - 負責項目：前端切版、API 串接（功能開發：用戶端與諮商師端時間表、諮商師上架課程）
+      - 負責項目：前端切版、API 串接（開發預約時間表、諮商師上架課程）
     
     - Frank｜前端工程師
       - 信箱：a0978006326@gmail.com

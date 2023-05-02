@@ -78,7 +78,17 @@ export default function CounselorPage({
   const identity = getCookie('identity');
   const clickUserId = getCookie('userID');
   const router = useRouter();
-  const { Name, FieldTags, Photo, SelfIntroduction, Fields, VideoLink = null } = data.Data;
+  const {
+    Name,
+    FieldTags,
+    Photo,
+    SelfIntroduction,
+    Fields,
+    VideoLink = null,
+    IsVideoOpen = false,
+    CertNumber,
+  } = data.Data;
+
   const [chooseCase, setChooseCase] = useState(null);
 
   // ==================== Server 渲染畫面 ====================
@@ -214,7 +224,11 @@ export default function CounselorPage({
       return;
     }
     if (identity === 'counselor') {
-      customAlert({ modal, Message: '諮商師無法預約，請更換帳號', type: 'error' });
+      customAlert({
+        modal,
+        Message: '諮商師無法預約，請更換帳號',
+        type: 'error',
+      });
       return;
     }
 
@@ -307,6 +321,7 @@ export default function CounselorPage({
         pageTitle={Name}
         pageImage={Photo}
         pageDescription={SelfIntroduction}
+
       />
 
       {/* 諮商師資料 */}
@@ -316,20 +331,24 @@ export default function CounselorPage({
         Name={Name}
         SelfIntroduction={SelfIntroduction}
         FieldTags={FieldTags}
+        CertNumber={CertNumber}
       />
 
       {/* 預約課程 */}
-      <section ref={caseRef} className="lg:container lg:flex lg:justify-between lg:py-[148px]">
+      <section
+        ref={caseRef}
+        className="lg:container lg:flex lg:justify-between lg:py-[148px]"
+      >
         {/* 手機版 */}
         <div>
           {/* 預約課程 */}
-          <div className="py-20 lg:pt-0 lg:pb-14">
+          <div className="py-20 lg:pb-14 lg:pt-0">
             <div className="container">
               <h2 className="mb-[55px] text-center lg:text-left">預約課程</h2>
 
               {/* 課程內容 */}
               <div className="flex flex-col items-center ">
-                <div className="px-5 mb-9 flex w-full items-center justify-start lg:mb-10 lg:flex-col lg:items-start lg:px-0">
+                <div className="mb-9 flex w-full items-center justify-start px-5 lg:mb-10 lg:flex-col lg:items-start lg:px-0">
                   <span className="font-bold text-secondary lg:mb-3">
                     我想了解：
                   </span>
@@ -382,7 +401,7 @@ export default function CounselorPage({
                         defaultValue={FieldOptions[0].label}
                         buttonStyle="solid"
                         onChange={changeCasePC}
-                        className="w-[504px] flex flex-wrap"
+                        className="flex w-[504px] flex-wrap"
                       >
                         {FieldOptions.map(
                           ({ value, label }: IFilterCases, index: number) => {
@@ -400,7 +419,7 @@ export default function CounselorPage({
                             return (
                               <Radio.Button
                                 key={value}
-                                className="!fakeBorder mt-3 mr-4 w-[112px] !rounded-full !text-center !font-semibold"
+                                className="!fakeBorder mr-4 mt-3 w-[112px] !rounded-full !text-center !font-semibold"
                                 value={value}
                               >
                                 {label}
@@ -414,11 +433,14 @@ export default function CounselorPage({
                 </div>
 
                 {/* 文案列表區塊 */}
-                <ul className="px-5 mb-20 flex w-full flex-col items-start space-y-5 lg:mb-0 lg:px-0">
+                <ul className="mb-20 flex w-full flex-col items-start space-y-5 px-5 lg:mb-0 lg:px-0">
                   {topicFeature.map((featureTxt: string) => {
                     if (featureTxt) {
                       return (
-                        <li className="flex max-w-[340px] items-center space-x-3 lg:max-w-none" key={uuidv4()}>
+                        <li
+                          className="flex max-w-[340px] items-center space-x-3 lg:max-w-none"
+                          key={uuidv4()}
+                        >
                           <Image
                             src={checkCircle}
                             alt="checkCircle_icon"
@@ -434,10 +456,10 @@ export default function CounselorPage({
                 </ul>
 
                 {/* 手機版方案選擇 */}
-                <div className=" relative w-full max-w-[340px] rounded-2xl border-2 border-gray-700 bg-white px-11 pt-[60px] pb-12 lg:hidden">
+                <div className=" relative w-full max-w-[340px] rounded-2xl border-2 border-gray-700 bg-white px-11 pb-12 pt-[60px] lg:hidden">
                   <div className="mb-9">
                     {/* 課程主題 */}
-                    <div className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-center font-bold text-gray-900">
+                    <div className="absolute left-1/2 top-0 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-center font-bold text-gray-900">
                       {chooseTopic}
                     </div>
                     <ConfigProvider
@@ -514,19 +536,20 @@ export default function CounselorPage({
           <CounselorCalendar counselorId={Number(counselorId)} />
 
           {/* 影片區塊 */}
-          <CounselorVideo VideoLink={VideoLink} />
+          <CounselorVideo VideoLink={VideoLink} IsVideoOpen={IsVideoOpen} />
 
           {/* 評分區塊 */}
           <CounselorRate />
         </div>
 
         {/* 電腦版方案選擇 */}
-        <div ref={caseRef} className="hidden  lg:block lg:pt-[146px]">
+        <div ref={caseRef} className="hidden lg:block lg:pt-[146px]">
           {/* 價格區塊 */}
-          <div id="case" className="caseChoose relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pt-[60px] pb-12 lg:max-w-[388px] lg:pt-[78px] lg:pb-14 text-center">
-            <div
-              className="absolute top-0 left-1/2 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-sm font-bold text-gray-900 lg:w-[240px]  lg:translate-y-[-35px] lg:py-5 lg:text-xl"
-            >
+          <div
+            id="case"
+            className="caseChoose relative w-full rounded-2xl border-2 border-gray-700 bg-gray-100  pb-12 pt-[60px] text-center lg:max-w-[388px] lg:pb-14 lg:pt-[78px]"
+          >
+            <div className="absolute left-1/2 top-0 w-[135px] -translate-x-1/2 translate-y-[-23px] rounded-full border-2 border-gray-700 bg-primary-heavy py-3 text-sm font-bold text-gray-900 lg:w-[240px]  lg:translate-y-[-35px] lg:py-5 lg:text-xl">
               {chooseTopic}
             </div>
 
@@ -545,7 +568,11 @@ export default function CounselorPage({
                   },
                 }}
               >
-                <Radio.Group buttonStyle="solid" onChange={onChange3} className="w-full">
+                <Radio.Group
+                  buttonStyle="solid"
+                  onChange={onChange3}
+                  className="w-full"
+                >
                   {chooseCourse.map(
                     ({ value, label }: IFilterCases, index: number) => {
                       if (index === 0) {
