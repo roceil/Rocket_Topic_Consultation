@@ -81,7 +81,7 @@ export default function EmptyTimetable({ onSubmit }: { onSubmit: () => void }) {
 
     const formattedDates = selectedDates ? [selectedDates[0]?.format('YYYY-MM-DD'), selectedDates[1]?.format('YYYY-MM-DD')] : null;
 
-    const StartDate = formattedDates?.[0];
+    const StartDate = formattedDates?.[0] ?? showToday;
     const EndDate = formattedDates?.[1];
 
     setIsHidden('block');

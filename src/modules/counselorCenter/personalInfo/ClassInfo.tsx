@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import CustomAlert from '@/common/helpers/customAlert';
 import { v4 as uuidv4 } from 'uuid';
-import { ICourseItem, IupdateFeatures } from '@/types/interface';
+import { ICourseItem, IemptyCourseForm, IupdateFeatures } from '@/types/interface';
 import {
   useCoursesDataGetQuery,
   useCoursesDataPostMutation,
@@ -21,6 +21,12 @@ const { TextArea } = Input;
 // 諮商師 > 個人資料 > 課程資訊
 export function ClassInfo() {
   const token = getCookie('auth');
+  // ==================== 開啟編輯功能 ====================
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const isHidden = isDisabled
+    ? '!opacity-0 transform duration-300'
+    : '!opacity-100 transform duration-300';
+
   // ==================== alert Modal ====================
   const [modal, alertModal] = Modal.useModal();
 
@@ -34,6 +40,7 @@ export function ClassInfo() {
   const [CourseDataDeleteMutation] = useCourseDataDeleteMutation();
   const deleteCourse = async (clickId:number) => {
     const res = await CourseDataDeleteMutation({ token, clickId });
+    setIsDisabled(true);
     refetch();
     const { Message } = (res as { data: { Message: string } }).data;
     CustomAlert({ modal, Message, type: 'success' });
@@ -53,14 +60,8 @@ export function ClassInfo() {
   //  點擊的膠囊 id
   const [clickId, setClickId] = useState<number>();
   //  篩選出指定 id 的課程方案、價錢
-  const [clickFilterAry, setClickFilterAry] = useState([]);
+  const [clickFilterAry, setClickFilterAry] = useState<ICourseItem[] | undefined>();
   const [clickFeaturesFilterAry, setClickFeaturesFilterAry] = useState([]);
-
-  // 開啟編輯功能
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const isHidden = isDisabled
-    ? '!opacity-0 transform duration-300'
-    : '!opacity-100 transform duration-300';
 
   // 資料回來時，解構 data
   useEffect(() => {
@@ -132,37 +133,47 @@ export function ClassInfo() {
     return updatedFeatures;
   };
 
-  const handleSubmit = async (values: any) => {
-    const { Availability0, Availability1, Availability2, Availability3, Price0, Price1, Price2, Price3 } = values;
+  const handleSubmit = async (values: IemptyCourseForm) => {
+    const {
+      Availability0,
+      Availability1,
+      Availability2,
+      Availability3,
+      Price0,
+      Price1,
+      Price2,
+      Price3,
+    } = values;
+
     const Features = updateFeatures(values, form.getFieldValue('Features'));
     const Courses = [
       {
         Item: courseItemAry[0],
         Quantity: courseQuantityAry[0],
-        Price: parseInt(Price0 ?? '0', 10),
-        Availability: Availability0 ?? false,
+        Price: Price0 ?? clickFilterAry?.[0]?.Price ?? 0,
+        Availability: Availability0 ?? clickFilterAry?.[0]?.Availability,
       },
       {
         Item: courseItemAry[1],
         Quantity: courseQuantityAry[1],
-        Price: parseInt(Price1 ?? '0', 10),
-        Availability: Availability1 ?? false,
+        Price: Price1 ?? clickFilterAry?.[1]?.Price ?? 0,
+        Availability: Availability1 ?? clickFilterAry?.[1]?.Availability,
       }, {
         Item: courseItemAry[2],
         Quantity: courseQuantityAry[2],
-        Price: parseInt(Price2 ?? '0', 10),
-        Availability: Availability2 ?? false,
+        Price: Price2 ?? clickFilterAry?.[2]?.Price ?? 0,
+        Availability: Availability2 ?? clickFilterAry?.[2]?.Availability,
       },
       {
         Item: courseItemAry[3],
         Quantity: courseQuantityAry[3],
-        Price: parseInt(Price3 ?? '0', 10),
-        Availability: Availability3 ?? false,
+        Price: Price3 ?? clickFilterAry?.[3]?.Price ?? 0,
+        Availability: Availability3 ?? clickFilterAry?.[3]?.Availability,
       },
     ];
 
     type AvailabilityItem = boolean | undefined;
-    const AvailabilityAry: AvailabilityItem[] = [Availability0, Availability1, Availability2, Availability3];
+    const AvailabilityAry: AvailabilityItem[] = [Courses[0].Availability, Courses[1].Availability, Courses[2].Availability, Courses[3].Availability];
 
     if (AvailabilityAry.every((item: AvailabilityItem) => item === undefined || item === false)) {
       const Message = '請至少開放一種方案';
@@ -287,7 +298,7 @@ export function ClassInfo() {
                               <Input
                                 disabled={isDisabled}
                                 name={`Price${i}`}
-                                placeholder={Price ?? '請填寫價格'}
+                                placeholder={Price.toString() ?? '請填寫價格'}
                                 className="font-normal"
                                 style={{ maxHeight: 40, maxWidth: 124 }}
                               />
