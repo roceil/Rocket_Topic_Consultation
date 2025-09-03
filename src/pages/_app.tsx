@@ -11,6 +11,7 @@ import 'animate.css/animate.min.css';
 import type { AppProps } from 'next/app';
 import ChatRoom from '@/common/components/ChatRoom';
 import Loading from '@/common/components/Loading';
+import ProjectInfoModal from '@/common/components/ProjectInfoModal';
 import wrapper from '@/common/redux/store';
 import Header from '@/common/components/Header';
 import Footer from '@/common/components/Footer';
@@ -25,6 +26,7 @@ export function App({ Component, pageProps }: AppProps) {
       <Header />
       <ChatRoom />
       <Loading />
+      <ProjectInfoModal />
       <Component {...pageProps} />
       <Footer />
     </>
