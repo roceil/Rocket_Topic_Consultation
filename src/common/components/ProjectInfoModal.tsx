@@ -8,7 +8,7 @@ export default function ProjectInfoModal() {
   useEffect(() => {
     // 檢查是否已經顯示過這個提示
     const hasShownInfo = sessionStorage.getItem('hasShownProjectInfo');
-    
+
     if (!hasShownInfo) {
       // 延遲 1 秒顯示，讓頁面完全載入
       const timer = setTimeout(() => {
@@ -17,6 +17,7 @@ export default function ProjectInfoModal() {
 
       return () => clearTimeout(timer);
     }
+    return () => null;
   }, []);
 
   const handleOk = () => {
@@ -57,14 +58,14 @@ export default function ProjectInfoModal() {
             歡迎來到拍拍心理諮商平台
           </h3>
         </div>
-        
+
         <div className="space-y-3 text-gray-700">
           <div className="rounded-lg bg-blue-50 p-4">
             <p className="text-center font-medium text-blue-800">
               此網站是火箭隊第11梯學員的專題作品
             </p>
           </div>
-          
+
           <div className="text-sm">
             <p className="mb-2">
               <strong>作品特色：</strong>
@@ -77,7 +78,7 @@ export default function ProjectInfoModal() {
               <li>絕對不是詐騙的再三保證</li>
             </ul>
           </div>
-          
+
           <div className="mt-4 rounded-lg bg-yellow-50 p-3">
             <p className="text-xs text-gray-600">
               本平台僅供展示與學習用途，請勿輸入真實個人敏感資料
